@@ -1,0 +1,55 @@
+# Raiz do site principal (public_html). Regras de SEO:
+# 1) www → apex: uma só versão do endereço para o Google (a canonical já aponta para o apex).
+# 2) doacao.html → /doe/ (a doação passou a ser feita dentro do domínio).
+# 3) Endereços antigos (sos-venezuela.html, install.php) e variações sem extensão → 301.
+# 4) Página 404 própria, com menu e atalhos, no lugar da página padrão da Hostinger.
+# Os subdomínios servidos de pastas dentro de public_html não são afetados (a condição testa o host).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.cruzvermelhariodejaneiro\.org$ [NC]
+  RewriteRule ^(.*)$ https://cruzvermelhariodejaneiro.org/$1 [R=301,L]
+
+  # /index.html e /en/index.html respondiam 200, cópias de / e /en/: 301 para o endereço com barra.
+  # THE_REQUEST olha o pedido do navegador, não o index.html que o servidor serve por dentro.
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+
+  # A doação passou a acontecer em /doe/ (antes: doacao.html e o subdomínio doar., na Vercel).
+  # 301 para juntar num endereço só o que o Google já conhece.
+  RewriteRule ^doacao\.html$ /doe/ [R=301,L]
+
+  # Endereços antigos e variações sem extensão que o Google e links antigos ainda tentam.
+  # Cada um responde 301 para a página viva equivalente, em vez de 404.
+  RewriteRule ^sos-venezuela\.html$ /doe/ [R=301,L]
+  RewriteRule ^install\.php$ /bio/ [R=301,L]
+  RewriteRule ^(doacao|doar|doe-agora)/?$ /doe/ [R=301,L]
+  RewriteRule ^cursos/?$ /matricula-cursos-presenciais/ [R=301,L]
+  RewriteRule ^(matricula|inscricao)/?$ /matricula-cursos-presenciais/ [R=301,L]
+  RewriteRule ^equipe/?$ /equipe.html [R=301,L]
+  RewriteRule ^campanha-agasalho/?$ /campanha-agasalho.html [R=301,L]
+  # 19/10/2026: a matéria "Domine com poucas aulas" foi fundida ao pilar de Primeiros Socorros Básico.
+  # A versão em português tem o 301 no .htaccess de /noticias/ (Redação); a em inglês é daqui.
+  RewriteRule ^en/news/first-aid-course-learn-the-essentials-in-a-few-lessons(/.*)?$ /en/news/basic-first-aid-course-what-to-do-in-the-first-minutes/ [R=301,L]
+  # /voluntariado/ é página própria desde 11/10/2026 (scripts/gerar_institucional.py); os outros dois endereços levam a ela.
+  RewriteRule ^(voluntario|seja-voluntario)/?$ /voluntariado/ [R=301,L]
+  RewriteRule ^contato/?$ /#contato [R=301,L]
+
+  # Ponto da sede: o QR code do cartaz da recepção aponta para /ponto/. /conferir/ é o endereço
+  # impresso nos comprovantes de comparecimento e nas declarações de horas (a query ?c= segue junto).
+  # 302 e não 301: o endereço de destino pode mudar sem o navegador guardar o antigo.
+  RewriteRule ^ponto/?$ /matricula-cursos-presenciais/ponto/ [R=302,L]
+  RewriteRule ^conferir/?$ /matricula-cursos-presenciais/conferir/ [R=302,L]
+</IfModule>
+<IfModule mod_headers.c>
+  # HSTS: o navegador passa a só falar HTTPS com o domínio, sem a ida e volta pelo HTTP.
+  # Um ano, subdomínios incluídos. Só é enviado sobre HTTPS, como manda a especificação.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+</IfModule>
+<IfModule mod_mime.c>
+  # AVIF (o banner do topo da home): sem isto, o LiteSpeed da Hostinger mandava .avif como text/plain.
+  AddType image/avif .avif
+  # Evento para a agenda (/dia-das-criancas/dia-das-criancas.ics): com text/calendar o iPhone abre "Adicionar à agenda".
+  AddType text/calendar .ics
+</IfModule>
+
+ErrorDocument 404 /404.html

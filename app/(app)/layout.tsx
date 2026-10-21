@@ -1,0 +1,121 @@
+import { cookies } from 'next/headers'
+import { AppShellProvider } from '@/components/app/app-shell'
+import { BuscaRapida } from '@/components/app/busca-rapida'
+import { COOKIE_DA_SIDEBAR, COOKIE_DOS_GRUPOS } from '@/components/app/cookies-do-menu'
+import { Sidebar } from '@/components/app/sidebar'
+import { Topbar } from '@/components/app/topbar'
+import { AvisoEmailDeRecuperacao } from '@/components/app/aviso-email-de-recuperacao'
+import { requireWorkspace } from '@/lib/session'
+import { createClient } from '@/lib/supabase/server'
+import { PERMISSOES, ehEquipeDaEscola, pode, type Permissao } from '@/lib/permissoes'
+import { after } from 'next/server'
+import { marcarVisto } from '@/lib/notificacoes/servidor'
+import { ChatAoVivo, type ConversaAoVivo } from '@/components/app/chat/ao-vivo'
+import { pessoasDoChat, pessoasDoChatDeLinhas, type ConversaNoPainel } from '@/lib/chat/servidor'
+import { podeVerAcessos } from '@/lib/acessos/servidor'
+import { avaliaEnvios } from '@/lib/envios/servidor'
+import { AjudaProvider } from '@/components/app/ajuda/ajuda'
+import { BoasVindas } from '@/components/app/ajuda/boas-vindas'
+import { DicaDaTela } from '@/components/app/ajuda/dica'
+import { PainelDeAjuda } from '@/components/app/ajuda/painel'
+import { lerProgresso } from '@/lib/ajuda/progresso'
+import { indiceDaAjuda } from '@/lib/ajuda'
+import { lerVersao } from '@/lib/versao'
+
+// Cada área põe o próprio nome na aba (via tituloDaArea); aqui só o sobrenome.
+export const metadata = { title: { template: '%s — Palácio Virtual', default: 'Palácio Virtual — Cruz Vermelha RJ' } }
+
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
+  const context = await requireWorkspace({ escola: true })
+  const supabase = await createClient()
+  const ws = context.workspace.id
+  const escola = context.role === 'escola'
+  // O pacote da sessão já trouxe tudo isto numa ida só (lib/session.ts); sem
+  // ele (migração 20260929170000 ainda não aplicada), as consultas de antes.
+  const pacote = context.pacote
+  const [{ data: notifications }, { count: naoLidas }, { count: aprovacoesPendentes }, lembrancas, { data: painelDoChat }, pessoas, leitorDeAcessos, avaliadorDeEnvios, entidadeDaEscola] = pacote
+    ? [{ data: pacote.notificacoes }, { count: pacote.naoLidas }, { count: pacote.aprovacoesPendentes }, await cookies(), { data: pacote.chat }, pessoasDoChatDeLinhas(pacote.pessoas),
+      !escola && context.role === 'admin' && pacote.leitorDeAcessos, !escola && pacote.avaliadorDeEnvios, ehEquipeDaEscola(context.role) ? { count: pacote.escolaTemEntidade ? 1 : 0 } : null]
+    : await Promise.all([
+    supabase
+      .from('notifications')
+      .select('id,title,message,link,read_at,created_at')
+      .eq('workspace_id', ws)
+      .eq('user_id', context.user.id)
+      .order('created_at', { ascending: false })
+      .limit(10),
+    // A contagem é à parte: as 10 recentes não dizem quantas faltam ler.
+    supabase
+      .from('notifications')
+      .select('id', { count: 'exact', head: true })
+      .eq('workspace_id', ws)
+      .eq('user_id', context.user.id)
+      .is('read_at', null),
+    // O número ao lado de Aprovações: o que espera o MEU voto, não tudo o que está em aprovação.
+    supabase
+      .from('approval_voters')
+      .select('approval_id,approvals!inner(status)', { count: 'exact', head: true })
+      .eq('workspace_id', ws)
+      .eq('user_id', context.user.id)
+      .eq('decision', 'pending')
+      .eq('approvals.status', 'pending'),
+    cookies(),
+    // O chat ao vivo: o que falta ler e o que cada conversa é para esta pessoa (para o aviso decidir).
+    supabase.rpc('chat_painel', { p_workspace_id: ws }),
+    pessoasDoChat(ws, context.user.id, escola),
+    // O registro de acessos é por pessoa, não por papel: só quem está em acessos_leitores (e é admin).
+    !escola && context.role === 'admin' && podeVerAcessos(context.user.id, ws),
+    !escola && avaliaEnvios(context.user.id, ws),
+    // Equipe da escola: o menu é só a Escola; o Financeiro aparece se os livros da Escola foram liberados (o RLS decide).
+    ehEquipeDaEscola(context.role)
+      ? supabase.from('fin_entidades').select('id', { count: 'exact', head: true }).eq('workspace_id', ws).eq('tipo', 'escola')
+      : null,
+  ])
+  const conversasDoChat = (painelDoChat ?? []) as ConversaNoPainel[]
+  const chatNaoLidas = conversasDoChat.filter((c) => c.membro && c.avisar !== 'nada')
+    .reduce((soma, c) => soma + (c.tipo === 'direta' || c.avisar === 'tudo' ? c.nao_lidas : c.mencoes), 0)
+  const conversasAoVivo: Record<string, ConversaAoVivo> = Object.fromEntries(conversasDoChat.map((c) => [c.id, { tipo: c.tipo, nome: c.nome, avisar: c.avisar, membro: c.membro }]))
+  const nomes = Object.fromEntries(pessoas.map((p) => [p.id, p.nome]))
+  // Quem está navegando não recebe e-mail do que vê no sino.
+  after(() => marcarVisto(context.user.id, context.profile?.visto_em))
+  const permitidas = (Object.keys(PERMISSOES) as Permissao[]).filter((p) => pode(context.role, p))
+  const equipeDaEscola = entidadeDaEscola ? { financeiro: Boolean(entidadeDaEscola.count) } : null
+  const recolhida = lembrancas.get(COOKIE_DA_SIDEBAR)?.value === '1'
+  const gruposFechados = (lembrancas.get(COOKIE_DOS_GRUPOS)?.value ?? '').split(',').filter(Boolean)
+  // A ajuda: o que a pessoa já viu (user_metadata, fresco do getUser) e o que o
+  // "Primeiros passos" do painel confere. Só booleanos: o e-mail não precisa ir ao navegador.
+  const pessoaNaAjuda = {
+    primeiroNome: context.profile?.full_name?.trim().split(/\s+/)[0] || context.profile?.username || '',
+    equipeDaEscola: ehEquipeDaEscola(context.role),
+    emailConfirmado: Boolean(context.profile?.email && context.profile?.email_confirmado_em),
+    temFoto: Boolean(context.profile?.avatar_path),
+  }
+  const versao = lerVersao({ sha: process.env.VERCEL_GIT_COMMIT_SHA, mensagem: process.env.VERCEL_GIT_COMMIT_MESSAGE, publicadaEm: process.env.PALACIO_PUBLICADO_EM })
+  return (
+    <ChatAoVivo workspaceId={ws} eu={context.user.id} inicial={chatNaoLidas} conversas={conversasAoVivo} nomes={nomes}>
+    <AppShellProvider permitidas={permitidas} recolhidaInicial={recolhida} equipeDaEscola={equipeDaEscola} escolhidos={{ leitorDeAcessos, avaliadorDeEnvios }}>
+    {/* Só o índice leve vai ao navegador em toda página; o texto da ajuda é baixado quando alguém pede (components/app/ajuda/carregar.ts). */}
+    <AjudaProvider progressoInicial={lerProgresso(context.user.user_metadata?.ajuda)} pessoa={pessoaNaAjuda} indice={indiceDaAjuda()}>
+      {/* A moldura é da cor da sidebar; o conteúdo fica num painel branco por cima, como nas ferramentas de trabalho atuais. */}
+      <div className="flex h-[100dvh] overflow-hidden bg-sidebar">
+        <Sidebar contadores={{ aprovacoes: aprovacoesPendentes ?? 0, chat: chatNaoLidas }} fechadosIniciais={gruposFechados} profile={context.profile} versao={versao} />
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col md:py-2 md:pr-2">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-background md:rounded-xl md:border md:border-sidebar-border md:shadow-sm">
+            <Topbar role={context.role} profile={context.profile} notifications={notifications ?? []} naoLidas={naoLidas ?? 0} />
+            {!context.profile?.email_confirmado_em && <AvisoEmailDeRecuperacao email={context.profile?.email ?? null} />}
+            <main className="flex-1 overflow-y-auto overflow-x-hidden">
+              <div className="mx-auto w-full max-w-[1400px] px-4 py-5 [padding-bottom:max(1.25rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-6 lg:px-8 lg:py-7">{children}</div>
+            </main>
+          </div>
+        </div>
+      </div>
+      <BuscaRapida />
+      {/* Montados uma vez, abrem e fecham pelo estado da ajuda (components/app/ajuda/ajuda.tsx). */}
+      <PainelDeAjuda />
+      <DicaDaTela />
+      <BoasVindas />
+    </AjudaProvider>
+    </AppShellProvider>
+    </ChatAoVivo>
+  )
+}

@@ -1,0 +1,3 @@
+# A página institucional (HTML estático + scripts Python) vai para a Hostinger,
+# não para a Vercel: fica fora do deploy da Redação.
+pagina/

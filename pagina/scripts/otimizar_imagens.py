@@ -1,0 +1,187 @@
+#!/usr/bin/env python3
+"""Gera versões otimizadas (WebP, larguras fixas) das fotos e logos usados pelas páginas.
+
+Lê os originais em site/assets/ (cópia do public_html/assets do servidor, fora do Git) e grava em
+site/assets/otim/ arquivos <nome>-<largura>.webp, além das imagens de compartilhamento (og-*.jpg,
+1200x630). As páginas referenciam essas versões com srcset; os originais ficam no servidor.
+As imagens de AVIF ganham também <nome>-<largura>.avif (a página usa <picture>, com o WebP de reserva).
+
+Uso:  python3 scripts/otimizar_imagens.py
+Depois: scripts/publicar_hostinger.sh site/assets/otim/*  (os arquivos novos precisam ir ao servidor)
+"""
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+from PIL import Image, ImageOps
+
+RAIZ = Path(__file__).resolve().parent.parent
+ORIGEM = RAIZ / "site" / "assets"
+DESTINO = ORIGEM / "otim"
+QUALIDADE = 78
+# AVIF: com qualidade 60 fica igual ao WebP 78 a olho (texto e foto conferidos) e cerca de 25% menor.
+QUALIDADE_AVIF = 60
+
+# Fotos: larguras geradas (só as menores ou iguais à largura original, mais a original se for menor que a maior pedida).
+FOTOS = {
+    "hero-equipe-grupo.jpg": [960, 1440],
+    # Banners do slider de campanhas da home: todos em 1920x901, senão a altura do slider muda a cada troca
+    # automática (CLS). A arte da Força-Tarefa El Niño veio em 1916x821 (forca-tarefa-el-nino-arte.webp):
+    # forca-tarefa-el-nino-banner.png é ela com 1920 de largura e 78 linhas brancas a mais na faixa de baixo
+    # (42 acima e 36 abaixo da linha do rodapé, que fica centralizada), sem cortar nada da arte.
+    "forca-tarefa-el-nino-banner.png": [640, 960, 1200, 1440, 1920],
+    # Dia das Crianças na Praça (13/10/2026): fotos de ações anteriores com crianças, com autorização de uso de
+    # imagem dos responsáveis (confirmada pelo Matheus). Ficam só no servidor, como as outras fotos.
+    "dia-criancas-juventude.jpg": [480, 720, 960, 1440],
+    "dia-criancas-primeiros-socorros.jpg": [480, 960],
+    "dia-criancas-brincadeira-arcos.jpg": [480, 960],
+    "dia-criancas-corrida-saco.jpg": [480, 960],
+    "dia-criancas-voluntaria.jpg": [480, 960],
+    "impacto-cores-banner.jpg": [640, 1200, 1920],
+    "agasalho-banner.jpg": [640, 1200, 1920],
+    # Seção Institucional e mosaico da home (11/10/2026; as fotos do CICV saíram por estarem desatualizadas).
+    # Retrato do presidente Luiz Carlos dos Santos na Galeria dos Presidentes, recortado em 4:5 (1333x1666)
+    # a partir do original 1333x2000; montagem do post do vice-presidente Antônio Pedregal, recortada em 4:4,7
+    # (473x556) para tirar o ícone de marcação do Instagram (usada no mosaico), e a foto de cima dessa montagem,
+    # presidente e vice à mesa do gabinete, cortada acima do logo (473x232; cartão sobreposto ao retrato na seção
+    # Institucional). Originais em site/assets/, só no servidor.
+    "presidente-luiz-carlos-dos-santos.jpg": [480, 960],
+    "presidente-e-vice-presidente.jpg": [480],
+    "presidente-e-vice-gabinete.jpg": [480],
+    "agasalho-hero-rua.jpg": [640, 1264],
+    "agasalho-hero-favela.jpg": [640, 1264],
+    "agasalho-fila-comunidade.jpg": [640, 1264],
+    "agasalho-cartaz.jpg": [640, 1200],
+    "curso-primeiros-socorros-novo.jpg": [480, 768],
+    "curso-puncao-venosa.jpg": [480, 768],
+    "curso-cuidador-idosos.jpg": [480, 768],
+    "curso-bombeiro-civil.jpg": [480, 768],
+    "curso-lei-lucas.jpg": [480, 768],
+    "curso-suporte-basico-vida.jpg": [480, 768],
+    "hero-formacao-voluntarios.jpg": [540, 1080],
+    "voluntario-microfone.jpg": [480, 960, 1440],
+    "equipe-corredor.jpg": [480, 960, 1440],
+    "acao-comunitaria-morro.jpg": [480, 1080],
+    "auditorio-voluntarios.jpg": [480, 960, 1440],
+    "curso-pratico-sala.jpg": [480, 1080],
+    "protocolo-trauma.jpg": [480, 1080],
+    "dia-cruz-vermelha.jpg": [640, 1254],
+    # Aulas dos cursos presenciais (fotos da escola, recebidas em 10/2026; as de celular têm no máximo ~900 px).
+    "aula-salao-instrutor.jpg": [480, 960, 1440],
+    "aula-salao-turma.jpg": [480, 960, 1440],
+    "aula-salao-cruz.jpg": [480, 960, 1440],
+    "aula-turma-coletes.jpg": [480, 960],
+    "aula-manobra-heimlich.jpg": [480, 960],
+    "aula-instrutor-manequim.jpg": [480, 960],
+    "aula-engasgo-bebe.jpg": [480, 960],
+    "aula-engasgo-bebe-instrutor.jpg": [480, 960],
+    "aula-dea-sala.jpg": [480, 960],
+    # Mapa estático da sede (OpenStreetMap, zoom 17, pino vermelho; gerado com Leaflet e salvo como imagem).
+    "mapa-sede.png": [480, 960],
+}
+# Também em AVIF (o primeiro slide da home, que é o maior elemento da página no computador).
+AVIF = {"forca-tarefa-el-nino-banner.png", "dia-criancas-juventude.jpg"}
+# Logos com transparência: uma largura só.
+LOGOS = {
+    "logo-cvb-rj.png": 520,
+    "logo-rj.png": 240,
+    "parceiros/avon.png": 400,
+    "parceiros/carrefour.png": 400,
+    "parceiros/embelleze.png": 400,
+    "parceiros/johnson-johnson.png": 400,
+    "parceiros/leite-de-rosas.png": 320,
+    "parceiros/ortobom.png": 400,
+    "parceiros/renner.webp": 400,
+}
+# Imagens de compartilhamento (Open Graph): recorte central 1200x630 em JPEG.
+OG = {
+    "og-home.jpg": ("hero-equipe-grupo.jpg", 0.35),
+    "og-doacao.jpg": ("acao-comunitaria-morro.jpg", 0.5),
+    "og-campanha-agasalho.jpg": ("agasalho-hero-rua.jpg", 0.5),
+    "og-equipe.jpg": ("equipe-corredor.jpg", 0.4),
+    "og-matricula.jpg": ("auditorio-voluntarios.jpg", 0.5),
+    "og-dia-das-criancas.jpg": ("dia-criancas-juventude.jpg", 0.42),
+}
+# Cartões da página /bio/ (700x367 e 420x220, a proporção de site/bio/img/) com fotos que ficam só no servidor:
+# as fotos com crianças não vão para o Git, então o cartão aponta para /assets/otim/ (ver gerar_bio.py, "pasta").
+CARTOES_BIO = {
+    "dia-criancas-cartao": ("dia-criancas-juventude.jpg", 0.42),
+}
+
+
+def redimensionar(im: Image.Image, largura: int) -> Image.Image:
+    if im.width <= largura:
+        return im
+    altura = round(im.height * largura / im.width)
+    return im.resize((largura, altura), Image.LANCZOS)
+
+
+def gerar_cartoes_bio() -> int:
+    gerados = 0
+    for nome, (fonte, foco) in CARTOES_BIO.items():
+        arq = ORIGEM / fonte
+        if not arq.is_file():
+            print(f"  ! falta {fonte}", file=sys.stderr)
+            continue
+        im = ImageOps.exif_transpose(Image.open(arq)).convert("RGB")
+        for largura, altura in ((700, 367), (420, 220)):
+            recorte = ImageOps.fit(im, (largura, altura), Image.LANCZOS, centering=(0.5, foco))
+            recorte.save(DESTINO / f"{nome}-{largura}.webp", "WEBP", quality=QUALIDADE, method=6)
+            gerados += 1
+    return gerados
+
+
+def main() -> int:
+    if not ORIGEM.is_dir():
+        print(f"pasta {ORIGEM} não existe: baixe os originais do servidor (public_html/assets)", file=sys.stderr)
+        return 1
+    DESTINO.mkdir(exist_ok=True)
+    (DESTINO / "parceiros").mkdir(exist_ok=True)
+    gerados = 0
+    antes = depois = 0
+    for nome, larguras in FOTOS.items():
+        arq = ORIGEM / nome
+        if not arq.is_file():
+            print(f"  ! falta {nome}", file=sys.stderr)
+            continue
+        im = ImageOps.exif_transpose(Image.open(arq)).convert("RGB")
+        antes += arq.stat().st_size
+        for largura in sorted(set(min(l, im.width) for l in larguras)):
+            saida = DESTINO / f"{arq.stem}-{largura}.webp"
+            versao = redimensionar(im, largura)
+            versao.save(saida, "WEBP", quality=QUALIDADE, method=6)
+            gerados += 1
+            depois += saida.stat().st_size
+            if nome in AVIF:
+                saida_avif = saida.with_suffix(".avif")
+                versao.save(saida_avif, "AVIF", quality=QUALIDADE_AVIF, speed=4)
+                gerados += 1
+                depois += saida_avif.stat().st_size
+    for nome, largura in LOGOS.items():
+        arq = ORIGEM / nome
+        if not arq.is_file():
+            print(f"  ! falta {nome}", file=sys.stderr)
+            continue
+        im = Image.open(arq).convert("RGBA")
+        antes += arq.stat().st_size
+        saida = DESTINO / nome.replace(".png", "").replace(".webp", "")
+        saida = saida.with_name(f"{saida.name}-{min(largura, im.width)}.webp")
+        redimensionar(im, largura).save(saida, "WEBP", quality=85, method=6)
+        gerados += 1
+        depois += saida.stat().st_size
+    for nome, (fonte, foco) in OG.items():
+        arq = ORIGEM / fonte
+        if not arq.is_file():
+            continue
+        im = ImageOps.exif_transpose(Image.open(arq)).convert("RGB")
+        recorte = ImageOps.fit(im, (1200, 630), Image.LANCZOS, centering=(0.5, foco))
+        recorte.save(DESTINO / nome, "JPEG", quality=82, optimize=True, progressive=True)
+        gerados += 1
+    gerados += gerar_cartoes_bio()
+    print(f"{gerados} arquivos em site/assets/otim/ · originais {antes // 1024} KB → versões {depois // 1024} KB (todas as larguras somadas)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,62 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+# mantém o template de env versionado
+!.env.example
+
+# ---- Página institucional (pagina/) — regras vindas do repositório do site ----
+# Segredos do checkout: só no servidor
+pagina/site/matricula-cursos-presenciais/api/config.php
+# Chave da escola (Supabase) da matrícula: arquivo à parte, também só no servidor.
+pagina/site/matricula-cursos-presenciais/api/config-escola.php
+# Chaves do WhatsApp (Evolution do Palácio, API da Meta ou Make): também só no servidor.
+pagina/site/matricula-cursos-presenciais/api/config-whatsapp.php
+# Token da API de Conversões da Meta: também só no servidor (o .htaccess já nega config-*.php).
+pagina/site/matricula-cursos-presenciais/api/config-meta.php
+pagina/site/doe/api/config.php
+__pycache__/
+# Fotos e logos do site: ficam só no servidor (public_html/assets), não são versionadas
+pagina/site/assets/*
+!pagina/site/assets/otim/
+pagina/site/assets/otim/*
+# A imagem principal do celular acompanha a home e a publicação.
+!pagina/site/assets/otim/hero-turma-cbfi-640.webp
+
+# Vocabulário do Schema.org baixado por scripts/validar_jsonld.py (1,5 MB, refaz sozinho)
+pagina/scripts/.cache-schemaorg.jsonld
+
+# sitemap.xml da raiz: quem escreve é a Redação, por FTP (lib/site/sitemap.ts naquele repositório).
+# Fica fora daqui para não haver duas fontes da verdade; corrigido no servidor em 20/09/2026.
+pagina/site/sitemap.xml
+
+# As matérias são geradas e enviadas pela Redação (outro repositório); ficam só no servidor.
+# Em 20/09/2026 foram corrigidas lá por fora: título dentro de 60 e links que respondiam 301.
+pagina/site/noticias/
+# /privacidade/ e /termos/ eram páginas da Redação até 27/09/2026; agora saem de scripts/gerar_politicas.py
+# (com /cookies/, /reembolso/ e as versões em inglês e espanhol) e entram no repositório.
+# Chaves de liga e desliga do pagar tudo: só no servidor (o .htaccess nega config-*.php, inclusive com hífen).
+pagina/site/matricula-cursos-presenciais/api/config-pagar-tudo.php

@@ -1,0 +1,476 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { requireWorkspace } from '@/lib/session'
+import { pode } from '@/lib/permissoes'
+import { createClient } from '@/lib/supabase/server'
+import { publicarMateria, tirarMateriaDoAr } from '@/lib/site/publicar-materia'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { mensagemDoErro } from '@/lib/erro-de-acao'
+import { withFtp, baixarTexto, regravarPaginaListada, enviarNaRaizDoSite } from '@/lib/publicacao/ftp'
+import { ligarAtalhosNaHome } from '@/lib/site/atalho-noticias'
+import { atualizarVitrine, descobrirRaizDoSite } from '@/lib/site/vitrine'
+import { regerarNoticias, type Continuacao, type ResultadoDaRegeracao } from '@/lib/site/regerar-noticias'
+import { candidatosDeIndex } from '@/lib/site/formulario-newsletter'
+import { ligarAnalyticsNaPagina, temAnalytics, ID_DO_ANALYTICS } from '@/lib/site/analytics'
+import { prepararChatDoSite } from '@/lib/site/chat-do-site'
+import type { Client } from 'basic-ftp'
+
+/**
+ * Liga o Google Analytics em TODAS as páginas do site institucional.
+ *
+ * A home já tinha o gtag; as páginas de notícia geradas por aqui e as páginas
+ * soltas (equipe, campanha, privacidade…) não. Novas páginas já nascem com o
+ * bloco pelo gerador; esta ação completa o que JÁ ESTÁ no servidor, com o
+ * bloco de agora: só mede com consentimento e leva o aviso de cookies da home.
+ *
+ * As mesmas regras do enxerto da newsletter, porque o risco é o mesmo — FTP
+ * com acesso ao servidor inteiro:
+ *  - SÓ ADMIN.
+ *  - A pasta do site é DESCOBERTA pelo conteúdo (a home tem a seção da
+ *    newsletter), nunca adivinhada.
+ *  - Só toca em .html com </head>; página que já tem QUALQUER gtag não ganha
+ *    um segundo — com dois, cada visita conta duas vezes.
+ *  - IDEMPOTENTE: rodar de novo não muda nada.
+ *  - CONFERE DEPOIS: busca uma página pública alterada para provar que a
+ *    mudança está no ar.
+ */
+
+export type ResultadoDoAnalytics = {
+  erro?: string
+  recado?: string
+  ligadas?: string[]
+  jaTinham?: number
+  puladas?: string[]
+  confirmado?: boolean
+}
+
+const MAX_PAGINAS = 150
+const MAX_PROFUNDIDADE = 3
+/** Pastas que não são páginas do site — não vale a viagem nem o risco. */
+const PASTAS_IGNORADAS = new Set(['assets', 'css', 'js', 'img', 'images', 'fonts', 'cgi-bin', 'error_docs'])
+
+export async function ligarAnalyticsDoSite(): Promise<ResultadoDoAnalytics> {
+  try {
+    const context = await requireWorkspace()
+    if (!pode(context.role, 'site.configurar')) throw new Error('Só um administrador pode alterar as páginas do site.')
+
+    // A versão do aviso de cookies que o bloco leva (sem ela, o bloco sai sem o aviso).
+    await prepararChatDoSite()
+
+    const resultado = await withFtp(async (client, config) => {
+      // Descobre a pasta do site pela home — mesma técnica do enxerto da
+      // newsletter: o conteúdo identifica, o caminho não.
+      await client.cd('/')
+      const naRaiz = await client.list()
+      const pastasDaRaiz = naRaiz.filter((i) => i.isDirectory).map((i) => i.name)
+      let pastasDeDomains: string[] = []
+      if (pastasDaRaiz.includes('domains')) {
+        try {
+          await client.cd('/domains')
+          pastasDeDomains = (await client.list()).filter((i) => i.isDirectory).map((i) => i.name)
+          await client.cd('/')
+        } catch { /* sem listar domains, os outros candidatos seguem */ }
+      }
+
+      let pastaDoSite = ''
+      for (const caminho of candidatosDeIndex({ baseDir: config.baseDir, pastasDaRaiz, pastasDeDomains })) {
+        try {
+          const html = await baixarTexto(client, caminho)
+          if (html.includes('newsletter-section') || temAnalytics(html)) {
+            pastaDoSite = caminho.slice(0, caminho.lastIndexOf('/')) || '/'
+            break
+          }
+        } catch { /* candidato sem index: segue */ }
+      }
+      if (!pastaDoSite) {
+        return { ok: false as const, detalhe: 'Não encontrei a pasta do site pela home. Me diga qual é a pasta e eu acrescento.' }
+      }
+
+      // Anda pela pasta do site juntando as páginas .html.
+      const paginas: string[] = []
+      await listarHtml(client, pastaDoSite, 0, paginas)
+
+      const ligadas: string[] = []
+      const puladas: string[] = []
+      let jaTinham = 0
+      for (const caminho of paginas) {
+        let html: string
+        try { html = await baixarTexto(client, caminho) } catch { puladas.push(`${caminho} (não consegui ler)`); continue }
+        const troca = ligarAnalyticsNaPagina(html)
+        if (troca.estado === 'ja-ligado') { jaTinham++; continue }
+        if (troca.estado === 'recusado') { puladas.push(`${caminho} (${troca.detalhe})`); continue }
+        await regravarPaginaListada(client, caminho, troca.html)
+        ligadas.push(caminho.slice(pastaDoSite.length) || '/')
+      }
+
+      return { ok: true as const, pastaDoSite, ligadas, puladas, jaTinham }
+    })
+
+    if (!resultado.ok) return { erro: resultado.detalhe }
+
+    // A prova pública: uma das páginas alteradas tem de mostrar o bloco.
+    let confirmado = false
+    if (resultado.ligadas.length) {
+      try {
+        const caminho = resultado.ligadas[0].replace(/index\.html$/, '')
+        const res = await fetch(`https://cruzvermelhariodejaneiro.org${caminho}`, { cache: 'no-store' })
+        confirmado = temAnalytics(await res.text())
+      } catch { /* rede: a conferência falha, a gravação não se desfaz */ }
+    }
+
+    // Registra TODA varredura, mesmo a que nada mudou: é este registro que
+    // permite à tela dizer "feito em tal data" em vez de se oferecer para
+    // sempre como pendência.
+    await createAdminClient().from('activity_log').insert({
+      workspace_id: context.workspace.id,
+      actor_id: context.user.id,
+      action: 'analytics_ligado_no_site',
+      entity_type: 'site',
+      metadata: { id: ID_DO_ANALYTICS, ligadas: resultado.ligadas.slice(0, 50), jaTinham: resultado.jaTinham, confirmado },
+    })
+
+    const partes = [
+      resultado.ligadas.length
+        ? `Analytics ligado em ${resultado.ligadas.length} página(s).`
+        : 'Nenhuma página precisava: todas já carregam o Analytics.',
+      resultado.jaTinham ? `${resultado.jaTinham} já tinham.` : '',
+      resultado.puladas.length ? `${resultado.puladas.length} pulada(s) por segurança.` : '',
+      resultado.ligadas.length ? (confirmado ? 'Conferido no ar.' : 'Gravado — a conferência pública não respondeu ainda; veja daqui a pouco.') : '',
+    ].filter(Boolean)
+
+    return {
+      recado: partes.join(' '),
+      ligadas: resultado.ligadas,
+      jaTinham: resultado.jaTinham,
+      puladas: resultado.puladas,
+      confirmado,
+    }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível ligar o Analytics no site.') }
+  }
+}
+
+/** Junta os .html da pasta, descendo até o limite — o site é raso, e limite é o que impede a varredura de virar aventura. */
+async function listarHtml(client: Client, pasta: string, profundidade: number, saida: string[]): Promise<void> {
+  if (profundidade > MAX_PROFUNDIDADE || saida.length >= MAX_PAGINAS) return
+  let itens
+  try { await client.cd(pasta); itens = await client.list() } catch { return }
+  for (const item of itens) {
+    if (saida.length >= MAX_PAGINAS) return
+    const caminho = `${pasta.replace(/\/$/, '')}/${item.name}`
+    if (item.isDirectory) {
+      if (item.name.startsWith('.') || PASTAS_IGNORADAS.has(item.name.toLowerCase())) continue
+      await listarHtml(client, caminho, profundidade + 1, saida)
+    } else if (item.isFile && item.name.toLowerCase().endsWith('.html')) {
+      saida.push(caminho)
+    }
+  }
+}
+
+
+export type ResultadoDasPaginas = {
+  erro?: string
+  recado?: string
+  detalhes?: string[]
+}
+
+/**
+ * Publica as páginas de base do site e liga os atalhos — tudo de uma vez.
+ *
+ *  1. A central de notícias em /noticias/ — que também tira do ar o teste
+ *     que estava servindo de índice.
+ *  2. sitemap.xml e robots.txt — e a partir daqui os três se mantêm
+ *     sozinhos: toda publicação de matéria os regera.
+ *  3. Os atalhos de Notícias no menu e no rodapé da página inicial.
+ *
+ * /privacidade/ e /termos/ não saem mais daqui: as políticas do site são do
+ * repositório do site (scripts/gerar_politicas.py).
+ *
+ * Idempotente: rodar de novo só regrava o que é gerado (que é sempre igual ou
+ * mais novo) e não duplica atalho nenhum.
+ */
+export async function publicarPaginasDoSite(): Promise<ResultadoDasPaginas> {
+  try {
+    const context = await requireWorkspace()
+    if (!pode(context.role, 'site.configurar')) throw new Error('Só um administrador pode alterar as páginas do site.')
+
+    const detalhes: string[] = []
+
+    const resultado = await withFtp(async (client, config) => {
+      const raiz = await descobrirRaizDoSite(client, config)
+      if (!raiz) return { ok: false as const, detalhe: 'Não encontrei a pasta do site pela home. Me diga qual é a pasta e eu acrescento.' }
+
+      // 1 e 2. Índice de notícias + sitemap + robots.
+      const agora = new Date()
+      const vitrine = await atualizarVitrine(client, config, context.workspace.id, agora)
+      if (vitrine.indice) detalhes.push(`/noticias/ atualizada (${vitrine.noticias} matéria(s))`)
+      if (vitrine.sitemap) detalhes.push('sitemap.xml no ar')
+      if (vitrine.robots) detalhes.push('robots.txt no ar')
+      if (vitrine.aviso) detalhes.push(`atenção: ${vitrine.aviso}`)
+
+      // 3. Atalhos na home.
+      try {
+        const home = await baixarTexto(client, `${raiz}/index.html`)
+        const troca = ligarAtalhosNaHome(home)
+        if (troca.estado === 'ligado') {
+          await enviarNaRaizDoSite(client, raiz, 'index.html', troca.html)
+          detalhes.push(troca.detalhe)
+        } else {
+          detalhes.push(troca.detalhe)
+        }
+      } catch {
+        detalhes.push('não consegui ler a página inicial para ligar os atalhos')
+      }
+
+      return { ok: true as const }
+    })
+
+    if (!resultado.ok) return { erro: resultado.detalhe }
+
+    // A prova pública: a central de notícias tem de responder 200.
+    let confirmado = false
+    try {
+      const res = await fetch('https://cruzvermelhariodejaneiro.org/noticias/', { cache: 'no-store' })
+      confirmado = res.ok && (await res.text()).includes('<h1>Notícias</h1>')
+    } catch { /* rede daqui; a gravação não se desfaz */ }
+
+    await createAdminClient().from('activity_log').insert({
+      workspace_id: context.workspace.id,
+      actor_id: context.user.id,
+      action: 'paginas_do_site_publicadas',
+      entity_type: 'site',
+      metadata: { detalhes: detalhes.slice(0, 20), confirmado },
+    })
+
+    return {
+      recado: confirmado
+        ? 'Páginas publicadas e conferidas no ar.'
+        : 'Páginas gravadas. A conferência pública ainda não respondeu — veja daqui a pouco.',
+      detalhes,
+    }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível publicar as páginas do site.') }
+  }
+}
+
+
+export type ResultadoDaRegeracaoDasNoticias = { erro?: string } & Partial<ResultadoDaRegeracao>
+
+/**
+ * O tempo que uma rodada pode ocupar começando trabalho novo. A página de
+ * Configurações não declara maxDuration, e as rodadas do acervo trabalham com
+ * 45 s; aqui cada matéria baixa e converte fotos, então a rodada para mais
+ * cedo e deixa folga para a última matéria e para a resposta caberem mesmo
+ * num limite de 60 s.
+ */
+const TEMPO_DA_RODADA_MS = 40_000
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/**
+ * Regera todas as matérias publicadas com o molde atual e, no fim, o índice,
+ * o sitemap e o robots.
+ *
+ * Mesmo desenho de "Atualizar as páginas do acervo": a ação trabalha até
+ * perto do limite de tempo e devolve de onde continuar; a tela chama de novo
+ * até acabar. Endereços e datas ficam como estão — regerar não é republicar.
+ * Só administrador: escreve no site inteiro.
+ */
+export async function regerarPaginasDasNoticias(continuacao?: Continuacao | null): Promise<ResultadoDaRegeracaoDasNoticias> {
+  try {
+    const context = await requireWorkspace()
+    if (!pode(context.role, 'site.configurar')) throw new Error('Só um administrador pode regerar as páginas do site.')
+    const depoisDe = continuacao?.depoisDe ?? null
+    if (depoisDe !== null && !UUID.test(depoisDe)) throw new Error('Continuação inválida. Comece de novo.')
+
+    const r = await regerarNoticias({
+      workspaceId: context.workspace.id,
+      userId: context.user.id,
+      continuacao: { depoisDe, soVitrine: Boolean(continuacao?.soVitrine) },
+      tempoMaximoMs: TEMPO_DA_RODADA_MS,
+    })
+
+    await createAdminClient().from('activity_log').insert({
+      workspace_id: context.workspace.id,
+      actor_id: context.user.id,
+      action: 'noticias_regeradas',
+      entity_type: 'site',
+      metadata: {
+        total: r.total, feitas: r.feitas, vistas: r.vistas, puladas: r.puladas.length, falhas: r.falhas.length,
+        vitrine: r.vitrine?.feita ?? false, continua: Boolean(r.proximo),
+      },
+    })
+    if (!r.proximo) revalidatePath('/configuracoes', 'layout')
+    return r
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível regerar as páginas das notícias.') }
+  }
+}
+
+export type MateriaNoAr = { id: string; titulo: string; url: string; publicadaEm: string | null }
+export type MateriaArquivada = { id: string; titulo: string; slug: string; atualizadaEm: string | null }
+
+/** As matérias publicadas no site — a lista viva que a vitrine expõe ao público. */
+export async function materiasNoAr(): Promise<{ erro?: string; materias?: MateriaNoAr[] }> {
+  try {
+    const context = await requireWorkspace()
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('content_pieces')
+      .select('id,title,site_url,site_published_at')
+      .eq('workspace_id', context.workspace.id)
+      .not('site_url', 'is', null)
+      .order('site_published_at', { ascending: false })
+      .limit(200)
+    if (error) throw new Error('Não foi possível listar as matérias publicadas.')
+    return {
+      materias: (data ?? []).map((p: { id: string; title: string | null; site_url: unknown; site_published_at: string | null }) => ({
+        id: p.id as string,
+        titulo: String(p.title ?? 'Sem título'),
+        url: String(p.site_url),
+        publicadaEm: (p.site_published_at as string | null) ?? null,
+      })),
+    }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível listar as matérias publicadas.') }
+  }
+}
+
+/**
+ * A pasta das arquivadas: matérias que JÁ estiveram no ar e foram tiradas.
+ *
+ * O marcador é o slug sem site_url — o slug só nasce na publicação e é
+ * preservado de propósito quando a página sai do ar. Nada aqui foi perdido:
+ * o texto inteiro continua no banco, e republicar volta ao mesmo endereço.
+ * A lista existe para isso ficar VISÍVEL — matéria que some da tela é
+ * matéria que alguém acha que sumiu do mundo.
+ */
+export async function materiasArquivadas(): Promise<{ erro?: string; materias?: MateriaArquivada[] }> {
+  try {
+    const context = await requireWorkspace()
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('content_pieces')
+      .select('id,title,slug,updated_at')
+      .eq('workspace_id', context.workspace.id)
+      .is('site_url', null)
+      .not('slug', 'is', null)
+      .order('updated_at', { ascending: false })
+      .limit(200)
+    if (error) throw new Error('Não foi possível listar as matérias arquivadas.')
+    return {
+      materias: (data ?? []).map((p: { id: string; title: string | null; slug: unknown; updated_at: string | null }) => ({
+        id: p.id,
+        titulo: String(p.title ?? 'Sem título'),
+        slug: String(p.slug),
+        atualizadaEm: p.updated_at ?? null,
+      })),
+    }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível listar as matérias arquivadas.') }
+  }
+}
+
+/**
+ * Republica uma matéria arquivada — a volta do "tirar do ar".
+ *
+ * Sai com o texto que está no banco, no MESMO endereço de antes (o slug foi
+ * preservado justamente para isto): links compartilhados à época revivem.
+ * O índice e o sitemap se regeram sozinhos dentro da publicação.
+ */
+export async function republicarMateriaAction(formData: FormData): Promise<{ erro?: string; recado?: string }> {
+  try {
+    const context = await requireWorkspace()
+    if (!pode(context.role, 'site.republicar')) {
+      throw new Error('Só administradores e editores podem republicar uma matéria.')
+    }
+    const contentId = String(formData.get('contentId') ?? '').trim()
+    if (!contentId) throw new Error('Matéria não identificada.')
+
+    const r = await publicarMateria({
+      workspaceId: context.workspace.id,
+      userId: context.user.id,
+      contentId,
+      // Vazios de propósito: o texto que vale é o que está guardado no banco.
+      titulo: '', subtitulo: '', corpo: '', slug: '',
+    })
+    if (r.erro) return { erro: r.erro }
+
+    revalidatePath('/configuracoes', 'layout')
+    revalidatePath(`/conteudos/${contentId}`)
+    return { recado: `De volta ao ar em ${r.url}.${r.aviso ? ` Atenção: ${r.aviso}` : ''}` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível republicar a matéria.') }
+  }
+}
+
+/**
+ * Tira uma matéria do ar: apaga a pasta no servidor, limpa o endereço no
+ * registro e regera o índice e o sitemap na mesma sessão. Reversível —
+ * republicar volta ao MESMO endereço, porque o slug é preservado.
+ */
+export async function tirarMateriaDoArAction(formData: FormData): Promise<{ erro?: string; recado?: string }> {
+  try {
+    const context = await requireWorkspace()
+    if (!pode(context.role, 'site.republicar')) {
+      throw new Error('Só administradores e editores podem tirar uma matéria do ar.')
+    }
+    const contentId = String(formData.get('contentId') ?? '').trim()
+    if (!contentId) throw new Error('Matéria não identificada.')
+
+    const r = await tirarMateriaDoAr({ workspaceId: context.workspace.id, userId: context.user.id, contentId })
+    if (r.erro) return { erro: r.erro }
+
+    revalidatePath('/configuracoes', 'layout')
+    revalidatePath(`/conteudos/${contentId}`)
+    return { recado: r.aviso ? `A página saiu do ar. Atenção: ${r.aviso}.` : 'A página saiu do ar, e o índice e o sitemap já não a listam.' }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível tirar a matéria do ar.') }
+  }
+}
+
+
+export type EstadoDoSite = {
+  analytics?: { quando: string; resumo: string }
+  paginas?: { quando: string }
+}
+
+/**
+ * Quando cada tarefa do site rodou pela última vez.
+ *
+ * Existe pelo mesmo motivo do cartão do formulário na Newsletter: um
+ * botão que se oferece para sempre como pendência, depois de já ter sido
+ * clicado e concluído, ensina a ser ignorado. O Analytics é NATIVO em toda
+ * página que a Redação gera; a varredura só existe para arquivos antigos —
+ * e a tela precisa saber dizer "isso já foi feito, em tal dia".
+ */
+export async function estadoDoSite(): Promise<{ erro?: string; estado?: EstadoDoSite }> {
+  try {
+    const context = await requireWorkspace()
+    const supabase = await createClient()
+    const ultima = async (acao: string) => {
+      const { data } = await supabase
+        .from('activity_log').select('created_at,metadata')
+        .eq('workspace_id', context.workspace.id).eq('action', acao)
+        .order('created_at', { ascending: false }).limit(1).maybeSingle()
+      return data as { created_at: string; metadata: Record<string, unknown> } | null
+    }
+    const [analytics, paginas] = await Promise.all([
+      ultima('analytics_ligado_no_site'),
+      ultima('paginas_do_site_publicadas'),
+    ])
+    const estado: EstadoDoSite = {}
+    if (analytics) {
+      const ligadas = Array.isArray(analytics.metadata?.ligadas) ? analytics.metadata.ligadas.length : 0
+      const jaTinham = typeof analytics.metadata?.jaTinham === 'number' ? analytics.metadata.jaTinham : 0
+      estado.analytics = {
+        quando: analytics.created_at,
+        resumo: ligadas ? `${ligadas} página(s) completadas, ${jaTinham} já tinham` : 'nada faltava — todas já tinham',
+      }
+    }
+    if (paginas) estado.paginas = { quando: paginas.created_at }
+    return { estado }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível ler o estado do site.') }
+  }
+}

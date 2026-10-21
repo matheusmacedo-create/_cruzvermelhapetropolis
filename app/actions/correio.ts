@@ -1,0 +1,371 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { requireWorkspace } from '@/lib/session'
+import { pode } from '@/lib/permissoes'
+import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { mensagemDoErro } from '@/lib/erro-de-acao'
+import { apagarFiltro, criarEtiqueta, criarFiltro, esquecerToken, etiquetarExistentes, listarEtiquetas, listarFiltros, mudarRotulos } from '@/lib/google/gmail'
+import { buscaDoFiltro, lerCriterio } from '@/lib/correio/filtros'
+import { enviarPelaCaixa } from '@/lib/correio/enviar'
+import { abrirConversa, caixasVisiveis, esquecerLeituras as esquecerNoServidor } from '@/lib/correio/caixa-de-entrada'
+import { cabecalhosDaResposta, citacao } from '@/lib/correio/leitura'
+import { resumoDaSincronizacao, sincronizarCaixas } from '@/lib/correio/sincronizar'
+
+/**
+ * O correio dos setores.
+ *
+ * Escrita sempre pelo cliente administrativo, depois de conferir em código
+ * quem pede (mesmo padrão da newsletter): as tabelas só têm política de
+ * leitura. A regra que importa mora em enviarEmailDoSetor: remetente e
+ * assinatura saem da caixa no banco, e só envia por uma caixa quem é do
+ * setor dono dela.
+ */
+
+type Resultado = { erro?: string; recado?: string }
+const texto = (f: FormData, k: string) => String(f.get(k) ?? '').trim()
+const comoErro = (causa: unknown, padrao: string): Resultado => ({ erro: mensagemDoErro(causa, padrao) })
+
+async function exigirAdmin() {
+  const context = await requireWorkspace()
+  if (!pode(context.role, 'correio.configurar')) throw new Error('Só administradores configuram o correio dos setores.')
+  return context
+}
+
+const revalidar = () => { revalidatePath('/configuracoes', 'layout'); revalidatePath('/correio') }
+/** As leituras do Gmail ficam guardadas por um minuto (lib/correio/caixa-de-entrada.ts): o que muda aqui esquece na hora. */
+const esquecerLeituras = (workspaceId: string) => { esquecerNoServidor(workspaceId); revalidatePath('/correio') }
+
+/** O botão "Atualizar" da caixa: lê o Gmail de novo agora, em vez de esperar o minuto do cache. */
+export async function atualizarCorreio(): Promise<Resultado> {
+  try {
+    const context = await requireWorkspace()
+    esquecerLeituras(context.workspace.id)
+    return {}
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível atualizar.')
+  }
+}
+
+export async function sincronizarCaixasAgora(): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const r = await sincronizarCaixas(context.workspace.id)
+    revalidar()
+    return { recado: resumoDaSincronizacao(r) }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível sincronizar com o Gmail.')
+  }
+}
+
+/** Ativa de uma vez as caixas que já têm setor (as sugeridas pela sincronização e as atribuídas à mão). */
+export async function ativarCaixasComSetor(): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const admin = createAdminClient()
+    const { data, error } = await admin.from('caixas_de_email').update({ ativa: true })
+      .eq('workspace_id', context.workspace.id).eq('ativa', false).eq('no_gmail', true).not('setor_id', 'is', null).select('id')
+    if (error) throw new Error('Não foi possível ativar as caixas.')
+    await admin.from('activity_log').insert({
+      workspace_id: context.workspace.id, actor_id: context.user.id, action: 'caixas_ativadas',
+      entity_type: 'caixa_de_email', metadata: { quantas: data?.length ?? 0 },
+    })
+    revalidar()
+    return { recado: `${data?.length ?? 0} endereço(s) ativado(s). Só envia por cada um quem é do setor dele.` }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível ativar as caixas.')
+  }
+}
+
+export async function desconectarGoogle(): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const supabase = await createClient()
+    const { error } = await supabase.rpc('remover_chave_de_integracao', { p_workspace_id: context.workspace.id, p_servico: 'google_gmail' })
+    if (error) throw new Error('Não foi possível remover a autorização.')
+    esquecerToken(context.workspace.id)
+    const admin = createAdminClient()
+    await admin.from('google_conexao').delete().eq('workspace_id', context.workspace.id)
+    await admin.from('activity_log').insert({
+      workspace_id: context.workspace.id, actor_id: context.user.id, action: 'google_desconectado', entity_type: 'integracao', metadata: {},
+    })
+    revalidar()
+    return { recado: 'Conta Google desconectada. Para revogar também do lado do Google: myaccount.google.com/permissions.' }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível desconectar.')
+  }
+}
+
+export async function criarSetor(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const nome = texto(formData, 'nome')
+    if (nome.length < 2 || nome.length > 80) throw new Error('O nome do setor precisa ter entre 2 e 80 caracteres.')
+    const { error } = await createAdminClient().from('setores').insert({ workspace_id: context.workspace.id, nome })
+    if (error) throw new Error(error.code === '23505' ? 'Já existe um setor com esse nome.' : 'Não foi possível criar o setor.')
+    revalidar()
+    return { recado: `Setor "${nome}" criado.` }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível criar o setor.')
+  }
+}
+
+export async function excluirSetor(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const admin = createAdminClient()
+    const id = texto(formData, 'id')
+    // A caixa do setor apagado fica sem dono E inativa: não pode sobrar um
+    // endereço ativo sem ninguém responsável por ele.
+    await admin.from('caixas_de_email').update({ ativa: false }).eq('workspace_id', context.workspace.id).eq('setor_id', id)
+    const { error } = await admin.from('setores').delete().eq('workspace_id', context.workspace.id).eq('id', id)
+    if (error) throw new Error('Não foi possível apagar o setor.')
+    revalidar()
+    return { recado: 'Setor apagado. As caixas dele ficaram sem setor e desativadas.' }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível apagar o setor.')
+  }
+}
+
+/** Troca a lista inteira de membros de um setor. */
+export async function definirMembros(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const workspaceId = context.workspace.id
+    const setorId = texto(formData, 'setorId')
+    let ids: string[]
+    try { ids = JSON.parse(texto(formData, 'ids') || '[]') } catch { ids = [] }
+    ids = Array.isArray(ids) ? [...new Set(ids.filter((i) => typeof i === 'string'))] : []
+
+    const admin = createAdminClient()
+    const { data: setor } = await admin.from('setores').select('id').eq('id', setorId).eq('workspace_id', workspaceId).maybeSingle()
+    if (!setor) throw new Error('Setor não encontrado.')
+    // Só entra quem é do espaço: um id de fora nunca vira membro de setor.
+    const { data: doEspaco } = ids.length
+      ? await admin.from('workspace_members').select('user_id').eq('workspace_id', workspaceId).in('user_id', ids)
+      : { data: [] as { user_id: string }[] }
+    const validos = (doEspaco ?? []).map((m) => m.user_id as string)
+
+    await admin.from('setor_membros').delete().eq('setor_id', setorId)
+    if (validos.length) {
+      const { error } = await admin.from('setor_membros').insert(validos.map((user_id) => ({ setor_id: setorId, user_id, workspace_id: workspaceId })))
+      if (error) throw new Error('Não foi possível salvar os membros.')
+    }
+    await admin.from('activity_log').insert({
+      workspace_id: workspaceId, actor_id: context.user.id, action: 'setor_membros_definidos',
+      entity_type: 'setor', entity_id: setorId, metadata: { quantos: validos.length },
+    })
+    revalidar()
+    return { recado: `${validos.length} pessoa(s) no setor.` }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível salvar os membros.')
+  }
+}
+
+/** A que setor pertence uma caixa, e se ela envia. */
+export async function configurarCaixa(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const workspaceId = context.workspace.id
+    const id = texto(formData, 'id')
+    const setorId = texto(formData, 'setorId') || null
+    const ativa = texto(formData, 'ativa') === 'true'
+    const admin = createAdminClient()
+    if (setorId) {
+      const { data } = await admin.from('setores').select('id').eq('id', setorId).eq('workspace_id', workspaceId).maybeSingle()
+      if (!data) throw new Error('Setor não encontrado.')
+    }
+    if (ativa && !setorId) throw new Error('Atribua a caixa a um setor antes de ativar.')
+    const { error } = await admin.from('caixas_de_email').update({ setor_id: setorId, ativa }).eq('id', id).eq('workspace_id', workspaceId)
+    if (error) throw new Error('Não foi possível salvar a caixa.')
+    await admin.from('activity_log').insert({
+      workspace_id: workspaceId, actor_id: context.user.id, action: 'caixa_configurada',
+      entity_type: 'caixa_de_email', entity_id: id, metadata: { setorId, ativa },
+    })
+    revalidar()
+    return {}
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível salvar a caixa.')
+  }
+}
+
+/**
+ * O nome que o destinatário vê como remetente (ex.: "CVB-RJ · Comunicação
+ * Social"). Com a lista toda: grava vários de uma vez ("usar as sugestões").
+ */
+export async function nomearCaixas(nomes: { id: string; nome: string }[]): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const workspaceId = context.workspace.id
+    const lista = (nomes ?? []).slice(0, 200).map((n) => ({ id: String(n.id ?? ''), nome: String(n.nome ?? '').replace(/[<>"\r\n]/g, '').replace(/\s+/g, ' ').trim() }))
+    if (lista.some((n) => n.nome.length > 80)) throw new Error('O nome do remetente pode ter até 80 caracteres.')
+    const admin = createAdminClient()
+    for (const n of lista) {
+      const { error } = await admin.from('caixas_de_email').update({ nome_remetente: n.nome }).eq('id', n.id).eq('workspace_id', workspaceId)
+      if (error) throw new Error('Não foi possível salvar o nome.')
+    }
+    await admin.from('activity_log').insert({
+      workspace_id: workspaceId, actor_id: context.user.id, action: 'caixa_nomeada',
+      entity_type: 'caixa_de_email', entity_id: lista.length === 1 ? lista[0].id : null, metadata: { nomes: lista },
+    })
+    revalidar()
+    return {}
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível salvar o nome.')
+  }
+}
+
+/**
+ * Envia um e-mail por uma caixa de setor.
+ *
+ * O que chega da tela é só: qual caixa, para quem, assunto e texto. O
+ * remetente, o nome, o responder-para e a assinatura saem da linha da caixa
+ * no banco. Quem não é do setor dono da caixa não envia — nem forjando o
+ * pedido, porque a conferência é aqui, no servidor.
+ */
+export async function enviarEmailDoSetor(formData: FormData): Promise<Resultado & { threadId?: string }> {
+  try {
+    const context = await requireWorkspace()
+    const caixaId = texto(formData, 'caixaId')
+    // Resposta ou encaminhamento: a mensagem original é lida de novo aqui, e só
+    // vale se envolve o endereço da caixa (um id de outro setor não passa).
+    const mensagemId = texto(formData, 'mensagemId')
+    const modo = texto(formData, 'modo')
+    let conversa: Parameters<typeof enviarPelaCaixa>[2]['conversa']
+    if (mensagemId) {
+      const caixa = (await caixasVisiveis(context)).find((c) => c.id === caixaId)
+      if (!caixa) throw new Error('Você não faz parte do setor desta caixa.')
+      const mensagens = await abrirConversa(context.workspace.id, caixa, texto(formData, 'threadId'))
+      const original = mensagens?.find((m) => m.id === mensagemId)
+      if (!original) throw new Error('A mensagem original não foi encontrada nesta caixa.')
+      const encaminhar = modo === 'encaminhar'
+      conversa = {
+        threadId: encaminhar ? null : original.threadId,
+        emResposta: encaminhar ? null : cabecalhosDaResposta(original),
+        citacao: citacao(original, encaminhar ? 'encaminhar' : 'responder'),
+      }
+    }
+    const { de, destinatarios } = await enviarPelaCaixa(context, caixaId, {
+      para: texto(formData, 'para'), cc: texto(formData, 'cc'), assunto: texto(formData, 'assunto'), corpo: String(formData.get('corpo') ?? ''),
+      conversa,
+    })
+    esquecerLeituras(context.workspace.id)
+    return { recado: `Enviado de ${de} para ${destinatarios.length} destinatário(s).` }
+  } catch (causa) {
+    // enviarPelaCaixa já registrou a falha em emails_enviados (quando chegou a montar o envio).
+    revalidatePath('/correio')
+    return { erro: mensagemDoErro(causa, 'Não foi possível enviar.') }
+  }
+}
+
+/**
+ * Marca uma conversa como lida ou não lida, arquiva (sai da caixa de
+ * entrada, continua em "Todas") ou devolve à caixa de entrada. Só nas
+ * mensagens que envolvem o endereço da caixa.
+ */
+export async function marcarConversa(caixaId: string, threadId: string, acao: 'lida' | 'nao_lida' | 'arquivar' | 'entrada'): Promise<Resultado> {
+  try {
+    const context = await requireWorkspace()
+    const caixa = (await caixasVisiveis(context)).find((c) => c.id === caixaId)
+    if (!caixa) throw new Error('Você não faz parte do setor desta caixa.')
+    const mensagens = await abrirConversa(context.workspace.id, caixa, threadId)
+    if (!mensagens) throw new Error('Conversa não encontrada nesta caixa.')
+    const ids = mensagens.map((m) => m.id)
+    const [por, tira] = acao === 'lida' ? [[], ['UNREAD']] : acao === 'nao_lida' ? [['UNREAD'], []] : acao === 'arquivar' ? [[], ['INBOX']] : [['INBOX'], []]
+    await mudarRotulos(context.workspace.id, ids, por, tira)
+    // Marcar como lida some com a bolinha na lista e do contador: as leituras guardadas ficam velhas.
+    esquecerLeituras(context.workspace.id)
+    return {}
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível atualizar a conversa.')
+  }
+}
+
+// ---------------------------------------------------------------- etiqueta e filtros (o que leva e-mail à caixa)
+
+async function caixaDoEspaco(workspaceId: string, id: string) {
+  const { data } = await createAdminClient().from('caixas_de_email').select('id,email,rotulo_gmail_id,rotulo_gmail_nome,setor_id')
+    .eq('id', id).eq('workspace_id', workspaceId).maybeSingle()
+  if (!data) throw new Error('Caixa não encontrada.')
+  return data as { id: string; email: string; rotulo_gmail_id: string | null; rotulo_gmail_nome: string | null; setor_id: string | null }
+}
+
+/**
+ * Qual etiqueta do Gmail também leva à caixa. `etiqueta`: o id de uma que já
+ * existe, "nova:<nome>" para criar, ou vazio para tirar (a caixa volta a ver
+ * só o endereço). O id e o nome vêm sempre do Gmail, nunca da tela.
+ */
+export async function definirEtiquetaDaCaixa(caixaId: string, etiqueta: string): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const ws = context.workspace.id
+    const caixa = await caixaDoEspaco(ws, caixaId)
+    let escolhida: { id: string; nome: string } | null = null
+    if (etiqueta.startsWith('nova:')) {
+      const nome = etiqueta.slice(5).replace(/[\r\n]/g, ' ').trim()
+      if (nome.length < 2 || nome.length > 80) throw new Error('O nome da etiqueta precisa ter entre 2 e 80 caracteres.')
+      escolhida = await criarEtiqueta(ws, nome)
+    } else if (etiqueta) {
+      escolhida = (await listarEtiquetas(ws)).find((e) => e.id === etiqueta) ?? null
+      if (!escolhida) throw new Error('Essa etiqueta não existe mais no Gmail. Atualize a página.')
+    }
+    const admin = createAdminClient()
+    const { error } = await admin.from('caixas_de_email').update({ rotulo_gmail_id: escolhida?.id ?? null, rotulo_gmail_nome: escolhida?.nome ?? null })
+      .eq('id', caixa.id).eq('workspace_id', ws)
+    if (error) throw new Error('Não foi possível salvar a etiqueta da caixa.')
+    await admin.from('activity_log').insert({
+      workspace_id: ws, actor_id: context.user.id, action: 'caixa_etiqueta_definida',
+      entity_type: 'caixa_de_email', entity_id: caixa.id, metadata: { etiqueta: escolhida?.nome ?? null },
+    })
+    revalidar(); esquecerLeituras(ws)
+    return { recado: escolhida ? `${caixa.email} passa a mostrar também o que tem a etiqueta “${escolhida.nome}”.` : `${caixa.email} volta a mostrar só o que vai para o endereço.` }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível salvar a etiqueta.')
+  }
+}
+
+/**
+ * Cria no Gmail um filtro que põe a etiqueta da caixa no que chegar e bater
+ * com o critério. Com `aplicar`, etiqueta também o que já está na conta (até
+ * 500 mensagens), como o "aplicar também" do Gmail.
+ */
+export async function criarFiltroDaCaixa(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const ws = context.workspace.id
+    const caixa = await caixaDoEspaco(ws, texto(formData, 'caixaId'))
+    if (!caixa.rotulo_gmail_id) throw new Error('Escolha primeiro a etiqueta da caixa.')
+    const criterio = lerCriterio({ de: formData.get('de'), para: formData.get('para'), assunto: formData.get('assunto'), palavras: formData.get('palavras') })
+    await criarFiltro(ws, criterio, caixa.rotulo_gmail_id)
+    const quantas = texto(formData, 'aplicar') === 'true' ? await etiquetarExistentes(ws, buscaDoFiltro(criterio), caixa.rotulo_gmail_id) : 0
+    await createAdminClient().from('activity_log').insert({
+      workspace_id: ws, actor_id: context.user.id, action: 'caixa_filtro_criado',
+      entity_type: 'caixa_de_email', entity_id: caixa.id, metadata: { criterio, etiquetadas: quantas },
+    })
+    revalidar(); esquecerLeituras(ws)
+    return { recado: `Filtro criado no Gmail.${quantas ? ` ${quantas} mensagem(ns) que já estavam na conta ganharam a etiqueta.` : ''}` }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível criar o filtro.')
+  }
+}
+
+/** Apaga no Gmail um filtro que põe a etiqueta desta caixa (só esses: os outros filtros da conta não são desta tela). */
+export async function apagarFiltroDaCaixa(caixaId: string, filtroId: string): Promise<Resultado> {
+  try {
+    const context = await exigirAdmin()
+    const ws = context.workspace.id
+    const caixa = await caixaDoEspaco(ws, caixaId)
+    const filtro = (await listarFiltros(ws)).find((f) => f.id === filtroId)
+    if (!filtro || !caixa.rotulo_gmail_id || !filtro.poeEtiquetas.includes(caixa.rotulo_gmail_id)) throw new Error('Filtro não encontrado nesta caixa.')
+    await apagarFiltro(ws, filtro.id)
+    await createAdminClient().from('activity_log').insert({
+      workspace_id: ws, actor_id: context.user.id, action: 'caixa_filtro_apagado',
+      entity_type: 'caixa_de_email', entity_id: caixa.id, metadata: { criterio: filtro.criterio },
+    })
+    revalidar()
+    return { recado: 'Filtro apagado no Gmail. O que já tinha a etiqueta continua com ela.' }
+  } catch (causa) {
+    return comoErro(causa, 'Não foi possível apagar o filtro.')
+  }
+}

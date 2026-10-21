@@ -1,0 +1,208 @@
+import { NextResponse } from 'next/server'
+import { Readable } from 'node:stream'
+import { requirePermissao } from '@/lib/session'
+import { ftpConfig, withFtp, nomesDoCertificado, FtpConfigError, type TlsMode } from '@/lib/publicacao/ftp'
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+// Sequência completa no pior caso: 3 sondas de conexão + certificado +
+// escrita. Com o timeout curto abaixo tudo cabe aqui dentro — sem isso, um
+// servidor que não responde (ex.: IP bloqueado após muitos logins errados)
+// deixava a página "carregando infinito" até o Vercel matar a função.
+export const maxDuration = 60
+
+/** Timeout das sondas: diagnóstico precisa responder, não esperar. */
+const TIMEOUT_DA_SONDA = 8_000
+
+type Probe = { etapa: string; ok: boolean; detalhe: string }
+
+/**
+ * A mensagem de erro do servidor de FTP é útil para diagnóstico, mas pode ecoar
+ * o que mandamos — inclusive o usuário. A senha nunca aparece nela, e mesmo
+ * assim recortamos qualquer ocorrência antes de devolver ao navegador.
+ */
+function seguro(erro: unknown, password: string): string {
+  const texto = erro instanceof Error ? erro.message : String(erro)
+  return texto.split(password).join('«senha»').slice(0, 300)
+}
+
+export async function GET() {
+  try { await requirePermissao('diagnosticos.executar') } catch { return NextResponse.json({ error: 'Acesso negado.' }, { status: 403 }) }
+
+  let config
+  try {
+    config = ftpConfig()
+  } catch (cause) {
+    if (cause instanceof FtpConfigError) {
+      return NextResponse.json({ ok: false, faltando: cause.missing, mensagem: cause.message }, { status: 503 })
+    }
+    throw cause
+  }
+
+  const probes: Probe[] = [{
+    etapa: 'variáveis de ambiente',
+    ok: true,
+    // Host e usuário não são segredo; a senha só aparece como comprimento.
+    detalhe: `host=${config.host} user=${config.user} baseDir=${config.baseDir} senha=${config.password.length} caracteres`,
+  }]
+
+  // Da conexão mais segura para a menos segura, parando na primeira que passar.
+  // O objetivo não é "conseguir de qualquer jeito" — é saber exatamente até
+  // onde este servidor chega, para decidir com dado e não com suposição.
+  const modos: TlsMode[] = ['ftps-estrito', 'ftps-sem-verificar', 'sem-tls']
+  let conectado: TlsMode | null = null
+
+  for (const modo of modos) {
+    try {
+      await withFtp(async (client) => { await client.pwd() }, modo, TIMEOUT_DA_SONDA)
+      probes.push({ etapa: `conexão (${modo})`, ok: true, detalhe: 'autenticou' })
+      conectado = modo
+      break
+    } catch (cause) {
+      probes.push({ etapa: `conexão (${modo})`, ok: false, detalhe: seguro(cause, config.password) })
+    }
+  }
+
+  // Quando o modo estrito reprova (FTP_HOST com IP, certificado só vale para
+  // nome), a saída não é "afrouxe a verificação": é descobrir o nome certo.
+  // Ele está no certificado que o servidor apresenta — lemos e mostramos aqui,
+  // para FTP_HOST ser trocado pelo nome e o modo estrito voltar a funcionar.
+  if (conectado !== 'ftps-estrito') {
+    try {
+      const { sujeito, nomes, validade } = await nomesDoCertificado(TIMEOUT_DA_SONDA)
+      const lista = nomes.length ? nomes.join(', ') : sujeito || '(certificado sem nomes legíveis)'
+      const soCuringa = nomes.length > 0 && nomes.every((n) => n.startsWith('*.'))
+      // O vencido vem ANTES do nome: com o certificado expirado, trocar o
+      // FTP_HOST não resolve nada — a decisão é outra.
+      const doVencimento = validade?.expirado
+        ? ` CERTIFICADO VENCIDO desde ${validade.ate} — o conserto é da hospedagem (renovar o certificado do servidor);`
+          + ' enquanto isso, FTP_TLS_INSECURE=1 na Vercel publica cifrado sem verificar, e deve ser retirada após a renovação.'
+        : validade
+          ? ` Válido até ${validade.ate} (${validade.diasRestantes} dia(s)).`
+          : ''
+      probes.push({
+        etapa: 'certificado do servidor',
+        ok: !validade?.expirado,
+        detalhe: `vale para: ${lista}.${doVencimento}`
+          + (validade?.expirado
+            ? ''
+            : soCuringa
+              ? ' São curingas — o nome exato do servidor aparece no painel da hospedagem'
+                + ' (detalhes do plano); troque FTP_HOST para ele.'
+              : ' Troque FTP_HOST para um destes nomes em Vercel → Environment Variables e a conexão estrita passa.'),
+      })
+    } catch (cause) {
+      probes.push({ etapa: 'certificado do servidor', ok: false, detalhe: seguro(cause, config.password) })
+    }
+  }
+
+  if (!conectado) {
+    return NextResponse.json({ ok: false, conectado: null, probes }, { status: 502 })
+  }
+
+  const nomeTemp = `cvrj-diagnostico-${Date.now()}.txt`
+  let raiz = ''
+  // Marcas de que a conta caiu na raiz do site em vez da pasta de notícias.
+  let naRaizDoSite = false
+  let servidaNaWeb: boolean | null = null
+
+  try {
+    await withFtp(async (client) => {
+      raiz = await client.pwd()
+      probes.push({ etapa: 'pasta ao entrar', ok: true, detalhe: raiz })
+
+      const itens = await client.list()
+      // O aviso não pode sair de um palpite sobre o caminho: ele sai do que
+      // está de fato na pasta. Encontrar o index.html do site significa que a
+      // conta enxerga as páginas da outra equipe.
+      naRaizDoSite = itens.some((item) => /^(index|default)\.(html?|php)$/i.test(item.name))
+      probes.push({
+        etapa: 'listagem (pasta de entrada)',
+        ok: true,
+        detalhe: itens.length
+          ? itens.slice(0, 20).map((item) => `${item.isDirectory ? 'dir ' : 'arq '}${item.name}`).join(', ')
+          : '(pasta vazia — esperado numa pasta recém-criada)',
+      })
+
+      // A escrita de teste vai para a MESMA pasta que o publicador usa
+      // (FTP_BASE_DIR, caminho absoluto) — antes ela gravava na pasta de
+      // login: numa conta que entra na raiz do site, o diagnóstico largava
+      // o arquivo em /public_html e depois o procurava em /noticias/, com
+      // um 404 "falso" acusando a pasta errada.
+      await client.ensureDir(config.baseDir)
+      const pastaDePublicacao = await client.pwd()
+      probes.push({ etapa: 'pasta de publicação', ok: true, detalhe: pastaDePublicacao })
+
+      // Escrita e remoção: é o que o publicador vai fazer de verdade. Falhar
+      // aqui com a conexão funcionando aponta para permissão da conta FTP.
+      const corpo = 'Arquivo temporário de diagnóstico do Palácio Virtual. Pode ser apagado.\n'
+      await client.uploadFrom(Readable.from([corpo]), nomeTemp)
+      probes.push({ etapa: 'gravar arquivo', ok: true, detalhe: `${nomeTemp} em ${pastaDePublicacao}` })
+
+      const depois = await client.list()
+      const gravou = depois.some((item) => item.name === nomeTemp)
+      probes.push({ etapa: 'confirmar gravação', ok: gravou, detalhe: gravou ? 'apareceu na listagem' : 'NÃO apareceu na listagem' })
+
+      // A prova real: o arquivo que acabou de subir aparece na web?
+      // Gravar numa pasta que o servidor não publica não serve para nada — é
+      // deste endereço que sai o link do artigo e a URL da imagem que o
+      // Instagram vai baixar.
+      const base = process.env.SITE_PUBLIC_BASE_URL
+      if (base) {
+        const publica = `${base.replace(/\/$/, '')}/${nomeTemp}`
+        try {
+          const resposta = await fetch(publica, { cache: 'no-store', signal: AbortSignal.timeout(15_000) })
+          servidaNaWeb = resposta.ok
+          probes.push({
+            etapa: 'conferir pela web',
+            ok: resposta.ok,
+            detalhe: `${publica} respondeu ${resposta.status}`
+              + (resposta.ok ? '' : ' — a pasta do FTP não corresponde a este endereço'),
+          })
+        } catch (causa) {
+          probes.push({
+            etapa: 'conferir pela web',
+            ok: false,
+            detalhe: `${publica} não respondeu: ${seguro(causa, config.password)}`,
+          })
+        }
+      } else {
+        probes.push({
+          etapa: 'conferir pela web',
+          ok: true,
+          detalhe: 'pulado: defina SITE_PUBLIC_BASE_URL para conferir se a pasta é publicada',
+        })
+      }
+
+      await client.remove(nomeTemp)
+      probes.push({ etapa: 'apagar arquivo', ok: true, detalhe: 'removido' })
+    }, conectado)
+  } catch (cause) {
+    probes.push({ etapa: 'escrita', ok: false, detalhe: seguro(cause, config.password) })
+    return NextResponse.json({ ok: false, conectado, probes }, { status: 502 })
+  }
+
+  // As tentativas de conexão descartadas não contam como falha: sondar do modo
+  // mais seguro para o menos seguro é o desenho, e a primeira reprovar é o
+  // resultado esperado enquanto FTP_HOST for um IP.
+  const falhou = probes.some(
+    (p) => !p.ok && !p.etapa.startsWith('conexão (') && p.etapa !== 'certificado do servidor',
+  )
+
+  return NextResponse.json({
+    ok: !falhou,
+    conectado,
+    pastaEsperada: config.baseDir,
+    aviso: naRaizDoSite
+      ? 'A conta de FTP enxerga o index.html do site, ou seja, está na raiz e'
+        + ' pode sobrescrever as páginas mantidas pela outra equipe. Recrie a'
+        + ' conta limitada a /public_html/noticias.'
+      : servidaNaWeb === false
+        ? 'A gravação funciona, mas o arquivo não aparece no endereço público.'
+          + ' A pasta da conta de FTP existe fora de public_html — provavelmente'
+          + ' foi criada como irmã dela, e nada que estiver ali é servido na web.'
+          + ' Recrie a conta com o diretório /public_html/noticias.'
+        : null,
+    probes,
+  })
+}

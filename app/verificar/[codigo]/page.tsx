@@ -1,0 +1,176 @@
+import { DOMINIO_DO_PALACIO } from '@/lib/dominio'
+import { DADOS_DA_FILIAL } from '@/lib/site/juridico'
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { AlertTriangle, Bitcoin, CheckCircle2, Clock, Download, ShieldCheck } from 'lucide-react'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { hashLegivel, lerCanonico, momento, tituloDoOficio } from '@/lib/oficios/documento'
+import { FolhaDoOficio } from '@/components/app/oficios/documento'
+import { BotaoImprimir, ConferirNoNavegador } from '@/components/oficios/conferir'
+import QRCode from 'qrcode'
+import { SeloVisual } from '@/components/app/oficios/selo-visual'
+import { conferirSelo, garantirSelo, impressaoLegivel } from '@/lib/oficios/selo'
+
+export const dynamic = 'force-dynamic'
+export const metadata: Metadata = { title: 'Conferência de ofício — Cruz Vermelha RJ', robots: { index: false, follow: false } }
+
+/**
+ * A página pública de um ofício, aberta pelo código de 32 caracteres do
+ * rodapé. Mostra o texto como foi assinado, quem assinou e quando, e a prova
+ * no Bitcoin com os arquivos para conferir sem depender do Redação. É também
+ * a versão para imprimir.
+ */
+export default async function VerificarOficio({ params }: { params: Promise<{ codigo: string }> }) {
+  const { codigo } = await params
+  if (!/^[0-9a-f]{32}$/.test(codigo)) notFound()
+  const admin = createAdminClient()
+  const { data: o } = await admin.from('oficios')
+    .select('id,workspace_id,estado,modo_assinatura,pdf_versao,conteudo_canonico,codigo_verificacao,hash_documento,manifesto,hash_manifesto,assinado_em,motivo_cancelamento,cancelado_em')
+    .eq('codigo_verificacao', codigo).neq('estado', 'rascunho').maybeSingle()
+  if (!o) notFound()
+  const doc = lerCanonico(o.conteudo_canonico)
+  if (!doc) notFound()
+  const [{ data: assinantes }, { data: carimbos }] = await Promise.all([
+    admin.from('oficio_assinantes').select('nome,cpf_mascara,cargo,setor,ordem,estado,assinado_em,metodo,certificado').eq('oficio_id', o.id).order('ordem'),
+    admin.from('oficio_carimbos').select('estado,bloco,confirmado_em,enviado_em').eq('oficio_id', o.id).order('created_at', { ascending: false }).limit(1),
+  ])
+  const carimbo = carimbos?.[0]
+
+  // O selo da filial: criado na primeira visita depois de assinado, se ainda
+  // não existir (lib/oficios/selo.ts), e conferido a cada abertura.
+  const selo = o.estado === 'assinado' ? await garantirSelo(o.id) : null
+  const conferenciaDoSelo = selo
+    ? await conferirSelo(selo, { id: o.id, workspace_id: o.workspace_id, numero: doc.numero, codigo_verificacao: o.codigo_verificacao, hash_documento: o.hash_documento, hash_manifesto: o.hash_manifesto, assinado_em: o.assinado_em })
+    : null
+  const seloValido = Boolean(conferenciaDoSelo?.assinaturaValida && conferenciaDoSelo.mensagemConfere)
+  const enderecoDaConferencia = `https://${DOMINIO_DO_PALACIO}/verificar/${codigo}`
+  const qr = selo ? await QRCode.toDataURL(enderecoDaConferencia, { errorCorrectionLevel: 'M', margin: 1, width: 240, color: { dark: '#171717', light: '#ffffff' } }) : null
+  const dataDoSelo = (iso: string) => new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeZone: 'America/Sao_Paulo' }).format(new Date(iso))
+
+  const situacao = o.estado === 'cancelado'
+    ? { Icone: AlertTriangle, cor: 'border-red-300 bg-red-50 text-red-900', titulo: 'Ofício cancelado', texto: `${o.motivo_cancelamento ?? ''}${o.cancelado_em ? ` (em ${momento(o.cancelado_em)})` : ''}` }
+    : o.estado === 'assinado'
+      ? { Icone: CheckCircle2, cor: 'border-emerald-300 bg-emerald-50 text-emerald-900', titulo: 'Ofício autêntico e assinado', texto: o.assinado_em ? `Todas as assinaturas registradas; a última em ${momento(o.assinado_em)}.` : 'Todas as assinaturas registradas.' }
+      : { Icone: Clock, cor: 'border-amber-300 bg-amber-50 text-amber-900', titulo: 'Ofício emitido, aguardando assinaturas', texto: 'Este documento ainda não tem todas as assinaturas.' }
+
+  const conferir = [{ rotulo: 'Hash do documento', texto: o.conteudo_canonico as string, hash: o.hash_documento as string }]
+  if (o.manifesto && o.hash_manifesto) conferir.push({ rotulo: 'Hash do protocolo de assinaturas', texto: o.manifesto, hash: o.hash_manifesto })
+
+  return (
+    <main className="min-h-screen bg-neutral-100 px-4 py-8 text-neutral-900 print:bg-white print:p-0">
+      <div className="mx-auto flex max-w-[52rem] flex-col gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
+          <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">Conferência de documento</p>
+          <BotaoImprimir />
+        </div>
+
+        <section className={`flex items-start gap-3 rounded-lg border px-4 py-3 print:hidden ${situacao.cor}`}>
+          <situacao.Icone className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+          <div><p className="font-semibold">{situacao.titulo}: {tituloDoOficio(doc.numero, doc.setor)}</p><p className="text-sm">{situacao.texto}</p></div>
+        </section>
+
+        <FolhaDoOficio
+          doc={doc}
+          marcaDagua={o.estado === 'cancelado' ? 'Cancelado' : undefined}
+          assinaturas={(assinantes ?? []).map((a) => ({ ordem: a.ordem, nome: a.nome, cpf: a.cpf_mascara, cargo: a.cargo, setor: a.setor, estado: a.estado, assinadoEm: a.assinado_em, metodo: a.metodo, titularDoCertificado: (a.certificado as { titular?: string } | null)?.titular ?? null }))}
+          rodape={
+            <div className="flex flex-col gap-1">
+              {/* No padrão dos documentos assinados eletronicamente (SEI, protocolos de assinatura): quem assina, a lei, onde conferir e os hashes. Nunca o setor como "sistema": o sistema é da filial. */}
+              <p>Documento assinado eletronicamente {o.modo_assinatura === 'govbr' ? 'com assinatura gov.br' : 'no Palácio Virtual da Cruz Vermelha Brasileira – RJ'}, nos termos da Lei nº 14.063/2020, conforme horário oficial de Brasília.</p>
+              <p>A autenticidade deste documento pode ser conferida em {DOMINIO_DO_PALACIO}/verificar/{codigo}, com o código verificador <span className="font-mono">{codigo}</span>.</p>
+              <p>Hash do documento (SHA-256): <span className="break-all font-mono">{o.hash_documento}</span></p>
+              {o.hash_manifesto && <p>Hash do protocolo de assinaturas (SHA-256): <span className="break-all font-mono">{o.hash_manifesto}</span>{carimbo?.estado === 'confirmado' && carimbo.bloco ? ` — registrado no bloco ${carimbo.bloco.toLocaleString('pt-BR')} do Bitcoin` : ''}</p>}
+              {selo && qr && (
+                <div className="mt-3 flex flex-wrap items-center gap-4 break-inside-avoid">
+                  <SeloVisual numero={doc.numero} data={dataDoSelo(o.assinado_em as string)} impressao={impressaoLegivel(selo.chave_id)} valido={seloValido} tamanho={128} />
+                  <img src={qr} alt="QR code da página de conferência" width={96} height={96} className="shrink-0" />
+                  <p className="min-w-48 flex-1">
+                    {seloValido
+                      ? <>Selo digital da {DADOS_DA_FILIAL.nome}, aplicado em {momento(selo.selado_em)}. Impressão digital da chave: <span className="font-mono">{impressaoLegivel(selo.chave_id)}</span>.</>
+                      : <>O selo digital NÃO confere com este documento. Não confie nele e fale com a filial.</>}
+                    {' '}Para conferir, aponte a câmera do celular para o QR code.
+                  </p>
+                </div>
+              )}
+            </div>
+          }
+        />
+
+        {o.modo_assinatura === 'govbr' && (
+          <section className="flex flex-col gap-3 rounded-lg border border-neutral-300 bg-white p-5 text-sm print:hidden">
+            <h2 className="flex items-center gap-2 text-base font-semibold"><ShieldCheck className="size-5" />Assinaturas gov.br</h2>
+            <ul className="flex flex-col gap-2">
+              {(assinantes ?? []).map((a) => {
+                const c = (a.certificado ?? null) as { titular?: string; cpf?: string; emissor?: string; infraestrutura?: string } | null
+                return (
+                  <li key={a.ordem} className="flex flex-col">
+                    <span className="font-medium">{a.nome}{a.estado === 'assinado' && a.assinado_em ? ` — assinou em ${momento(a.assinado_em)}` : a.estado === 'recusado' ? ' — recusou' : ' — aguardando'}</span>
+                    {c?.titular && <span className="text-xs text-neutral-600">Certificado de {c.titular}{c.cpf ? ` (CPF ${c.cpf})` : ''}, emitido por {c.emissor ?? '—'}{c.infraestrutura ? ` · ${c.infraestrutura}` : ''}</span>}
+                  </li>
+                )
+              })}
+            </ul>
+            {(o.pdf_versao ?? 0) > 0 && (
+              <>
+                <a href={`/api/verificar/${codigo}/pdf`} className="inline-flex items-center gap-1.5 self-start rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />PDF assinado</a>
+                <p className="text-neutral-700">Para a conferência oficial do governo, baixe o PDF assinado e envie em <a className="underline" href="https://validar.iti.gov.br" target="_blank" rel="noreferrer">validar.iti.gov.br</a>. O validador do ITI mostra quem assinou e se o certificado continua válido.</p>
+              </>
+            )}
+          </section>
+        )}
+
+        {selo && conferenciaDoSelo && (
+          <section className="flex flex-col gap-3 rounded-lg border border-neutral-300 bg-white p-5 text-sm print:hidden">
+            <h2 className="flex items-center gap-2 text-base font-semibold"><ShieldCheck className="size-5" />Selo digital da Cruz Vermelha RJ</h2>
+            {seloValido ? (
+              <p className="flex items-start gap-2 text-emerald-800"><CheckCircle2 className="mt-0.5 size-4 shrink-0" />O selo confere: este ofício, com estas assinaturas, foi selado pela filial. Impressão digital da chave: <span className="font-mono">{impressaoLegivel(selo.chave_id)}</span>.</p>
+            ) : (
+              <p className="flex items-start gap-2 text-red-800"><AlertTriangle className="mt-0.5 size-4 shrink-0" />O selo não confere com este ofício. Não confie neste documento e fale com a filial.</p>
+            )}
+            {conferenciaDoSelo.chaveAtual === false && <p className="text-neutral-700">A chave deste selo não é mais a atual da filial (houve troca de chave depois). O selo continua valendo para a data em que foi feito.</p>}
+            <p className="text-neutral-700">O registro no Bitcoin, abaixo, prova <em>quando</em> estas assinaturas existiam; o selo prova <em>quem</em> emitiu: só a filial tem a chave que o assina. A impressão digital da chave é a mesma publicada em <span className="font-mono">cruzvermelhariodejaneiro.org/verificar/chave-publica.pem</span>.</p>
+            <div className="flex flex-wrap gap-2">
+              <a href={`/api/verificar/${codigo}/selo?arquivo=txt`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Texto selado (.txt)</a>
+              <a href={`/api/verificar/${codigo}/selo?arquivo=sig`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Assinatura (.sig)</a>
+              <a href={`/api/verificar/${codigo}/selo?arquivo=pem`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Chave pública (.pem)</a>
+            </div>
+            <details className="text-neutral-700">
+              <summary className="cursor-pointer font-medium">Como conferir o selo por conta própria</summary>
+              <p className="mt-2">Baixe os três arquivos e rode, num terminal com OpenSSL 3:</p>
+              <pre className="mt-2 overflow-x-auto rounded bg-neutral-100 p-3 text-xs">openssl pkeyutl -verify -pubin -inkey selo-chave-publica.pem -rawin -in selo.txt -sigfile selo.sig</pre>
+              <p className="mt-2">A resposta deve ser <span className="font-mono">Signature Verified Successfully</span>. O texto selado traz o número do ofício e os mesmos hashes SHA-256 do rodapé.</p>
+            </details>
+          </section>
+        )}
+
+        <section className="flex flex-col gap-4 rounded-lg border border-neutral-300 bg-white p-5 text-sm print:hidden">
+          <h2 className="flex items-center gap-2 text-base font-semibold"><Bitcoin className="size-5" />Registro no Bitcoin</h2>
+          {!carimbo ? (
+            <p className="text-neutral-600">O registro é feito quando todas as pessoas assinam.</p>
+          ) : carimbo.estado === 'confirmado' ? (
+            <p>O hash do protocolo de assinaturas foi gravado no <a className="font-semibold underline" href={`https://mempool.space/block/${carimbo.bloco}`} target="_blank" rel="noreferrer">bloco {carimbo.bloco?.toLocaleString('pt-BR')}</a> do Bitcoin, pelo protocolo aberto OpenTimestamps. Isso prova que este ofício, com estas assinaturas, já existia naquele momento e não foi alterado depois.</p>
+          ) : (
+            <p className="text-neutral-700">O hash foi enviado aos calendários do OpenTimestamps{carimbo.enviado_em ? ` em ${momento(carimbo.enviado_em)}` : ''} e entra num bloco do Bitcoin em algumas horas.</p>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {o.manifesto && <a href={`/api/verificar/${codigo}/manifesto`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Protocolo de assinaturas (.json)</a>}
+            {carimbo && carimbo.estado !== 'pendente' && <a href={`/api/verificar/${codigo}/prova`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Prova (.ots)</a>}
+          </div>
+          <details className="text-neutral-700">
+            <summary className="cursor-pointer font-medium">Como conferir por conta própria</summary>
+            <ol className="mt-2 list-decimal space-y-1 pl-5">
+              <li>Baixe o protocolo de assinaturas e a prova acima.</li>
+              <li>Abra <a className="underline" href="https://opentimestamps.org" target="_blank" rel="noreferrer">opentimestamps.org</a>, solte a prova (.ots) e depois o protocolo de assinaturas (.json).</li>
+              <li>O site mostra o bloco do Bitcoin e a data. O protocolo traz o hash do documento e quem assinou.</li>
+            </ol>
+          </details>
+          <details className="text-neutral-700">
+            <summary className="cursor-pointer font-medium">Conferir os hashes neste navegador</summary>
+            <div className="mt-3"><ConferirNoNavegador itens={conferir} /></div>
+            <p className="mt-3 text-xs text-neutral-500">Hashes: documento {hashLegivel(o.hash_documento as string)}</p>
+          </details>
+        </section>
+      </div>
+    </main>
+  )
+}

@@ -1,0 +1,766 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Teste de ponta a ponta da API de Conversões da Meta (api/lib/meta.php) com o site de verdade num PHP local,
+ * um MariaDB local e um servidor falso (HTTPS em 127.0.0.1) que faz o papel da Meta, da Unicopag e da Resend:
+ * nada sai para a internet, nenhum e-mail ou evento de verdade é enviado.
+ *
+ * Confere: o repasse de PageView/ViewContent (api/medicao.php) só com "sim" para marketing e do próprio site;
+ * Lead e AddPaymentInfo na cobrança (com dados em hash, IP, navegador e _fbp); Purchase no postback, com o
+ * event_id = token e os sinais guardados na inscrição, que saem do banco depois do envio; nada com "não";
+ * a escolha retirada na página de acompanhamento vale para o Purchase; Contact do chat; ViewContent e Schedule da
+ * página do Dia das Crianças; o formulário de doação de brinquedos (contato.php, assunto próprio, e-mails); falha
+ * da Meta registrada sem atrapalhar o aluno; o freio do repasse; a contribuição opcional para a divulgação no
+ * checkout (cobrança, banco, reaproveitamento do PIX, valor desatualizado, e-mails, Purchase e a conta do painel).
+ *
+ * Uso:
+ *   MCP_TESTE_DB_NOME=mcp_capi_teste MCP_TESTE_DB_USUARIO=... MCP_TESTE_DB_SENHA=... php scripts/testar_meta_integracao.php
+ *   (MCP_TESTE_DB_PORTA: a porta do MariaDB local, se não for a 3306)
+ * O nome do banco precisa ter "teste" (as tabelas de inscrições, eventos e contatos são esvaziadas).
+ * Precisa de php, python3 e openssl. Sai com 1 se algum teste falhar.
+ */
+declare(strict_types=1);
+
+$raiz = dirname(__DIR__);
+$banco = (string) getenv('MCP_TESTE_DB_NOME');
+$usuario = (string) getenv('MCP_TESTE_DB_USUARIO');
+$senha = (string) getenv('MCP_TESTE_DB_SENHA');
+if ($banco === '' || !str_contains($banco, 'teste') || $usuario === '') {
+    fwrite(STDERR, "defina MCP_TESTE_DB_NOME (com \"teste\" no nome), MCP_TESTE_DB_USUARIO e MCP_TESTE_DB_SENHA\n");
+    exit(2);
+}
+
+$falhas = 0;
+$total = 0;
+function verificar(string $nome, mixed $obtido, mixed $esperado): void
+{
+    global $falhas, $total;
+    $total++;
+    if ($obtido === $esperado) {
+        echo "ok     $nome\n";
+        return;
+    }
+    $falhas++;
+    echo "FALHOU $nome\n  esperado: " . var_export($esperado, true) . "\n  obtido:   " . var_export($obtido, true) . "\n";
+}
+
+function porta_livre(): int
+{
+    $s = stream_socket_server('tcp://127.0.0.1:0');
+    $porta = (int) substr(strrchr((string) stream_socket_get_name($s, false), ':'), 1);
+    fclose($s);
+    return $porta;
+}
+
+function esperar_porta(int $porta): void
+{
+    for ($i = 0; $i < 100; $i++) {
+        $c = @fsockopen('127.0.0.1', $porta, $e, $m, 0.2);
+        if ($c) {
+            fclose($c);
+            return;
+        }
+        usleep(100000);
+    }
+    throw new RuntimeException("porta $porta não abriu");
+}
+
+// ----------------------------------------------------------------------------- servidores
+$dir = sys_get_temp_dir() . '/mcp-meta-' . bin2hex(random_bytes(4));
+mkdir($dir);
+$ca = "$dir/ca.pem";
+$sub = sprintf('openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj "/CN=teste-ca" -keyout %1$s/ca.key -out %1$s/ca.pem 2>/dev/null'
+    . ' && openssl req -newkey rsa:2048 -nodes -subj "/CN=127.0.0.1" -keyout %1$s/srv.key -out %1$s/srv.csr 2>/dev/null'
+    . ' && printf "subjectAltName=IP:127.0.0.1" > %1$s/ext.cnf'
+    . ' && openssl x509 -req -in %1$s/srv.csr -CA %1$s/ca.pem -CAkey %1$s/ca.key -CAcreateserial -days 1 -extfile %1$s/ext.cnf -out %1$s/srv.pem 2>/dev/null', $dir);
+exec($sub, $o, $codigo);
+if ($codigo !== 0) {
+    fwrite(STDERR, "openssl falhou\n");
+    exit(2);
+}
+
+// Servidor falso: Meta (/vNN.N/<pixel>/events), Resend (/emails) e Unicopag (/public/v1/...). Grava cada pedido.
+file_put_contents("$dir/falso.py", <<<'PY'
+import json, os, re, ssl, sys, secrets, datetime
+from urllib.parse import parse_qs
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+porta, dir_ = int(sys.argv[1]), sys.argv[2]
+class H(BaseHTTPRequestHandler):
+    def log_message(self, *a): pass
+    def responder(self, codigo, dados):
+        corpo = json.dumps(dados).encode()
+        self.send_response(codigo); self.send_header('Content-Type', 'application/json'); self.send_header('Content-Length', str(len(corpo))); self.end_headers(); self.wfile.write(corpo)
+    def tratar(self):
+        tamanho = int(self.headers.get('Content-Length') or 0)
+        corpo = self.rfile.read(tamanho).decode() if tamanho else ''
+        caminho = self.path.split('?')[0]
+        with open(os.path.join(dir_, 'pedidos.jsonl'), 'a') as f:
+            f.write(json.dumps({'metodo': self.command, 'caminho': caminho, 'consulta': self.path.partition('?')[2], 'corpo': corpo}) + '\n')
+        if re.match(r'^/v\d+\.\d/\d+/events$', caminho):
+            if os.path.exists(os.path.join(dir_, 'recusar')):
+                return self.responder(400, {'error': {'message': 'Invalid OAuth access token - Cannot parse access token', 'type': 'OAuthException', 'code': 190}})
+            return self.responder(200, {'events_received': len(json.loads(corpo).get('data', [])), 'messages': [], 'fbtrace_id': 'falso'})
+        if caminho == '/emails':
+            return self.responder(200, {'id': 'email-falso'})
+        # Pagar tudo (spec 6.4): simulação de 1x a 12x com 3% por parcela além da 1ª; o cartão parcelado sai pago, com o
+        # amount_total da mesma regra (a transação fica guardada para a reconsulta); a escola responde como a v2.
+        if caminho == '/public/v1/installments':
+            amount = int((parse_qs(self.path.partition('?')[2]).get('amount') or ['0'])[0])
+            total = lambda n: amount if n == 1 else int(round(amount * (1 + 0.03 * (n - 1))))
+            return self.responder(200, {'data': [{'installments': n, 'installment_amount': round(total(n) / n, 2), 'total_amount': total(n)} for n in range(1, 13)]})
+        if caminho == '/public/v1/payments':
+            d = json.loads(corpo or '{}')
+            h = 'h' + secrets.token_hex(6)
+            n = int(d.get('installments') or 1)
+            if d.get('payment_method') == 'credit_card' and n > 1:
+                amount = int(d.get('amount') or 0)
+                total = int(round(amount * (1 + 0.03 * (n - 1))))
+                t = {'hash': h, 'payment_status': 'paid', 'installments': n, 'amount': amount, 'amount_interest': total - amount, 'amount_total': total, 'card_brand': 'visa'}
+                json.dump(t, open(os.path.join(dir_, 'transacao-' + h + '.json'), 'w'))
+                return self.responder(200, t)
+            return self.responder(200, {'hash': h, 'payment_status': 'waiting_payment',
+                                        'pix': {'pix_qr_code': '00020101PIXFALSO', 'pix_url': 'https://exemplo.org/pix', 'pix_base64': 'https://exemplo.org/qr.png'}})
+        m = re.match(r'^/public/v1/transactions/(\w+)$', caminho)
+        if m:
+            pago = os.path.exists(os.path.join(dir_, 'pago-' + m.group(1)))
+            guardada = os.path.join(dir_, 'transacao-' + m.group(1) + '.json')
+            if os.path.exists(guardada):
+                t = json.load(open(guardada))
+                return self.responder(200, dict(t, payment_status='paid' if pago else t['payment_status']))
+            return self.responder(200, {'hash': m.group(1), 'payment_status': 'paid' if pago else 'waiting_payment'})
+        if caminho == '/rest/v1/rpc/matricula_rapida_versao':
+            return self.responder(200, 2)
+        if caminho == '/rest/v1/rpc/matricula_rapida':
+            d = json.loads(corpo or '{}').get('dados') or {}
+            pagou = int(d.get('matricula_centavos') or 0) > 0
+            expira = (datetime.datetime.utcnow() + datetime.timedelta(hours=72)).strftime('%Y-%m-%dT%H:%M:%SZ')
+            return self.responder(200, {'ok': True, 'repetido': False, 'resultado': 'matriculado', 'matricula_id': 'm-' + str(d.get('transacao')),
+                'matricula_paga': pagou, 'matricula_status': 'PAGO' if pagou else 'PENDENTE', 'avisos': [], 'aviso': None,
+                'turma': {'id': d.get('turma_id') or 'turma-v1', 'inicio': '2026-10-21', 'primeira_aula': '2026-10-21', 'horario': '09:00 - 17:00', 'status': 'ABERTA'},
+                'aluno_novo': True, 'email_conta': 'j***@exemplo.org', 'email_confere': True, 'link_acesso': True, 'link_expira_em': expira,
+                'url_login': 'https://escola.cursoscruzvermelha.org/login', 'matricula_existente': False})
+        return self.responder(404, {})
+    do_GET = do_POST = tratar
+srv = ThreadingHTTPServer(('127.0.0.1', porta), H)
+ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER); ctx.load_cert_chain(os.path.join(dir_, 'srv.pem'), os.path.join(dir_, 'srv.key'))
+srv.socket = ctx.wrap_socket(srv.socket, server_side=True)
+srv.serve_forever()
+PY);
+$portaFalso = porta_livre();
+$portaSite = porta_livre();
+$falso = proc_open(['python3', "$dir/falso.py", (string) $portaFalso, $dir], [1 => ['file', '/dev/null', 'w'], 2 => ['file', "$dir/falso.err", 'w']], $p1);
+$falsoUrl = "https://127.0.0.1:$portaFalso";
+$configBase = [
+    'SITE_URL' => 'https://cruzvermelhariodejaneiro.org',
+    'DB_HOST' => '127.0.0.1', 'DB_PORT' => (int) (getenv('MCP_TESTE_DB_PORTA') ?: 3306), 'DB_NAME' => $banco, 'DB_USER' => $usuario, 'DB_SENHA' => $senha,
+    'UNICO_API_KEY' => 'chave-falsa', 'UNICO_BASE_URL' => $falsoUrl,
+    'RESEND_API_KEY' => 'chave-falsa', 'RESEND_API_URL' => "$falsoUrl/emails",
+    'EMAIL_CONTATO' => 'contato@exemplo.org', 'EMAIL_SECRETARIA' => 'secretaria@exemplo.org',
+    'META_CAPI_TOKEN' => 'token-de-teste', 'META_CAPI_URL' => $falsoUrl,
+];
+file_put_contents("$dir/config.php", '<?php return ' . var_export($configBase, true) . ';');
+// Pagar tudo: uma turma de Primeiros Socorros Básico daqui a 10 dias (inscrições até daqui a 9) no oferta.json de teste. O
+// config-escola.php só passa a existir no bloco do pagar tudo (antes dele, a escola não está configurada, como hoje).
+$quando = static fn(int $dias, string $hora): string => (new DateTimeImmutable("+$dias days", new DateTimeZone('America/Sao_Paulo')))->format('Y-m-d') . "T$hora-03:00";
+file_put_contents("$dir/oferta.json", json_encode(['parcelado_no_ar' => false, 'turmas' => [['curso' => 'primeiros-socorros-basico', 'id_escola' => 'turma-meta-1',
+    'inicio' => $quando(10, '09:00:00'), 'fim' => $quando(10, '17:00:00'), 'inscricoes_ate' => $quando(9, '23:59:59'), 'lotada' => false]], 'sem_turma' => []]));
+$ambiente = [
+    'MCP_CONFIG_ARQUIVO' => "$dir/config.php", 'MCP_CONFIG_ESCOLA_ARQUIVO' => "$dir/config-escola.php", 'MCP_OFERTA_ARQUIVO' => "$dir/oferta.json",
+    'MCP_CONFIG_WHATSAPP_ARQUIVO' => "$dir/nao-existe.php", 'MCP_CONFIG_META_ARQUIVO' => "$dir/nao-existe.php",
+    'MCP_CATALOGO_ARQUIVO' => "$raiz/site/matricula-cursos-presenciais/cursos.json",
+    'NO_PROXY' => '127.0.0.1,localhost', 'no_proxy' => '127.0.0.1,localhost', 'PATH' => (string) getenv('PATH'),
+];
+// Sem opcache no servidor de teste: o teste regrava o config.php no meio da rodada (bloco do pagar tudo), e com o
+// opcache.revalidate_freq padrão (2 s) o servidor podia ler a versão anterior e dar falso negativo.
+$site = proc_open([PHP_BINARY, '-d', 'opcache.enable=0', '-d', "curl.cainfo=$ca", '-d', "openssl.cafile=$ca", '-S', "127.0.0.1:$portaSite", '-t', "$raiz/site"],
+    [1 => ['file', '/dev/null', 'w'], 2 => ['file', "$dir/site.err", 'w']], $p2, null, $ambiente);
+register_shutdown_function(static function () use ($falso, $site, $dir): void {
+    foreach ([$site, $falso] as $p) {
+        if (is_resource($p)) {
+            proc_terminate($p);
+            proc_close($p);
+        }
+    }
+    exec('rm -rf ' . escapeshellarg($dir));
+});
+esperar_porta($portaFalso);
+esperar_porta($portaSite);
+
+$pdo = new PDO("mysql:host=127.0.0.1;port=" . (int) (getenv("MCP_TESTE_DB_PORTA") ?: 3306) . ";dbname=$banco;charset=utf8mb4", $usuario, $senha, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+
+/** Pedido ao site local, como o navegador faria (Origin do site, cookies, IP 127.0.0.1). */
+function pedir(string $metodo, string $caminho, ?array $corpo = null, array $cookies = [], array $extras = []): array
+{
+    global $portaSite;
+    $ch = curl_init("http://127.0.0.1:$portaSite/matricula-cursos-presenciais/api/$caminho");
+    $padrao = ['Origin' => 'Origin: https://cruzvermelhariodejaneiro.org', 'User-Agent' => 'User-Agent: Mozilla/5.0 (Teste de integração)', 'Accept' => 'Accept: application/json'];
+    foreach ($extras as $extra) {
+        unset($padrao[strstr($extra, ':', true)]); // o extra substitui o padrão ("Origin:" vazio = sem Origin, como um servidor)
+    }
+    $cabecalhos = array_merge(array_values($padrao), array_filter($extras, static fn($x) => !str_ends_with($x, ':')));
+    if ($corpo !== null) {
+        $cabecalhos[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($corpo));
+    }
+    if ($cookies) {
+        $cabecalhos[] = 'Cookie: ' . implode('; ', array_map(static fn($k, $v) => $k . '=' . $v, array_keys($cookies), $cookies));
+    }
+    curl_setopt_array($ch, [CURLOPT_CUSTOMREQUEST => $metodo, CURLOPT_RETURNTRANSFER => true, CURLOPT_HTTPHEADER => $cabecalhos, CURLOPT_TIMEOUT => 30, CURLOPT_PROXY => '']);
+    $resposta = (string) curl_exec($ch);
+    $http = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    curl_close($ch);
+    return ['http' => $http, 'corpo' => json_decode($resposta, true), 'bruto' => $resposta];
+}
+
+/** Eventos que a "Meta" recebeu desde a marca. */
+function eventos_meta(int &$marca): array
+{
+    global $dir;
+    $linhas = is_file("$dir/pedidos.jsonl") ? file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES) : [];
+    $novas = array_slice($linhas, $marca);
+    $marca = count($linhas);
+    $eventos = [];
+    foreach ($novas as $l) {
+        $p = json_decode($l, true);
+        if (preg_match('#^/v\d+\.\d/\d+/events$#', $p['caminho'])) {
+            $c = json_decode($p['corpo'], true);
+            foreach ($c['data'] as $e) {
+                $e['_token'] = $c['access_token'] ?? null;
+                $e['_caminho'] = $p['caminho'];
+                $e['_consulta'] = $p['consulta'];
+                $eventos[] = $e;
+            }
+        }
+    }
+    return $eventos;
+}
+
+/** CPF fictício: 9 dígitos quaisquer + os dois verificadores calculados. */
+function cpf_ficticio(string $base): string
+{
+    for ($n = 9; $n <= 10; $n++) {
+        $soma = 0;
+        for ($i = 0; $i < $n; $i++) {
+            $soma += (int) $base[$i] * ($n + 1 - $i);
+        }
+        $base .= (string) ((($soma * 10) % 11) % 10);
+    }
+    return $base;
+}
+/** Cobranças que a "Unicopag" recebeu desde a marca (POST /public/v1/payments), já decodificadas. */
+function cobrancas_unicopag(int &$marca): array
+{
+    global $dir;
+    $linhas = is_file("$dir/pedidos.jsonl") ? file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES) : [];
+    $novas = array_slice($linhas, $marca);
+    $marca = count($linhas);
+    $cobrancas = [];
+    foreach ($novas as $l) {
+        $p = json_decode($l, true);
+        if ($p['metodo'] === 'POST' && $p['caminho'] === '/public/v1/payments') {
+            $cobrancas[] = json_decode($p['corpo'], true);
+        }
+    }
+    return $cobrancas;
+}
+
+/** E-mails que a "Resend" recebeu desde a marca: lista de [destinatário, html em texto]. */
+function emails_resend(int &$marca): array
+{
+    global $dir;
+    $linhas = is_file("$dir/pedidos.jsonl") ? file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES) : [];
+    $novas = array_slice($linhas, $marca);
+    $marca = count($linhas);
+    $emails = [];
+    foreach ($novas as $l) {
+        $p = json_decode($l, true);
+        if ($p['caminho'] === '/emails') {
+            $c = json_decode($p['corpo'], true);
+            $emails[] = [implode(',', (array) ($c['to'] ?? [])), html_entity_decode(strip_tags((string) ($c['html'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8')];
+        }
+    }
+    return $emails;
+}
+
+/** Uma expressão do site rodada num PHP à parte, com a configuração do teste (o banco local); devolve o JSON dela. */
+function no_site(string $expressao): mixed
+{
+    global $ambiente, $raiz;
+    $codigo = '$_SERVER["REQUEST_METHOD"] = "CLI"; require ' . var_export("$raiz/site/matricula-cursos-presenciais/api/lib.php", true)
+        . '; restore_exception_handler(); echo json_encode(' . $expressao . ');';
+    $p = proc_open([PHP_BINARY, '-r', $codigo], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $tubos, null, $ambiente);
+    $saida = (string) stream_get_contents($tubos[1]);
+    fclose($tubos[1]);
+    fclose($tubos[2]);
+    proc_close($p);
+    return json_decode($saida, true);
+}
+
+/** Valor da coluna (null de verdade), ou 'ausente' se a coluna nem veio. */
+function coluna(array $linha, string $nome): mixed
+{
+    return array_key_exists($nome, $linha) ? $linha[$nome] : 'ausente';
+}
+$SIM = ['cvrj_consentimento' => rawurlencode('v=1&e=1&m=1&t=' . time() . '&r=2'), '_fbp' => 'fb.1.1790940000123.1234567890'];
+$NAO = ['cvrj_consentimento' => rawurlencode('v=1&e=1&m=0&t=' . time() . '&r=2')];
+// "Sim" sem a revisão atual do texto (r=2): o aviso anterior, o da Punção ou um consentimento.js antigo no cache.
+$SIM_ANTIGO = ['cvrj_consentimento' => rawurlencode('v=1&e=1&m=1&t=' . time()), '_fbp' => 'fb.1.1790940000123.1234567890'];
+// O "sim" de outra pessoa que abre o link da inscrição (a mãe que paga, a secretaria): outro _fbp, outro navegador.
+$SIM_TERCEIRO = ['cvrj_consentimento' => rawurlencode('v=1&e=1&m=1&t=' . time() . '&r=2'), '_fbp' => 'fb.1.1790940000999.9999999999'];
+$idCompra = static fn(string $t): string => 'c.' . substr(hash('sha256', 'cvrj-meta-compra|' . $t), 0, 32);
+$marca = 0;
+
+// Primeiro pedido cria as tabelas (migração automática); depois o banco de teste começa vazio.
+$r = pedir('GET', 'status.php?t=' . str_repeat('0', 40)); // abre o banco: a migração cria as tabelas
+if ($r['http'] !== 404) { fwrite(STDERR, "site local não respondeu como esperado: HTTP {$r['http']} {$r['bruto']}\n" . @file_get_contents("$dir/site.err")); exit(2); }
+foreach (['mcp_inscricoes', 'mcp_eventos', 'mcp_contatos'] as $tabela) {
+    $pdo->exec("DELETE FROM $tabela");
+}
+// MariaDB mostra tinyint(3) unsigned; o MySQL 8, tinyint unsigned.
+$colunasDb = array_map(static fn($t) => str_replace('tinyint(3) unsigned', 'tinyint unsigned', $t), array_column($pdo->query('SHOW COLUMNS FROM mcp_inscricoes')->fetchAll(), 'Type', 'Field'));
+$colunasMeta = array_intersect_key($colunasDb, array_flip(['meta_marketing', 'meta_revisao', 'meta_fbp', 'meta_fbc', 'meta_ua', 'meta_ip']));
+ksort($colunasMeta);
+verificar('banco: colunas novas da inscrição (meta_fbc com 600 para o fbclid inteiro)', $colunasMeta,
+    ['meta_fbc' => 'varchar(600)', 'meta_fbp' => 'varchar(255)', 'meta_ip' => 'varchar(45)', 'meta_marketing' => 'tinyint(1)', 'meta_revisao' => 'tinyint unsigned', 'meta_ua' => 'varchar(512)']);
+
+// ----------------------------------------------------------------------------- repasse das páginas
+$pv = ['evento' => 'PageView', 'id' => 'pv.mgb2k1.a8f3k2l1', 'url' => 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/parabens/?t=' . str_repeat('a', 40) . '&utm_source=ig&fbclid=IwAR0abc'];
+$r = pedir('POST', 'medicao.php', $pv);
+verificar('repasse sem escolha: 204 e nada à Meta', [$r['http'], count(eventos_meta($marca))], [204, 0]);
+pedir('POST', 'medicao.php', $pv, $NAO);
+verificar('repasse com "não": nada à Meta', count(eventos_meta($marca)), 0);
+pedir('POST', 'medicao.php', $pv, $SIM_ANTIGO);
+verificar('repasse com "sim" sem a revisão atual do texto (r): nada à Meta', count(eventos_meta($marca)), 0);
+$r = pedir('POST', 'medicao.php', ['evento' => ['PageView'], 'id' => 'pv.mgb2k1.lista123'], $SIM);
+verificar('repasse com o evento em lista: 204 (não 500) e nada à Meta', [$r['http'], count(eventos_meta($marca))], [204, 0]);
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => "pv.mgb2k1.a8f3k2l9\n"]), $SIM);
+verificar('repasse com quebra de linha no fim do id: nada à Meta', count(eventos_meta($marca)), 0);
+pedir('POST', 'medicao.php', $pv, $SIM, ['Origin: https://outro-site.org']);
+verificar('repasse de outro site: nada à Meta', count(eventos_meta($marca)), 0);
+pedir('POST', 'medicao.php', ['evento' => 'Purchase', 'id' => 'pu.mgb2k1.a8f3k2l1'], $SIM);
+verificar('repasse de evento que não é de página (Purchase): nada', count(eventos_meta($marca)), 0);
+$r = pedir('POST', 'medicao.php', $pv, $SIM);
+$e = eventos_meta($marca);
+verificar('repasse do PageView com "sim"', [$r['http'], count($e), $e[0]['event_name'] ?? null, $e[0]['event_id'] ?? null, $e[0]['action_source'] ?? null], [204, 1, 'PageView', 'pv.mgb2k1.a8f3k2l1', 'website']);
+verificar('repasse: endereço sem o t=, token no corpo e não na URL, versão e pixel no caminho', [
+    $e[0]['event_source_url'] ?? null, $e[0]['_token'] ?? null, $e[0]['_consulta'] ?? null, (bool) preg_match('#^/v\d+\.\d/2224500131617302/events$#', $e[0]['_caminho'] ?? ''),
+], ['https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/parabens/?utm_source=ig&fbclid=IwAR0abc', 'token-de-teste', '', true]);
+verificar('repasse: anônimo, com IP, navegador, _fbp e fbc do fbclid', [array_keys($e[0]['user_data'] ?? []), $e[0]['user_data']['client_ip_address'] ?? null,
+    $e[0]['user_data']['client_user_agent'] ?? null, $e[0]['user_data']['fbp'] ?? null, (bool) preg_match('/^fb\.1\.\d{13}\.IwAR0abc$/', $e[0]['user_data']['fbc'] ?? '')],
+    [['client_ip_address', 'client_user_agent', 'fbp', 'fbc'], '127.0.0.1', 'Mozilla/5.0 (Teste de integração)', 'fb.1.1790940000123.1234567890', true]);
+pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.a8f3k2l1', 'url' => 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/', 'curso' => 'puncao-venosa'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.zzzzzzzz', 'curso' => 'curso-que-nao-existe'], $SIM);
+$e = eventos_meta($marca);
+verificar('repasse do ViewContent com os dados do catálogo (curso inexistente não vai)', [count($e), $e[0]['custom_data']['content_ids'] ?? null, $e[0]['custom_data']['value'] ?? null, $e[0]['custom_data']['currency'] ?? null],
+    [1, ['puncao-venosa'], 99, 'BRL']);
+// Página do Dia das Crianças: ViewContent e Schedule ("salvar na agenda") com a chave da página; os dados saem do
+// servidor. Schedule sem a chave, chave desconhecida ou em lista, e evento que não é da página não vão.
+$urlCriancas = 'https://cruzvermelhariodejaneiro.org/dia-das-criancas/?utm_source=whatsapp';
+pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.criancas', 'url' => $urlCriancas, 'conteudo' => 'dia-das-criancas-2026'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.criancas', 'url' => $urlCriancas, 'conteudo' => 'dia-das-criancas-2026'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.semchave'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.outrapag', 'conteudo' => 'pagina-que-nao-existe'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.emlista', 'conteudo' => ['dia-das-criancas-2026']], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'InitiateCheckout', 'id' => 'ic.mgb2k1.criancas', 'conteudo' => 'dia-das-criancas-2026'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.comnao', 'conteudo' => 'dia-das-criancas-2026'], $NAO);
+$e = eventos_meta($marca);
+verificar('Dia das Crianças: ViewContent e Schedule com os dados do servidor; o resto não vai', [array_column($e, 'event_name'), array_column($e, 'event_id'),
+    $e[0]['custom_data'] ?? null, $e[1]['custom_data'] ?? null, $e[1]['event_source_url'] ?? null],
+    [['ViewContent', 'Schedule'], ['vc.mgb2k1.criancas', 'sc.mgb2k1.criancas'],
+        ['content_name' => 'Dia das Crianças na Praça', 'content_category' => 'evento', 'content_ids' => ['dia-das-criancas-2026']],
+        ['content_name' => 'Dia das Crianças na Praça', 'content_category' => 'evento', 'content_ids' => ['dia-das-criancas-2026']], $urlCriancas]);
+
+// ----------------------------------------------------------------------------- cobrança, postback e Purchase
+$aluno = ['curso' => 'puncao-venosa', 'nome' => 'Maria da Silva Teste', 'cpf' => cpf_ficticio('900000001'), 'email' => 'Maria.Teste@Exemplo.org', 'telefone' => '(21) 99999-8888',
+    'metodo' => 'pix', 'cobre_taxa' => false, 'requisitos' => true, 'site' => '', 'origem' => ['utm_source' => 'ig', 'fbclid' => 'IwAR0abc'], 'evento_id' => 'lead.mgb2k1.a8f3k2l1'];
+$r = pedir('POST', 'pagamentos.php', $aluno, $SIM, ['Referer: https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/checkout/?curso=puncao-venosa&t=x']);
+$token = (string) ($r['corpo']['token'] ?? '');
+$e = eventos_meta($marca);
+$nomes = array_column($e, 'event_name');
+verificar('cobrança com "sim": 201 e Lead + AddPaymentInfo com os ids do navegador (o da compra, um hash do token)', [$r['http'], $nomes, array_column($e, 'event_id'), $r['corpo']['id_compra'] ?? null],
+    [201, ['Lead', 'AddPaymentInfo'], ['lead.mgb2k1.a8f3k2l1', $idCompra($token) . '-pagamento'], $idCompra($token)]);
+$u = $e[0]['user_data'] ?? [];
+verificar('cobrança: dados da pessoa em hash (e-mail, telefone com 55, nome, token da inscrição, país) e sinais do navegador', [
+    $u['em'] ?? null, $u['ph'] ?? null, $u['fn'] ?? null, $u['ln'] ?? null, $u['external_id'] ?? null, $u['country'] ?? null,
+    $u['client_ip_address'] ?? null, $u['fbp'] ?? null, $e[0]['event_source_url'] ?? null,
+], [hash('sha256', 'maria.teste@exemplo.org'), hash('sha256', '5521999998888'), hash('sha256', 'maria'), hash('sha256', 'da silva teste'), hash('sha256', $token),
+    hash('sha256', 'br'), '127.0.0.1', 'fb.1.1790940000123.1234567890', 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/checkout/?curso=puncao-venosa']);
+verificar('cobrança: o CPF não vai à Meta, nem em hash', str_contains(json_encode($e), hash('sha256', cpf_ficticio('900000001'))) || str_contains(json_encode($e), cpf_ficticio('900000001')), false);
+$linha = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote($token))->fetch() ?: [];
+verificar('inscrição guarda a escolha, a revisão do texto, a data dela e os sinais do navegador (com o IP) para o Purchase', [$linha['meta_marketing'] ?? null, $linha['meta_revisao'] ?? null, !empty($linha['meta_marketing_em']),
+    $linha['meta_fbp'] ?? null, $linha['meta_ua'] ?? null, $linha['meta_ip'] ?? null],
+    [1, 2, true, 'fb.1.1790940000123.1234567890', 'Mozilla/5.0 (Teste de integração)', '127.0.0.1']);
+$eventosDaInscricao = static fn(int $id): array => $pdo->query("SELECT tipo, detalhe FROM mcp_eventos WHERE inscricao_id = $id AND tipo LIKE 'meta_capi%' ORDER BY id")->fetchAll();
+verificar('registro dos envios na inscrição', array_column($eventosDaInscricao((int) $linha['id']), 'detalhe'), ['Lead · HTTP 200', 'AddPaymentInfo · HTTP 200']);
+
+touch("$dir/pago-{$linha['unicopag_hash']}");
+$r = pedir('POST', 'webhook.php', ['hash' => $linha['unicopag_hash'], 'event' => 'transaction.paid'], [], ['Origin:']);
+$e = eventos_meta($marca);
+$depois = $pdo->query("SELECT status, meta_marketing, meta_fbp, meta_fbc, meta_ua, meta_ip FROM mcp_inscricoes WHERE id = {$linha['id']}")->fetch();
+verificar('postback (sem navegador): Purchase com o id da compra, IP e navegador guardados', [
+    $r['corpo']['status'] ?? null, array_column($e, 'event_name'), $e[0]['event_id'] ?? null, $e[0]['user_data']['client_ip_address'] ?? null,
+    $e[0]['user_data']['client_user_agent'] ?? null, $e[0]['custom_data']['order_id'] ?? null, $e[0]['custom_data']['value'] ?? null, isset($e[0]['custom_data']['num_items']),
+], ['pago', ['Purchase'], $idCompra($token), '127.0.0.1', 'Mozilla/5.0 (Teste de integração)', $idCompra($token), 99, false]);
+// O pedidos.jsonl também guarda os pedidos ao provedor e à Resend (o e-mail leva o link com o token): só os da Meta contam.
+$aMeta = array_filter(file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES), static fn($l) => (bool) preg_match('#^/v\d+\.\d/\d+/events$#', (string) (json_decode($l, true)['caminho'] ?? '')));
+verificar('o token da inscrição não vai à Meta em nenhum evento', [count($aMeta) > 0, str_contains(implode("\n", $aMeta), $token)], [true, false]);
+verificar('depois do Purchase, os sinais do navegador saem do banco (a escolha fica)', $depois, ['status' => 'pago', 'meta_marketing' => 1, 'meta_fbp' => null, 'meta_fbc' => null, 'meta_ua' => null, 'meta_ip' => null]);
+$antes = $pdo->query("SELECT meta_marketing, meta_marketing_em FROM mcp_inscricoes WHERE id = {$linha['id']}")->fetch();
+pedir('GET', 'status.php?t=' . $token, null, $NAO);
+verificar('inscrição paga aberta por outra pessoa (o link do painel) não muda a prova do consentimento', $pdo->query("SELECT meta_marketing, meta_marketing_em FROM mcp_inscricoes WHERE id = {$linha['id']}")->fetch(), $antes);
+
+// "Não" na cobrança: nada vai, nada fica guardado.
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000002'), 'email' => 'nao@exemplo.org', 'evento_id' => 'lead.mgb2k1.nnnnnnnn']), $NAO);
+$linhaNao = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+touch("$dir/pago-{$linhaNao['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaNao['unicopag_hash']], [], ['Origin:']);
+verificar('cobrança e pagamento com "não": nenhum evento e nenhum sinal guardado', [$r['http'], count(eventos_meta($marca)), coluna($linhaNao, 'meta_marketing'), coluna($linhaNao, 'meta_fbp'), coluna($linhaNao, 'meta_ua')],
+    [201, 0, 0, null, null]);
+
+// "Sim" antigo (antes do texto atual): nada vai e nada fica guardado além de "sem escolha".
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000005'), 'email' => 'antigo@exemplo.org', 'evento_id' => 'lead.mgb2k1.aaaaaaaa']), $SIM_ANTIGO);
+$linhaAntiga = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+verificar('cobrança com "sim" sem a revisão atual do texto: nenhum evento, escolha nula e nada guardado', [$r['http'], count(eventos_meta($marca)), coluna($linhaAntiga, 'meta_marketing'), coluna($linhaAntiga, 'meta_fbp')],
+    [201, 0, null, null]);
+// Quem abre o link com "sim" não dá a permissão no lugar do aluno: nem sobre o "não" dele, nem sobre a falta de escolha.
+pedir('GET', 'status.php?t=' . $linhaAntiga['token'], null, $SIM_TERCEIRO);
+pedir('GET', 'status.php?t=' . $linhaNao['token'], null, $SIM_TERCEIRO);
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000006'), 'email' => 'recusou@exemplo.org', 'evento_id' => 'lead.mgb2k1.ffffffff']), $NAO);
+$tokenRecusou = (string) ($r['corpo']['token'] ?? '');
+pedir('GET', 'status.php?t=' . $tokenRecusou, null, $SIM_TERCEIRO);
+$linhaRecusou = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote($tokenRecusou))->fetch() ?: [];
+touch("$dir/pago-{$linhaRecusou['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaRecusou['unicopag_hash']], [], ['Origin:']);
+$linhaAntiga = $pdo->query("SELECT * FROM mcp_inscricoes WHERE id = " . (int) $linhaAntiga['id'])->fetch() ?: [];
+verificar('o "sim" de quem abre o link não vira o do aluno (com "não" ou sem escolha), e o Purchase não sai', [
+    coluna($linhaRecusou, 'meta_marketing'), coluna($linhaRecusou, 'meta_fbp'), coluna($linhaRecusou, 'meta_ua'), coluna($linhaAntiga, 'meta_marketing'), coluna($linhaAntiga, 'meta_fbp'), count(eventos_meta($marca)),
+], [0, null, null, null, null, 0]);
+
+// "Sim" na cobrança, "não" depois, na página de acompanhamento: o Purchase não vai.
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000003'), 'email' => 'mudou@exemplo.org', 'evento_id' => 'lead.mgb2k1.mmmmmmmm']), $SIM);
+$tokenMudou = (string) ($r['corpo']['token'] ?? '');
+eventos_meta($marca);
+pedir('GET', 'status.php?t=' . $tokenMudou, null, $NAO);
+$linhaMudou = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote($tokenMudou))->fetch() ?: [];
+touch("$dir/pago-{$linhaMudou['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaMudou['unicopag_hash']], [], ['Origin:']);
+verificar('escolha retirada na página de acompanhamento vale para o Purchase (e fica registrada, com a anterior)', [coluna($linhaMudou, 'meta_marketing'), coluna($linhaMudou, 'meta_fbp'), coluna($linhaMudou, 'meta_ip'),
+    coluna($linhaMudou, 'meta_revisao'), array_column(eventos_meta($marca), 'event_name'),
+    (bool) preg_match('/^retirada: sim de \d{4}-\d\d-\d\d \d\d:\d\d:\d\d → não de /', (string) $pdo->query("SELECT detalhe FROM mcp_eventos WHERE tipo = 'meta_escolha' AND inscricao_id = {$linhaMudou['id']}")->fetchColumn())],
+    [0, null, null, null, [], true]);
+
+// PIX refeito com o mesmo CPF e "não" no cookie: o "sim" do primeiro pedido deixa de valer.
+$alunoPix = array_merge($aluno, ['cpf' => cpf_ficticio('900000007'), 'email' => 'refez@exemplo.org', 'evento_id' => 'lead.mgb2k1.pppppppp']);
+$r = pedir('POST', 'pagamentos.php', $alunoPix, $SIM);
+$tokenPix = (string) ($r['corpo']['token'] ?? '');
+eventos_meta($marca);
+$r = pedir('POST', 'pagamentos.php', array_merge($alunoPix, ['evento_id' => 'lead.mgb2k1.qqqqqqqq']), $NAO);
+$linhaPix = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote($tokenPix))->fetch() ?: [];
+touch("$dir/pago-{$linhaPix['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaPix['unicopag_hash']], [], ['Origin:']);
+verificar('PIX reaproveitado com "não": a escolha guardada é retirada e o Purchase não sai', [$r['corpo']['reaproveitado'] ?? null, $r['corpo']['token'] ?? null, coluna($linhaPix, 'meta_marketing'),
+    coluna($linhaPix, 'meta_fbp'), array_column(eventos_meta($marca), 'event_name')], [true, $tokenPix, 0, null, []]);
+// Mesmo caso, mas o PIX antigo já foi pago no banco e ninguém consultou: a reconsulta do pedido novo acha o
+// pagamento, e a retirada que veio nele já vale para o Purchase.
+$alunoPago = array_merge($aluno, ['cpf' => cpf_ficticio('900000008'), 'email' => 'pagou@exemplo.org', 'evento_id' => 'lead.mgb2k1.gggggggg']);
+$r = pedir('POST', 'pagamentos.php', $alunoPago, $SIM);
+$linhaPago = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+eventos_meta($marca);
+touch("$dir/pago-{$linhaPago['unicopag_hash']}");
+$r = pedir('POST', 'pagamentos.php', array_merge($alunoPago, ['evento_id' => 'lead.mgb2k1.hhhhhhhh']), $NAO);
+$linhaPago = $pdo->query("SELECT * FROM mcp_inscricoes WHERE id = " . (int) $linhaPago['id'])->fetch() ?: [];
+verificar('PIX antigo pago, achado pela reconsulta de um pedido com "não": vira pago sem Purchase', [coluna($linhaPago, 'status'), coluna($linhaPago, 'meta_marketing'),
+    in_array('Purchase', array_column(eventos_meta($marca), 'event_name'), true)], ['pago', 0, false]);
+
+// ----------------------------------------------------------------------------- chat
+$contato = ['nome' => 'Ana Lima', 'email' => 'ana@exemplo.org', 'telefone' => '', 'assunto' => 'matricula', 'curso' => 'puncao-venosa',
+    'mensagem' => 'Queria saber a data da próxima turma de punção venosa.', 'pagina' => '/matricula-cursos-presenciais/?t=segredo&utm_source=ig', 'origem' => [], 'site' => '', 'evento_id' => 'ct.mgb2k1.a8f3k2l1'];
+$r = pedir('POST', 'contato.php', $contato, $SIM);
+$e = eventos_meta($marca);
+verificar('chat com "sim": Contact com o id do chat, e-mail em hash e página limpa', [$r['http'], array_column($e, 'event_name'), $e[0]['event_id'] ?? null,
+    $e[0]['user_data']['em'] ?? null, isset($e[0]['user_data']['ph']), $e[0]['event_source_url'] ?? null],
+    [201, ['Contact'], 'ct.mgb2k1.a8f3k2l1', hash('sha256', 'ana@exemplo.org'), false, 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/?utm_source=ig']);
+
+// Formulário de doação de brinquedos da página do Dia das Crianças: o mesmo contato.php, com assunto próprio.
+$doacao = ['nome' => 'Beatriz Souza', 'email' => 'bia@exemplo.org', 'telefone' => '(21) 98765-4321', 'assunto' => 'brinquedos', 'curso' => 'puncao-venosa',
+    'mensagem' => "Empresa ou grupo: Loja Exemplo\n\nTemos 40 bonecas novas para doar.", 'pagina' => '/dia-das-criancas/',
+    'origem' => ['utm_source' => 'instagram', 'utm_campaign' => 'dia-das-criancas'], 'site' => '', 'evento_id' => 'ct.mgb2k1.brinqued'];
+$linhasAntes = count(file("$dir/pedidos.jsonl"));
+$r = pedir('POST', 'contato.php', $doacao, $SIM);
+$e = eventos_meta($marca);
+$linhaDoacao = $pdo->query("SELECT assunto, curso_slug, pagina, utm_source, telefone FROM mcp_contatos WHERE email = 'bia@exemplo.org'")->fetch();
+$emails = [];
+foreach (array_slice(file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES), $linhasAntes) as $l) {
+    $pedido = json_decode($l, true);
+    if ($pedido['caminho'] === '/emails') {
+        $emails[] = json_decode($pedido['corpo'], true);
+    }
+}
+$paraEquipe = array_values(array_filter($emails, static fn($m) => in_array('contato@exemplo.org', (array) ($m['to'] ?? []), true)))[0] ?? [];
+$paraPessoa = array_values(array_filter($emails, static fn($m) => in_array('bia@exemplo.org', (array) ($m['to'] ?? []), true)))[0] ?? [];
+verificar('doação de brinquedos: 201, gravada com o assunto próprio e sem curso, Contact com a categoria e o id do formulário', [$r['http'],
+    $linhaDoacao, array_column($e, 'event_name'), $e[0]['event_id'] ?? null, $e[0]['custom_data'] ?? null, isset($e[0]['user_data']['ph'])],
+    [201, ['assunto' => 'brinquedos', 'curso_slug' => null, 'pagina' => '/dia-das-criancas/', 'utm_source' => 'instagram', 'telefone' => '21987654321'],
+        ['Contact'], 'ct.mgb2k1.brinqued', ['content_category' => 'brinquedos', 'content_name' => 'brinquedos'], true]);
+verificar('doação de brinquedos: aviso à equipe diz de onde veio (formulário, não o chat) e confirmação fala da entrega', [
+    $paraEquipe['subject'] ?? null, str_contains($paraEquipe['text'] ?? '', 'escreveu pelo formulário de doação do Dia das Crianças sobre doação de brinquedos'),
+    str_contains($paraEquipe['html'] ?? '', 'Formulário de doação'), str_contains($paraEquipe['html'] ?? '', 'pelo chat'),
+    str_contains($paraPessoa['text'] ?? '', 'combinar a entrega da doação'), str_contains($paraPessoa['html'] ?? '', 'pelo formulário de doação do Dia das Crianças')],
+    ['[Site] Doação de brinquedos (Dia das Crianças): Beatriz Souza · ' . ($r['corpo']['protocolo'] ?? ''), true, true, false, true, true]);
+// O chat continua com os textos de sempre.
+$textoChat = '';
+foreach (array_slice(file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES), 0, $linhasAntes) as $l) {
+    $pedido = json_decode($l, true);
+    $m = $pedido['caminho'] === '/emails' ? json_decode($pedido['corpo'], true) : [];
+    if (in_array('contato@exemplo.org', (array) ($m['to'] ?? []), true) && str_contains((string) ($m['subject'] ?? ''), 'Ana Lima')) {
+        $textoChat = (string) $m['text'];
+    }
+}
+verificar('chat: o aviso à equipe continua dizendo "pelo chat do site"', str_contains($textoChat, 'Ana Lima escreveu pelo chat do site sobre matrícula em cursos'), true);
+
+// ----------------------------------------------------------------------------- Meta recusando (token vencido)
+touch("$dir/recusar");
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000004'), 'email' => 'recusa@exemplo.org', 'evento_id' => 'lead.mgb2k1.rrrrrrrr']), $SIM);
+$linhaRecusa = $pdo->query("SELECT id FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: ['id' => 0];
+$registros = $eventosDaInscricao((int) $linhaRecusa['id']);
+verificar('Meta recusando: o aluno recebe o PIX igual, e a falha fica registrada com a mensagem', [$r['http'], isset($r['corpo']['pix']['copia_cola']), array_column($registros, 'tipo'),
+    str_contains((string) ($registros[0]['detalhe'] ?? ''), 'HTTP 400 · Invalid OAuth access token')], [201, true, ['meta_capi_falha', 'meta_capi_falha'], true]);
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => 'pv.mgb2k1.falha123']), $SIM);
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => 'pv.mgb2k1.falha456']), $SIM);
+verificar('repasse com a Meta recusando: uma linha de falha a cada 10 minutos, não uma por evento',
+    (int) $pdo->query("SELECT COUNT(*) FROM mcp_eventos WHERE tipo = 'meta_capi_falha' AND detalhe = 'repasse'")->fetchColumn(), 1);
+unlink("$dir/recusar");
+eventos_meta($marca);
+
+// ----------------------------------------------------------------------------- freio do repasse
+$pdo->exec("DELETE FROM mcp_eventos WHERE tipo = 'meta_repasse'");
+for ($i = 0; $i < 25; $i++) {
+    pedir('POST', 'medicao.php', array_merge($pv, ['id' => sprintf('pv.freio.%08d', $i)]), $SIM);
+}
+verificar('freio do repasse: 20 por IP em um minuto', [count(eventos_meta($marca)), (int) $pdo->query("SELECT COUNT(*) FROM mcp_eventos WHERE tipo = 'meta_repasse'")->fetchColumn()], [20, 20]);
+// Os 20 de agora vão para 2 minutos atrás, e mais 100 do mesmo IP há 5 minutos: 120 em 10 minutos.
+$pdo->exec("UPDATE mcp_eventos SET criado_em = '" . gmdate('Y-m-d H:i:s', time() - 120) . "' WHERE tipo = 'meta_repasse'");
+$cincoMin = gmdate('Y-m-d H:i:s', time() - 300);
+$pdo->exec("INSERT INTO mcp_eventos (inscricao_id, tipo, detalhe, criado_em) VALUES " . implode(',', array_fill(0, 100, "(NULL, 'meta_repasse', '127.0.0.1', '$cincoMin')")));
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => 'pv.freio.dezminutos']), $SIM);
+verificar('freio do repasse: 120 por IP em 10 minutos', count(eventos_meta($marca)), 0);
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000009'), 'email' => 'r999@exemplo.org', 'evento_id' => 'lead.mgb2k1.kkkkkkkk']),
+    ['cvrj_consentimento' => rawurlencode('v=1&e=1&m=1&t=' . time() . '&r=999'), '_fbp' => 'fb.1.1790940000123.1234567890']);
+$linhaR999 = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+verificar('cookie com r=999: a inscrição é gravada (201), sem escolha de marketing', [$r['http'], (bool) $linhaR999, coluna($linhaR999, 'meta_marketing'), coluna($linhaR999, 'meta_revisao')], [201, true, null, null]);
+eventos_meta($marca);
+// Código novo com o esquema anterior (meta.php no ar antes do db.php, opcache): a cobrança já existe no provedor,
+// então a inscrição tem de ser gravada mesmo sem a coluna; a escolha fica vazia e o Purchase não sai.
+$pdo->exec('ALTER TABLE mcp_inscricoes DROP COLUMN meta_ip');
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000010'), 'email' => 'esquema@exemplo.org', 'evento_id' => 'lead.mgb2k1.llllllll']), $SIM);
+$pdo->exec('ALTER TABLE mcp_inscricoes ADD COLUMN meta_ip VARCHAR(45) NULL');
+$linhaEsquema = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+verificar('coluna nova ainda ausente: a inscrição é gravada (201) e a escolha fica vazia (sem Purchase)', [$r['http'], (bool) $linhaEsquema, coluna($linhaEsquema, 'meta_marketing')], [201, true, null]);
+eventos_meta($marca);
+// Teto do site inteiro: 120 repasses no último minuto, de outros IPs, seguram também quem ainda não usou nada.
+$pdo->exec("DELETE FROM mcp_eventos WHERE tipo = 'meta_repasse'");
+$agora = gmdate('Y-m-d H:i:s');
+$pdo->exec("INSERT INTO mcp_eventos (inscricao_id, tipo, detalhe, criado_em) VALUES " . implode(',', array_map(static fn($i) => "(NULL, 'meta_repasse', '198.51.100." . ($i % 250) . "', '$agora')", range(1, 120))));
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => 'pv.teto.00000001']), $SIM);
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => 'pv.teto.00000003']), $SIM);
+$teto = count(eventos_meta($marca));
+$avisosTeto = (int) $pdo->query("SELECT COUNT(*) FROM mcp_eventos WHERE tipo = 'meta_capi_aviso' AND detalhe = 'teto'")->fetchColumn();
+$pdo->exec("UPDATE mcp_eventos SET criado_em = '" . gmdate('Y-m-d H:i:s', time() - 120) . "' WHERE tipo = 'meta_repasse'");
+pedir('POST', 'medicao.php', array_merge($pv, ['id' => 'pv.teto.00000002']), $SIM);
+verificar('teto do repasse: 120 por minuto no site inteiro, antes do freio por IP, com um aviso só', [$teto, $avisosTeto, count(eventos_meta($marca))], [0, 1, 1]);
+
+// ----------------------------------------------------------------------------- contribuição para a divulgação
+// Opcional no checkout (07/10/2026, teste com R$ 14,90 de cursos.json): item próprio na cobrança, colunas na inscrição,
+// reaproveitamento do PIX só com os mesmos opcionais, valor desatualizado recusado (nunca se cobra o que a pessoa não
+// viu), oferta gravada só quando a página mostrou a opção, e-mails, Purchase e a conta da adesão no painel.
+$pdo->exec("UPDATE mcp_inscricoes SET ip = '198.51.100.9'"); // o freio por IP conta as inscrições dos últimos 10 minutos
+$marcaU = count(file("$dir/pedidos.jsonl", FILE_IGNORE_NEW_LINES));
+$marcaE = $marcaU;
+eventos_meta($marca);
+$r = pedir('GET', 'info.php');
+verificar('divulgação: info.php dá o valor do catálogo', $r['corpo']['divulgacao_centavos'] ?? null, 1490);
+$alunoDiv = array_merge($aluno, ['cpf' => cpf_ficticio('900000011'), 'email' => 'divulga@exemplo.org', 'evento_id' => 'lead.mgb2k1.dddddddd',
+    'ajuda_divulgacao' => true, 'divulgacao_centavos' => 1490]);
+$r = pedir('POST', 'pagamentos.php', $alunoDiv, $SIM);
+$tokenDiv = (string) ($r['corpo']['token'] ?? '');
+$c = cobrancas_unicopag($marcaU);
+$linhaDiv = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote($tokenDiv))->fetch() ?: [];
+verificar('divulgação: cobrança com o item próprio e o total (inscrição + contribuição)', [$r['http'], count($c), $c[0]['amount'] ?? null,
+    array_column($c[0]['cart'] ?? [], 'price', 'hash'), $c[0]['cart'][1]['title'] ?? null, $c[0]['metadata']['ajuda_divulgacao'] ?? null],
+    [201, 1, 11390, ['inscricao-puncao-venosa' => 9900, 'divulgacao' => 1490], 'Contribuição para a divulgação dos cursos (opcional)', true]);
+verificar('divulgação: a inscrição grava o valor, a oferta e o total; a visão pública mostra', [coluna($linhaDiv, 'divulgacao_centavos'),
+    coluna($linhaDiv, 'divulgacao_oferta_centavos'), coluna($linhaDiv, 'total_centavos'), $r['corpo']['divulgacao_centavos'] ?? null, $r['corpo']['total_centavos'] ?? null],
+    [1490, 1490, 11390, 1490, 11390]);
+$e = eventos_meta($marca);
+verificar('divulgação: Lead com o valor da inscrição e AddPaymentInfo com o total pago', [array_column($e, 'event_name'), $e[0]['custom_data']['value'] ?? null, $e[1]['custom_data']['value'] ?? null],
+    [['Lead', 'AddPaymentInfo'], 99, 113.9]);
+$r = pedir('POST', 'pagamentos.php', array_merge($alunoDiv, ['evento_id' => 'lead.mgb2k1.ddddddd2']), $SIM); // com "não", a escolha seria retirada
+eventos_meta($marca);
+verificar('divulgação: o mesmo pedido reaproveita o PIX aberto, sem cobrança nova', [$r['http'], $r['corpo']['reaproveitado'] ?? null, $r['corpo']['token'] ?? null, count(cobrancas_unicopag($marcaU))],
+    [200, true, $tokenDiv, 0]);
+$r = pedir('POST', 'pagamentos.php', array_merge($alunoDiv, ['ajuda_divulgacao' => false, 'evento_id' => 'lead.mgb2k1.ddddddd3']), $NAO);
+$c = cobrancas_unicopag($marcaU);
+$linhaSem = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+verificar('divulgação: sem ela, outro PIX (não reaproveita o com contribuição), sem o item, com a oferta gravada', [$r['http'], ($r['corpo']['token'] ?? '') !== $tokenDiv,
+    $c[0]['amount'] ?? null, array_keys(array_column($c[0]['cart'] ?? [], 'price', 'hash')), coluna($linhaSem, 'divulgacao_centavos'), coluna($linhaSem, 'divulgacao_oferta_centavos')],
+    [201, true, 9900, ['inscricao-puncao-venosa'], 0, 1490]);
+$r = pedir('POST', 'pagamentos.php', array_merge($alunoDiv, ['cpf' => cpf_ficticio('900000012'), 'email' => 'velho@exemplo.org', 'divulgacao_centavos' => 990, 'evento_id' => 'lead.mgb2k1.ddddddd4']), $NAO);
+verificar('divulgação: valor diferente do de agora é recusado (422) com o valor novo, sem cobrança nem inscrição', [$r['http'], $r['corpo']['campo'] ?? null,
+    $r['corpo']['divulgacao_centavos'] ?? null, str_contains((string) ($r['corpo']['erro'] ?? ''), 'R$ 14,90'), count(cobrancas_unicopag($marcaU)),
+    (int) $pdo->query("SELECT COUNT(*) FROM mcp_inscricoes WHERE email = 'velho@exemplo.org'")->fetchColumn()], [422, 'divulgacao', 1490, true, 0, 0]);
+$r = pedir('POST', 'pagamentos.php', array_merge($aluno, ['cpf' => cpf_ficticio('900000013'), 'email' => 'antiga@exemplo.org', 'evento_id' => 'lead.mgb2k1.ddddddd5']), $NAO);
+$linhaAntigaPagina = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+$c = cobrancas_unicopag($marcaU);
+verificar('divulgação: página antiga (sem os campos) não cobra e não conta como oferta', [$r['http'], $c[0]['amount'] ?? null,
+    coluna($linhaAntigaPagina, 'divulgacao_centavos'), coluna($linhaAntigaPagina, 'divulgacao_oferta_centavos')], [201, 9900, 0, null]);
+// Pagos o PIX com a contribuição e o sem ela: Purchase com o total, e-mails com a linha, e a conta do painel.
+touch("$dir/pago-{$linhaDiv['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaDiv['unicopag_hash']], [], ['Origin:']);
+touch("$dir/pago-{$linhaSem['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaSem['unicopag_hash']], [], ['Origin:']);
+$e = eventos_meta($marca);
+verificar('divulgação: Purchase com o total pago (só o que teve "sim")', [array_column($e, 'event_name'), $e[0]['custom_data']['value'] ?? null], [['Purchase'], 113.9]);
+$emails = emails_resend($marcaE);
+$algum = static fn(string $para, string $trecho): bool => (bool) array_filter($emails, static fn(array $m): bool => $m[0] === $para && str_contains($m[1], $trecho));
+verificar('divulgação: e-mails do aluno (PIX e pago) com a linha e o obrigado; o da secretaria com a conta', [
+    count(array_filter($emails, static fn(array $m): bool => $m[0] === 'divulga@exemplo.org' && str_contains($m[1], 'Contribuição para a divulgação (você escolheu ajudar)'))),
+    $algum('divulga@exemplo.org', 'Obrigado por ajudar a divulgar os cursos: assim eles chegam a mais pessoas.'),
+    // Pagar tudo (spec 1.14): o "Pago" do aviso à secretaria decompõe em "taxa" (e matrícula, custos, divulgação e juros, quando houver).
+    $algum('secretaria@exemplo.org', 'R$ 113,90 (taxa R$ 99,00 + divulgação R$ 14,90)'), $algum('secretaria@exemplo.org', 'R$ 99,00 (taxa R$ 99,00)')], [2, true, true, true]);
+$conta = no_site('mcp_secretaria_divulgacao()');
+verificar('divulgação: painel conta 1 contribuição em 2 pagas que viram a opção (a página antiga e os pendentes não entram)', array_map(
+    static fn(array $l): array => [(int) $l['oferta'], (int) $l['pagas'], (int) $l['contribuiram'], (int) $l['arrecadado']], (array) $conta), [[1490, 2, 1, 1490]]);
+// Código novo com o esquema anterior (pagamentos.php no ar antes do db.php, opcache): no cartão a cobrança já existe no
+// provedor quando a inscrição é gravada, então ela entra sem as colunas da contribuição, com o total certo.
+$pdo->exec('ALTER TABLE mcp_inscricoes DROP COLUMN divulgacao_centavos, DROP COLUMN divulgacao_oferta_centavos');
+$r = pedir('POST', 'pagamentos.php', array_merge($alunoDiv, ['cpf' => cpf_ficticio('900000014'), 'email' => 'cartao@exemplo.org', 'metodo' => 'cartao',
+    'cartao' => ['numero' => '4111111111111111', 'nome' => 'MARIA TESTE', 'validade' => '12/30', 'cvv' => '123'], 'evento_id' => 'lead.mgb2k1.ddddddd6']), $NAO);
+$pdo->exec('ALTER TABLE mcp_inscricoes ADD COLUMN divulgacao_centavos INT UNSIGNED NOT NULL DEFAULT 0, ADD COLUMN divulgacao_oferta_centavos INT UNSIGNED NULL');
+$c = cobrancas_unicopag($marcaU);
+$linhaCartao = $pdo->query("SELECT * FROM mcp_inscricoes WHERE email = 'cartao@exemplo.org'")->fetch() ?: [];
+verificar('divulgação: colunas ainda ausentes, a inscrição do cartão é gravada (201) com o total cobrado', [$r['http'], $c[0]['amount'] ?? null,
+    (bool) $linhaCartao, coluna($linhaCartao, 'total_centavos')], [201, 11390, true, 11390]);
+
+// ----------------------------------------------------------------------------- pagar tudo (spec 6.2, casos 1, 6 e 16)
+// Chaves ligadas (PLANO_COMPLETO, PARCELAS_MAX = 12, ESCOLA_MATRICULA_PAGA) e a escola falsa na versão 2: a opção "Taxa de
+// inscrição + matrícula" de Primeiros Socorros Básico, com a turma do oferta.json de teste. O value nunca leva juros (E9, 4.1).
+file_put_contents("$dir/config.php", '<?php return ' . var_export(['PLANO_COMPLETO' => true, 'PARCELAS_MAX' => 12] + $configBase, true) . ';');
+file_put_contents("$dir/config-escola.php", '<?php return ' . var_export(['ESCOLA_API_URL' => "$falsoUrl/rest/v1/rpc/matricula_rapida",
+    'ESCOLA_API_TOKEN' => 'chave-falsa-escola', 'ESCOLA_MATRICULA_PAGA' => true], true) . ';');
+$info = pedir('GET', 'info.php');
+$psb = array_values(array_filter($info['corpo']['cursos'] ?? [], static fn(array $c): bool => $c['slug'] === 'primeiros-socorros-basico'))[0] ?? [];
+verificar('pagar tudo: info.php oferece a opção 1 em Primeiros Socorros Básico, com a turma, o total e até 12x', [$info['corpo']['plano_completo'] ?? null,
+    $info['corpo']['parcelas_max'] ?? null, $psb['planos'] ?? null, $psb['total_centavos'] ?? null, $psb['turma']['id_escola'] ?? null],
+    [true, 12, ['taxa_e_matricula', 'so_taxa'], 27900, 'turma-meta-1']);
+$mU = 0;
+cobrancas_unicopag($mU);
+eventos_meta($marca);
+$porNome = static function (array $eventos, string $nome): array {
+    foreach ($eventos as $ev) {
+        if (($ev['event_name'] ?? '') === $nome) {
+            return $ev['custom_data'] ?? [];
+        }
+    }
+    return [];
+};
+$alunoPt = ['curso' => 'primeiros-socorros-basico', 'nome' => 'Joana Pagar Tudo', 'cpf' => cpf_ficticio('900000101'), 'email' => 'tudo@exemplo.org',
+    'telefone' => '(21) 98888-1111', 'metodo' => 'pix', 'cobre_taxa' => false, 'requisitos' => true, 'site' => '', 'evento_id' => 'lead.mgb2k1.tudo0001',
+    'plano' => 'taxa_e_matricula', 'total_mostrado_centavos' => 27900, 'turma_id' => 'turma-meta-1'];
+$r = pedir('POST', 'pagamentos.php', $alunoPt, $SIM);
+$c = cobrancas_unicopag($mU);
+$e = eventos_meta($marca);
+verificar('pagar tudo, PIX: 201 e uma cobrança de 27900 com a taxa e a matrícula, installments 1 e o plano na metadata', [$r['http'], $c[0]['amount'] ?? null,
+    array_map(static fn(array $i): array => [$i['hash'], $i['price']], $c[0]['cart'] ?? []), $c[0]['installments'] ?? null, $c[0]['metadata']['plano'] ?? null],
+    [201, 27900, [['inscricao-primeiros-socorros-basico', 9900], ['matricula-primeiros-socorros-basico', 18000]], 1, 'taxa_e_matricula']);
+verificar('pagar tudo, PIX: Lead e AddPaymentInfo com value 279, plano, parcelas e a categoria', [array_column($e, 'event_name'), $porNome($e, 'Lead')['value'] ?? null,
+    $porNome($e, 'AddPaymentInfo')['value'] ?? null, $porNome($e, 'AddPaymentInfo')['plano'] ?? null, $porNome($e, 'AddPaymentInfo')['parcelas'] ?? null,
+    $porNome($e, 'AddPaymentInfo')['content_category'] ?? null], [['Lead', 'AddPaymentInfo'], 279, 279, 'taxa_e_matricula', 1, 'taxa-e-matricula']);
+$linhaPt = $pdo->query('SELECT * FROM mcp_inscricoes WHERE token = ' . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+verificar('pagar tudo, PIX: o banco grava plano, oferta, matrícula, turma e o total mostrado', [coluna($linhaPt, 'plano'), coluna($linhaPt, 'plano_oferta'),
+    coluna($linhaPt, 'matricula_centavos'), coluna($linhaPt, 'parcelas'), coluna($linhaPt, 'turma_id'), coluna($linhaPt, 'total_mostrado_centavos')],
+    ['taxa_e_matricula', 'ambos', 18000, 1, 'turma-meta-1', 27900]);
+touch("$dir/pago-{$linhaPt['unicopag_hash']}");
+pedir('POST', 'webhook.php', ['hash' => $linhaPt['unicopag_hash']], [], ['Origin:']);
+$e = eventos_meta($marca);
+$linhaPt = $pdo->query('SELECT * FROM mcp_inscricoes WHERE id = ' . (int) $linhaPt['id'])->fetch() ?: [];
+verificar('pagar tudo, PIX pago: Purchase com value 279, plano, parcelas 1, order_id e estado da turma; a escola marca a matrícula paga', [array_column($e, 'event_name'),
+    $porNome($e, 'Purchase')['value'] ?? null, $porNome($e, 'Purchase')['plano'] ?? null, $porNome($e, 'Purchase')['parcelas'] ?? null,
+    ($porNome($e, 'Purchase')['order_id'] ?? null) === $idCompra((string) $linhaPt['token']), isset($porNome($e, 'Purchase')['estado_turma']),
+    coluna($linhaPt, 'escola_status'), json_decode((string) $linhaPt['escola_acesso'], true)['matricula_paga'] ?? null],
+    [['Purchase'], 279, 'taxa_e_matricula', 1, true, true, 'ok', true]);
+// Cartão em 10x: a simulação (parcelas.php) registra o que mostrou; a cobrança vai com o amount sem juros e installments 10;
+// a Unicopag falsa cobra 35433 (3% por parcela além da 1ª); os eventos continuam com 279.
+$parc = pedir('GET', 'parcelas.php?curso=primeiros-socorros-basico&cobre=0&divulgacao=0');
+$op10 = array_values(array_filter($parc['corpo']['opcoes'] ?? [], static fn(array $o): bool => $o['n'] === 10))[0] ?? [];
+verificar('pagar tudo: parcelas.php com 12 opções, o 1x primeiro e o 10x de 35433', [$parc['http'], count($parc['corpo']['opcoes'] ?? []), $parc['corpo']['opcoes'][0]['n'] ?? null,
+    $op10['total_centavos'] ?? null, $op10['primeira_centavos'] ?? null, $op10['parcela_centavos'] ?? null], [200, 12, 1, 35433, 3546, 3543]);
+$alunoCartao = array_merge($alunoPt, ['cpf' => cpf_ficticio('900000102'), 'email' => 'tudo10@exemplo.org', 'metodo' => 'cartao', 'parcelas' => 10,
+    'total_mostrado_centavos' => 35433, 'evento_id' => 'lead.mgb2k1.tudo0010', 'cartao' => ['numero' => '4111111111111111', 'nome' => 'JOANA TESTE', 'validade' => '12/30', 'cvv' => '123']]);
+$r = pedir('POST', 'pagamentos.php', $alunoCartao, $SIM);
+$c = cobrancas_unicopag($mU);
+$e = eventos_meta($marca);
+$nomes = array_column($e, 'event_name');
+sort($nomes);
+verificar('pagar tudo, 10x: 201 pago, cobrança de 27900 (sem juros) com installments 10', [$r['http'], $r['corpo']['status'] ?? null, $c[0]['amount'] ?? null, $c[0]['installments'] ?? null],
+    [201, 'pago', 27900, 10]);
+verificar('pagar tudo, 10x: AddPaymentInfo e Purchase com value 279 (os juros não entram) e parcelas 10', [$nomes, $porNome($e, 'AddPaymentInfo')['value'] ?? null,
+    $porNome($e, 'AddPaymentInfo')['parcelas'] ?? null, $porNome($e, 'Purchase')['value'] ?? null, $porNome($e, 'Purchase')['parcelas'] ?? null, $porNome($e, 'Purchase')['plano'] ?? null],
+    [['AddPaymentInfo', 'Lead', 'Purchase'], 279, 10, 279, 10, 'taxa_e_matricula']);
+$linha10 = $pdo->query('SELECT * FROM mcp_inscricoes WHERE token = ' . $pdo->quote((string) ($r['corpo']['token'] ?? '')))->fetch() ?: [];
+verificar('pagar tudo, 10x: o banco grava parcelas, juros, total cobrado, taxa ao mês e CET', [coluna($linha10, 'plano'), coluna($linha10, 'parcelas'),
+    coluna($linha10, 'juros_centavos'), coluna($linha10, 'total_cobrado_centavos'), coluna($linha10, 'total_centavos'), (float) coluna($linha10, 'taxa_mes_pct') > 0,
+    (float) coluna($linha10, 'cet_ano_pct') > 0], ['taxa_e_matricula', 10, 7533, 35433, 27900, true, true]);
+// Caso 16 (T22, F15): o SQL de "Precisam de atenção" executado no MariaDB, uma situação por vez na mesma linha, tem de achar
+// o mesmo que a regra em PHP (mcp_secretaria_precisa_atencao).
+$condicao = (string) no_site("mcp_secretaria_condicao('atencao')");
+$idA = (int) $linhaPt['id'];
+$baseA = $pdo->query("SELECT * FROM mcp_inscricoes WHERE id = $idA")->fetch();
+$acessoA = json_decode((string) $baseA['escola_acesso'], true);
+$comAvisos = static fn(array $avisos, array $extra = []): array => ['escola_acesso' => json_encode(['avisos' => $avisos, 'aviso' => $avisos[0] ?? null] + $extra + $acessoA)];
+$agoraSql = static fn(string $intervalo): string => gmdate('Y-m-d H:i:s', (int) strtotime($intervalo));
+$situacoesA = ['matrícula paga, nada a fazer' => [], 'estornada e resolvida na escola' => ['status' => 'estornado', 'escola_resolvido_em' => $agoraSql('now')],
+    // (numa falha, o escola.php apaga o acesso: escola_status 'erro' vem sempre com escola_acesso vazio ou com o erro)
+    'estornada do plano completo' => ['status' => 'estornado'], 'escola com erro' => ['escola_status' => 'erro', 'escola_acesso' => null, 'escola_tentativas' => 2],
+    'escola com erro, tentativas esgotadas' => ['escola_status' => 'erro', 'escola_acesso' => null, 'escola_tentativas' => 5],
+    'escola recusou (erro definitivo)' => ['escola_status' => 'erro', 'escola_acesso' => json_encode(['erro' => 'email_em_uso']), 'escola_tentativas' => 1],
+    'escola pendente há 11 min' => ['escola_status' => 'pendente', 'pago_em' => $agoraSql('-11 minutes')],
+    'escola pendente há 2 min' => ['escola_status' => 'pendente', 'pago_em' => $agoraSql('-2 minutes')],
+    'diferença a devolver' => ['diferenca_devolver_centavos' => 500], 'aviso resolvido na escola' => $comAvisos(['turma_diferente']) + ['escola_resolvido_em' => $agoraSql('now')],
+    'só a taxa já confirmada' => ['plano' => 'so_taxa', 'escola_acesso' => json_encode(['aviso' => 'taxa_ja_confirmada', 'matricula_paga' => false] + $acessoA)],
+    'espera: devolver' => ['espera_status' => 'devolver', 'espera_prazo' => $agoraSql('+60 days')],
+    'espera: data limite em 10 dias' => ['espera_status' => 'aguardando', 'espera_prazo' => $agoraSql('+10 days')],
+    'espera: data limite em 60 dias' => ['espera_status' => 'aguardando', 'espera_prazo' => $agoraSql('+60 days')],
+    'espera: 5 falhas' => ['espera_status' => 'aguardando', 'espera_prazo' => $agoraSql('+60 days'), 'espera_falhas' => 5],
+    'espera: recusa da escola' => ['espera_status' => 'aguardando', 'espera_prazo' => $agoraSql('+60 days'), 'espera_erro' => 'curso_inativo'],
+    'espera: turma cancelada' => ['espera_status' => 'turma', 'espera_motivo' => 'turma_cancelada', 'espera_prazo' => $agoraSql('+60 days')],
+    'espera com a matrícula a cancelar na escola' => ['espera_status' => 'devolver', 'espera_matricula_escola' => 'm-1', 'espera_prazo' => $agoraSql('+60 days')]];
+foreach (['curso_ja_pago', 'matricula_nao_marcada', 'turma_diferente', 'turma_lotada', 'taxa_em_dobro', 'taxa_paga_antes', 'pendente_antiga', 'preco_divergente',
+    'cobranca_escola_aberta', 'matricula_paga_sem_turma'] as $aviso) {
+    $situacoesA["aviso $aviso"] = $comAvisos([$aviso]);
+}
+$colunasA = array_values(array_unique(array_merge(...array_map('array_keys', array_values($situacoesA)))));
+$restaurar = $pdo->prepare('UPDATE mcp_inscricoes SET ' . implode(', ', array_map(static fn(string $col): string => "$col = ?", $colunasA)) . " WHERE id = $idA");
+$naSql = $pdo->prepare("SELECT COUNT(*) FROM mcp_inscricoes i LEFT JOIN mcp_preferencias p ON p.inscricao_id = i.id WHERE i.id = $idA AND ($condicao)");
+$sqlA = $phpA = [];
+foreach ($situacoesA as $nome => $mudar) {
+    $restaurar->execute(array_map(static fn(string $col) => $baseA[$col], $colunasA));
+    if ($mudar) {
+        $pdo->prepare('UPDATE mcp_inscricoes SET ' . implode(', ', array_map(static fn(string $col): string => "$col = ?", array_keys($mudar))) . " WHERE id = $idA")->execute(array_values($mudar));
+    }
+    $naSql->execute();
+    $sqlA[$nome] = (int) $naSql->fetchColumn() === 1;
+    $phpA[$nome] = no_site("mcp_secretaria_precisa_atencao(mcp_inscricao_por('id', '$idA'))");
+}
+$restaurar->execute(array_map(static fn(string $col) => $baseA[$col], $colunasA));
+verificar('pagar tudo: "Precisam de atenção" em SQL (MariaDB) acha o mesmo que a regra em PHP, situação por situação', $sqlA, $phpA);
+verificar('pagar tudo: "Precisam de atenção" nas situações de referência', array_intersect_key($phpA, array_flip(['matrícula paga, nada a fazer', 'estornada e resolvida na escola',
+    'estornada do plano completo', 'escola pendente há 11 min', 'escola pendente há 2 min', 'aviso resolvido na escola', 'espera: data limite em 10 dias',
+    'espera: data limite em 60 dias', 'aviso curso_ja_pago'])), ['matrícula paga, nada a fazer' => false, 'estornada e resolvida na escola' => false,
+    'estornada do plano completo' => true, 'escola pendente há 11 min' => true, 'escola pendente há 2 min' => false, 'aviso resolvido na escola' => false,
+    'espera: data limite em 10 dias' => true, 'espera: data limite em 60 dias' => false, 'aviso curso_ja_pago' => true]);
+
+$erros = trim((string) @file_get_contents("$dir/site.err"));
+$erros = implode("\n", array_filter(explode("\n", $erros), static fn($l) => !preg_match('/(Development Server|Accepted|Closing|Closed without sending a request|\[200\]|\[201\]|\[204\]|\[404\]|\[402\]|\[422\]|Listening|Press Ctrl|\[matricula\] API de Conversões: PageView · HTTP 400|\[matricula\] API de Conversões: teto de 120 repasses|\[matricula\] escolha de marketing da inscrição não gravada: PDOException: SQLSTATE\[42S22\]|\[matricula\] inscrição gravada sem as colunas (da divulgação|novas): SQLSTATE\[42S22\])/', $l)));
+verificar('nenhum erro do PHP no servidor local', $erros, '');
+printf("\n%d testes, %d falhas\n", $total, $falhas);
+exit($falhas > 0 ? 1 : 0);

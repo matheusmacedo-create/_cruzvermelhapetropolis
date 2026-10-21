@@ -1,0 +1,178 @@
+import 'server-only'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/lib/supabase/admin'
+
+/**
+ * As chaves das ferramentas externas, num lugar só.
+ *
+ * A fonte principal é o Vault do Supabase (tela Configurações → Integrações),
+ * gravado e lido só por funções restritas a admin. A variável de ambiente da
+ * Vercel continua valendo como reserva: quem já tinha configurado por lá não
+ * precisa fazer nada.
+ *
+ * O valor decifrado nunca sai deste módulo para o navegador — só é usado em
+ * código de servidor, na chamada à ferramenta.
+ */
+
+type Campo = {
+  id: string; rotulo: string; secreto: boolean
+  /** Tamanho mínimo aceito na tela (padrão 8). */ minimo?: number
+  /** Pode ficar vazio (o mínimo só vale para o que foi preenchido). */ opcional?: boolean
+}
+type DefinicaoDeServico = {
+  nome: string
+  variavel: string
+  painel: string
+  /** Mais de um valor (ex.: id e segredo do cliente OAuth): guardado como JSON. */
+  campos?: readonly Campo[]
+  /** Gravado pelo próprio sistema (ex.: autorização do Google), fora da tela de chaves. */
+  oculto?: boolean
+  /** Uma linha de ajuda na tela, abaixo do campo. */
+  dica?: string
+}
+
+export const SERVICOS = {
+  hunter: { nome: 'Hunter.io', variavel: 'HUNTER_API_KEY', painel: 'https://hunter.io/api-keys' },
+  google_oauth: {
+    nome: 'Google (cliente OAuth do Gmail)',
+    variavel: 'GOOGLE_OAUTH',
+    painel: 'https://console.cloud.google.com/apis/credentials',
+    campos: [
+      { id: 'clientId', rotulo: 'ID do cliente', secreto: false },
+      { id: 'clientSecret', rotulo: 'Chave secreta do cliente', secreto: true },
+    ],
+  },
+  google_gmail: { nome: 'Autorização da conta Google', variavel: 'GOOGLE_GMAIL_REFRESH', painel: '', oculto: true },
+  // A conta de ADMINISTRADOR do Workspace que cria usuários e põe em grupos (lib/google/diretorio.ts). Outra
+  // conexão, separada da do Gmail: a dona dos apelidos não precisa ser administradora.
+  google_admin: { nome: 'Autorização da conta de administrador do Google', variavel: 'GOOGLE_ADMIN_REFRESH', painel: '', oculto: true },
+  // O Google Drive da filial (lib/google/drive.ts): a cópia dos envios do WhatsApp e os documentos guardados por lá. Outra
+  // conexão, com um escopo só (drive.file: o Palácio enxerga só o que ele mesmo criou).
+  google_drive: { nome: 'Autorização do Google Drive', variavel: 'GOOGLE_DRIVE_REFRESH', painel: '', oculto: true },
+  // Token de um usuário do sistema (Business Manager) com ads_read: o marketing da escola lê os anúncios por ele.
+  // Gerada pela própria Redação (tela Trilha pública) e lida por lib/auditoria/chave.ts; fora da tela de Integrações.
+  auditoria_trilha: { nome: 'Chave de assinatura da trilha pública', variavel: 'AUDITORIA_CHAVE_PRIVADA', painel: '', oculto: true },
+  meta_ads: { nome: 'Meta Ads (token do usuário do sistema)', variavel: 'META_ADS_TOKEN', painel: 'https://business.facebook.com/settings/system-users' },
+  // A API de Conversões da Meta (lib/escola/conversoes-servidor.ts): os pagamentos da Escola viram eventos
+  // Purchase no pixel. Token gerado no Gerenciador de Eventos (Configurações → API de Conversões) ou de um
+  // usuário do sistema com acesso ao pixel. Sem ele, o envio tenta o token do Meta Ads.
+  meta_conversoes: { nome: 'Meta — API de Conversões (pixel da Escola)', variavel: 'META_CONVERSOES_TOKEN', painel: 'https://business.facebook.com/events_manager2' },
+  // A conta de serviço que lê o Google Analytics do site para Resultados (lib/analytics). A chave JSON inteira;
+  // o cofre guarda só client_email e private_key (contaDeServicoParaGuardar).
+  google_analytics: { nome: 'Google Analytics (conta de serviço)', variavel: 'GOOGLE_ANALYTICS_CONTA', painel: 'https://console.cloud.google.com/iam-admin/serviceaccounts' },
+  // Confere links de matérias e da newsletter antes de publicar (lib/apis-publicas).
+  google_safe_browsing: { nome: 'Google Safe Browsing (conferência de links)', variavel: 'GOOGLE_SAFE_BROWSING_KEY', painel: 'https://console.cloud.google.com/apis/library/safebrowsing.googleapis.com' },
+  // Verificação do candidato a voluntário (lib/participantes/verificacao/cgu.ts): consulta CEIS, CNEP,
+  // CEAF e PEP por CPF. Chave gratuita, pedida com conta gov.br (prata ou ouro); 90 consultas por minuto.
+  portal_transparencia: {
+    nome: 'Portal da Transparência (CGU — sanções e PEP)', variavel: 'PORTAL_TRANSPARENCIA_KEY', painel: 'https://portaldatransparencia.gov.br/api-de-dados/cadastrar-email',
+    dica: 'Cadastre com a conta gov.br da filial (prata ou ouro, ou CPF e senha com verificação em duas etapas): a chave, de 32 letras e números, chega por e-mail. Cole só ela; é testada na CGU antes de ir para o cofre.',
+  },
+  // Serpro (Consulta CPF / Datavalid): confirma nome, nascimento e situação do CPF na Receita, e a biometria
+  // facial. É pago por consulta e exige contrato com o CNPJ da filial. Fica preparado: ligar esta entrada
+  // quando lib/participantes/verificacao/serpro.ts existir (docs/verificacao-de-voluntarios.md).
+  // serpro: { nome: 'Serpro (Consulta CPF)', variavel: 'SERPRO_CONSULTA_CPF', painel: 'https://loja.serpro.gov.br/consultacpf', campos: [{ id: 'consumerKey', rotulo: 'Consumer key', secreto: false }, { id: 'consumerSecret', rotulo: 'Consumer secret', secreto: true }] },
+  // O WhatsApp do Palácio, pela Kapso (API oficial da Meta; lib/whatsapp/kapso.ts). A chave é a do
+  // projeto (painel → Integrations → API keys); o id é o "Phone number ID" do número na tela WhatsApp do painel. Os modelos,
+  // aprovados pela Meta, levam a mensagem a quem não escreveu nas últimas 24 h, um por finalidade (lib/whatsapp/regras.ts,
+  // modeloParaEnviar): `modelo` o dos avisos, com uma variável no corpo (o id fica: é o que já está no cofre); `modeloCodigo`
+  // o do código de confirmação, da categoria AUTHENTICATION (a Meta exige essa categoria para códigos); `modeloSeguranca`
+  // o dos avisos de segurança da conta (vazio, vai pelo dos avisos). `wabaId`, opcional: a conta do WhatsApp Business, onde
+  // ficam os modelos por situação (lib/whatsapp/modelos.ts) — só é preciso se a Kapso não disser qual é pelo número.
+  kapso: {
+    nome: 'WhatsApp (Kapso — API oficial)',
+    variavel: 'KAPSO_WHATSAPP',
+    painel: 'https://app.kapso.ai',
+    campos: [
+      { id: 'chave', rotulo: 'Chave da API (X-API-Key)', secreto: true },
+      { id: 'numeroId', rotulo: 'Phone number ID', secreto: false, minimo: 5 },
+      { id: 'modelo', rotulo: 'Modelo dos avisos, para fora das 24 h (opcional)', secreto: false, minimo: 1, opcional: true },
+      { id: 'modeloCodigo', rotulo: 'Modelo do código, categoria Autenticação (opcional)', secreto: false, minimo: 1, opcional: true },
+      { id: 'modeloSeguranca', rotulo: 'Modelo de segurança da conta (opcional; vazio usa o dos avisos)', secreto: false, minimo: 1, opcional: true },
+      { id: 'wabaId', rotulo: 'ID da conta do WhatsApp Business — WABA (recomendado; está no painel da Kapso ou da Meta)', secreto: false, minimo: 5, opcional: true },
+    ],
+    dica: 'Chave em app.kapso.ai → Integrations → API keys; o Phone number ID está na tela do número. Os modelos são os nomes aprovados na Kapso para quem não escreveu nas últimas 24 h: o dos avisos tem uma variável no corpo; o do código é da categoria Autenticação. Depois de salvar, abra Configurações → WhatsApp e toque em "Ligar o recebimento".',
+  },
+} as const satisfies Record<string, DefinicaoDeServico>
+
+export type Servico = keyof typeof SERVICOS
+
+const definicao = (s: Servico): DefinicaoDeServico => SERVICOS[s]
+
+/** Os campos de um serviço de vários valores; vazio nos de valor único. */
+export const camposDo = (s: Servico): readonly Campo[] => definicao(s).campos ?? []
+
+/** A linha de ajuda de um serviço, se houver. */
+export const dicaDo = (s: Servico): string | null => definicao(s).dica ?? null
+
+/** Serviços que aparecem na tela de Integrações. */
+export const servicosNaTela = () => (Object.keys(SERVICOS) as Servico[]).filter((s) => !definicao(s).oculto)
+
+export function ehServico(valor: string): valor is Servico {
+  return Object.prototype.hasOwnProperty.call(SERVICOS, valor)
+}
+
+/**
+ * A chave do serviço: Vault primeiro, ambiente depois; null se não houver.
+ *
+ * Lê com a service role — a função do banco só aceita ela. Quem chama TEM de
+ * ter conferido antes que a pessoa é membro de `workspaceId`
+ * (requireWorkspace): aqui não há mais sessão para o banco conferir.
+ */
+export async function obterChave(workspaceId: string, servico: Servico): Promise<string | null> {
+  const { data, error } = await createAdminClient().rpc('chave_de_integracao', { p_workspace_id: workspaceId, p_servico: servico })
+  const doCofre = !error && typeof data === 'string' ? data.trim() : ''
+  if (doCofre) return doCofre
+  return process.env[SERVICOS[servico].variavel]?.trim() || null
+}
+
+export type SituacaoDaChave = {
+  servico: Servico
+  nome: string
+  campos: readonly Campo[]
+  origem: 'cofre' | 'ambiente' | null
+  atualizadaEm: string | null
+  dica: string | null
+}
+
+/** O que está configurado, sem nunca tocar no valor. */
+export async function situacaoDasChaves(supabase: SupabaseClient, workspaceId: string): Promise<SituacaoDaChave[]> {
+  const { data } = await supabase
+    .from('integracoes_chaves')
+    .select('servico, updated_at')
+    .eq('workspace_id', workspaceId)
+  const noCofre = new Map((data ?? []).map((l) => [l.servico as string, l.updated_at as string]))
+
+  return servicosNaTela().map((servico) => {
+    const atualizadaEm = noCofre.get(servico) ?? null
+    const noAmbiente = Boolean(process.env[SERVICOS[servico].variavel]?.trim())
+    return {
+      servico,
+      nome: SERVICOS[servico].nome,
+      campos: camposDo(servico),
+      origem: atualizadaEm ? 'cofre' : noAmbiente ? 'ambiente' : null,
+      atualizadaEm,
+      dica: dicaDo(servico),
+    }
+  })
+}
+
+/** Serviço de vários campos: o JSON guardado, lido. null se faltar algum. */
+export async function obterCampos(workspaceId: string, servico: Servico): Promise<Record<string, string> | null> {
+  const bruto = await obterChave(workspaceId, servico)
+  if (!bruto) return null
+  try {
+    const dados = JSON.parse(bruto) as Record<string, unknown>
+    const campos = camposDo(servico)
+    const saida: Record<string, string> = {}
+    for (const c of campos) {
+      const v = typeof dados[c.id] === 'string' ? (dados[c.id] as string).trim() : ''
+      if (!v && c.opcional) continue
+      if (!v) return null
+      saida[c.id] = v
+    }
+    return saida
+  } catch {
+    return null
+  }
+}

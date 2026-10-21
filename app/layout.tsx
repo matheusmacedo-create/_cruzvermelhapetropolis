@@ -1,0 +1,53 @@
+import type { Metadata, Viewport } from 'next'
+import { Libre_Franklin } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { AplicarTema } from '@/components/tema'
+import { SCRIPT_DO_TEMA } from '@/lib/tema'
+import './globals.css'
+import { ServiceWorker } from '@/components/app/service-worker'
+
+const libreFranklin = Libre_Franklin({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-libre-franklin',
+  display: 'swap',
+})
+
+export const metadata: Metadata = {
+  title: 'Palácio Virtual — Cruz Vermelha Brasileira Rio de Janeiro',
+  description:
+    'Ambiente interno da Cruz Vermelha Brasileira — Filial do Rio de Janeiro: comunicação, expediente, gestão, pessoas e voluntariado num só lugar.',
+  generator: 'v0.app',
+}
+
+export const viewport: Viewport = {
+  colorScheme: 'light',
+  themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    // suppressHydrationWarning: o script do tema põe a classe `dark` no <html> antes de o React chegar.
+    <html lang="pt-BR" className={`${libreFranklin.variable} bg-background`} suppressHydrationWarning>
+      <head>
+        {/* Modo escuro antes da primeira pintura, sem clarão (lib/tema.ts). */}
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_DO_TEMA }} />
+      </head>
+      <body className="font-sans antialiased">
+        <AplicarTema />
+        {children}
+        <ServiceWorker />
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <SpeedInsights />
+      </body>
+    </html>
+  )
+}

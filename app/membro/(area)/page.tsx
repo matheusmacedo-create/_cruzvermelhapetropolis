@@ -1,0 +1,37 @@
+import type { Metadata } from 'next'
+import { exigirMembro } from '@/lib/membro/sessao'
+import { historicoDoMembro, perfilDoMembro } from '@/lib/membro/dados'
+import { catalogoDoMembro } from '@/lib/membro/cursos'
+import { oportunidadesDoMembro, pedidosDoMembro } from '@/lib/membro/oportunidades'
+import { ehDeResposta } from '@/lib/oportunidades/regras'
+import { avisosDoMembro } from '@/lib/membro/canal'
+import { hojeEmSaoPaulo } from '@/components/app/projetos/comum'
+import { InicioView } from '@/components/membro/inicio'
+import { bensDoMembro } from '@/lib/membro/bens'
+import { bannersDoMembro } from '@/lib/membro/banners'
+
+export const dynamic = 'force-dynamic'
+
+// O template do layout completa: "Início · Área do Voluntário".
+export const metadata: Metadata = { title: 'Início' }
+
+/** O início da área do membro: carrega e entrega para a vista, que decide o que mostrar. */
+export default async function InicioDoMembro() {
+  const m = await exigirMembro()
+  const hoje = hojeEmSaoPaulo()
+  const [perfil, { formacoes, atividades }, cursos, oportunidades, avisos, bens, banners] = await Promise.all([
+    perfilDoMembro(m), historicoDoMembro(m), catalogoDoMembro(m), oportunidadesDoMembro(m),
+    // Os avisos têm página própria; aqui são só um resumo. Se a leitura falhar, o Início abre sem eles em vez de cair na tela de erro.
+    avisosDoMembro(m, hoje).catch(() => []), bensDoMembro(m),
+    // O banner é enfeite: se a leitura falhar, o Início abre sem ele.
+    bannersDoMembro(m, hoje).catch(() => []),
+  ])
+  const agora = new Date()
+  const hora = Number(new Intl.DateTimeFormat('en-GB', { hour: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo' }).format(agora))
+  const termos = bens.filter((b) => !b.termo_aceito_em).length
+  return (
+    <InicioView nome={m.nome} perfil={perfil} hoje={hoje} hora={hora} agora={agora} formacoes={formacoes} atividades={atividades}
+      cursos={cursos} oportunidades={oportunidades.filter((o) => !ehDeResposta(o.tipo))} avisos={avisos} banners={banners} termosPendentes={termos}
+      pedidos={pedidosDoMembro(oportunidades, agora).filter((p) => p.pendente)} />
+  )
+}

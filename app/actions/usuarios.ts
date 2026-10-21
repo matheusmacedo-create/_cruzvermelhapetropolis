@@ -1,0 +1,693 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { createClient as criarClienteAvulso } from '@supabase/supabase-js'
+import { obterWorkspaceSemVerificacao, requirePermissao } from '@/lib/session'
+import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { publicSupabaseEnv } from '@/lib/supabase/env'
+import { mensagemDoErro } from '@/lib/erro-de-acao'
+import { ehPapel, PAPEL, type Papel } from '@/lib/permissoes'
+import { nomesDosSetores } from '@/lib/setores'
+import { gerarSenhaTemporaria, problemaDaSenha } from '@/lib/usuarios/senha'
+import { emailConfigurado } from '@/lib/newsletter/resend'
+import { emailDeConfirmacao, emailDeRedefinicao, emailValido } from '@/lib/contas/emails'
+import { avisar, avisarTrocaDeWhatsapp, emitirToken, enviarComSeguranca, revogarLinksDeSenha, urlDoLink, VALIDADE_MIN } from '@/lib/contas/servidor'
+import { problemaDeSenhaVazada } from '@/lib/apis-publicas/servidor'
+import { lerMarcaDoConvite } from '@/lib/contas/convite'
+import {
+  ambienteDoCadastro, auditarAcesso as auditar, cadastrar, criarConta, emailEmUso, emailInterno, iniciais, mandarConvite, revalidarContas,
+  senhaInacessivel, sincronizarSetor,
+} from '@/lib/contas/cadastro'
+import { comoSaiu, problemaDoUsuario, saiu, type EnvioDoConvite, type PedidoDeCadastro } from '@/lib/contas/cadastro-regras'
+import { configDoWhatsapp } from '@/lib/whatsapp/servidor'
+import { mascararNumero, numeroCanonico } from '@/lib/whatsapp/regras'
+
+/**
+ * Gestão de usuários e acessos.
+ *
+ * Três cercas, de fora para dentro:
+ *  1. `requirePermissao('usuarios.gerenciar')` em toda action — a tela não é
+ *     a autoridade.
+ *  2. O que muda vínculo (papel, coordenação) vai pelo cliente da PRÓPRIA
+ *     pessoa logada: o RLS confere de novo que ela é admin, e o gatilho de
+ *     auditoria registra quem fez.
+ *  3. O banco recusa deixar o espaço sem administrador ativo, venha o pedido
+ *     de onde vier (gatilhos em 20260924160000_cvrj_usuarios_e_permissoes).
+ *
+ * O service role só entra no que o RLS não alcança por desenho: criar a conta
+ * no Auth, trocar senha de terceiro, desativar, tirar o WhatsApp de alguém e
+ * escrever a auditoria.
+ *
+ * Criar a conta, ligar ou criar a ficha do RH e mandar o convite moram no
+ * núcleo do cadastro (lib/contas/cadastro.ts, com as regras puras em
+ * lib/contas/cadastro-regras.ts): é o mesmo caminho do pedido feito pelo
+ * WhatsApp e confirmado no Palácio.
+ *
+ * Senha nunca vai para log, auditoria, mensagem de erro nem e-mail. Com e-mail
+ * confirmado, o caminho preferido é o LINK de uso único (convite, redefinição,
+ * reativação); a senha temporária mostrada uma vez na tela fica para quem não
+ * tem e-mail. Toda mudança sensível avisa a pessoa por e-mail e pelo WhatsApp
+ * confirmado (lib/contas/servidor.ts → avisar), sem nunca desfazer a ação se o
+ * envio falhar.
+ */
+
+type Resultado = { erro?: string; recado?: string; senhaTemporaria?: string; usuario?: string }
+
+const texto = (f: FormData, k: string) => String(f.get(k) ?? '').trim()
+// "Para sempre" no Auth: o ban só termina quando um admin reativa.
+const BAN_PERMANENTE = '876000h'
+
+/**
+ * Coordenação da lista oficial de setores. A que a pessoa JÁ tem vale mesmo
+ * fora da lista (cadastros anteriores, como "Comunicação"): a tela a mostra
+ * como opção, e recusá-la impedia salvar qualquer outra mudança — trocar o
+ * e-mail, por exemplo — sem antes mexer no setor.
+ */
+function lerCoordenacao(f: FormData, setores: string[], atual = ''): string {
+  const valor = texto(f, 'coordenacao')
+  if (valor && valor !== atual && !setores.includes(valor)) throw new Error('Escolha uma coordenação da lista.')
+  return valor
+}
+
+function lerPapel(f: FormData): Papel {
+  const papel = texto(f, 'papel')
+  if (!ehPapel(papel)) throw new Error('Escolha um papel válido.')
+  return papel
+}
+
+function lerEmail(f: FormData): string | null {
+  const bruto = texto(f, 'email')
+  if (!bruto) return null
+  const email = emailValido(bruto)
+  if (!email) throw new Error('O e-mail informado não é válido.')
+  return email
+}
+
+/** Manda o link de confirmação para um endereço novo. Nada muda até ele ser aberto. */
+async function pedirConfirmacao(admin: Admin, p: { userId: string; nome: string; email: string; adminId: string }) {
+  const token = await emitirToken(admin, { userId: p.userId, finalidade: 'confirmar_email', validadeMin: VALIDADE_MIN.confirmar_email, email: p.email, criadoPor: p.adminId })
+  return enviarComSeguranca(p.email, emailDeConfirmacao({ nome: p.nome, email: p.email, url: urlDoLink('/confirmar-email', token), horas: VALIDADE_MIN.confirmar_email / 60 }))
+}
+
+function lerNome(f: FormData): string {
+  const nome = texto(f, 'nome').replace(/\s+/g, ' ')
+  if (nome.length < 3 || nome.length > 120) throw new Error('Informe o nome completo (3 a 120 caracteres).')
+  return nome
+}
+
+/** Mensagem do gatilho "precisa de um administrador" chega intacta; o resto, genérica. */
+function erroDoBanco(error: { code?: string; message?: string } | null, padrao: string): Error {
+  if (error?.code === 'P0001' && error.message) return new Error(error.message)
+  return new Error(padrao)
+}
+
+type Admin = ReturnType<typeof createAdminClient>
+
+/** A pessoa-alvo, desde que seja deste espaço. Nunca confie no id vindo da tela. */
+async function carregarAlvo(admin: Admin, workspaceId: string, userId: string) {
+  if (!/^[0-9a-f-]{36}$/i.test(userId)) throw new Error('Usuário não encontrado.')
+  const { data } = await admin.from('workspace_members')
+    .select('user_id, role, coordination, profiles(id, username, full_name, active, email, email_confirmado_em)')
+    .eq('workspace_id', workspaceId).eq('user_id', userId).maybeSingle()
+  const perfil = data && (Array.isArray(data.profiles) ? data.profiles[0] : data.profiles) as { id: string; username: string; full_name: string; active: boolean; email: string | null; email_confirmado_em: string | null } | null
+  if (!data || !perfil) throw new Error('Usuário não encontrado neste espaço.')
+  return { papel: data.role as Papel, coordenacao: (data.coordination as string | null) ?? '', ...perfil }
+}
+
+async function encerrarSessoes(admin: Admin, userId: string): Promise<boolean> {
+  const { error } = await admin.rpc('encerrar_sessoes_do_usuario', { p_user_id: userId })
+  if (error) console.error('[usuarios] não foi possível encerrar as sessões:', error.message)
+  return !error
+}
+
+/**
+ * Tira o WhatsApp confirmado da pessoa (o número fica livre para outra conta:
+ * um número, uma conta) e invalida os códigos dela em aberto. Devolve o número
+ * que saiu, ou null se não havia. Lança se o banco recusar.
+ */
+async function liberarWhatsapp(admin: Admin, userId: string): Promise<string | null> {
+  const { data, error } = await admin.from('whatsapp_contas').delete().eq('user_id', userId).select('numero').maybeSingle()
+  if (error) throw new Error('Não foi possível remover o WhatsApp.')
+  await admin.from('whatsapp_codigos').update({ usado_em: new Date().toISOString() }).eq('user_id', userId).is('usado_em', null)
+  return (data?.numero as string | undefined) ?? null
+}
+
+/**
+ * O que espera na fila do WhatsApp para a pessoa deixa de sair (situação
+ * "desistiu", com o motivo):
+ *  - o que foi endereçado à conta (user_id), menos o aviso de segurança, que
+ *    vai ao número a que foi endereçado (lib/whatsapp/fila.ts, desistirAntes).
+ *    Nada disso leva link de token;
+ *  - o convite de acesso que ainda espera (o silêncio das 22h às 7h, ou o
+ *    reenvio com a Kapso fora). Ele entra sem user_id — a conta ainda não tem
+ *    WhatsApp confirmado —, então é achado pelo número da marca do último
+ *    convite (tokens_de_conta.email, legível mesmo com o link revogado). O
+ *    texto, com o link de senha, é apagado, como a fila faz depois do envio.
+ * O link avulso da ficha do RH (categoria "equipe", também sem user_id) fica:
+ * é pedido do RH sobre a ficha, não sobre a conta. Nunca lança; devolve
+ * quantas mensagens saíram da fila.
+ */
+async function cancelarFilaDoWhatsapp(admin: Admin, userId: string, motivo: string): Promise<number> {
+  try {
+    const agora = new Date().toISOString()
+    const { data: daConta } = await admin.from('whatsapp_fila')
+      .update({ situacao: 'desistiu', ultimo_erro: motivo, atualizado_em: agora })
+      .eq('user_id', userId).eq('situacao', 'pendente').neq('tipo', 'seguranca').select('id')
+    const { data: ultimo } = await admin.from('tokens_de_conta').select('email').eq('user_id', userId).eq('finalidade', 'definir_senha')
+      .order('criado_em', { ascending: false }).limit(1).maybeSingle()
+    const canal = lerMarcaDoConvite((ultimo?.email as string | null) ?? null)
+    const { data: convite } = canal.numero
+      ? await admin.from('whatsapp_fila')
+        .update({ situacao: 'desistiu', ultimo_erro: motivo, texto: '[link apagado ao cancelar]', atualizado_em: agora })
+        .is('user_id', null).eq('categoria', 'conta').eq('numero', canal.numero).eq('situacao', 'pendente').select('id')
+      : { data: [] }
+    return (daConta?.length ?? 0) + (convite?.length ?? 0)
+  } catch (causa) {
+    console.error('[usuarios] fila do WhatsApp não cancelada:', causa instanceof Error ? causa.message : causa)
+    return 0
+  }
+}
+
+const revalidar = () => revalidarContas()
+
+// ------------------------------------------------------------------ criar
+
+function lerWhatsapp(f: FormData): string | null {
+  const bruto = texto(f, 'whatsapp')
+  if (!bruto) return null
+  const numero = numeroCanonico(bruto)
+  if (!numero) throw new Error('O WhatsApp informado não é válido. Use DDD e número, como (21) 98765-4321.')
+  return numero
+}
+
+export async function criarUsuario(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const nome = lerNome(formData)
+    const usuario = texto(formData, 'usuario').toLowerCase()
+    const problemaNoUsuario = problemaDoUsuario(usuario)
+    if (problemaNoUsuario) throw new Error(problemaNoUsuario)
+    const papel = lerPapel(formData)
+    const coordenacao = lerCoordenacao(formData, await nomesDosSetores(createAdminClient(), context.workspace.id))
+    const cargo = texto(formData, 'cargo').slice(0, 120)
+    const email = lerEmail(formData)
+    const numero = lerWhatsapp(formData)
+
+    const modo = texto(formData, 'modoSenha')
+    const convite = modo === 'convite'
+    const gerar = modo === 'gerar'
+    if (convite && !email && !numero) throw new Error('Para enviar o convite, informe o e-mail ou o WhatsApp da pessoa.')
+    if (convite && numero && !await configDoWhatsapp(context.workspace.id)) throw new Error('O WhatsApp do Palácio Virtual não está ligado. Mande o convite por e-mail ou use a senha temporária.')
+    if (convite && !numero && !emailConfigurado()) throw new Error('O envio de e-mail não está configurado (falta RESEND_API_KEY). Mande pelo WhatsApp ou use a senha temporária.')
+    const senha = convite ? senhaInacessivel() : gerar ? gerarSenhaTemporaria() : String(formData.get('senha') ?? '')
+    if (!convite && !gerar) {
+      const problema = problemaDaSenha(senha, { usuario, nome }) ?? await problemaDeSenhaVazada(senha)
+      if (problema) throw new Error(problema)
+    }
+
+    const admin = createAdminClient()
+    const userId = await criarConta(admin, await createClient(), context.workspace.id, { nome, usuario, papel, coordenacao, cargo, email, senha, convite })
+
+    // O convite prova o canal que o recebeu (lib/contas/convite.ts). Nos outros
+    // modos, um e-mail informado ainda precisa ser confirmado.
+    let envio: EnvioDoConvite = { email: false, whatsapp: null }
+    let confirmacao = false
+    if (convite) {
+      envio = await mandarConvite(admin, {
+        workspaceId: context.workspace.id, userId, nome, usuario, email, numero, adminId: context.user.id, convidadoPor: context.profile?.full_name ?? 'Um administrador',
+      })
+    } else if (email) {
+      confirmacao = await pedirConfirmacao(admin, { userId, nome, email, adminId: context.user.id })
+    }
+
+    await auditar(admin, {
+      workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: userId, acao: 'usuario_criado',
+      detalhes: {
+        usuario, papel, coordenacao, senha: convite ? (numero ? (email ? 'convite_por_email_e_whatsapp' : 'convite_por_whatsapp') : 'convite_por_email') : gerar ? 'temporaria_gerada' : 'definida_pelo_admin',
+        email_enviado: convite ? envio.email : confirmacao, whatsapp: envio.whatsapp,
+      },
+    })
+
+    revalidar()
+    const papelTexto = PAPEL[papel].rotulo.toLowerCase()
+    if (convite) {
+      return saiu(envio)
+        ? { recado: `Acesso de ${nome} criado como ${papelTexto}. O convite saiu ${comoSaiu(envio, email, numero)}: a pessoa define a senha pelo link (vale por 72 horas).` }
+        : { recado: `Atenção: o acesso de ${nome} foi criado, mas o convite NÃO saiu${envio.erroDoWhatsapp ? ` (${envio.erroDoWhatsapp})` : ''}. Use "Reenviar" em Pessoas → Adicionar, ou "Redefinir senha" para gerar uma senha temporária.` }
+    }
+    return {
+      recado: `Acesso de ${nome} criado como ${papelTexto}. No primeiro login, a pessoa troca a senha.${email ? (confirmacao ? ` Enviamos a confirmação de e-mail para ${email}.` : ' A confirmação de e-mail não saiu.') : ''}`,
+      usuario,
+      senhaTemporaria: gerar ? senha : undefined,
+    }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível criar o usuário.') }
+  }
+}
+
+// ------------------------------------------------------------------ editar
+
+export async function atualizarUsuario(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await carregarAlvo(admin, context.workspace.id, texto(formData, 'userId'))
+    const nome = lerNome(formData)
+    const cargo = texto(formData, 'cargo').slice(0, 120)
+    const coordenacao = lerCoordenacao(formData, await nomesDosSetores(admin, context.workspace.id), alvo.coordenacao)
+    const papel = lerPapel(formData)
+    const email = lerEmail(formData)
+
+    // Tirar o próprio papel de admin por engano tranca a pessoa fora desta
+    // tela no mesmo clique. Outro admin faz, se for o caso.
+    if (alvo.id === context.user.id && papel !== alvo.papel) throw new Error('Você não pode mudar o seu próprio papel. Peça a outro administrador.')
+
+    const { error } = await admin.from('profiles')
+      .update({ full_name: nome, job_title: cargo, initials: iniciais(nome), updated_at: new Date().toISOString() })
+      .eq('id', alvo.id)
+    if (error) throw new Error('Não foi possível salvar os dados.')
+    if (nome !== alvo.full_name) {
+      await auditar(admin, { workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'dados_alterados', detalhes: { nome_anterior: alvo.full_name, nome_novo: nome } })
+    }
+
+    if (papel !== alvo.papel || coordenacao !== alvo.coordenacao) {
+      // Pelo cliente da pessoa logada: RLS confere o admin, o gatilho audita.
+      const supabase = await createClient()
+      const { data, error } = await supabase.from('workspace_members')
+        .update({ role: papel, coordination: coordenacao || null })
+        .eq('workspace_id', context.workspace.id).eq('user_id', alvo.id)
+        .select('user_id').maybeSingle()
+      if (error) throw erroDoBanco(error, 'Não foi possível alterar o acesso.')
+      if (!data) throw new Error('Não foi possível alterar o acesso.')
+      await sincronizarSetor(admin, context.workspace.id, alvo.id, alvo.coordenacao, coordenacao)
+      if (papel !== alvo.papel) {
+        await avisar(admin, alvo.id, { tipo: 'papel_alterado', de: PAPEL[alvo.papel].rotulo, para: PAPEL[papel].rotulo, adminNome: context.profile?.full_name ?? 'Um administrador' })
+      }
+    }
+
+    // E-mail novo não troca na hora: vai um link para o endereço novo, e só
+    // vale quando alguém com acesso àquela caixa abrir. Evita erro de digitação
+    // desviar os links de senha de alguém.
+    let recadoDoEmail = ''
+    if (email && email !== alvo.email) {
+      if (await emailEmUso(admin, email, alvo.id)) throw new Error('Este e-mail já está em uso por outra conta.')
+      if (!emailConfigurado()) throw new Error('O envio de e-mail não está configurado (falta RESEND_API_KEY).')
+      const enviado = await pedirConfirmacao(admin, { userId: alvo.id, nome, email, adminId: context.user.id })
+      recadoDoEmail = enviado ? ` Enviamos a confirmação para ${email}; o e-mail passa a valer quando a pessoa abrir o link.` : ' A confirmação do novo e-mail não saiu; tente de novo.'
+    } else if (email && email === alvo.email && !alvo.email_confirmado_em) {
+      const enviado = await pedirConfirmacao(admin, { userId: alvo.id, nome, email, adminId: context.user.id })
+      recadoDoEmail = enviado ? ` Reenviamos a confirmação para ${email}.` : ''
+    }
+
+    revalidar()
+    return { recado: `Dados de ${nome} salvos.${recadoDoEmail}` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível salvar.') }
+  }
+}
+
+// ------------------------------------------------------------------ senha de terceiro
+
+export async function redefinirSenha(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await carregarAlvo(admin, context.workspace.id, texto(formData, 'userId'))
+    if (alvo.id === context.user.id) throw new Error('Para a sua própria senha, use Meu perfil → Segurança.')
+    if (!alvo.active) throw new Error('Reative a conta antes de redefinir a senha.')
+
+    // Link por e-mail: a senha atual continua valendo até a pessoa escolher
+    // a nova — se o e-mail atrasar, ninguém fica trancado do lado de fora.
+    if (texto(formData, 'modoSenha') === 'link') {
+      if (!alvo.email || !alvo.email_confirmado_em) throw new Error('Esta pessoa ainda não tem e-mail confirmado. Gere uma senha temporária.')
+      if (!emailConfigurado()) throw new Error('O envio de e-mail não está configurado (falta RESEND_API_KEY).')
+      const token = await emitirToken(admin, { userId: alvo.id, finalidade: 'redefinir_senha', validadeMin: VALIDADE_MIN.redefinir_pelo_admin, criadoPor: context.user.id })
+      const enviado = await enviarComSeguranca(alvo.email, emailDeRedefinicao({
+        nome: alvo.full_name, usuario: alvo.username, url: urlDoLink('/redefinir-senha', token), minutos: VALIDADE_MIN.redefinir_pelo_admin, pedidoPor: 'admin', adminNome: context.profile?.full_name,
+      }))
+      if (!enviado) throw new Error('O e-mail não saiu. Tente de novo ou gere uma senha temporária.')
+      await auditar(admin, { workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'link_de_senha_enviado_pelo_admin' })
+      revalidar()
+      return { recado: `Link de nova senha enviado para ${alvo.email} (vale por 24 horas). A senha atual continua valendo até a pessoa escolher a nova.` }
+    }
+
+    const gerar = texto(formData, 'modoSenha') !== 'definir'
+    const senha = gerar ? gerarSenhaTemporaria() : String(formData.get('senha') ?? '')
+    if (!gerar) {
+      const problema = problemaDaSenha(senha, { usuario: alvo.username, nome: alvo.full_name }) ?? await problemaDeSenhaVazada(senha)
+      if (problema) throw new Error(problema)
+    }
+
+    const { error } = await admin.auth.admin.updateUserById(alvo.id, { password: senha })
+    if (error) throw new Error('Não foi possível redefinir a senha.')
+    await admin.from('profiles').update({ trocar_senha: true, updated_at: new Date().toISOString() }).eq('id', alvo.id)
+    // Quem estava logado com a senha antiga — inclusive quem a roubou — sai.
+    const encerradas = await encerrarSessoes(admin, alvo.id)
+    await revogarLinksDeSenha(admin, alvo.id)
+    await avisar(admin, alvo.id, { tipo: 'senha_alterada', como: 'admin', adminNome: context.profile?.full_name ?? undefined })
+
+    await auditar(admin, {
+      workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'senha_redefinida',
+      detalhes: { senha: gerar ? 'temporaria_gerada' : 'definida_pelo_admin', sessoes_encerradas: encerradas },
+    })
+    revalidar()
+    return {
+      recado: `Senha de ${alvo.full_name} redefinida. ${encerradas ? 'As sessões abertas foram encerradas. ' : ''}No próximo login, a pessoa troca a senha.`,
+      usuario: alvo.username,
+      senhaTemporaria: gerar ? senha : undefined,
+    }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível redefinir a senha.') }
+  }
+}
+
+// ------------------------------------------------------------------ desativar / reativar
+
+/**
+ * Desativar, e não apagar: o nome de quem saiu continua nas pautas, nos votos
+ * e no histórico — apagar a conta levaria tudo isso junto (ON DELETE CASCADE)
+ * ou deixaria buracos sem autor. A conta desativada não entra, não renova
+ * sessão e não enxerga dado nenhum (RLS), e pode ser reativada.
+ */
+export async function desativarUsuario(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await carregarAlvo(admin, context.workspace.id, texto(formData, 'userId'))
+    if (alvo.id === context.user.id) throw new Error('Você não pode desativar a sua própria conta.')
+    if (!alvo.active) return { recado: `${alvo.full_name} já estava desativado.` }
+
+    // Primeiro o perfil: é ele que o gatilho confere ("último admin ativo") e
+    // é ele que o RLS lê. Se o banco recusar, nada mais acontece.
+    const { error } = await admin.from('profiles')
+      .update({ active: false, desativado_em: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .eq('id', alvo.id)
+    if (error) throw erroDoBanco(error, 'Não foi possível desativar a conta.')
+
+    const { error: erroBan } = await admin.auth.admin.updateUserById(alvo.id, { ban_duration: BAN_PERMANENTE })
+    if (erroBan) console.error('[usuarios] ban não aplicado:', erroBan.message)
+    const encerradas = await encerrarSessoes(admin, alvo.id)
+    await revogarLinksDeSenha(admin, alvo.id)
+    // Antes do aviso: o que esperava na fila do WhatsApp para a pessoa (e o convite) não sai mais (o aviso de segurança, sim).
+    const filaCancelada = await cancelarFilaDoWhatsapp(admin, alvo.id, 'A conta foi desativada.')
+    // O aviso sai antes de liberar o número: é por ele (e pelo e-mail) que a pessoa fica sabendo.
+    await avisar(admin, alvo.id, { tipo: 'conta_desativada', adminNome: context.profile?.full_name ?? 'Um administrador' })
+    // A conta já está desativada: uma falha aqui vai para o log, sem dizer que a desativação falhou.
+    const numeroLiberado = await liberarWhatsapp(admin, alvo.id).catch((causa) => {
+      console.error('[usuarios] WhatsApp não liberado:', causa instanceof Error ? causa.message : causa)
+      return null
+    })
+
+    await auditar(admin, {
+      workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'usuario_desativado',
+      detalhes: {
+        login_bloqueado: !erroBan, sessoes_encerradas: encerradas,
+        ...(numeroLiberado ? { whatsapp_liberado: mascararNumero(numeroLiberado) } : {}),
+        ...(filaCancelada ? { whatsapp_fila_cancelada: filaCancelada } : {}),
+      },
+    })
+    revalidar()
+    return { recado: `${alvo.full_name} foi desativado e não consegue mais entrar.${numeroLiberado ? ' O WhatsApp da conta foi liberado: os avisos param de ir para ele, e o número pode ser confirmado em outra conta.' : ''}` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível desativar a conta.') }
+  }
+}
+
+export async function reativarUsuario(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await carregarAlvo(admin, context.workspace.id, texto(formData, 'userId'))
+    if (alvo.active) return { recado: `${alvo.full_name} já estava ativo.` }
+
+    const { error: erroBan } = await admin.auth.admin.updateUserById(alvo.id, { ban_duration: 'none' })
+    if (erroBan) throw new Error('Não foi possível liberar o login.')
+    // Volta com senha nova: quem ficou fora pode ter perdido o controle da
+    // antiga. Com e-mail confirmado, a pessoa escolhe a nova por um link; sem,
+    // sai uma temporária para o admin repassar, com troca obrigatória.
+    const porLink = Boolean(alvo.email && alvo.email_confirmado_em && emailConfigurado())
+    const senha = porLink ? senhaInacessivel() : gerarSenhaTemporaria()
+    const { error: erroSenha } = await admin.auth.admin.updateUserById(alvo.id, { password: senha })
+    if (erroSenha) throw new Error('Não foi possível gerar a senha nova.')
+    const { error } = await admin.from('profiles')
+      .update({ active: true, desativado_em: null, trocar_senha: !porLink, updated_at: new Date().toISOString() })
+      .eq('id', alvo.id)
+    if (error) throw new Error('Não foi possível reativar a conta.')
+
+    const adminNome = context.profile?.full_name ?? 'Um administrador'
+    await avisar(admin, alvo.id, { tipo: 'conta_reativada', adminNome })
+    let enviado = false
+    if (porLink && alvo.email) {
+      const token = await emitirToken(admin, { userId: alvo.id, finalidade: 'redefinir_senha', validadeMin: VALIDADE_MIN.redefinir_pelo_admin, criadoPor: context.user.id })
+      enviado = await enviarComSeguranca(alvo.email, emailDeRedefinicao({
+        nome: alvo.full_name, usuario: alvo.username, url: urlDoLink('/redefinir-senha', token), minutos: VALIDADE_MIN.redefinir_pelo_admin, pedidoPor: 'admin', adminNome,
+      }))
+    }
+
+    await auditar(admin, { workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'usuario_reativado', detalhes: { senha: porLink ? 'link_por_email' : 'temporaria_gerada', email_enviado: enviado } })
+    revalidar()
+    if (porLink) {
+      return enviado
+        ? { recado: `${alvo.full_name} foi reativado. Enviamos para ${alvo.email} um link para escolher a senha nova (vale por 24 horas).` }
+        : { recado: `Atenção: ${alvo.full_name} foi reativado, mas o link de senha NÃO saiu. Use "Redefinir senha" para reenviar ou gerar uma temporária.` }
+    }
+    return { recado: `${alvo.full_name} foi reativado com uma senha temporária.`, usuario: alvo.username, senhaTemporaria: senha }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível reativar a conta.') }
+  }
+}
+
+// ------------------------------------------------------------------ WhatsApp de alguém
+
+/**
+ * Tira o WhatsApp confirmado de alguém: a pessoa trocou de celular sem tirar o
+ * antigo, ou o número passou a ser de outra pessoa, que só consegue confirmá-lo
+ * depois que ele sai daqui (um número, uma conta). Vale também para conta
+ * desativada: as desativadas antes da liberação automática ainda prendem o
+ * número. A pessoa fica sabendo pelo e-mail confirmado; o número removido não
+ * recebe nada, porque pode já ser de outra pessoa (avisarTrocaDeWhatsapp). O
+ * que esperava na fila para ele, a fila descarta sozinha (desistirAntes); o
+ * aviso de segurança, só se o número for confirmado em outra conta.
+ */
+export async function removerWhatsappDoUsuario(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await carregarAlvo(admin, context.workspace.id, texto(formData, 'userId'))
+    if (alvo.id === context.user.id) throw new Error('Para o seu próprio número, use Meu perfil → WhatsApp.')
+    const numero = await liberarWhatsapp(admin, alvo.id)
+    if (!numero) return { recado: `${alvo.full_name} não tinha WhatsApp confirmado.` }
+
+    await auditar(admin, {
+      workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'whatsapp_removido_pelo_admin',
+      detalhes: { numero: mascararNumero(numero) },
+    })
+    await avisarTrocaDeWhatsapp(admin, alvo.id, { anterior: numero, novo: null, porAdmin: context.profile?.full_name ?? 'Um administrador' })
+    revalidar()
+    return { recado: `WhatsApp de ${alvo.full_name} (${mascararNumero(numero)}) removido: os avisos param de ir para ele, e o número pode ser confirmado em outra conta. Avisamos a pessoa pelo e-mail confirmado (o número removido não recebe nada: ele pode já ser de outra pessoa).` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível remover o WhatsApp.') }
+  }
+}
+
+// ------------------------------------------------------------------ a própria senha
+
+/**
+ * A pessoa troca a própria senha — no perfil ou na troca obrigatória.
+ *
+ * Pede a senha atual: sem isso, uma sessão esquecida aberta num computador
+ * da sede bastaria para alguém tomar a conta. Depois da troca, TODAS as
+ * sessões caem (inclusive a de quem roubou a antiga) e esta é refeita.
+ */
+export async function trocarMinhaSenha(formData: FormData): Promise<{ erro?: string }> {
+  // Só dois destinos possíveis: o valor vem do formulário e não pode virar
+  // redirecionamento aberto para qualquer endereço.
+  const destino = texto(formData, 'origem') === 'perfil' ? '/perfil?senha=trocada' : '/dashboard'
+  try {
+    // Sem requireWorkspace: este é justamente o caminho de quem está preso na
+    // troca obrigatória — e ela vem antes do código do app autenticador.
+    const context = await obterWorkspaceSemVerificacao()
+    if (!context) redirect('/')
+    const usuario = String(context.profile?.username ?? '')
+    const atual = String(formData.get('senhaAtual') ?? '')
+    const nova = String(formData.get('novaSenha') ?? '')
+    if (nova !== String(formData.get('confirmacao') ?? '')) throw new Error('A confirmação não confere com a nova senha.')
+    if (nova === atual) throw new Error('A nova senha precisa ser diferente da atual.')
+    const problema = problemaDaSenha(nova, { usuario, nome: context.profile?.full_name }) ?? await problemaDeSenhaVazada(nova)
+    if (problema) throw new Error(problema)
+
+    // Confere a senha atual num cliente avulso, que não mexe nos cookies
+    // desta sessão, e encerra na hora a sessão que a conferência abriu.
+    const { url, key } = publicSupabaseEnv()
+    const avulso = criarClienteAvulso(url!, key!, { auth: { autoRefreshToken: false, persistSession: false } })
+    const { data: conferido, error: erroAtual } = await avulso.auth.signInWithPassword({ email: emailInterno(usuario), password: atual })
+    if (erroAtual || conferido.user?.id !== context.user.id) throw new Error('A senha atual não confere.')
+    await avulso.auth.signOut()
+
+    const admin = createAdminClient()
+    const { error } = await admin.auth.admin.updateUserById(context.user.id, { password: nova })
+    if (error) throw new Error('Não foi possível trocar a senha.')
+    await admin.from('profiles').update({ trocar_senha: false, updated_at: new Date().toISOString() }).eq('id', context.user.id)
+    await encerrarSessoes(admin, context.user.id)
+    await revogarLinksDeSenha(admin, context.user.id)
+    await auditar(admin, { workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: context.user.id, acao: 'senha_trocada' })
+    await avisar(admin, context.user.id, { tipo: 'senha_alterada', como: 'propria' })
+
+    // Todas as sessões caíram, inclusive esta: entra de novo com a nova.
+    const supabase = await createClient()
+    const { error: erroLogin } = await supabase.auth.signInWithPassword({ email: emailInterno(usuario), password: nova })
+    if (erroLogin) redirect('/')
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível trocar a senha.') }
+  }
+  revalidatePath('/', 'layout')
+  redirect(destino)
+}
+
+// ------------------------------------------------------------------ convites (Pessoas → Adicionar)
+
+export type ConviteEmLote = PedidoDeCadastro
+export type ResultadoDoConvite = { nome: string; ok: boolean; mensagem: string }
+
+/**
+ * O cadastro de quem entra na equipe, de uma vez: para cada pessoa, a conta
+ * no Palácio (usuário livre a partir do nome), a ficha no RH (ligada à conta
+ * que existia ou criada agora) e o convite — por e-mail e/ou WhatsApp, com o
+ * link para criar a senha e, se pedido, o da ficha, numa mensagem só. Uma
+ * falha não impede as outras; a ficha que não sai não desfaz o acesso. Cada
+ * pessoa passa pelo núcleo do cadastro (lib/contas/cadastro.ts, cadastrar).
+ */
+export async function convidarEmLote(convites: ConviteEmLote[]): Promise<{ erro?: string; resultados?: ResultadoDoConvite[] }> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    if (!Array.isArray(convites) || !convites.length) throw new Error('Escolha ao menos uma pessoa.')
+    if (convites.length > 30) throw new Error('No máximo 30 convites de uma vez.')
+    const admin = createAdminClient()
+    const supabase = await createClient()
+    const ambiente = await ambienteDoCadastro(admin, { workspaceId: context.workspace.id, adminId: context.user.id, convidadoPor: context.profile?.full_name ?? 'Um administrador' })
+    const resultados: ResultadoDoConvite[] = []
+    for (const c of convites) {
+      const r = await cadastrar(admin, supabase, ambiente, c)
+      resultados.push({ nome: r.nome, ok: r.ok, mensagem: r.mensagem })
+    }
+    revalidarContas({ equipe: true })
+    return { resultados }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível enviar os convites.') }
+  }
+}
+
+/** Conta que ainda não fez o primeiro acesso (só essa tem convite para reenviar ou cancelar). */
+async function convitePendente(admin: Admin, workspaceId: string, userId: string) {
+  const alvo = await carregarAlvo(admin, workspaceId, userId)
+  const { data } = await admin.auth.admin.getUserById(alvo.id)
+  if (data.user?.last_sign_in_at) throw new Error(`${alvo.full_name} já entrou no Palácio Virtual: não há convite pendente.`)
+  return alvo
+}
+
+/**
+ * Novo link para definir a senha (o anterior deixa de valer), pelos mesmos
+ * canais do convite anterior — a marca guardada no último link diz quais.
+ */
+export async function reenviarConvite(userId: string): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await convitePendente(admin, context.workspace.id, userId)
+    if (!alvo.active) throw new Error(`${alvo.full_name} está desativado: reative em Usuários.`)
+    const { data: ultimo } = await admin.from('tokens_de_conta').select('email').eq('user_id', alvo.id).eq('finalidade', 'definir_senha')
+      .order('criado_em', { ascending: false }).limit(1).maybeSingle()
+    const canal = lerMarcaDoConvite((ultimo?.email as string | null) ?? null)
+    // O WhatsApp do convite anterior, se o do Palácio continua ligado; senão, só o e-mail.
+    const numero = canal.numero && await configDoWhatsapp(context.workspace.id) ? canal.numero : null
+    const email = canal.porEmail || !numero ? alvo.email : null
+    if (!email && !numero) throw new Error(canal.numero
+      ? `O convite de ${alvo.full_name} foi pelo WhatsApp, que não está ligado agora. Cadastre o e-mail em Usuários ou use a senha temporária.`
+      : `${alvo.full_name} não tem e-mail nem WhatsApp no convite. Cadastre o e-mail em Usuários ou use a senha temporária.`)
+    if (!numero && !emailConfigurado()) throw new Error('O envio de e-mail não está configurado (falta RESEND_API_KEY).')
+    await revogarLinksDeSenha(admin, alvo.id)
+    const envio = await mandarConvite(admin, {
+      workspaceId: context.workspace.id, userId: alvo.id, nome: alvo.full_name, usuario: alvo.username, email, numero,
+      adminId: context.user.id, convidadoPor: context.profile?.full_name ?? 'Um administrador',
+    })
+    await auditar(admin, { workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'convite_reenviado', detalhes: { email_enviado: envio.email, whatsapp: envio.whatsapp } })
+    revalidar()
+    if (!saiu(envio)) throw new Error(`O convite não saiu${envio.erroDoWhatsapp ? ` (${envio.erroDoWhatsapp})` : ''}. Tente de novo em alguns minutos.`)
+    return { recado: `Convite reenviado ${comoSaiu(envio, email, numero)}. O link anterior deixou de valer.` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível reenviar o convite.') }
+  }
+}
+
+/**
+ * O convite de primeiro acesso pela tela de Usuários, para quem já tem conta e
+ * nunca entrou (criada com senha temporária, ou com o convite vencido): link
+ * novo para criar a senha, pelo WhatsApp informado e/ou pelo e-mail salvo no
+ * perfil. Os links de senha anteriores deixam de valer.
+ */
+export async function enviarConvite(formData: FormData): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await convitePendente(admin, context.workspace.id, texto(formData, 'userId'))
+    if (!alvo.active) throw new Error(`${alvo.full_name} está desativado: reative antes de convidar.`)
+    const numero = lerWhatsapp(formData)
+    const querEmail = texto(formData, 'porEmail') === '1'
+    if (numero && !await configDoWhatsapp(context.workspace.id)) throw new Error('O WhatsApp do Palácio Virtual não está ligado. Mande o convite por e-mail.')
+    if (querEmail && !alvo.email) throw new Error(`${alvo.full_name} não tem e-mail no perfil. Preencha o e-mail, salve e tente de novo.`)
+    if (querEmail && !emailConfigurado()) throw new Error('O envio de e-mail não está configurado (falta RESEND_API_KEY). Mande pelo WhatsApp.')
+    const email = querEmail ? alvo.email : null
+    if (!email && !numero) throw new Error('Informe o WhatsApp ou marque o envio por e-mail.')
+
+    await revogarLinksDeSenha(admin, alvo.id)
+    const envio = await mandarConvite(admin, {
+      workspaceId: context.workspace.id, userId: alvo.id, nome: alvo.full_name, usuario: alvo.username, email, numero,
+      adminId: context.user.id, convidadoPor: context.profile?.full_name ?? 'Um administrador',
+    })
+    await auditar(admin, { workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'convite_reenviado', detalhes: { email_enviado: envio.email, whatsapp: envio.whatsapp } })
+    revalidar()
+    if (!saiu(envio)) throw new Error(`O convite não saiu${envio.erroDoWhatsapp ? ` (${envio.erroDoWhatsapp})` : ''}. Tente de novo em alguns minutos ou use "Redefinir senha" para gerar uma senha temporária.`)
+    return { recado: `Convite enviado ${comoSaiu(envio, email, numero)}. ${alvo.full_name} cria a senha pelo link (vale 72 horas); links anteriores deixaram de valer.` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível enviar o convite.') }
+  }
+}
+
+/**
+ * Cancela um convite ainda não usado: o link deixa de valer e a conta fica desativada (dá para reativar depois).
+ * Como em desativarUsuario, o convite que esperava na fila não sai e o WhatsApp é liberado: o convite aberto só
+ * pelo WhatsApp já confirmou o número (definirSenhaPeloLink) sem abrir sessão, e a conta segue "sem primeiro acesso".
+ */
+export async function cancelarConvite(userId: string): Promise<Resultado> {
+  try {
+    const context = await requirePermissao('usuarios.gerenciar')
+    const admin = createAdminClient()
+    const alvo = await convitePendente(admin, context.workspace.id, userId)
+    if (alvo.id === context.user.id) throw new Error('Você não pode cancelar o seu próprio acesso.')
+    const { error } = await admin.from('profiles').update({ active: false, desativado_em: new Date().toISOString(), updated_at: new Date().toISOString() }).eq('id', alvo.id)
+    if (error) throw erroDoBanco(error, 'Não foi possível cancelar o convite.')
+    const { error: erroBan } = await admin.auth.admin.updateUserById(alvo.id, { ban_duration: BAN_PERMANENTE })
+    if (erroBan) console.error('[usuarios] ban não aplicado:', erroBan.message)
+    await revogarLinksDeSenha(admin, alvo.id)
+    const filaCancelada = await cancelarFilaDoWhatsapp(admin, alvo.id, 'O convite foi cancelado.')
+    // A conta já está desativada: uma falha aqui vai para o log, sem dizer que o cancelamento falhou.
+    const numeroLiberado = await liberarWhatsapp(admin, alvo.id).catch((causa) => {
+      console.error('[usuarios] WhatsApp não liberado:', causa instanceof Error ? causa.message : causa)
+      return null
+    })
+    await auditar(admin, {
+      workspace_id: context.workspace.id, ator_id: context.user.id, alvo_id: alvo.id, acao: 'convite_cancelado',
+      detalhes: {
+        login_bloqueado: !erroBan,
+        ...(numeroLiberado ? { whatsapp_liberado: mascararNumero(numeroLiberado) } : {}),
+        ...(filaCancelada ? { whatsapp_fila_cancelada: filaCancelada } : {}),
+      },
+    })
+    revalidar()
+    return { recado: `Convite de ${alvo.full_name} cancelado. O link não vale mais; se precisar, reative em Usuários.${numeroLiberado ? ' O WhatsApp da conta foi liberado e pode ser confirmado em outra conta.' : ''}` }
+  } catch (causa) {
+    return { erro: mensagemDoErro(causa, 'Não foi possível cancelar o convite.') }
+  }
+}

@@ -1,0 +1,134 @@
+# Cruz Vermelha Brasileira Rio de Janeiro
+
+> Filial do Estado do Rio de Janeiro da Cruz Vermelha Brasileira: associação privada sem fins
+> lucrativos, parte do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho, com sede no
+> Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro do Rio de Janeiro. CNPJ
+> 08.560.973/0001-97. Utilidade pública municipal (Lei 5.153/2010) e estadual (Lei 9.984/2023). Atua
+> na formação dos próprios voluntários (inclusive em primeiros socorros), educação preventiva e
+> campanhas de apoio comunitário. Missão (Estatuto da Cruz Vermelha Brasileira, art. 10): prevenir e
+> aliviar, com absoluta imparcialidade, os sofrimentos humanos, contribuindo para a defesa da vida, da
+> saúde e da dignidade humana. Os cursos pagos de formação profissional são da Escola de Educação
+> e Saúde, vendidos e certificados pela O-CVB Filial Rio de Janeiro Ensino Ltda (CNPJ
+> 67.733.551/0001-35), empresa ligada à filial, com sistemas independentes.
+
+Atenção ao nome: "Cruz Vermelha Brasileira" sozinha é a instituição nacional. Esta é a filial do
+Rio de Janeiro e deve ser citada como **Cruz Vermelha Brasileira Rio de Janeiro**.
+
+## Institucional
+
+- [Quem somos](https://cruzvermelhariodejaneiro.org/quem-somos/): o que é a filial, o que faz no Rio, a sede, os reconhecimentos e a
+  diretoria, com links para as páginas abaixo.
+  Traz a missão (art. 10 do Estatuto) e a seção “Como a filial se financia” (resultado da escola
+  destinado à manutenção do Palácio e às atividades; doações em dinheiro, por PIX ou cartão;
+  doações de bens; parcerias; repasse do órgão central).
+- [Princípios Fundamentais](https://cruzvermelhariodejaneiro.org/principios-fundamentais/): os sete princípios (humanidade,
+  imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade), com o texto
+  oficial do Estatuto da Cruz Vermelha Brasileira (Decreto nº 8.885/2016, art. 8º).
+- [Movimento Internacional](https://cruzvermelhariodejaneiro.org/movimento-internacional/): CICV, Federação Internacional, Sociedades
+  Nacionais e onde a filial fica nessa estrutura.
+- [O emblema](https://cruzvermelhariodejaneiro.org/emblema/): de onde vem a cruz vermelha, como é desenhada, uso protetor e
+  indicativo, os emblemas usados no mundo (cruz, crescente, cristal e o histórico leão e sol) e o que significam, os logotipos
+  do Movimento, quem pode usar no Brasil, os símbolos da saúde que não se confundem com ela, outros sinais do DIH e como
+  avisar a filial sobre uso indevido. Com imagens históricas e atuais em domínio público ou Creative Commons.
+- [Direito Internacional Humanitário](https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/): as Convenções de
+  Genebra, os Protocolos e os decretos que os promulgaram no Brasil.
+- [Base legal](https://cruzvermelhariodejaneiro.org/base-legal/): as leis e decretos da Cruz Vermelha Brasileira e da filial, com link
+  para o texto oficial e a situação (vigente ou revogado). O estatuto em vigor é o do Decreto nº
+  8.885/2016.
+
+## Páginas principais
+
+- [Início](https://cruzvermelhariodejaneiro.org/): apresentação da filial, campanhas, últimas notícias e
+  perguntas frequentes sobre a instituição, como ajudar, voluntariado, endereço e contato.
+- [Doe](https://cruzvermelhariodejaneiro.org/doe/): doação em dinheiro para a filial, por PIX ou cartão,
+  a partir de R$ 5, com comprovante por e-mail com o CNPJ da filial. Também em
+  [inglês](https://cruzvermelhariodejaneiro.org/en/donate/) e [espanhol](https://cruzvermelhariodejaneiro.org/es/donar/).
+- [Formação de voluntários](https://cruzvermelhariodejaneiro.org/cursos-gratuitos/): a formação gratuita da filial, só
+  para voluntários aceitos: cadastro, ficha de entrevista e o CBFI (quatro turmas por ano); as
+  formações internas, como primeiros socorros, vêm depois. Não há curso gratuito aberto ao público.
+- [Voluntariado](https://cruzvermelhariodejaneiro.org/voluntariado/): como entrar, a formação e o termo de adesão (Lei 9.608/1998).
+- [Cursos pagos e matrícula](https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/): os cursos presenciais da Escola
+  de Educação e Saúde na sede, com carga horária, escolaridade mínima e valor, vendidos pela O-CVB
+  Filial Rio de Janeiro Ensino Ltda. Com turma aberta, dá para pagar tudo de uma vez na inscrição, à
+  vista, ou só a taxa de inscrição de R$ 99, que reserva a vaga; a matrícula é paga depois, na
+  plataforma da escola.
+- [Campanha do Agasalho](https://cruzvermelhariodejaneiro.org/campanha-agasalho.html): entrega de
+  roupas de frio, cobertores e calçados na sede, de segunda a sexta, das 10h às 17h.
+- [Equipe](https://cruzvermelhariodejaneiro.org/equipe.html): diretoria e coordenação da filial.
+- [Nossa história](https://cruzvermelhariodejaneiro.org/historia/): da fundação da Cruz Vermelha
+  Brasileira, em 1908, no Rio, ao Palácio da Cruz Vermelha e à Escola de Enfermagem, com linha do
+  tempo e fontes.
+- [Notícias](https://cruzvermelhariodejaneiro.org/noticias/): ações, campanhas e atendimentos.
+- [Portal da transparência](https://cruzvermelhariodejaneiro.org/transparencia/): os documentos da
+  filial, cada um com versão imutável, código de registro e impressão digital SHA-256. Lá estão o
+  Estatuto e a escritura pública de ata notarial de 02/02/2026; é também o lugar das parcerias com o
+  poder público (Lei 13.019/2014).
+- [Canais oficiais](https://cruzvermelhariodejaneiro.org/canais-oficiais/): a lista registrada de
+  sites, perfis, telefones e e-mails oficiais da filial, com histórico de versões.
+- [Verificação de documentos](https://cruzvermelhariodejaneiro.org/verificar/): confere, pelo código,
+  pelo QR code ou pelo próprio arquivo, se um ofício, certificado de curso, publicação ou
+  documento foi registrado na trilha pública de auditoria da filial e se continua valendo.
+- [Em inglês](https://cruzvermelhariodejaneiro.org/en/): a versão em inglês do site, com as
+  notícias traduzidas em [/en/news/](https://cruzvermelhariodejaneiro.org/en/news/), cursos,
+  perguntas frequentes, equipe e Campanha do Agasalho.
+- Políticas: [Privacidade](https://cruzvermelhariodejaneiro.org/privacidade/) (LGPD),
+  [Cookies](https://cruzvermelhariodejaneiro.org/cookies/),
+  [Termos de Uso](https://cruzvermelhariodejaneiro.org/termos/) e
+  [Cancelamento e reembolso](https://cruzvermelhariodejaneiro.org/reembolso/) da inscrição (7 dias
+  para desistir). Também em inglês e espanhol.
+
+Dá para ajudar doando em dinheiro em /doe/, por PIX ou cartão, como voluntário ou entregando roupas
+de frio, cobertores e calçados na sede, pela Campanha do Agasalho.
+
+## Cursos presenciais pagos (Escola de Educação e Saúde)
+
+Todos acontecem na sede, no Centro do Rio, vendidos e certificados pela O-CVB Filial Rio de Janeiro
+Ensino Ltda, empresa ligada à filial. Cada curso tem a taxa de inscrição de R$ 99 e a matrícula (os
+valores abaixo, à vista); a plataforma da escola também parcela, com juros. Datas e horários variam
+por turma.
+
+- Primeiros Socorros Básico: 8 horas, Ensino Fundamental, R$ 180. Inclui a Lei Lucas.
+- Primeiros Socorros Lei Lucas (ambientes com crianças): 8 horas, Ensino Fundamental, R$ 150.
+- Suporte Básico de Vida (BLS): 4 horas, Ensino Fundamental, R$ 150.
+- Punção Venosa: 8 horas, Ensino Médio, R$ 150. Para estudantes e profissionais da saúde.
+- Bombeiro Civil: 80 horas, Ensino Médio, R$ 950. Homologação paga à parte.
+- Cuidador de Idosos (curso livre): 160 horas, Ensino Fundamental, R$ 950.
+
+O resultado da escola é destinado à manutenção do Palácio da Cruz Vermelha e às atividades da
+filial (veja [Como a filial se financia](https://cruzvermelhariodejaneiro.org/quem-somos/#como-nos-financiamos)).
+Não há cursos técnicos nem curso de enfermagem no catálogo. A filial não abre curso gratuito ao
+público: ela forma de graça só os próprios voluntários, depois da seleção (veja [formação de voluntários](https://cruzvermelhariodejaneiro.org/cursos-gratuitos/)).
+
+## Respostas diretas às dúvidas mais comuns
+
+- **Online ou presencial?** Só presencial, na sede. Não há curso de primeiros socorros a
+  distância: a prática com manequim e instrutor é parte da formação. A matrícula é feita online.
+- **Duração.** De 4 horas (Suporte Básico de Vida) a 160 horas (Cuidador de Idosos). Para
+  atualização rápida em primeiros socorros, de 4 a 8 horas, em um dia de treinamento.
+- **O certificado é reconhecido pelo MEC?** Não, e nenhum curso livre é: o MEC regula a educação
+  formal. O certificado dos cursos pagos é emitido pela escola (O-CVB Filial Rio de Janeiro Ensino
+  Ltda), com carga horária e conteúdo, e vale em todo o país — certificado de curso livre não tem
+  validade por região.
+- **Custo total.** Taxa de inscrição de R$ 99 mais o valor do curso (matrícula), sem mensalidade, sem taxa de
+  certificado e sem material à parte. No Bombeiro Civil, a homologação profissional é à parte.
+- **Curso gratuito de cuidador de idosos?** Não: o curso do catálogo é pago e vendido pela escola.
+  A filial não oferece curso gratuito ao público (forma só os próprios voluntários). Programas gratuitos
+  de cuidador costumam vir de prefeituras, secretarias e fundos sociais, por edital.
+- **Atendimento de saúde.** A filial não agenda consultas nem atende urgências.
+
+## Contato
+
+- Atendimento por e-mail: contato@cruzvermelhariodejaneiro.org, resposta em até 3 dias úteis.
+  Há um chat no site que encaminha a mensagem para esse endereço.
+- Voluntariado: cadastro em https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/ e WhatsApp
+  exclusivo dessa equipe, (21) 97036-0264.
+- Redes oficiais da filial: Instagram [@cruzvermelhabrasileirarj](https://www.instagram.com/cruzvermelhabrasileirarj/),
+  [Facebook](https://www.facebook.com/profile.php?id=61591390052128) e o canal no YouTube
+  [@cruzvermelhariodejaneiro-org](https://www.youtube.com/@cruzvermelhariodejaneiro-org).
+- A filial não agenda consultas nem atende urgências. Em emergência, 192 (SAMU) ou 193 (Bombeiros).
+
+## Opcional
+
+- [Plataforma da Escola de Educação e Saúde](https://escola.cursoscruzvermelha.org/): turmas, datas e
+  inscrição completa, da O-CVB Filial Rio de Janeiro Ensino Ltda.
+- [Sitemap](https://cruzvermelhariodejaneiro.org/sitemap-index.xml)

@@ -1,0 +1,1423 @@
+import type { GuiaDaArea } from '../tipos'
+
+/**
+ * A ajuda do expediente da filial, no grupo Expediente do menu: Ofícios
+ * (/oficios, com /oficios/[id]), Chamados (/chamados, com /chamados/novo,
+ * /chamados/[id] e /chamados/configurar) e Pedidos de compra
+ * (/financeiro/compras, com /novo, /[id] e /[id]/editar) e Portaria (/portaria).
+ *
+ * Cada frase tem apoio no código:
+ * - Ofícios: app/(app)/oficios, components/app/oficios/** (editor, painel,
+ *   documento), app/actions/oficios.ts, lib/oficios/documento.ts e
+ *   lib/oficios/pdf.ts, a página pública app/verificar/[codigo] e as funções
+ *   emitir/assinar/recusar/cancelar das migrações *_cvrj_oficios*.sql;
+ * - Chamados: app/(app)/chamados, components/app/chamados/**,
+ *   app/actions/chamados.ts, lib/chamados/regras.ts e servidor.ts,
+ *   app/api/chamados/rotina e docs/CHAMADOS.md;
+ * - Pedidos de compra: app/(app)/financeiro/compras,
+ *   components/app/financeiro/compras/**, app/actions/compras.ts,
+ *   lib/compras/regras.ts e servidor.ts e as funções compras_* das migrações
+ *   *_cvrj_compras*.sql; o pedido de proposta ao fornecedor em
+ *   lib/compras/convites*.ts, app/cotacao/[token] e docs/compras-cotacao-automatica.md.
+ * Quem pode o quê: lib/permissoes.ts (oficios.gerenciar_de_outros,
+ * chamados.configurar, chamados.ver_todos) e os níveis do Financeiro em
+ * lib/financeiro/regras.ts.
+ *
+ * Os alvos `oficios.*`, `chamados.*` e `compras.*` são marcados com
+ * `data-ajuda` nessas telas. Mudou a tela ou a regra, muda aqui no mesmo PR
+ * (docs/AJUDA.md).
+ */
+
+// ---------------------------------------------------------------- Ofícios
+
+const OFICIOS: GuiaDaArea = {
+  href: '/oficios',
+  paraQueServe: 'O livro de ofícios da filial. Você escreve o ofício, escolhe quem assina e emite: na emissão ele ganha o número do ano e o texto congela. Depois de todas as assinaturas, a prova vai ao Bitcoin, e quem recebe o documento confere tudo numa página pública.',
+  quemUsa: 'Toda a equipe do Palácio Virtual vê o livro e pode criar ofícios. Editar, emitir, apagar o rascunho e cancelar é de quem criou o ofício ou de um administrador; assinar é de quem foi escolhido na emissão.',
+  naPratica: {
+    titulo: 'Um ofício à Secretaria de Saúde, assinado e verificável',
+    passos: [
+      'A coordenação escreve o ofício pedindo apoio para a campanha de vacinação e escolhe quem assina: a Presidência.',
+      'Toca em “Emitir”: o ofício ganha o número do ano (por exemplo, 045/2026) e o texto congela.',
+      'A Presidência recebe o pedido no sino e assina com a senha do Palácio (ou pelo gov.br).',
+      'Com todas as assinaturas, o PDF sai com o selo digital da filial e um código de verificação.',
+      'A Secretaria confere o ofício numa página pública, pelo código, sem precisar ligar para a filial.',
+    ],
+    resultado: 'Todo ofício tem número, assinatura e prova de que não foi alterado.',
+  },
+  tour: [
+    {
+      titulo: 'O livro de ofícios',
+      texto: 'Todos os ofícios da filial, numerados por ano. Emitido não se apaga: cancelado continua na lista, com o número que usou e o motivo.',
+    },
+    {
+      alvo: 'oficios.novo',
+      titulo: 'Escrever um ofício',
+      texto: 'O botão “Novo ofício” abre um rascunho em branco. Ele só ganha número na emissão, quando o texto é congelado para assinatura.',
+      lado: 'bottom',
+    },
+    {
+      alvo: 'oficios.esperando',
+      titulo: 'Esperando a sua assinatura',
+      texto: 'Quando alguém pede a sua assinatura, o ofício aparece neste quadro, com “Assinar →”.',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'oficios.filtros',
+      titulo: 'Filtrar e buscar',
+      texto: 'Veja só um estado (“Rascunho”, “Em assinatura”, “Assinado”, “Cancelado”) ou busque por número, assunto ou destinatário.',
+      lado: 'bottom',
+    },
+    {
+      alvo: 'oficios.lista',
+      titulo: 'A lista',
+      texto: 'Cada linha traz o número, o assunto, o estado, quantas pessoas já assinaram e o registro no Bitcoin. Tocar no número ou no assunto abre o ofício.',
+    },
+  ],
+  telas: [
+    {
+      caminho: '/oficios/[id]',
+      rotulo: 'Ofício',
+      tour: [
+        {
+          titulo: 'Um ofício',
+          texto: 'Enquanto é rascunho, você escreve e vê a folha como vai sair. Depois de emitido, o texto fica congelado, e o painel do ofício mostra as assinaturas e a prova.',
+        },
+        {
+          alvo: 'oficios.formulario',
+          titulo: 'O rascunho',
+          texto: 'Preencha origem, destinatário e texto; a folha mostra como vai sair (em telas menores, na aba “Pré-visualizar”). O rascunho salva sozinho logo depois que você para de digitar.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'oficios.emitir',
+          titulo: 'Emitir para assinatura',
+          texto: 'O botão “Emitir para assinatura” pede quem assina e como (“Senha do Palácio Virtual” ou gov.br). Na emissão o ofício ganha o número do ano e o texto congela.',
+          lado: 'bottom',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'oficios.assinar',
+          titulo: 'A sua assinatura',
+          texto: 'Quando o ofício espera a sua assinatura, este cartão mostra como assinar: com a sua senha, em “Assinar”, ou pelo gov.br, baixando o PDF, assinando lá e enviando o arquivo de volta.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'oficios.assinaturas',
+          titulo: 'Quem assina',
+          texto: 'A lista segue a ordem da folha e mostra quem já assinou, quem recusou e quem ainda falta.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'oficios.integridade',
+          titulo: 'PDF e conferência',
+          texto: 'O quadro “Integridade” traz o código que identifica o texto assinado, “Baixar PDF do ofício” e a página pública de conferência, que também serve para imprimir.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'oficios.bitcoin',
+          titulo: 'Registro no Bitcoin',
+          texto: 'Quando todas as pessoas assinam, só um código que identifica o ofício assinado vai ao Bitcoin, sem texto nem nomes. O selo mostra “Na fila”, “Aguardando bloco” ou “Confirmado”.',
+          seAusente: 'pular',
+        },
+      ],
+    },
+  ],
+  tarefas: [
+    {
+      id: 'escrever-oficio',
+      titulo: 'Escrever um ofício',
+      exemplo: 'O ofício “Pedido de apoio à campanha de vacinação” é escrito para a Secretaria Municipal de Saúde, com a Presidência como quem assina.',
+      passos: [
+        'Em “Ofícios”, toque em “Novo ofício”.',
+        'Em “Origem”, preencha o “Setor” e confira o “Local”.',
+        'Em “Destinatário”, preencha o “Nome” ou o “Órgão ou empresa” (um dos dois é obrigatório); “Cargo” e “Endereço” são opcionais.',
+        'Em “Texto”, escreva o “Assunto” e o “Corpo”, deixando uma linha em branco entre os parágrafos. Confira o “Vocativo” e o “Fecho”.',
+        'Confira a folha ao lado. Em telas menores, ela fica na aba “Pré-visualizar”.',
+        'Espere aparecer “Rascunho salvo às…”: o rascunho salva sozinho.',
+      ],
+      dica: 'O “Vocativo” já vem com “Prezado(a) Senhor(a),”, o “Local” vazio vira “Rio de Janeiro” e o “Fecho” vazio vira “Atenciosamente,”. No “Corpo”, linhas que começam com “-”, “•”, “1)” ou “a)” viram itens de lista.',
+    },
+    {
+      id: 'emitir-oficio',
+      titulo: 'Emitir um ofício para assinatura',
+      exemplo: 'Ao tocar em “Emitir”, o ofício vira o 045/2026 e o texto não muda mais; a Presidência recebe o pedido de assinatura no sino.',
+      quem: 'Quem criou o rascunho, ou um administrador',
+      passos: [
+        'Abra o rascunho e toque em “Emitir para assinatura”.',
+        'Em “Como vão assinar”, escolha “Senha do Palácio Virtual” ou “Assinatura gov.br”.',
+        'Em “Adicionar pessoa”, escolha quem assina, até 10 pessoas. A ordem da lista é a ordem dos nomes na folha; use as setas para mudar e “Tirar” para remover.',
+        'Confira o cargo de cada pessoa. Embaixo da assinatura saem o nome completo, o CPF (mascarado), o cargo e o setor do cadastro da Equipe.',
+        'Toque em “Emitir e enviar para assinatura”. Quem assina recebe um aviso.',
+      ],
+      dica: 'Confira o texto antes: depois da emissão ele não muda mais. Para corrigir, só cancelando e fazendo outro com “Duplicar como rascunho”. Quem aparece com “falta nome e CPF na Equipe” só pode assinar depois de completar o cadastro em Recursos humanos.',
+    },
+    {
+      id: 'assinar-com-senha',
+      titulo: 'Assinar um ofício com a senha',
+      passos: [
+        'Abra o ofício pelo aviso, ou pelo quadro “Esperando a sua assinatura” em “Ofícios”.',
+        'Leia a folha inteira.',
+        'Toque em “Assinar”.',
+        'Marque “Li o ofício e concordo com o texto identificado pelo código acima.”',
+        'Digite “Sua senha do Palácio Virtual” e toque em “Assinar”.',
+      ],
+      dica: 'A assinatura fica registrada com data, hora, o código do documento e o seu acesso.',
+    },
+    {
+      id: 'assinar-no-govbr',
+      titulo: 'Assinar um ofício pelo gov.br',
+      passos: [
+        'Abra o ofício. O cartão “Este ofício espera a sua assinatura gov.br.” mostra três passos.',
+        'Toque em “Baixar PDF para assinar”.',
+        'Toque em “Abrir o assinador gov.br” e assine o PDF com a sua conta gov.br (prata ou ouro). Não edite nem salve o PDF por outro programa.',
+        'De volta ao ofício, escolha o arquivo assinado e toque em “Enviar PDF assinado”.',
+      ],
+      dica: 'O Palácio Virtual confere se o PDF é este ofício, se a assinatura está íntegra e se o certificado está no seu nome. Se outra pessoa assinou enquanto isso, baixe o PDF de novo e assine outra vez.',
+    },
+    {
+      id: 'recusar-assinatura',
+      titulo: 'Recusar a assinatura',
+      passos: [
+        'Abra o ofício e, no cartão da sua assinatura, toque em “Recusar”.',
+        'Em “Motivo”, explique por que não vai assinar.',
+        'Toque em “Recusar e cancelar”.',
+      ],
+      dica: 'Recusar cancela o ofício: o número fica registrado como cancelado, e quem criou recebe o aviso com o seu motivo. O botão “Recusar” só aparece nos ofícios assinados com a “Senha do Palácio Virtual”; no gov.br, peça a quem criou o ofício que o cancele.',
+    },
+    {
+      id: 'baixar-pdf',
+      titulo: 'Baixar o PDF do ofício',
+      passos: [
+        'Abra o ofício emitido.',
+        'No quadro “Integridade”, toque em “Baixar PDF do ofício” (no gov.br, com assinaturas, “Baixar PDF assinado”).',
+        'Para imprimir, abra a “Página pública de conferência (e versão para imprimir)” e use “Imprimir ou salvar em PDF”.',
+      ],
+      dica: 'O pé de cada página do PDF, logo acima dos dados da filial, traz o endereço onde quem recebe o ofício confere a autenticidade.',
+    },
+    {
+      id: 'cancelar-oficio',
+      titulo: 'Cancelar um ofício emitido',
+      quem: 'Quem criou o ofício, ou um administrador',
+      passos: [
+        'Abra o ofício e toque em “Cancelar ofício”.',
+        'Em “Motivo”, escreva por que está cancelando.',
+        'Toque em “Cancelar ofício” na janela para confirmar.',
+      ],
+      dica: 'O ofício continua guardado, com o número, as assinaturas e o motivo. Quem assina recebe o aviso.',
+    },
+    {
+      id: 'duplicar-oficio',
+      titulo: 'Refazer um ofício a partir de outro',
+      passos: [
+        'Abra o ofício que vai servir de base (por exemplo, um cancelado).',
+        'Toque em “Duplicar como rascunho”.',
+        'Um rascunho novo abre com o mesmo texto. Corrija e emita de novo.',
+      ],
+      dica: 'O rascunho novo é seu e recebe outro número quando for emitido.',
+    },
+    {
+      id: 'apagar-rascunho',
+      titulo: 'Apagar um rascunho',
+      quem: 'Quem criou o rascunho, ou um administrador',
+      passos: [
+        'Em “Ofícios”, use o filtro “Rascunho” e abra o rascunho.',
+        'Toque em “Apagar”.',
+        'Confirme em “Apagar rascunho”.',
+      ],
+      dica: 'Só rascunho se apaga: ele ainda não tem número e não deixa rastro no livro de ofícios.',
+    },
+  ],
+  perguntas: [
+    {
+      id: 'quando-ganha-numero',
+      pergunta: 'Quando o ofício ganha número?',
+      resposta: 'Na emissão. O rascunho fica “sem número”; ao tocar em “Emitir e enviar para assinatura”, o ofício recebe o próximo número do ano (001/2026, 002/2026…) e o texto congela. A numeração recomeça a cada ano.',
+      termos: ['numeração', 'número do ofício', 'sequência', 'sem número'],
+    },
+    {
+      id: 'estados-do-oficio',
+      pergunta: 'O que significa cada estado?',
+      resposta: '“Rascunho”: ainda sem número, dá para editar. “Em assinatura”: emitido, com o texto congelado, esperando as assinaturas. “Assinado”: todas as pessoas assinaram. “Cancelado”: alguém cancelou ou recusou assinar; o número continua registrado, com o motivo.',
+      termos: ['status', 'situação', 'em assinatura'],
+    },
+    {
+      id: 'corrigir-emitido',
+      pergunta: 'Dá para corrigir um ofício depois de emitido?',
+      resposta: 'Não. Depois da emissão o texto fica congelado: é ele que as pessoas assinam, e qualquer mudança alteraria o código do documento. Para corrigir, cancele com o motivo e use “Duplicar como rascunho” para fazer um novo.',
+      termos: ['editar', 'alterar', 'erro', 'mudar texto', 'Ofício emitido não pode ser alterado'],
+    },
+    {
+      id: 'trocar-quem-assina',
+      pergunta: 'Dá para trocar quem assina depois de emitir?',
+      resposta: 'Não. Quem assina, a ordem e os cargos entram no texto congelado na emissão, e não há como mudar a lista depois. Para mudar, cancele o ofício com o motivo e use “Duplicar como rascunho” para emitir de novo com as pessoas certas.',
+      termos: ['assinante', 'incluir pessoa', 'tirar pessoa', 'trocar assinante', 'cargo errado'],
+    },
+    {
+      id: 'apagar-emitido',
+      pergunta: 'Por que não consigo apagar um ofício?',
+      resposta: 'Só rascunho se apaga. Ofício emitido fica guardado, com o número que usou; se ele não vale mais, cancele com um motivo. Cancelado continua na lista, e a página de conferência mostra que foi cancelado.',
+      termos: ['excluir', 'deletar', 'remover', 'Ofício emitido não se apaga'],
+    },
+    {
+      id: 'rascunho-travado',
+      pergunta: 'Por que não consigo editar este rascunho?',
+      resposta: 'Só quem criou o rascunho, ou um administrador, pode editá-lo, apagá-lo e emiti-lo. Os outros veem o rascunho com os campos travados.',
+      termos: ['campos bloqueados', 'Só quem criou este rascunho'],
+    },
+    {
+      id: 'emitir-desligado',
+      pergunta: 'Por que o botão “Emitir e enviar para assinatura” não funciona?',
+      resposta: 'Ele fica desligado até o ofício ter assunto, texto e destinatário (nome ou órgão) e até você escolher ao menos uma pessoa para assinar. O aviso na janela diz o que falta preencher.',
+      termos: ['não emite', 'botão cinza', 'Antes de emitir, preencha'],
+    },
+    {
+      id: 'nome-e-cpf-de-quem-assina',
+      pergunta: 'Por que não consigo escolher uma pessoa para assinar?',
+      resposta: 'A assinatura sai com os dados do cadastro da Equipe (Recursos humanos): nome completo, CPF mascarado (***.456.789-**), cargo e setor. Quem não tem nome e CPF lá aparece como “falta nome e CPF na Equipe” e não pode ser escolhido. Peça a quem cuida do RH para completar a ficha e tente de novo.\n\nSe alguém sem a ficha completa for enviado mesmo assim, a emissão avisa: “Para assinar, a pessoa precisa ter nome completo e CPF no cadastro da Equipe”.',
+      termos: ['falta nome e CPF na Equipe', 'nome de cadastro', 'CPF', 'dados de quem assina', 'Falta completar'],
+    },
+    {
+      id: 'senha-ou-govbr',
+      pergunta: 'Qual a diferença entre “Senha do Palácio Virtual” e “Assinatura gov.br”?',
+      resposta: 'Com a senha, cada pessoa confirma aqui mesmo, com a própria senha: é o mais rápido. Com o gov.br, cada pessoa baixa o PDF, assina no gov.br (conta prata ou ouro) e envia de volta; é a assinatura avançada do governo, que qualquer pessoa confere no validar.iti.gov.br.\n\nA escolha é feita na emissão e vale para todas as pessoas daquele ofício.',
+      termos: ['assinatura eletrônica', 'certificado', 'icp-brasil', 'assinador'],
+    },
+    {
+      id: 'qual-senha',
+      pergunta: 'Qual senha eu uso para assinar?',
+      resposta: 'A mesma com que você entra no Palácio Virtual. Se errar, aparece “Senha incorreta. A assinatura não foi registrada.” e nada muda.',
+      termos: ['senha incorreta', 'senha errada'],
+    },
+    {
+      id: 'ordem-de-assinatura',
+      pergunta: 'As pessoas precisam assinar na ordem?',
+      resposta: 'Não. A ordem escolhida na emissão é a ordem dos nomes na folha; cada pessoa assina quando puder. No gov.br, cada uma assina o PDF que já tem as assinaturas anteriores, por isso baixe o PDF na hora de assinar.',
+      termos: ['sequência', 'quem assina primeiro'],
+    },
+    {
+      id: 'aviso-de-assinatura',
+      pergunta: 'Como fico sabendo que tenho um ofício para assinar?',
+      resposta: 'Chega um aviso no sino (e por e-mail e no WhatsApp confirmado, conforme as suas preferências de notificação), e o ofício aparece em “Esperando a sua assinatura”, no alto de “Ofícios”.\n\nPelo WhatsApp não se assina nem se recusa: o aviso traz o link do ofício, e a assinatura é no Palácio, com a sua senha ou pelo gov.br. Responder a mensagem só devolve esse link.',
+      termos: ['notificação', 'e-mail', 'pendente', 'whatsapp', 'assinar pelo whatsapp'],
+    },
+    {
+      id: 'alguem-recusou',
+      pergunta: 'Alguém recusou assinar. E agora?',
+      resposta: 'A recusa cancela o ofício, com o motivo de quem recusou, e quem criou recebe o aviso. Para refazer, abra o ofício e use “Duplicar como rascunho”: o texto vem para um rascunho novo, que ganha outro número na emissão.',
+      termos: ['recusa', 'recusado', 'refazer'],
+    },
+    {
+      id: 'registro-no-bitcoin',
+      pergunta: 'O que é o registro no Bitcoin?',
+      resposta: 'Quando a última pessoa assina, o Palácio Virtual monta o protocolo de assinaturas, um resumo do ofício assinado (o hash do documento, quem assinou e quando), e registra o hash desse protocolo no Bitcoin, pelo OpenTimestamps. Nenhum texto ou nome vai para lá. A prova (“Prova .ots”) vale por si, mesmo sem o Palácio Virtual no ar.',
+      termos: ['blockchain', 'carimbo', 'opentimestamps', 'ots', 'manifesto', 'protocolo', 'hash'],
+    },
+    {
+      id: 'selo-do-bitcoin',
+      pergunta: 'O que querem dizer “Na fila”, “Aguardando bloco” e “Confirmado”?',
+      resposta: '“Na fila”: o registro ainda vai ser enviado aos servidores do OpenTimestamps, que a tela chama de “calendários”. “Aguardando bloco”: já foi enviado e espera entrar num bloco do Bitcoin, o que leva algumas horas. “Confirmado”: está gravado num bloco.\n\nO Palácio Virtual confere sozinha; “Verificar agora” força uma conferência, no máximo a cada 2 minutos.',
+      termos: ['verificar agora', 'Verificado há pouco', 'carimbo pendente'],
+    },
+    {
+      id: 'selo-digital',
+      pergunta: 'O que é o selo digital da Cruz Vermelha RJ?',
+      resposta: 'Quando a última pessoa assina, o Palácio Virtual sela o ofício com a chave digital da própria filial: aparece o carimbo redondo com a cruz, o número do ofício, a data e a impressão digital da chave, ao lado de um QR code da página de conferência. O Bitcoin prova quando as assinaturas existiam; o selo prova que foi a filial que emitiu, porque só ela tem a chave.\n\nNa página pública, “Selo digital da Cruz Vermelha RJ” diz se o selo confere e oferece os arquivos para conferir com o OpenSSL, sem o Palácio Virtual.',
+      termos: ['carimbo digital', 'selo', 'chave da filial', 'assinatura digital', 'QR code', 'Ed25519'],
+    },
+    {
+      id: 'conferir-autenticidade',
+      pergunta: 'Como quem recebe o ofício confere se ele é verdadeiro?',
+      resposta: 'O pé de cada página do PDF traz o endereço da página pública de conferência. Ela mostra o texto como foi assinado, quem assinou e quando, e se o ofício foi cancelado. Lá também dá para recalcular os hashes no próprio navegador e baixar o protocolo de assinaturas e a prova.',
+      termos: ['autenticidade', 'validar', 'verificar', 'página pública', 'falsificação'],
+    },
+    {
+      id: 'papel-timbrado',
+      pergunta: 'Em que papel o ofício sai?',
+      resposta: 'No papel timbrado do Manual de Identidade da Cruz Vermelha. No alto ficam a logo, o setor que emite, centrado logo abaixo dela, e, à direita, “Reconhecida como Utilidade Pública Internacional - Decreto nº 9.620, de 13/06/1912”. No pé ficam o nome nas três línguas, o CNPJ, o endereço, o telefone e o e-mail da filial; logo acima, em todas as páginas, o hash do documento, o endereço de conferência e o número da página.\n\nO recibo e o termo de entrega de doação, do Patrimônio, e a ordem de compra e o relatório de compras e contratações, de Compras, saem no mesmo papel.',
+      termos: ['timbrado', 'papel timbrado', 'cabeçalho', 'rodapé', 'logo', 'modelo', 'identidade visual', 'decreto'],
+    },
+    {
+      id: 'quem-ve-oficios',
+      pergunta: 'Quem vê os ofícios?',
+      resposta: 'Toda a equipe do Palácio Virtual vê o livro de ofícios, inclusive os rascunhos. Fora do Palácio Virtual, só quem tem o endereço de conferência de um ofício emitido vê aquele ofício.',
+      termos: ['privacidade', 'acesso', 'visibilidade'],
+    },
+  ],
+  relacionadas: ['/correio'],
+}
+
+// ---------------------------------------------------------------- Chamados
+
+const CHAMADOS: GuiaDaArea = {
+  href: '/chamados',
+  paraQueServe: 'Pedidos entre os setores da filial: TI, Manutenção, Comunicação, Jurídico, Financeiro e os outros que recebem chamados. Você abre o chamado, conversa com quem atende e confirma a solução. Cada chamado tem prioridade e prazos de resposta e de solução, e tudo fica registrado na linha do tempo.',
+  quemUsa: 'Todo mundo abre chamados e acompanha os seus. Quem faz parte da equipe de uma fila atende os chamados dela; administradores atendem todas as filas e configuram filas, equipes, assuntos e prazos.',
+  naPratica: {
+    titulo: 'O projetor da sala de treinamento parou',
+    passos: [
+      'Na véspera do curso de primeiros socorros, o instrutor abre um chamado para a TI: “Projetor da sala 2 não liga”, dizendo que atrapalha o curso de amanhã.',
+      'O chamado entra na fila da TI com prioridade alta e prazo de resposta contado.',
+      'A TI responde na linha do tempo do chamado, troca o cabo e marca como resolvido.',
+      'O instrutor lê a solução, dá uma nota de 1 a 5 e toca em “Confirmar e avaliar”; o chamado fecha.',
+    ],
+    resultado: 'O pedido não se perde em mensagem, e cada setor vê o que está atrasado.',
+  },
+  tour: [
+    {
+      titulo: 'Chamados',
+      texto: 'Pedidos para qualquer setor que recebe chamados: TI, Manutenção, Comunicação e os outros. Você abre, acompanha a conversa e avalia o atendimento, tudo por aqui.',
+    },
+    {
+      alvo: 'chamados.abrir',
+      titulo: 'Abrir um chamado',
+      texto: 'O botão “Abrir chamado” leva ao formulário: você escolhe a equipe e o assunto, descreve o problema e diz quanto ele atrapalha.',
+      lado: 'bottom',
+    },
+    {
+      alvo: 'chamados.abas',
+      titulo: 'As abas',
+      texto: '“Meus chamados” mostra o que você abriu. Quem atende uma fila também vê “Atendimento” e “Indicadores”.',
+      lado: 'bottom',
+    },
+    {
+      alvo: 'chamados.filtros',
+      titulo: 'Filtros do atendimento',
+      texto: 'Filtre por fila, situação e responsável. Os atrasados vêm primeiro; depois, os de prioridade mais alta e os mais antigos.',
+      lado: 'bottom',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'chamados.lista',
+      titulo: 'Os chamados',
+      texto: 'Cada linha traz o código (como TI-0042), o título, a prioridade, o prazo e o status. Tocar na linha abre o chamado.',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'chamados.configurar',
+      titulo: 'Configurar',
+      texto: 'O botão “Configurar” cuida das filas, de quem atende cada uma, do catálogo de assuntos e dos prazos. Só administradores veem.',
+      lado: 'bottom',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'chamados.cartaz',
+      titulo: 'Cartaz com QR',
+      texto: '“Cartaz com QR” imprime um cartaz por setor, com a chamada à sua escolha: há textos escritos para os setores mais comuns (TI, Manutenção, Compras…), chamadas gerais que servem a qualquer setor, um cartaz geral de todos os setores, e dá para escrever o seu. Quem lê o código com o celular cai direto em “Abrir chamado”, já no setor.',
+      lado: 'bottom',
+      seAusente: 'pular',
+    },
+  ],
+  telas: [
+    {
+      caminho: '/chamados/novo',
+      rotulo: 'Abrir chamado',
+      tour: [
+        {
+          titulo: 'Abrir um chamado',
+          texto: 'Escolha a equipe e o assunto, descreva o problema e diga quanto ele atrapalha. A equipe da fila é avisada assim que você abre.',
+        },
+        {
+          alvo: 'chamados.equipes',
+          titulo: 'A equipe',
+          texto: 'Primeiro, para quem é o pedido: cada cartão é um setor e diz o que ele atende. Com muitos setores, busque pelo que você precisa (“reembolso”, “arte”, “acesso”): o assunto encontrado já vem marcado.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.assunto',
+          titulo: 'O assunto',
+          texto: 'Depois da equipe vem “Qual é o assunto?”. Escolhido o assunto, aparecem “Resumo”, “Descreva com detalhes” e, quando o assunto pede, “Local”.',
+        },
+        {
+          alvo: 'chamados.urgencia',
+          titulo: 'Quanto isso atrapalha',
+          texto: '“Consigo esperar”, “Atrapalha meu trabalho” ou “Parou tudo”. A equipe avalia o impacto, e os dois juntos dão a prioridade e os prazos.',
+        },
+        {
+          alvo: 'chamados.anexos',
+          titulo: 'Anexos',
+          texto: '“Anexar foto, print ou arquivo” junta a foto do defeito, o print do erro ou um PDF: até 6 arquivos de 25 MB.',
+        },
+      ],
+    },
+    {
+      caminho: '/chamados/[id]',
+      rotulo: 'Chamado',
+      tour: [
+        {
+          titulo: 'O chamado',
+          texto: 'A conversa com a equipe e o quadro com status, prioridade, responsável e prazos. Cada mudança entra na linha do tempo, junto com as mensagens.',
+        },
+        {
+          alvo: 'chamados.avaliacao',
+          titulo: 'Confirmar ou reabrir',
+          texto: 'A equipe marcou como resolvido: confirme com uma nota de 1 a 5, ou reabra se o problema continuar.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.mensagem',
+          titulo: 'Escrever',
+          texto: 'Na caixa de mensagem você escreve e anexa arquivos. Quem atende escolhe entre “Responder a quem abriu” e “Nota interna”, que só a equipe vê.',
+          lado: 'top',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.situacao',
+          titulo: 'Status e prazos',
+          texto: 'O status, a prioridade, o responsável e os prazos de 1ª resposta e de solução. Enquanto o chamado aguarda quem abriu ou um terceiro, o relógio fica pausado.',
+        },
+        {
+          alvo: 'chamados.acoes',
+          titulo: 'Mudar o status',
+          texto: 'Os botões que valem agora para você. A equipe atende, pede informação e resolve; quem abriu pode cancelar enquanto o chamado está em aberto.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.triagem',
+          titulo: 'Triagem',
+          texto: 'Para quem atende: defina o responsável, avalie o impacto (que recalcula a prioridade e os prazos) ou transfira para outra fila.',
+          seAusente: 'pular',
+        },
+      ],
+    },
+    {
+      caminho: '/chamados/configurar',
+      rotulo: 'Configurar chamados',
+      tour: [
+        {
+          titulo: 'Configurar chamados',
+          texto: 'Cada fila é uma equipe que recebe chamados, com prefixo, quem atende, o catálogo de assuntos e os prazos por prioridade. Só administradores mudam.',
+        },
+        {
+          alvo: 'chamados.setores',
+          titulo: 'Setores sem fila',
+          texto: 'Os setores de Pessoas → Setores que ainda não recebem chamados aparecem aqui, cada um com prefixo, ícone e assuntos sugeridos. Marque os que devem atender e toque em “Criar filas”: o responsável do setor já entra como atendente.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.filas',
+          titulo: 'As filas',
+          texto: 'Toque numa fila para abrir. Dentro dela ficam os dados da fila e os prazos, “Quem atende” e “Assuntos (catálogo)”.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.sla',
+          titulo: 'Os prazos',
+          texto: 'Horas de 1ª resposta e de solução para cada prioridade. Contam em horário de atendimento, ou em horas corridas se a fila atende 24h.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.equipe',
+          titulo: 'Quem atende',
+          texto: 'Quem está marcado recebe os chamados novos da fila e pode responder, atribuir, resolver e transferir. Administradores atendem todas as filas.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'chamados.nova-fila',
+          titulo: 'Nova fila',
+          texto: 'O botão “Nova fila” cria uma fila do zero, com nome, prefixo de 2 a 6 letras, ícone e os prazos. Fila sem ninguém em “Quem atende” manda os avisos para os administradores.',
+          seAusente: 'pular',
+        },
+      ],
+    },
+  ],
+  tarefas: [
+    {
+      id: 'chamados-para-os-setores',
+      titulo: 'Fazer outros setores receberem chamados',
+      quem: 'Administradores',
+      passos: [
+        'Em “Chamados”, toque em “Configurar”.',
+        'No alto, em “setores ainda não recebem chamados”, marque os setores que devem atender pedidos.',
+        'Toque em “Criar filas”. Cada setor vira uma fila com prefixo (ex.: JUR-0001), ícone e assuntos sugeridos.',
+        'Abra cada fila nova e confira “Quem atende” (o responsável do setor já vem marcado) e os assuntos.',
+      ],
+      dica: 'Os setores vêm de Pessoas → Setores: um setor novo lá aparece aqui para virar fila. Enquanto uma fila não tiver atendentes, os avisos de chamado novo vão para os administradores.',
+    },
+    {
+      id: 'abrir-chamado',
+      titulo: 'Abrir um chamado',
+      exemplo: 'Em “Abrir chamado”, fila TI: “Projetor da sala 2 não liga”, “Quanto isso atrapalha?”: impede um curso amanhã. O chamado nasce com prioridade alta.',
+      passos: [
+        'Em “Chamados”, toque em “Abrir chamado”.',
+        'Escolha o setor (por exemplo, TI, Manutenção ou Comunicação). Não sabe qual? Busque pelo que precisa e toque no assunto que aparecer.',
+        'Em “Qual é o assunto?”, escolha o que mais combina.',
+        'Preencha “Resumo” e “Descreva com detalhes”. Se o assunto pedir, informe o “Local” (sala, andar ou setor).',
+        'Em “Quanto isso atrapalha?”, escolha “Consigo esperar”, “Atrapalha meu trabalho” ou “Parou tudo”.',
+        'Se ajudar, use “Anexar foto, print ou arquivo”.',
+        'Toque em “Abrir chamado”. A equipe da fila é avisada.',
+      ],
+      dica: 'Num problema, conte o que aconteceu, desde quando, o que já tentou e se aparece alguma mensagem de erro. Num pedido, diga o que precisa, para quem e até quando.',
+    },
+    {
+      id: 'responder-chamado',
+      titulo: 'Acompanhar e responder o seu chamado',
+      passos: [
+        'Em “Chamados”, na aba “Meus chamados”, toque no chamado.',
+        'Leia as respostas da equipe na conversa.',
+        'Escreva na caixa de mensagem e toque em “Enviar”.',
+      ],
+      dica: 'Se o status for “Aguardando você”, a equipe precisa de uma informação sua. Ao responder, o chamado volta sozinho para “Em atendimento”.',
+    },
+    {
+      id: 'confirmar-e-avaliar',
+      titulo: 'Confirmar a solução e avaliar',
+      exemplo: 'Depois da troca do cabo, o instrutor testa o projetor, escolhe a nota 5, escreve “Resolvido em 20 minutos, obrigado!” e toca em “Confirmar e avaliar”.',
+      passos: [
+        'Abra o chamado com o status “Resolvido”.',
+        'Leia a “Solução” escrita pela equipe.',
+        'No cartão “A equipe marcou este chamado como resolvido”, escolha uma nota de 1 a 5.',
+        'Se quiser, deixe um comentário.',
+        'Toque em “Confirmar e avaliar”: o chamado fecha.',
+      ],
+    },
+    {
+      id: 'reabrir-chamado',
+      titulo: 'Reabrir um chamado que não foi resolvido',
+      passos: [
+        'Abra o chamado resolvido.',
+        'No cartão da avaliação, toque em “O problema continua — reabrir”.',
+        'Escreva o que ainda não foi resolvido.',
+        'Toque em “Reabrir chamado”.',
+      ],
+      dica: 'Dá para reabrir até 5 dias depois da solução. Depois disso o chamado fecha sozinho; se o problema voltar, abra um novo e cite o código do antigo.',
+    },
+    {
+      id: 'cancelar-chamado',
+      titulo: 'Cancelar um chamado que você abriu',
+      passos: [
+        'Abra o chamado.',
+        'Toque em “Cancelar chamado”.',
+        'Em “Motivo do cancelamento”, diga por quê.',
+        'Toque em “Cancelar chamado” de novo para confirmar.',
+      ],
+      dica: 'Quem abriu pode cancelar enquanto o chamado ainda não foi resolvido.',
+    },
+    {
+      id: 'atender-chamado',
+      titulo: 'Atender um chamado',
+      quem: 'Quem atende a fila',
+      passos: [
+        'Em “Chamados”, abra a aba “Atendimento”.',
+        'Se precisar, filtre por fila, situação ou responsável (“Comigo”, “Sem responsável”) e toque em “Filtrar”.',
+        'Abra o chamado e toque em “Atender”. Se ele não tinha responsável, passa a ser você.',
+        'Na caixa de mensagem, com “Responder a quem abriu” selecionado, escreva e toque em “Enviar”. Para combinar algo só com a equipe, escolha “Nota interna” e toque em “Salvar nota”.',
+        'Se precisar de algo de quem abriu, toque em “Pedir informação”; se depende de fornecedor ou peça, em “Aguardar terceiro”. O prazo pausa.',
+        'Terminou? Toque em “Resolver”, descreva em “Como foi resolvido?” e confirme.',
+      ],
+      dica: 'Atender, mudar o status ou responder a quem abriu conta como 1ª resposta; nota interna não conta. A solução é o que quem abriu vai ler para confirmar.',
+    },
+    {
+      id: 'triagem-do-chamado',
+      titulo: 'Definir responsável, impacto ou transferir',
+      quem: 'Quem atende a fila',
+      passos: [
+        'Abra o chamado e vá ao quadro “Triagem”.',
+        'Em “Responsável”, escolha quem vai cuidar. A pessoa recebe um aviso.',
+        'Em “Impacto”, escolha “Uma pessoa”, “Um setor inteiro” ou “A filial toda”. A prioridade e os prazos são recalculados.',
+        'Se o chamado é de outra equipe, toque em “Transferir para outra fila”, escolha a fila e o assunto, diga por quê e toque em “Transferir”.',
+      ],
+      dica: 'Ao transferir, o chamado ganha um código novo na outra fila (o antigo fica na linha do tempo) e fica sem responsável. A equipe de destino e quem abriu são avisados.',
+    },
+    {
+      id: 'atender-pelo-whatsapp',
+      titulo: 'Assumir, resolver ou transferir pelo WhatsApp',
+      quem: 'Quem atende a fila',
+      exemplo: 'Às 8h, a TI recebe no WhatsApp o aviso do TI-0042, “Impressora sem toner”. A técnica responde “assumo”, troca o toner e responde o mesmo aviso com “resolvido: troquei o toner da sala 3”; toca em “Confirmo”, e quem abriu recebe a solução.',
+      passos: [
+        'Confirme o seu WhatsApp em “Meu perfil”. No número do Palácio, “5” mostra os seus chamados e os abertos da sua fila, os sem responsável primeiro.',
+        'Para assumir, responda a mensagem do aviso do chamado com “assumo”, ou mande “assumir” e o código (ex.: “assumir TI-0042”). O chamado passa para “Em atendimento” e fica com você.',
+        'Para resolver, responda o aviso com “resolvido:” e a solução, ou mande “resolver TI-0042: troquei o toner”. O Palácio mostra a conferência: toque em “Confirmo” (ou responda “confirmo”).',
+        'Para transferir, mande “transferir TI-0042 para” e a equipe, com o motivo depois dos dois-pontos (ex.: “transferir TI-0042 para Manutenção: o ar pinga”). O Palácio pergunta o assunto e o motivo, se faltarem, e pede a conferência.',
+      ],
+      dica: 'Vale o mesmo que na tela: quem abriu é avisado da solução, e a equipe de destino e quem abriu, da transferência. O que mais você responder no aviso continua indo para quem abriu como mensagem. Quem usa a verificação em duas etapas atende pelo Palácio.',
+    },
+    {
+      id: 'criar-fila',
+      titulo: 'Criar ou ajustar uma fila',
+      quem: 'Só administradores',
+      passos: [
+        'Em “Chamados”, toque em “Configurar”.',
+        'Toque em “Nova fila”, ou abra uma fila existente.',
+        'Preencha “Nome”, “Prefixo” (de 2 a 6 letras, como TI ou MAN) e “O que esta equipe atende”.',
+        'Deixe marcado “Recebendo chamados” e, se for o caso, marque “Atende 24h (prazos em horas corridas)”.',
+        'Ajuste as horas de “1ª resposta (horas)” e “Solução (horas)” de cada prioridade.',
+        'Toque em “Criar fila” (ou “Salvar fila”).',
+      ],
+      dica: 'Mudar os prazos vale para os chamados novos.',
+    },
+    {
+      id: 'equipe-e-assuntos',
+      titulo: 'Definir quem atende e os assuntos de uma fila',
+      quem: 'Só administradores',
+      passos: [
+        'Em “Configurar”, toque na fila para abrir.',
+        'Em “Quem atende”, marque as pessoas e toque em “Salvar equipe”.',
+        'Em “Assuntos (catálogo)”, toque em “Novo assunto” (ou num assunto, para editar).',
+        'Dê um nome, escreva exemplos para quem abre e escolha “Incidente” (algo parou) ou “Solicitação” (algo novo que se pede).',
+        'Marque “Pede local” se a equipe precisa saber a sala ou o andar, e toque em “Salvar”.',
+      ],
+      dica: 'Assunto desmarcado em “Ativo” some do formulário de abertura. Fila sem nenhum assunto ativo não aparece para quem abre chamado.',
+    },
+    {
+      id: 'cartaz-com-qr',
+      titulo: 'Imprimir o cartaz com QR de um setor',
+      exemplo: 'A TI cola o cartaz dela ao lado da impressora do segundo andar: quem vê a impressora travada lê o QR e abre o chamado para a TI em um minuto, sem procurar o caminho no menu.',
+      passos: [
+        'Em “Chamados”, toque em “Cartaz com QR”.',
+        'No alto, em “Setor”, escolha o setor que vai receber os chamados — ou “Todos os setores”, para um cartaz geral em que a pessoa escolhe o setor ao ler o QR.',
+        'Em “Chamada”, escolha o texto do cartaz: “Precisa de…?”, as chamadas escritas para os setores mais comuns, “O que o setor atende” (lista os assuntos do catálogo) e as outras. O cartaz muda na hora.',
+        'Se preferir, escreva o seu próprio “Título” (use | antes da parte que fica em vermelho) e a sua “Frase de apoio”: eles valem por cima da chamada escolhida.',
+        'Toque em “Imprimir ou salvar PDF” (A4 em pé) e cole o cartaz perto de onde o problema costuma aparecer.',
+      ],
+      dica: 'Quem configura os chamados acha o mesmo cartaz dentro de cada fila, em “Cartaz com QR deste setor”. Só aparecem os setores ativos. O endereço da página guarda as escolhas: copie e mande a outra pessoa para imprimir o mesmo cartaz.',
+    },
+  ],
+  perguntas: [
+    {
+      id: 'qr-do-cartaz',
+      pergunta: 'Quem lê o QR do cartaz precisa ter login?',
+      resposta: 'Precisa: o cartaz é para a equipe da filial. Com o Palácio Virtual já aberto no celular, o QR leva direto a “Abrir chamado”, no setor do cartaz. Sem estar logada, a pessoa entra com o usuário e a senha e volta sozinha para o chamado.',
+      termos: ['qr code', 'cartaz', 'imprimir', 'celular', 'visitante'],
+    },
+    {
+      id: 'status-do-chamado',
+      pergunta: 'O que significa cada status?',
+      resposta: '“Novo”: ninguém atendeu ainda; “Em atendimento”: a equipe está cuidando; “Aguardando você” (para a equipe, “Aguardando solicitante”): falta uma resposta sua; “Aguardando terceiro”: depende de fornecedor ou peça.\n\n“Resolvido”: a equipe deu a solução e espera a sua confirmação. “Fechado” e “Cancelado” encerram o chamado.',
+      termos: ['situação', 'aguardando solicitante', 'aguardando terceiro'],
+    },
+    {
+      id: 'prioridade',
+      pergunta: 'Como a prioridade é definida?',
+      resposta: 'Você diz quanto o problema atrapalha, e a equipe avalia o impacto: uma pessoa, um setor inteiro ou a filial toda. A combinação dos dois dá a prioridade (“Baixa”, “Média”, “Alta” ou “Crítica”), e ela define os prazos. Ao abrir, o impacto começa em “Uma pessoa”.',
+      termos: ['urgência', 'impacto', 'crítica', 'matriz'],
+    },
+    {
+      id: 'mudar-urgencia',
+      pergunta: 'Dá para mudar o “Quanto isso atrapalha?” depois de abrir?',
+      resposta: 'Não: a urgência fica como você informou ao abrir. Se a situação piorou, conte na conversa do chamado; quem atende pode rever o “Impacto”, que recalcula a prioridade e os prazos.',
+      termos: ['urgência', 'piorou', 'aumentar prioridade', 'mudar prioridade'],
+    },
+    {
+      id: 'como-contam-os-prazos',
+      pergunta: 'Como contam os prazos?',
+      resposta: 'Cada prioridade tem dois prazos: 1ª resposta e solução. Eles contam em horário de atendimento, de segunda a sexta, das 8h às 18h (horário de Brasília), a não ser que a fila atenda 24h. Enquanto o chamado está “Aguardando você” ou “Aguardando terceiro”, o relógio para.',
+      termos: ['sla', 'prazo', 'tempo de resposta', 'horário comercial'],
+    },
+    {
+      id: 'selos-de-prazo',
+      pergunta: 'O que querem dizer “Vence logo”, “Atrasado” e “Pausado”?',
+      resposta: '“Vence logo” aparece quando resta menos de um quarto do tempo do prazo. “Atrasado”: o prazo passou. “Pausado”: o chamado aguarda quem abriu ou um terceiro, e o tempo não conta contra a equipe.',
+      termos: ['em risco', 'estourado', 'no prazo'],
+    },
+    {
+      id: 'quem-ve-o-chamado',
+      pergunta: 'Quem vê o meu chamado?',
+      resposta: 'Você e a equipe da fila, além dos administradores, que atendem todas as filas. A nota interna e os anexos dela só a equipe vê.',
+      termos: ['privacidade', 'nota interna', 'visibilidade'],
+    },
+    {
+      id: 'responder-por-email',
+      pergunta: 'Posso responder pelo e-mail do aviso?',
+      resposta: 'Não. Os avisos chegam no sino e por e-mail, mas a resposta tem de ser escrita no próprio chamado, no Palácio Virtual: respostas ao e-mail não entram no atendimento.',
+      termos: ['responder e-mail', 'notificação', 'aviso'],
+    },
+    {
+      id: 'quando-recebo-aviso',
+      pergunta: 'Quando recebo aviso de um chamado?',
+      resposta: 'Quem abriu é avisado das respostas da equipe, dos pedidos de informação, da solução, do cancelamento feito pela equipe e da mudança de fila.\n\nA equipe da fila é avisada de chamado novo e de chamado transferido para ela. Quem é responsável pelo chamado é avisado da atribuição, das mensagens de quem abriu, da reabertura, do cancelamento e da avaliação; sem responsável, mensagens e reaberturas vão para a equipe da fila. Ninguém é avisado do que fez: quem resolve o próprio chamado não recebe a réplica.\n\nNo WhatsApp confirmado no perfil, a solução, o pedido de informação e o cancelamento pela equipe chegam mesmo se você estiver com o Palácio Virtual aberto (de 22h às 7h, esperam a manhã).',
+      termos: ['notificação', 'sino', 'e-mail', 'WhatsApp', 'réplica', 'não recebi'],
+    },
+    {
+      id: 'fechou-sozinho',
+      pergunta: 'Por que o meu chamado fechou sozinho?',
+      resposta: 'Chamado “Resolvido” que quem abriu não confirma nem reabre fecha sozinho 5 dias depois da solução. Mensagem na conversa não segura o chamado aberto: para isso, use “O problema continua — reabrir”. Se o problema voltou depois, abra um novo chamado e cite o código do antigo.',
+      termos: ['fechamento automático', 'fechado', 'Fechado automaticamente'],
+    },
+    {
+      id: 'nao-consigo-reabrir',
+      pergunta: 'Por que não consigo reabrir?',
+      resposta: 'Reabrir vale até 5 dias depois da solução. Passado esse prazo, abra um novo chamado e cite o código do antigo.',
+      termos: ['reabrir', 'O prazo para reabrir passou'],
+    },
+    {
+      id: 'codigo-mudou',
+      pergunta: 'Por que o código do chamado mudou?',
+      resposta: 'O chamado foi transferido para outra fila, e cada fila tem a sua numeração (TI-0042, MAN-0007…). O código antigo fica registrado na linha do tempo.',
+      termos: ['transferido', 'número mudou', 'mudou de equipe'],
+    },
+    {
+      id: 'whatsapp-nao-deixa-atender',
+      pergunta: 'Por que o WhatsApp não me deixa assumir ou resolver um chamado?',
+      resposta: 'Três motivos comuns: o chamado não é da fila que você atende (só a equipe da fila e os administradores assumem, resolvem e transferem; quem abriu responde o aviso); o código mudou porque o chamado foi transferido (cada fila tem a sua numeração, e o “5” mostra o código atual); ou a sua conta usa a verificação em duas etapas, e o WhatsApp não pede o código do app: aí o atendimento fica no Palácio.',
+      termos: ['whatsapp', 'assumir pelo whatsapp', 'resolver pelo whatsapp', 'transferir pelo whatsapp', 'Não achei o chamado', 'verificação em duas etapas'],
+    },
+    {
+      id: 'sem-aba-atendimento',
+      pergunta: 'Por que não vejo a aba “Atendimento”?',
+      resposta: '“Atendimento” e “Indicadores” só aparecem para quem faz parte da equipe de alguma fila e para administradores. Quem define as equipes é um administrador, em “Configurar”.',
+      termos: ['indicadores', 'atender', 'equipe da fila'],
+    },
+    {
+      id: 'indicadores',
+      pergunta: 'O que mostram os “Indicadores”?',
+      resposta: 'Os chamados abertos nos últimos 90 dias nas filas que você atende: em aberto, atrasados, tempo médio de 1ª resposta e de solução, resolvidos no prazo, satisfação, os números por fila e por prioridade e os assuntos mais pedidos.\n\nOs tempos médios contam em horário de atendimento (em horas corridas nas filas 24h), da abertura até a resposta ou a solução. A satisfação (CSAT) é a parte das avaliações com nota 4 ou 5.',
+      termos: ['csat', 'métricas', 'relatório', 'média'],
+    },
+    {
+      id: 'equipe-nao-aparece',
+      pergunta: 'A equipe de que preciso não aparece. E agora?',
+      resposta: 'Só aparecem as filas que estão recebendo chamados e têm ao menos um assunto ativo. Se faltar uma equipe, fale com um administrador.',
+      termos: ['fila', 'Nenhuma equipe está recebendo chamados agora'],
+    },
+    {
+      id: 'anexos-permitidos',
+      pergunta: 'Que arquivos posso anexar?',
+      resposta: 'Foto ou imagem (JPG, PNG, WebP, GIF ou HEIC), vídeo curto (MP4 ou MOV), PDF, Word, Excel, CSV ou texto: até 6 arquivos por envio, de até 25 MB cada. Outros formatos são recusados.',
+      termos: ['anexo', 'foto', 'print', 'tamanho', 'maior que 25 MB'],
+    },
+  ],
+  relacionadas: ['/patrimonio', '/financeiro/compras'],
+}
+
+// ---------------------------------------------------------------- Pedidos de compra
+
+const COMPRAS: GuiaDaArea = {
+  href: '/financeiro/compras',
+  paraQueServe: 'O caminho de uma compra, do pedido do setor à conta a pagar: cotação com as propostas dos fornecedores lado a lado, aprovação, ordem de compra, recebimento e entrada no estoque ou no patrimônio. Tudo fica no histórico do pedido, para a prestação de contas.',
+  quemUsa: 'Qualquer pessoa da equipe pede e acompanha os seus pedidos. No Financeiro, quem tem o nível “Lançar” (ou acima) cota, emite a ordem e lança a conta, e quem tem o nível “Aprovar” (ou acima) aprova; acima do limite, a Diretoria também aprova. Quem opera o Patrimônio dá entrada no que chegou.',
+  naPratica: {
+    titulo: 'Papel e canetas para o escritório, da ideia à nota',
+    passos: [
+      'A Ana, da Comunicação, pede em “Novo pedido”: 10 resmas de papel A4 e 50 canetas, para até 15/10.',
+      'O Financeiro classifica o pedido em “Material de escritório” e toca em “Pedir propostas”: a Papelaria Centro e a Kalunga já vêm marcadas, porque vendem essa categoria.',
+      'Cada fornecedor recebe um e-mail com um link só dele, preenche os preços pelo celular e a proposta cai sozinha no mapa comparativo.',
+      'No prazo, o Financeiro escolhe a mais barata e manda para aprovação; a coordenação aprova.',
+      'Sai a ordem de compra por e-mail, o material chega, a Ana registra o recebimento, e a conta a pagar entra no Financeiro.',
+    ],
+    resultado: 'Cada compra tem as propostas, a aprovação e a nota juntas, prontas para a prestação de contas.',
+  },
+  tour: [
+    {
+      titulo: 'Pedidos de compra',
+      texto: 'Qualquer pessoa da equipe pede o que o setor precisa. O Financeiro cota com os fornecedores, a compra é aprovada, e você acompanha cada passo.',
+    },
+    {
+      alvo: 'compras.novo',
+      titulo: 'Pedir uma compra',
+      texto: 'O botão “Novo pedido” abre o formulário: o que comprar, para quê, até quando e os itens, com a especificação de cada um.',
+      lado: 'bottom',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'compras.abas',
+      titulo: 'As abas',
+      texto: '“Meus pedidos” mostra o que você pediu. Conforme o seu acesso, aparecem também “Para aprovar”, “Para cotar”, “Em andamento”, “Dar entrada” e “Todos”.',
+      lado: 'bottom',
+    },
+    {
+      alvo: 'compras.lista',
+      titulo: 'Os pedidos',
+      texto: 'Cada pedido traz o número (como PC-2026-0007), quem pediu, o valor e a situação. Tocar abre tudo: itens, cotação, aprovação e histórico.',
+      seAusente: 'pular',
+    },
+    {
+      titulo: 'As regras de compra',
+      texto: 'Até um limite, basta uma proposta; acima dele, são exigidas mais propostas; acima de outro limite, a Diretoria também aprova. Os valores atuais aparecem no alto de “Novo pedido”.',
+    },
+    {
+      alvo: 'compras.relatorio',
+      titulo: 'Relatório para a transparência',
+      texto: 'Para o Financeiro: o PDF do mês com as compras aprovadas, todas as propostas e a justificativa, pronto para enviar em Transparência → Documentos.',
+      seAusente: 'pular',
+    },
+  ],
+  telas: [
+    {
+      caminho: '/financeiro/compras/novo',
+      rotulo: 'Novo pedido',
+      tour: [
+        {
+          titulo: 'Novo pedido de compra',
+          texto: 'Diga o que precisa, para quê e até quando, e liste os itens. O Financeiro cota com os fornecedores e manda para aprovação.',
+        },
+        {
+          alvo: 'compras.dados',
+          titulo: 'O pedido',
+          texto: '“O que você precisa comprar” e “Para quê” são obrigatórios; o motivo fica no processo e na prestação de contas. Informe também “Precisa até” e “Onde entregar”.',
+        },
+        {
+          alvo: 'compras.itens',
+          titulo: 'Os itens',
+          texto: 'Cada item tem descrição, quantidade e unidade. A seta abre a especificação, que vai igual para todos os fornecedores. O valor estimado é opcional.',
+        },
+        {
+          alvo: 'compras.enviar',
+          titulo: 'Enviar',
+          texto: '“Enviar pedido” grava o pedido e avisa quem cota no Financeiro. Depois, você acompanha tudo na página do pedido.',
+          lado: 'top',
+        },
+      ],
+    },
+    {
+      caminho: '/financeiro/compras/[id]/editar',
+      rotulo: 'Alterar pedido',
+      tour: [
+        {
+          titulo: 'Alterar o pedido',
+          texto: 'Quem pediu altera enquanto ninguém começou a cotar; o Financeiro, até mandar para aprovação. Tirar um item apaga os preços dele nas propostas já registradas.',
+        },
+        {
+          alvo: 'compras.itens',
+          titulo: 'Os itens',
+          texto: 'Ajuste descrição, quantidade, unidade e especificação. “Outro item” acrescenta uma linha; a lixeira tira o item.',
+        },
+        {
+          alvo: 'compras.enviar',
+          titulo: 'Salvar',
+          texto: '“Salvar alterações” grava e volta para a página do pedido.',
+          lado: 'top',
+        },
+      ],
+    },
+    {
+      caminho: '/financeiro/compras/[id]',
+      rotulo: 'Pedido de compra',
+      tour: [
+        {
+          titulo: 'O pedido',
+          texto: 'Uma compra de ponta a ponta numa página só: o que se pede, a cotação, a aprovação, a ordem de compra, o que chegou, a conta a pagar e o histórico.',
+        },
+        {
+          alvo: 'compras.estado',
+          titulo: 'Situação',
+          texto: 'O número, o título e a situação do pedido. “Alterar” e “Cancelar pedido” aparecem só enquanto ainda dá, e para quem pode.',
+          lado: 'bottom',
+        },
+        {
+          alvo: 'compras.pedir-propostas',
+          titulo: 'Pedir propostas',
+          texto: '“Pedir propostas” traz marcados os fornecedores habituais: quem vende a categoria do pedido e quem já cotou compras dela. Cada um recebe um e-mail com um link só dele, responde sem senha, e a proposta cai sozinha no mapa. Aqui você acompanha quem já respondeu.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'compras.cotacao',
+          titulo: 'O mapa comparativo',
+          texto: 'As propostas lado a lado: o menor preço de cada item fica em verde, e o troféu marca a proposta completa mais barata.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'compras.aprovacao',
+          titulo: 'Aprovação',
+          texto: 'Quem já aprovou e quem falta: o Financeiro e, acima do limite, a Diretoria. Quem pediu a compra não decide sobre ela.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'compras.ordem',
+          titulo: 'Ordem de compra',
+          texto: 'Aprovada, a compra vira ordem de compra, com número próprio (OC-…) e PDF, que o Financeiro manda ao fornecedor.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'compras.recebimento',
+          titulo: 'Recebimento',
+          texto: 'Quando o material chegar, quem pediu (ou o Financeiro) toca em “Registrar o que chegou”. Pode chegar em partes.',
+          seAusente: 'pular',
+        },
+        {
+          alvo: 'compras.historico',
+          titulo: 'Histórico',
+          texto: 'Quem fez o quê e quando, do pedido à conta a pagar: é a trilha para a prestação de contas.',
+          lado: 'top',
+        },
+      ],
+    },
+  ],
+  tarefas: [
+    {
+      id: 'pedir-compra',
+      titulo: 'Pedir uma compra',
+      exemplo: 'A Ana pede “Papel A4 e canetas” para “Reposição do escritório”: 10 resmas de A4 75 g/m² e 50 canetas azuis, entrega na sede até 15/10.',
+      passos: [
+        'Em “Pedidos de compra”, toque em “Novo pedido”.',
+        'Preencha “O que você precisa comprar” e “Para quê”.',
+        'Confira o “Setor que pede” e, se a compra for de um projeto, escolha em “Projeto (se for de um)”. Informe “Precisa até” e “Onde entregar”.',
+        'Em “Itens”, descreva cada item, com “Qtde.” e “Unidade”. A seta ao lado abre a especificação (tamanho, marca de referência, norma técnica…).',
+        'Se souber, preencha o “Valor unit. estimado”. Use “Outro item” para incluir mais linhas.',
+        'Toque em “Enviar pedido”.',
+      ],
+      dica: 'Especifique bem: a mesma especificação vai para todos os fornecedores, e é ela que permite comparar as propostas.',
+    },
+    {
+      id: 'alterar-ou-cancelar-pedido',
+      titulo: 'Alterar ou cancelar o seu pedido',
+      passos: [
+        'Abra o pedido.',
+        'Para mudar, toque em “Alterar”, ajuste e toque em “Salvar alterações”.',
+        'Para desistir, toque em “Cancelar pedido”, escreva o motivo e toque em “Cancelar o pedido”.',
+      ],
+      dica: 'Quem pediu altera enquanto a situação é “Aguardando cotação” e cancela até a compra ser aprovada. Depois disso, fale com o Financeiro.',
+    },
+    {
+      id: 'registrar-recebimento',
+      titulo: 'Registrar o que chegou',
+      quem: 'Quem pediu, ou o Financeiro',
+      passos: [
+        'Abra o pedido com a ordem de compra emitida.',
+        'Em “Recebimento”, toque em “Registrar o que chegou”.',
+        'Em “Chegou agora”, informe a quantidade de cada item (já vem com o que falta).',
+        'Preencha “Chegou em” e a “Nota fiscal”. Se houver avaria ou falta, conte em “Observação”.',
+        'Toque em “Registrar recebimento”.',
+      ],
+      dica: 'Dá para registrar em partes, conforme chega. Ninguém registra mais do que foi pedido.',
+    },
+    {
+      id: 'pedir-propostas',
+      titulo: 'Pedir propostas aos fornecedores (sem digitar)',
+      exemplo: 'No pedido PC-2026-0001 (papel e canetas), “Pedir propostas” traz marcadas a Papelaria Centro (vende Material de escritório) e a Kalunga (cotou 1 vez); o Financeiro põe prazo de 5 dias e envia pela caixa compras@….',
+      quem: 'Financeiro, a partir do nível “Lançar”',
+      passos: [
+        'Abra o pedido pela aba “Para cotar”. Se ele não tiver categoria, toque em “Alterar” e preencha “Categoria (Financeiro)”: é ela que traz os fornecedores habituais.',
+        'Em “Pedir propostas aos fornecedores”, toque em “Pedir propostas”.',
+        'Confira a lista: já vêm marcados quem vende a categoria e quem já cotou compras dela. Para incluir outro, use “Buscar outro fornecedor” ou “Mostrar todos os fornecedores”. Quem está sem e-mail pede o e-mail na hora.',
+        'Escolha o “Prazo para as propostas” e, em “Enviar pelo e-mail”, a caixa do setor. Se quiser, escreva um “Recado”.',
+        'Toque em “Enviar para … fornecedores”. Cada um recebe um e-mail só dele, com os itens, o prazo e o link.',
+        'Acompanhe na mesma lista: “E-mail enviado”, “Abriu o link”, “Mandou a proposta” ou “Não vai cotar”. Cada resposta também avisa no sino, e a proposta já aparece no mapa comparativo.',
+      ],
+      dica: 'Na véspera do prazo, quem não respondeu recebe um lembrete sozinho; quando o prazo acaba, você é avisado. Sem caixa de e-mail, escolha “Não enviar e-mail (só gerar os links)” e use “Copiar link” para mandar por WhatsApp.',
+    },
+    {
+      id: 'marcar-o-que-vende',
+      titulo: 'Dizer o que cada fornecedor vende',
+      quem: 'Financeiro, a partir do nível “Lançar”',
+      passos: [
+        'Vá em Financeiro → Cadastros → Favorecidos.',
+        'Toque no lápis do fornecedor (ou em “Novo favorecido”).',
+        'Confira o “E-mail” e, em “O que ele vende”, marque as categorias.',
+        'Toque em “Salvar”.',
+      ],
+      dica: 'Quando um pedido de compra for de uma dessas categorias, o fornecedor já vem marcado em “Pedir propostas”.',
+    },
+    {
+      id: 'cotar-pedido',
+      titulo: 'Registrar uma proposta à mão',
+      quem: 'Financeiro, a partir do nível “Lançar”',
+      passos: [
+        'Abra o pedido pela aba “Para cotar”.',
+        'Se faltar, toque em “Alterar” e preencha “Categoria (Financeiro)” e “Fonte do dinheiro (Financeiro)”: sem elas o pedido não vai para aprovação.',
+        'Se a proposta chegou por outro caminho (telefone, balcão, e-mail fora do link), em “Cotação — mapa comparativo”, toque em “Registrar proposta”.',
+        'Escolha o “Fornecedor”, preencha “Recebida em”, “Válida até”, o “Prazo de entrega”, a “Condição de pagamento”, o “Frete (R$)” e o preço unitário de cada item. Toque em “Salvar proposta”.',
+        'Na proposta, use “Anexar documento” para juntar o PDF ou a foto da proposta do fornecedor.',
+        'Repita para cada fornecedor.',
+      ],
+      dica: 'Item sem preço conta como “não cotou”, e a proposta fica incompleta. Fornecedor que não está na lista se cadastra em Financeiro → Cadastros → Favorecidos.',
+    },
+    {
+      id: 'mandar-para-aprovacao',
+      titulo: 'Escolher a proposta e mandar para aprovação',
+      exemplo: 'Das 3 propostas, a Papelaria Centro saiu mais barata (R$ 412,00 com frete); o Financeiro escolhe “Escolher” nela e toca em “Mandar para aprovação”, sem precisar de justificativa.',
+      quem: 'Financeiro, a partir do nível “Lançar”',
+      passos: [
+        'No mapa comparativo, na linha “Vencedora”, marque “Escolher” na proposta escolhida. Só proposta completa pode ser escolhida.',
+        'Leia o resumo: ele diz quantas propostas a faixa exige e se a Diretoria também aprova.',
+        'Se faltarem propostas, ou se a escolhida não for a mais barata, escreva a “Justificativa (obrigatória)”, com pelo menos 15 caracteres.',
+        'Toque em “Mandar para aprovação”. Quem aprova e quem pediu recebem aviso.',
+      ],
+    },
+    {
+      id: 'aprovar-compra',
+      titulo: 'Aprovar, devolver ou recusar uma compra',
+      quem: 'Financeiro, a partir do nível “Aprovar”; acima do limite, também a Diretoria',
+      passos: [
+        'Abra o pedido pela aba “Para aprovar”.',
+        'Confira o mapa comparativo, a justificativa e, se houver, o aviso de verba da categoria.',
+        'Em “Aprovação”, escreva uma observação (opcional para aprovar).',
+        'Toque em “Aprovar como Financeiro” (ou “Aprovar como Diretoria”), “Devolver para a cotação” ou “Recusar”. Devolver e recusar pedem o motivo.',
+      ],
+      dica: 'Quem pediu a compra não decide sobre ela, e a mesma pessoa não aprova pelo Financeiro e pela Diretoria.',
+    },
+    {
+      id: 'emitir-ordem',
+      titulo: 'Emitir e enviar a ordem de compra',
+      quem: 'Financeiro, a partir do nível “Lançar”',
+      passos: [
+        'Abra o pedido aprovado (aba “Em andamento”).',
+        'Em “Ordem de compra”, escreva uma observação para o fornecedor, se quiser, e toque em “Emitir a ordem de compra”.',
+        'Toque em “Abrir o PDF” para conferir.',
+        'Toque em “Enviar ao fornecedor”, escolha em “De” o e-mail do setor, confira “Para” e a “Mensagem” e toque em “Enviar com o PDF”.',
+      ],
+      dica: 'Sem uma caixa de e-mail de setor, baixe o PDF e mande pelo seu e-mail, ou peça a alguém do setor.',
+    },
+    {
+      id: 'lancar-conta',
+      titulo: 'Lançar a conta a pagar da compra',
+      quem: 'Financeiro, a partir do nível “Lançar”',
+      passos: [
+        'Abra o pedido e, em “Conta a pagar”, toque em “Lançar a conta a pagar”.',
+        'Escolha a conta em “Sai da conta”, a data em “Vence em” e o número de “Parcelas” (até 12).',
+        'Confira o “Valor (R$)”: pode ser menor que o aprovado (desconto), nunca maior.',
+        'Informe o “Documento” (nota fiscal ou boleto) e toque em “Lançar no Financeiro”.',
+      ],
+      dica: 'A conta entra no Financeiro já aprovada, com o fornecedor, a categoria, a fonte e o projeto do pedido. Com parcelas, as seguintes vencem mês a mês.',
+    },
+    {
+      id: 'dar-entrada',
+      titulo: 'Dar entrada no estoque ou no patrimônio',
+      quem: 'Quem opera o Patrimônio',
+      passos: [
+        'Abra o pedido pela aba “Dar entrada”.',
+        'Em “Entrada no estoque ou patrimônio”, toque em “Dar entrada” no item.',
+        'Escolha o destino: “Estoque”, “Patrimônio” ou “Sem entrada” (serviço ou uso imediato).',
+        'No estoque, escolha o “Item do estoque” e o “Local”; informe o “Lote”, se houver, e a “Validade” (obrigatória quando o item controla validade). Se a unidade for outra (5 caixas de 100 = 500 un), preencha a “Quantidade no estoque”.',
+        'No patrimônio, preencha “Nome do bem” e “Categoria”: cada unidade vira um bem com plaqueta.',
+        'Toque em “Registrar a entrada”.',
+      ],
+      dica: 'O custo já vem com a parte do frete. Não achou o item no estoque? Cadastre o item e recarregue a página.',
+    },
+    {
+      id: 'relatorio-transparencia',
+      titulo: 'Gerar o relatório de compras para a transparência',
+      quem: 'Quem tem acesso ao Financeiro',
+      passos: [
+        'Em “Pedidos de compra”, desça até “Relatório de compras para a transparência”.',
+        'Escolha o mês.',
+        'Toque em “Gerar PDF”.',
+        'Para publicar, envie o PDF em Transparência → Documentos.',
+      ],
+      dica: 'O relatório traz as compras aprovadas no mês, com todas as propostas recebidas e a justificativa quando houve. Fornecedor pessoa física sai sem identificação.',
+    },
+  ],
+  perguntas: [
+    {
+      id: 'como-o-fornecedor-responde',
+      pergunta: 'Como o fornecedor responde a um pedido de proposta?',
+      resposta: 'Pelo link do e-mail, sem senha nem cadastro. Ele vê os itens, as quantidades, o local de entrega e o prazo; preenche o preço de cada item, o frete, o prazo de entrega, a condição de pagamento e a validade, e pode anexar a proposta em PDF. Se não fornece algum item, deixa em branco.\n\nAté o fim do dia do prazo, ele pode abrir o link de novo e corrigir: a nova proposta substitui a anterior. Também pode avisar que não vai cotar. O fornecedor não vê o valor estimado nem quem mais foi convidado.',
+      termos: ['link', 'fornecedor', 'cotação', 'pedido de proposta', 'orçamento por e-mail'],
+    },
+    {
+      id: 'onde-estao-as-propostas',
+      pergunta: 'Onde ficam as propostas de um pedido?',
+      resposta: 'Dentro do pedido, no “Cotação — mapa comparativo”: as que os fornecedores mandaram pelo link entram sozinhas, e as registradas à mão também. Na lista “Para cotar”, cada pedido mostra quantas já chegaram e o prazo.',
+      termos: ['cotações', 'outras cotações', 'mapa comparativo', 'para cotar'],
+    },
+    {
+      id: 'quantas-propostas',
+      pergunta: 'Quantas propostas uma compra precisa?',
+      resposta: 'Depende do valor. Até o limite da compra simples, basta uma; acima dele, o mínimo de propostas definido pela filial; acima do limite da Diretoria, também a aprovação dela. Os valores atuais aparecem no alto de “Novo pedido”.',
+      termos: ['cotações', 'orçamentos', 'três propostas', 'limite', 'faixa'],
+    },
+    {
+      id: 'quem-aprova',
+      pergunta: 'Quem aprova uma compra?',
+      resposta: 'Alguém do Financeiro com o nível “Aprovar” (ou acima). Acima do limite da Diretoria, também alguém da Diretoria, que precisa ser outra pessoa. Quem pediu a compra nunca decide sobre ela.',
+      termos: ['aprovação', 'diretoria', 'Quem pediu a compra não decide sobre ela'],
+    },
+    {
+      id: 'situacoes-do-pedido',
+      pergunta: 'O que significa cada situação do pedido?',
+      resposta: '“Aguardando cotação”: ninguém registrou proposta ainda; “Em cotação”: o Financeiro está juntando propostas; “Em aprovação”: espera o Financeiro e, se preciso, a Diretoria.\n\n“Aprovado”, “Ordem emitida”, “Recebido em parte” e “Recebido” acompanham a compra até a entrega. “Recusado” e “Cancelado” encerram o pedido.',
+      termos: ['status', 'estado', 'em cotação', 'em aprovação'],
+    },
+    {
+      id: 'devolvida-para-cotacao',
+      pergunta: 'O que acontece quando a compra volta para a cotação?',
+      resposta: 'Quem aprova usou “Devolver para a cotação”, com um motivo. O pedido volta para “Em cotação”, as aprovações já dadas são desfeitas, e quem pediu e quem mandou para aprovação recebem o aviso com o motivo. Quem cota ajusta as propostas ou a escolha e manda para aprovação de novo.',
+      termos: ['devolvido', 'devolver', 'voltou para a cotação'],
+    },
+    {
+      id: 'nao-consigo-alterar',
+      pergunta: 'Por que não consigo alterar o meu pedido?',
+      resposta: 'Quem pediu altera só enquanto a situação é “Aguardando cotação”. Depois, quem altera é o Financeiro, até mandar para aprovação. Se algo mudou, fale com quem está cotando.',
+      termos: ['editar', 'mudar', 'Este pedido não pode mais ser alterado'],
+    },
+    {
+      id: 'ate-quando-cancelar',
+      pergunta: 'Até quando dá para cancelar um pedido?',
+      resposta: 'Quem pediu cancela até a compra ser aprovada. Quem cota no Financeiro (a partir do nível “Lançar”) cancela também depois, enquanto nada chegou e a conta a pagar não foi lançada. Cancelar pede um motivo, que fica no pedido.',
+      termos: ['cancelar', 'desistir', 'Já chegou material ou a conta foi lançada'],
+    },
+    {
+      id: 'quando-justificar',
+      pergunta: 'Quando a escolha da proposta precisa de justificativa?',
+      resposta: 'Quando há menos propostas completas do que a faixa exige, ou quando a escolhida não é a mais barata. A justificativa (pelo menos 15 caracteres) fica no pedido, no histórico e no relatório da transparência.',
+      termos: ['justificar', 'mais barata', 'menos propostas'],
+    },
+    {
+      id: 'fracionamento',
+      pergunta: 'O que é o aviso de “possível fracionamento”?',
+      resposta: 'Aparece para quem cota e aprova quando esta compra, somada às parecidas (mesma categoria ou mesmo fornecedor) dos últimos 90 dias, cai numa faixa mais exigente. É só um alerta: necessidades independentes podem ser compradas em separado. Se for a mesma necessidade dividida, junte num pedido só.',
+      termos: ['fracionar', 'dividir compra', 'alerta'],
+    },
+    {
+      id: 'verba-da-categoria',
+      pergunta: 'O que é a verba que aparece no pedido?',
+      resposta: 'É a verba da categoria no mês, do Orçamento do Financeiro, menos o que já foi lançado e o que está em outras compras. Se esta compra passa do que sobra, o valor fica em vermelho. Ela aparece para quem tem acesso ao Financeiro, depois que o pedido tem categoria, e é só um aviso.',
+      termos: ['orçamento', 'sobra', 'passa da verba'],
+    },
+    {
+      id: 'quem-ve-o-pedido',
+      pergunta: 'Quem vê o meu pedido?',
+      resposta: 'Você, quem tem acesso ao Financeiro da empresa do pedido e, se a compra passa pela Diretoria, a Diretoria. Depois que a ordem de compra é emitida, quem opera o Patrimônio também vê, para dar entrada no que chegar.',
+      termos: ['privacidade', 'visibilidade', 'acesso'],
+    },
+    {
+      id: 'so-meus-pedidos',
+      pergunta: 'Por que só vejo “Meus pedidos”?',
+      resposta: 'As outras abas dependem do seu acesso: “Todos” é de quem tem acesso ao Financeiro; “Para cotar” e “Em andamento”, de quem tem o nível “Lançar” ou acima; “Para aprovar”, de quem aprova e da Diretoria; “Dar entrada”, de quem opera o Patrimônio. O acesso ao Financeiro é dado por um administrador.',
+      termos: ['abas', 'para cotar', 'para aprovar', 'nível'],
+    },
+    {
+      id: 'pedido-e-ordem',
+      pergunta: 'Qual a diferença entre o pedido (PC) e a ordem de compra (OC)?',
+      resposta: 'O pedido (PC-…) é o que o setor pede. A ordem de compra (OC-…) é o documento formal ao fornecedor, emitido só depois da aprovação, com numeração própria e o CNPJ para a nota fiscal.',
+      termos: ['PC', 'OC', 'ordem de compra', 'numeração'],
+    },
+    {
+      id: 'chegou-menos',
+      pergunta: 'Chegou menos do que o pedido. E agora?',
+      resposta: 'Registre só o que chegou, e conte a avaria ou a falta em “Observação”. O pedido fica “Recebido em parte”, e você registra o resto quando chegar.',
+      termos: ['entrega parcial', 'faltou', 'avaria', 'recebido em parte'],
+    },
+    {
+      id: 'fornecedor-nao-aparece',
+      pergunta: 'Por que o fornecedor não aparece na lista da proposta?',
+      resposta: 'A lista vem dos favorecidos do Financeiro: cadastre o fornecedor em Financeiro → Cadastros → Favorecidos e volte ao pedido. Cada fornecedor tem uma proposta só por pedido; para mudar preços, edite a que já existe.',
+      termos: ['favorecido', 'cadastrar fornecedor', 'Este fornecedor já tem proposta neste pedido'],
+    },
+    {
+      id: 'categoria-a-classificar',
+      pergunta: 'O que quer dizer “a classificar” na categoria e na fonte?',
+      resposta: 'Quem cota no Financeiro ainda não escolheu a categoria da despesa e a fonte do dinheiro. Sem as duas, o pedido não vai para aprovação.',
+      termos: ['classificar', 'fonte do dinheiro', 'Classifique o pedido'],
+    },
+    {
+      id: 'mudar-limites',
+      pergunta: 'Quem muda os limites e o número de propostas?',
+      resposta: 'A gestão do Financeiro, em Financeiro → Cadastros → “Regras de compra”. Lá também se escolhe o setor da Diretoria. As regras novas valem para os próximos envios para aprovação.',
+      termos: ['regras de compra', 'limite simples', 'limite da diretoria', 'configurar'],
+    },
+    {
+      id: 'aprovar-compra-pelo-whatsapp',
+      pergunta: 'Dá para aprovar uma compra pelo WhatsApp?',
+      resposta: 'Dá começar por lá, para quem é a vez: o Financeiro da empresa do pedido e, acima do limite, a Diretoria (nunca quem pediu, e a mesma pessoa não aprova pelas duas). Mande “financeiro” ao WhatsApp do Palácio: as compras em aprovação aparecem na lista com o número do pedido, o valor, o fornecedor e quem pediu, e a vez da Diretoria vem marcada. Responda “aprovar 3” (com uma observação depois, se quiser) ou “recusar 3:” e o motivo, com pelo menos 5 letras.\n\nChega um link “Confirme no Palácio”, que vale 15 minutos e só abre na sua conta. “Confirmar a aprovação” (ou “Confirmar a recusa”) decide pelo mesmo caminho do botão do pedido, com as mesmas regras, e quem pediu é avisado. Pedir propostas, emitir a ordem e receber continuam na tela.',
+      termos: ['whatsapp', 'aprovar compra pelo whatsapp', 'recusar compra', 'diretoria pelo whatsapp', 'confirme no palácio'],
+    },
+  ],
+  relacionadas: ['/financeiro', '/patrimonio'],
+}
+
+// ---------------------------------------------------------------- Portaria
+// Apoio: app/(app)/portaria, components/app/portaria/acoes.tsx, app/actions/portaria.ts,
+// lib/portaria/regras.ts e servidor.ts, a página pública app/visitante e a migração
+// 20260929060000_cvrj_portaria.sql.
+
+const PORTARIA: GuiaDaArea = {
+  href: '/portaria',
+  paraQueServe: 'O livro de visitantes da filial, no lugar do caderno da portaria. Registra quem chegou, quem veio visitar e por quê, com foto e crachá de visitante, e mostra quem está na filial agora. Quem é visitado responde pelo Palácio ou pelo WhatsApp se o visitante pode subir ao hall, se aguarda na recepção ou se não pode ser recebido agora. O visitante também pode se registrar sozinho, pelo QR da entrada.',
+  quemUsa: 'Toda a equipe do Palácio Virtual (menos a equipe da Escola) registra entradas e saídas e vê o livro. Só administradores trocam o link do QR da entrada. Não pedimos documento: nome, telefone, de onde vem, quem visita e o motivo.',
+  naPratica: {
+    titulo: 'Uma reunião com a Prefeitura, da chegada à saída',
+    passos: [
+      'A representante da Prefeitura lê o QR na entrada, preenche o nome e escreve “Presidência” em quem vai visitar.',
+      'O cadastro aparece em “Chegaram pelo QR” na tela da portaria, que recarrega sozinha.',
+      'A portaria toca em “Confirmar entrada”, escolhe a pessoa visitada, anota o crachá V-07 e tira a foto.',
+      'A Presidência recebe o aviso no sino e, no WhatsApp, a ficha da visita: a foto, quem é, de onde vem, o motivo e a hora. Ela toca em “Aguarde na recepção”.',
+      'Na tela da portaria aparece “Aguarde na recepção”; dez minutos depois, a Presidência toca em “Pode subir” na mesma ficha e a tela muda. A representante recebe a mesma resposta no WhatsApp, porque marcou esse pedido no QR.',
+      'Ela sobe ao hall e espera a Presidência. Na saída, a portaria toca em “Saída” e confirma que o crachá V-07 voltou.',
+    ],
+    resultado: 'O livro fica completo, com hora de entrada e saída, sem caderno e sem crachá perdido.',
+  },
+  tour: [
+    {
+      alvo: 'portaria.numeros',
+      titulo: 'A portaria em números',
+      texto: 'Quantos visitantes estão na filial agora, quantas entradas houve hoje, quantos cadastros pelo QR esperam confirmação e quantos crachás não voltaram.',
+      lado: 'bottom',
+    },
+    {
+      alvo: 'portaria.aguardando',
+      titulo: 'Chegaram pelo QR',
+      texto: 'Quem se registrou pelo QR aparece aqui. “Confirmar entrada” abre os dados para conferir, escolher quem é visitado, anotar o crachá e tirar a foto. “Descartar” tira do livro um cadastro repetido ou de brincadeira.',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'portaria.nova',
+      titulo: 'Registrar entrada',
+      texto: 'Nome, de onde vem, quem vai visitar, o motivo e o número do crachá de visitante. Quem é escolhido em “Quem vai visitar” recebe o aviso no sino e, no WhatsApp, a ficha da visita (com a foto, se você tirar) e responde se o visitante pode subir. Se o visitante quiser, marque para ele receber essa resposta no WhatsApp.',
+    },
+    {
+      alvo: 'portaria.dentro',
+      titulo: 'Na filial agora',
+      texto: 'Quem entrou e ainda não saiu, com a hora da entrada e a resposta de quem é visitado: “Esperando a resposta”, “Pode subir”, “Aguarde na recepção” ou “Não pode receber agora”, com o recado. A resposta aparece sozinha. “Resposta” registra a que chegou por telefone. “Saída” registra a saída e, se havia crachá, pergunta se ele foi devolvido.',
+    },
+    {
+      alvo: 'portaria.crachas',
+      titulo: 'Crachás não devolvidos',
+      texto: 'Quem saiu sem devolver o crachá de visitante fica aqui até alguém tocar em “Crachá devolvido”.',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'portaria.abas',
+      titulo: 'Histórico e QR',
+      texto: '“Histórico” mostra as visitas de um dia e busca pelo nome em todos os dias. “QR da entrada” tem o cartaz para imprimir e deixar na recepção. “Crachás de visitante” imprime os crachás numerados.',
+      lado: 'bottom',
+    },
+  ],
+  tarefas: [
+    {
+      id: 'responder-visita',
+      titulo: 'Responder à portaria quando chega uma visita para você',
+      exemplo: 'O representante da empresa de manutenção chega às 10h; a coordenadora está numa ligação, vê a foto dele na ficha, toca em “Aguarde na recepção” e, ao terminar, toca em “Pode subir”.',
+      passos: [
+        'Chega o aviso “Fulano chegou para falar com você” no sino e, no WhatsApp, a ficha da visita: a foto do visitante (quando a portaria tirou), quem é, de onde vem, o motivo, a hora da chegada e quem registrou.',
+        'No WhatsApp, toque em “Pode subir”, “Aguarde na recepção” ou “Não pode agora”, embaixo da ficha, ou responda a mensagem com 1, 2 ou 3. Para mandar um recado, responda com o número e o recado, como “2 estou terminando uma reunião”.',
+        'Pelo Palácio, toque no aviso e escolha “Pode subir”, “Aguarde na recepção” ou “Não pode receber agora”, com o recado se quiser.',
+        'A portaria vê a resposta na hora. Se o visitante pediu, ele recebe a mesma resposta no WhatsApp.',
+        'Pediu para aguardar? Quando puder receber, toque em “Pode subir” na mesma ficha, ou responda de novo com 1.',
+      ],
+      dica: 'A ficha com a foto e os botões vem quando você escreveu ao número do Palácio nas últimas 24 horas (regra do WhatsApp). Fora disso, ela chega por uma mensagem aprovada pela Meta, com os mesmos três botões e sem a foto; enquanto essa mensagem não for aprovada, chega o aviso de sempre: responda com o número. Só quem é visitado responde pela ficha: o botão tocado por outra pessoa (numa ficha encaminhada, por exemplo) não vale. Sem responder a mensagem, um “1”, “2” ou “3” solto no WhatsApp também vale, se houver só uma visita esperando por você nas últimas duas horas.',
+    },
+    {
+      id: 'registrar-visitante',
+      titulo: 'Registrar a entrada de um visitante',
+      passos: [
+        'Abra “Portaria”, no menu Expediente.',
+        'Em “Registrar entrada”, preencha o nome e, se quiser, telefone, “De onde vem” e o motivo.',
+        'Em “Quem vai visitar”, escolha a pessoa do Palácio (ela recebe aviso) ou escreva o setor em “Setor ou pessoa”.',
+        'Anote o “Nº do crachá de visitante” que você entregou.',
+        'Se o visitante quiser receber no WhatsApp a resposta de quem vai visitar, confira o telefone e marque a opção. Pergunte antes de marcar.',
+        'Toque em “Tirar foto”, se for o caso, e depois em “Registrar entrada”.',
+        'Em “Na filial agora”, espere a resposta: “Pode subir” (oriente o visitante a subir ao hall e aguardar o setor), “Aguarde na recepção” ou “Não pode receber agora”.',
+      ],
+      dica: 'Esqueceu a foto? Na lista “Na filial agora”, o botão “Foto” tira depois.',
+      exemplo: 'Exemplo: o técnico da empresa de ar-condicionado chega às 9h para a manutenção; a portaria registra “Refrigeração Rio”, escolhe o setor de Patrimônio e entrega o crachá V-03.',
+    },
+    {
+      id: 'portaria-pelo-whatsapp',
+      titulo: 'Ver quem está aqui e registrar uma chegada pelo WhatsApp',
+      exemplo: 'Com a recepção cheia, a portaria tira a foto do visitante pela câmera do WhatsApp com a legenda “visitante: Carlos Pereira”, responde “Ana”, escolhe a Ana Lima na lista, dá o telefone (o Carlos aceita receber a resposta), a empresa e o crachá V-03, e confirma. A Ana recebe no WhatsApp a ficha da visita, com a foto do Carlos, e toca em “Pode subir”; a portaria é avisada, e o Carlos recebe a resposta.',
+      passos: [
+        'Confirme o seu WhatsApp em “Meu perfil”.',
+        'Para ver as visitas abertas de hoje, mande “portaria” (ou “quem está aqui”) ao número do Palácio: vêm o nome do visitante, para quem, a hora e a situação.',
+        'Para registrar uma chegada, mande “visitante:” e o nome. O Palácio pergunta para quem é: escreva o nome (ou parte dele) e, se houver mais de uma pessoa, escolha na lista. Se não for uma pessoa do Palácio, escreva “setor:” e o setor.',
+        'Depois vêm, uma de cada vez, as perguntas do cadastro do QR: o telefone do visitante, de onde vem, o motivo e o número do crachá. Responda, ou toque em “Pular”. “Registrar já” pula o resto e vai direto ao resumo.',
+        'Se você der o telefone, o Palácio pergunta se o visitante aceita receber no WhatsApp a resposta de quem vai recebê-lo. Pergunte a ele e toque em “Sim” ou “Não”: só com o “Sim” o número dele recebe mensagem.',
+        'Por último, mande a foto do visitante pela câmera do WhatsApp, ou toque em “Sem foto”. A foto pode ir em qualquer momento do registro, e também pode começar o registro: foto com a legenda “visitante:” e o nome (com os dois-pontos: sem registro aberto, foto com outra legenda vai para o envio de fotos, como sempre).',
+        'Confira o resumo e toque em “Confirmo” (ou responda “confirmo”). A pessoa recebe o aviso no sino e a ficha da visita no WhatsApp, com a foto, para responder se o visitante pode subir, e a resposta chega para você.',
+      ],
+      dica: 'A foto só entra depois do “Confirmo”. Se ela não entrar, a resposta avisa: tire pela tela da portaria. Documento não vai por aqui. Com “setor:”, ninguém é avisado nem há resposta ao visitante. Quem usa a verificação em duas etapas vê a lista pelo WhatsApp, mas registra pela tela. Pelo assistente do WhatsApp também dá para registrar, mas sem telefone, autorização e foto: para isso, use o “visitante:”.',
+    },
+    {
+      id: 'confirmar-qr',
+      titulo: 'Confirmar quem se registrou pelo QR',
+      passos: [
+        'Em “Chegaram pelo QR”, ache o nome do visitante.',
+        'Toque em “Confirmar entrada” e confira os dados com ele.',
+        'Escolha quem é visitado, anote o crachá, tire a foto e toque em “Confirmar entrada”.',
+      ],
+      dica: 'A tela recarrega sozinha a cada 30 segundos: deixe-a aberta na recepção.',
+    },
+    {
+      id: 'registrar-saida',
+      titulo: 'Registrar a saída e a devolução do crachá',
+      passos: [
+        'Em “Na filial agora”, ache o visitante e toque em “Saída”.',
+        'Se ele estava com crachá, marque ou desmarque “Devolveu o crachá” e toque em “Registrar saída”.',
+        'Crachá que não voltou fica em “Crachás não devolvidos”; quando voltar, toque em “Crachá devolvido”.',
+      ],
+    },
+    {
+      id: 'imprimir-crachas',
+      titulo: 'Imprimir crachás de visitante',
+      passos: [
+        'Em “Portaria”, abra a aba “Crachás de visitante”.',
+        'Escolha o formato: deitado (86 × 54 mm, 10 por folha), para o porta-crachá horizontal com presilha, ou em pé (54 × 86 mm, 9 por folha).',
+        'Escolha o prefixo e a numeração (por exemplo, V de 1 a 20) e se quer as regras no verso.',
+        'Toque em “Abrir para imprimir” e depois em “Imprimir ou salvar PDF”.',
+        'Com verso, imprima frente e verso virando pela borda longa; corte nas marcas e ponha no porta-crachá ou plastifique.',
+      ],
+      dica: 'A prévia ao lado troca junto com o “Formato”, e “Até o número” já sugere uma folha cheia (10 deitados ou 9 em pé). O crachá leva só o número, nunca o nome: é reutilizável. Anote o número em “Nº do crachá de visitante” na entrada.',
+    },
+    {
+      id: 'imprimir-qr',
+      titulo: 'Imprimir o QR da entrada',
+      passos: [
+        'Em “Portaria”, abra a aba “QR da entrada”.',
+        'Toque em “Cartaz para imprimir” e depois em “Imprimir ou salvar PDF” (A4 em pé).',
+        'Deixe o cartaz na recepção, onde o visitante vê ao chegar.',
+      ],
+      dica: 'Se o cartaz for copiado por quem não devia, um administrador toca em “Gerar link novo”: o cartaz antigo para de valer e é preciso imprimir o novo.',
+    },
+  ],
+  perguntas: [
+    {
+      id: 'documento',
+      pergunta: 'Preciso pedir documento ao visitante?',
+      resposta: 'Não. O livro guarda só nome, telefone, de onde vem, quem visita, o motivo, a foto (opcional) e o crachá. Menos dados pessoais guardados, menos risco (LGPD).',
+      termos: ['rg', 'cpf', 'identidade', 'lgpd'],
+    },
+    {
+      id: 'quem-recebe-aviso',
+      pergunta: 'Quem fica sabendo que o visitante chegou?',
+      resposta: 'A pessoa escolhida em “Quem vai visitar” recebe o aviso no sino e por e-mail e, no WhatsApp confirmado, a ficha da visita com a foto e os botões de resposta, conforme as preferências dela no assunto “Portaria”. O aviso sai na hora, mesmo à noite e com o Palácio aberto, e também quando quem registrou é a própria pessoa visitada. Quando ela responde, quem registrou ou confirmou a entrada é avisado. O visitante recebe a resposta no WhatsApp só se pediu. O texto livre de setor não avisa ninguém: escolha a pessoa quando souber quem é.',
+      termos: ['notificação', 'avisar', 'chegou'],
+    },
+    {
+      id: 'sem-resposta',
+      pergunta: 'Quem é visitado não respondeu. E agora?',
+      resposta: 'A visita fica com “Esperando a resposta de…” em “Na filial agora”. Ligue para a pessoa ou para o setor e, com a resposta, toque em “Resposta” para registrar: “Pode subir”, “Aguarde na recepção” ou “Não pode receber agora”. Fica registrado quem anotou.',
+      termos: ['não respondeu', 'demora', 'telefone', 'ligar'],
+    },
+    {
+      id: 'visitante-whatsapp',
+      pergunta: 'O visitante recebe mensagem no WhatsApp?',
+      resposta: 'Só se ele pediu: no QR da entrada, marcando a opção, ou na portaria, que marca depois de perguntar (na tela, ou tocando em “Sim” no registro pelo WhatsApp do Palácio). Ele recebe só a resposta sobre a visita daquele dia (“Pode subir”, “Aguarde na recepção” ou “Não pode receber agora”); o recado fica só com a portaria. Sem telefone, ou com o “Não”, nada sai.\n\nComo o visitante nunca escreveu ao número do Palácio, a resposta vai por uma mensagem aprovada pela Meta. Se ela não sair (ainda não aprovada, ou recusada), quem registrou recebe “O visitante não pôde ser avisado pelo WhatsApp: dê a resposta a ele”.',
+      termos: ['visitante', 'whatsapp', 'mensagem', 'lgpd', 'consentimento'],
+    },
+    {
+      id: 'foto-pelo-whatsapp',
+      pergunta: 'Onde fica a foto do visitante mandada pelo WhatsApp?',
+      resposta: 'No registro da visita, no Palácio, como a foto tirada na tela: no armazenamento privado, vista só por quem usa a portaria. Antes de guardar, o Palácio reduz a foto e tira os dados escondidos da câmera, como a localização. O registro das mensagens do WhatsApp do Palácio não guarda a foto nem o telefone do visitante. Remover a foto na tela tira a foto do Palácio, não dos celulares: ela continua na conversa de quem mandou e na ficha de quem foi visitado (apague por lá, se precisar). Fica também uma cópia na conversa do número do Palácio, no painel da Kapso: para apagar de vez, a administração apaga a conversa por lá.',
+      termos: ['foto', 'imagem', 'whatsapp', 'lgpd', 'privacidade', 'apagar', 'kapso'],
+    },
+    {
+      id: 'ficha-no-whatsapp',
+      pergunta: 'Quem recebe a ficha da visita com a foto no WhatsApp?',
+      resposta: 'Só a pessoa visitada, no WhatsApp confirmado dela (e se ela deixou o assunto “Portaria” ligado). Ninguém mais recebe a foto: nem quem é avisado da resposta, nem o visitante. A ficha fica no celular dessa pessoa, como qualquer mensagem: remover a foto na tela da portaria tira a foto do Palácio, não do celular dela (nem da conversa do número do Palácio no painel da Kapso, que a administração apaga por lá). Por isso, a ficha não leva telefone nem crachá, só o nome, de onde vem, o motivo, a hora e quem registrou.\n\nOs botões “Pode subir”, “Aguarde na recepção” e “Não pode agora” respondem à portaria, mas só valem tocados por quem é visitado. Sem a foto, a ficha sai do mesmo jeito; com o setor em vez da pessoa, não há ficha.',
+      termos: ['ficha', 'foto', 'whatsapp', 'lgpd', 'privacidade', 'pode subir', 'botões'],
+    },
+    {
+      id: 'qr-nao-funciona',
+      pergunta: 'O visitante diz que o QR “não vale mais”. E agora?',
+      resposta: 'O link do cartaz foi trocado por um administrador. Registre a entrada pela tela da portaria e imprima o cartaz novo, na aba “QR da entrada”.',
+      termos: ['qr code', 'cartaz', 'link'],
+    },
+    {
+      id: 'cadastro-falso',
+      pergunta: 'Alguém mandou um cadastro de brincadeira pelo QR.',
+      resposta: 'Toque em “Descartar”: o cadastro sai de “Chegaram pelo QR” e não entra no livro como visita. O mesmo aparelho só consegue mandar seis cadastros por hora.',
+      termos: ['spam', 'trote', 'repetido'],
+    },
+  ],
+  telas: [
+    {
+      caminho: '/portaria/visita/[id]',
+      rotulo: 'Visita na portaria',
+      tour: [
+        {
+          titulo: 'Chegou uma visita para você',
+          texto: 'Quem é, de onde vem, o motivo e a hora em que chegou. A portaria espera a sua resposta para orientar o visitante.',
+        },
+        {
+          alvo: 'portaria.responder',
+          titulo: 'A sua resposta',
+          texto: '“Pode subir”: o visitante sobe ao hall e espera você. “Aguarde na recepção”: ele espera lá embaixo até você responder de novo. “Não pode receber agora”: a portaria conversa com ele. O recado é opcional e aparece para a portaria.',
+          seAusente: 'pular',
+        },
+      ],
+    },
+  ],
+  relacionadas: ['/chamados'],
+}
+
+export const guias: GuiaDaArea[] = [OFICIOS, CHAMADOS, COMPRAS, PORTARIA]

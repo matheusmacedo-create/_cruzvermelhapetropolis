@@ -1,0 +1,2569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Páginas fixas do site institucional da Cruz Vermelha Brasileira, filial Rio de Janeiro.
+     Gerado por scripts/gerar_sitemaps.py em 2026-10-17T20:38:32+00:00. Não editar à mão.
+     Ajustado à mão em 19/10/2026 (segunda recusa do Ad Grants): doação de volta, sem /bio/, sem o acervo
+     "Em breve" e sem a Micropigmentação Labial. Rodar gerar_sitemaps.py de novo depois de publicar. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/"/>
+    <lastmod>2026-10-17T20:32:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-luiz-carlos-dos-santos-480.webp</image:loc>
+      <image:title>Luiz Carlos dos Santos, presidente da Cruz Vermelha Brasileira Rio de Janeiro, na Galeria dos Presidentes do Palácio da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-e-vice-gabinete-473.webp</image:loc>
+      <image:title>O presidente Luiz Carlos dos Santos e o vice-presidente Antônio Pedregal à mesa do gabinete da presidência, no Palácio da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/turma-cbfi-salao-960.webp</image:loc>
+      <image:title>Voluntários de camiseta da Cruz Vermelha Brasileira, vistos de costas, na formação do CBFI no salão nobre da sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-coordenacao-movel-640.webp</image:loc>
+      <image:title>Equipe da filial, de uniforme e capacete, diante do Centro de Coordenação Móvel da Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-primeiros-socorros-rua-640.webp</image:loc>
+      <image:title>Voluntários de uniforme vermelho fazem atendimento de primeiros socorros a uma pessoa deitada no chão, ao lado de carros</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-tenda-640.webp</image:loc>
+      <image:title>Voluntários reunidos em frente à tenda da Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-capacetes-640.webp</image:loc>
+      <image:title>Voluntárias sorridentes com capacete branco e uniforme vermelho da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-equipe-uniforme-640.webp</image:loc>
+      <image:title>Voluntárias com uniforme de campo vermelho da Cruz Vermelha, ao ar livre</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-evento-ar-livre-640.webp</image:loc>
+      <image:title>Voluntários de camiseta branca e calça vermelha em um evento ao ar livre</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1923-480.webp</image:loc>
+      <image:title>Fachada do Palácio da Cruz Vermelha com andaimes, durante as obras, em 1923</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/impacto-cores-banner-640.webp</image:loc>
+      <image:title>Impacto das Cores</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-rua-640.webp</image:loc>
+      <image:title>Campanha do Agasalho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-dea-sala-480.webp</image:loc>
+      <image:title>Instrutor da Cruz Vermelha em sala de aula, com manequins e um DEA de treino sobre a mesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-engasgo-bebe-480.webp</image:loc>
+      <image:title>Alunos ajoelhados praticando a manobra de desengasgo em manequins de bebê durante a aula</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/empresas-heimlich-720.webp</image:loc>
+      <image:title>Instrutor da Cruz Vermelha Brasileira Rio de Janeiro orienta uma aluna na prática da manobra de Heimlich, durante aula na sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/equipe-corredor-960.webp</image:loc>
+      <image:title>Voluntárias da Cruz Vermelha Brasileira Rio de Janeiro no Palácio da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+      <image:title>Equipe de voluntários reunida no auditório da sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-favela-640.webp</image:loc>
+      <image:title>Voluntário entregando agasalho a morador de comunidade</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/voluntario-microfone-480.webp</image:loc>
+      <image:title>Voluntário falando ao microfone em formação na sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/acao-comunitaria-morro-480.webp</image:loc>
+      <image:title>Ação comunitária em morro do Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/auditorio-voluntarios-480.webp</image:loc>
+      <image:title>Turma de voluntários em formação no auditório da sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-fila-comunidade-640.webp</image:loc>
+      <image:title>Comunidade recebendo doações da Campanha do Agasalho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-e-vice-presidente-473.webp</image:loc>
+      <image:title>O presidente Luiz Carlos dos Santos e o vice-presidente Antônio Pedregal no gabinete e na Galeria dos Presidentes do Palácio da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-turma-cbfi-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-turma-cbfi-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/doe/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/doe/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/donate/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/donar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/doe/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/</loc>
+    <lastmod>2026-10-10T05:15:53+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-dea-sala-591.webp</image:loc>
+      <image:title>Aula na sede da Cruz Vermelha Brasileira no Rio de Janeiro, com instrutor e alunos</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-manobra-heimlich-480.webp</image:loc>
+      <image:title>Instrutor demonstrando a manobra de Heimlich em uma aluna durante a aula</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-engasgo-bebe-480.webp</image:loc>
+      <image:title>Alunos ajoelhados praticando a manobra de desengasgo em manequins de bebê durante a aula</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-dea-sala-480.webp</image:loc>
+      <image:title>Instrutor da Cruz Vermelha em sala de aula, com manequins e um DEA de treino sobre a mesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/aula-salao-cruz-960.webp</image:loc>
+      <image:title>Turma sentada no salão da sede, com a cruz vermelha ao fundo e um manequim sobre a mesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/certificado-primeiros-socorros-basico-640.webp</image:loc>
+      <image:title>Modelo do certificado do curso de Primeiros Socorros Básico da Cruz Vermelha Brasileira Rio de Janeiro, com o nome do aluno, o curso e a carga horária</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/certificado-suporte-basico-de-vida-640.webp</image:loc>
+      <image:title>Modelo do certificado do curso de Suporte Básico de Vida da Cruz Vermelha Brasileira Rio de Janeiro, com o nome do aluno, o curso e a carga horária</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/certificado-primeiros-socorros-lei-lucas-640.webp</image:loc>
+      <image:title>Modelo do certificado do curso de Primeiros Socorros Lei Lucas - Ambientes com Crianças da Cruz Vermelha Brasileira Rio de Janeiro, com o nome do aluno, o curso e a carga horária</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/puncao-venosa-960.webp</image:loc>
+      <image:title>Punção Venosa na Cruz Vermelha Brasileira Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/certificado-puncao-venosa-640.webp</image:loc>
+      <image:title>Modelo do certificado do curso de Punção Venosa da Cruz Vermelha Brasileira Rio de Janeiro, com o nome do aluno, o curso e a carga horária</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/bombeiro-civil-960.webp</image:loc>
+      <image:title>Bombeiro Civil na Cruz Vermelha Brasileira Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/certificado-bombeiro-civil-640.webp</image:loc>
+      <image:title>Modelo do certificado do curso de Bombeiro Civil da Cruz Vermelha Brasileira Rio de Janeiro, com o nome do aluno, o curso e a carga horária</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/cuidador-de-idosos-960.webp</image:loc>
+      <image:title>Cuidador de Idosos (Curso Livre) na Cruz Vermelha Brasileira Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/img/certificado-cuidador-de-idosos-640.webp</image:loc>
+      <image:title>Modelo do certificado do curso de Cuidador de Idosos (Curso Livre) da Cruz Vermelha Brasileira Rio de Janeiro, com o nome do aluno, o curso e a carga horária</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/mapa-sede-960.webp</image:loc>
+      <image:title>Mapa do Centro do Rio com a sede da Cruz Vermelha marcada na Praça da Cruz Vermelha, 10, perto da Avenida Mem de Sá</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-fachada-noturna-767.webp</image:loc>
+      <image:title>Fachada iluminada do Palácio da Cruz Vermelha, à noite</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-matricula.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/historia/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/historia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/history/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/historia/"/>
+    <lastmod>2026-10-13T19:46:05+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-botelho-th.webp</image:loc>
+      <image:title>Retrato de Joaquim de Oliveira Botelho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-socio-th.webp</image:loc>
+      <image:title>Diploma de sócio da Cruz Vermelha Brasileira, com moldura decorada e a cruz vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-sede-provisoria-1917-480.webp</image:loc>
+      <image:title>Sede provisória da Cruz Vermelha Brasileira, prédio térreo com bandeiras, com pessoas e automóveis antigos em frente</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pedra-1919-th.webp</image:loc>
+      <image:title>Autoridades ao redor de uma escavação, no momento de assentar a pedra fundamental; enfermeiras ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-cerimonia-1919-th.webp</image:loc>
+      <image:title>Grupo de enfermeiras e convidados sob bandeirolas, na cerimônia da pedra fundamental</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1920-480.webp</image:loc>
+      <image:title>Prédio da Cruz Vermelha em obras, cercado por andaimes e por um muro, ainda sem os andares superiores</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1923-480.webp</image:loc>
+      <image:title>Fachada do Palácio da Cruz Vermelha ainda com andaimes, já com os andares superiores e a estrutura da cúpula</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-relevo-fachada-480.webp</image:loc>
+      <image:title>Grupo escultórico sobre a entrada do Palácio: uma enfermeira amparando um ferido, sob o arco da fachada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-heloisa-th.webp</image:loc>
+      <image:title>Retrato de Heloisa Loureiro Leal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-voluntaria-th.webp</image:loc>
+      <image:title>Diploma de Enfermeira Voluntária da Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-profissional-th.webp</image:loc>
+      <image:title>Diploma de Enfermeira Profissional da Escola Prática de Enfermeiras da Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-varanda-escola-1917-480.webp</image:loc>
+      <image:title>Enfermeiras de uniforme branco e véu enfileiradas na varanda da Escola de Enfermeiras, sob a placa com o nome da instituição</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diplomadas-1917-th.webp</image:loc>
+      <image:title>Painel com retratos em medalhões e o título Enfermeiras Diplomadas em 1917</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-aula-anatomia-th.webp</image:loc>
+      <image:title>Enfermeiras de uniforme branco assistem a uma aula de anatomia, com o professor ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-sala-de-aula-th.webp</image:loc>
+      <image:title>Alunas de uniforme branco com a cruz vermelha, sentadas em carteiras numa sala de aula</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diplomadas-1918-th.webp</image:loc>
+      <image:title>Painel com retratos em medalhões, o lema In pace et in bello caritas e cenas de hospital e de campanha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-quadro-1919-21-th.webp</image:loc>
+      <image:title>Quadro com retratos em medalhões das enfermeiras diplomadas entre 1919 e 1921</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-exames-1922-th.webp</image:loc>
+      <image:title>Sala de exame com alunas sentadas e a banca examinadora à mesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-visita-escola-th.webp</image:loc>
+      <image:title>Grupo de enfermeiras de uniforme branco diante da fachada da Escola, com duas senhoras ao centro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-entrega-diplomas-1918-th.webp</image:loc>
+      <image:title>Cerimônia de entrega de diplomas, com enfermeiras em pé diante de uma mesa e homens sentados</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-thaumaturgo-grupo-th.webp</image:loc>
+      <image:title>Grande grupo de enfermeiras e dirigentes posando sentados e em pé, com um homem ao centro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-gripe-1918-th.webp</image:loc>
+      <image:title>Nove enfermeiras de uniforme branco, sentadas em três fileiras</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-tuberculose-diretoria-th.webp</image:loc>
+      <image:title>Diretoria da Cruzada Nacional contra a Tuberculose reunida em torno de uma mesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-profilaxia-inauguracao-th.webp</image:loc>
+      <image:title>Autoridades sentadas em torno de uma mesa numa sala com cartazes de saúde na parede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-oficiais-italia-th.webp</image:loc>
+      <image:title>Montagem de retratos de cinco enfermeiras uniformizadas, com os nomes impressos abaixo de cada uma</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-painel-feb-th.webp</image:loc>
+      <image:title>Painel ilustrado com uma grande cruz vermelha, um retrato ao centro, tanques e navios</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-fisica-1-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Preparação física das enfermeiras no Exército (1 de 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-fisica-2-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Preparação física das enfermeiras no Exército (2 de 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-uniformes-th.webp</image:loc>
+      <image:title>Duas mulheres de pé, de uniforme branco com véu e a cruz vermelha, lado a lado</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-1-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (1 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-2-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (2 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-3-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (3 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-4-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (4 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-5-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (5 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-6-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (6 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-7-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (7 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-8-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (8 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-9-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (9 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-10-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (10 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-11-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (11 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-12-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Formaturas da Escola de Enfermeiras (12 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-1-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Enfermeiras da CVB em ação (1 de 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-2-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Enfermeiras da CVB em ação (2 de 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-3-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Enfermeiras da CVB em ação (3 de 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-4-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Enfermeiras da CVB em ação (4 de 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-5-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Enfermeiras da CVB em ação (5 de 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-6-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Enfermeiras da CVB em ação (6 de 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-1-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (1 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-2-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (2 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-3-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (3 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-4-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (4 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-5-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (5 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (6 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-7-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Alunas e voluntárias em atividades públicas: desfile, exposição e treinamento de primeiros socorros (7 de 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-1-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (1 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-2-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (2 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-3-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (3 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-4-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (4 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-5-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (5 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-6-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (6 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-7-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (7 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-8-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (8 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-9-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (9 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-10-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (10 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-11-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (11 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-12-th.webp</image:loc>
+      <image:title>Fotografia do acervo: O Hospital da Cruz Vermelha Brasileira e suas enfermeiras nos anos 1950 e 1960 (12 de 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp</image:loc>
+      <image:title>Voluntário de costas, com colete da Cruz Vermelha Brasileira, Filial do Estado do Rio de Janeiro, diante de uma distribuição de donativos</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-01-th.webp</image:loc>
+      <image:title>Retrato de Dr. Oswaldo Cruz</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-02-th.webp</image:loc>
+      <image:title>Retrato de Marechal Gregório Thaumaturgo de Azevedo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-03-th.webp</image:loc>
+      <image:title>Retrato de Engenheiro Miguel Calmon Du Pin e Almeida</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-04-th.webp</image:loc>
+      <image:title>Retrato de Marechal Antônio Ferreira do Amaral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-05-th.webp</image:loc>
+      <image:title>Retrato de Comendador Carlos Pereira Leal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-06-th.webp</image:loc>
+      <image:title>Retrato de General Sebastião Ivo Soares</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-07-th.webp</image:loc>
+      <image:title>Retrato de General Álvaro Tourinho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-09-th.webp</image:loc>
+      <image:title>Retrato de Senador Vivaldo Palma Lima Filho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-10-th.webp</image:loc>
+      <image:title>Retrato de Ministro Álvaro Tolentino Borge Dias</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-11-th.webp</image:loc>
+      <image:title>Retrato de Almirante Edgar Pereira de Beauclair</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-12-th.webp</image:loc>
+      <image:title>Retrato de Tom Willmontt Sloper</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-13-th.webp</image:loc>
+      <image:title>Retrato de Profa. Mavy d'Aché Assumpção Harmon</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-14-th.webp</image:loc>
+      <image:title>Retrato de Dr. Carlos Velloso de Oliveira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-16-th.webp</image:loc>
+      <image:title>Retrato de Major-Brigadeiro do Ar Milton Segala Pauletto</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-17-th.webp</image:loc>
+      <image:title>Retrato de Dr. Luiz Fernando Hernández</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-agenor-th.webp</image:loc>
+      <image:title>Retrato de Dr. Agenor Estelitta Lins</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-paiva-th.webp</image:loc>
+      <image:title>Retrato de General Carlos Paiva Gonçalves</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-uchoa-th.webp</image:loc>
+      <image:title>Retrato de Marechal do Ar Salvador B. Uchôa Cavalcanti</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-olivio-th.webp</image:loc>
+      <image:title>Retrato de General Olívio Vieira Filho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-idalia-th.webp</image:loc>
+      <image:title>Retrato de Enfermeira Idália de Araújo Porto Alegre</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-getulio-th.webp</image:loc>
+      <image:title>Retrato de Dr. Getúlio Florentino dos Santos</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-elza-th.webp</image:loc>
+      <image:title>Retrato de Major Elza Cansanção Medeiros</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-virginia-th.webp</image:loc>
+      <image:title>Retrato de Capitã Virgínia Maria de Niemeyer Portocarrero</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-dutra-th.webp</image:loc>
+      <image:title>Retrato de Marechal Eurico Gaspar Dutra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-irene-th.webp</image:loc>
+      <image:title>Retrato de Enfermeira Irene de Miranda Cotegipe Milanez</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-nordeste-1-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Distribuição de donativos da Cruz Vermelha Brasileira, com caixas marcadas com a cruz vermelha (1 de 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-nordeste-2-th.webp</image:loc>
+      <image:title>Fotografia do acervo: Distribuição de donativos da Cruz Vermelha Brasileira, com caixas marcadas com a cruz vermelha (2 de 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-ararajuba-emblema-th.webp</image:loc>
+      <image:title>Emblema com uma arara amarela e o texto Operação Ararajuba, Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-ararajuba-csu-th.webp</image:loc>
+      <image:title>Crianças e um adulto sentados na entrada de um Centro Social Urbano, com uma faixa da Operação Ararajuba</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-voluntario-sp-th.webp</image:loc>
+      <image:title>Voluntário de costas, com colete da Cruz Vermelha Brasileira, olha casas e um carro destruídos numa encosta</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-holanda-th.webp</image:loc>
+      <image:title>Página com o título O maremoto da Holanda e o agradecimento assinado pela Cruz Vermelha Neerlandesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-asia-2004-th.webp</image:loc>
+      <image:title>Caminhão com a carga de caixas à mostra e uma faixa Doações para Ásia, da Cruz Vermelha Brasileira, Filial São Paulo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-instalacao-th.webp</image:loc>
+      <image:title>Recorte de jornal com fotografias da sessão de instalação da conferência</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-comissao-th.webp</image:loc>
+      <image:title>Recorte de jornal com fotografias de uma reunião e de uma exposição</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-pedra-anna-nery-th.webp</image:loc>
+      <image:title>Recorte de jornal com fotografia de pessoas reunidas na cerimônia da pedra fundamental</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-selo-th.webp</image:loc>
+      <image:title>Selo postal com uma enfermeira, o lema In pace et in bello caritas e o valor 700 mais 100 réis</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-almoco-th.webp</image:loc>
+      <image:title>Recorte de jornal com fotografia dos congressistas diante do Albergue da Boa Vontade</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-encerramento-th.webp</image:loc>
+      <image:title>Recorte de jornal com fotografia da assembleia de encerramento, com bandeiras e a cruz vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-ana-nery-estatua-th.webp</image:loc>
+      <image:title>Estátua em bronze de Ana Nery, de pé, com um xale sobre os ombros</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-vivaldo-discurso-th.webp</image:loc>
+      <image:title>Autoridades reunidas ao ar livre; um homem de terno fala diante de um microfone</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-fachada-noturna-767.webp</image:loc>
+      <image:title>Fachada iluminada do Palácio da Cruz Vermelha, à noite</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-cruz-vermelha-1254.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-acervo.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/quem-somos/</loc>
+    <lastmod>2026-10-16T01:50:33+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+      <image:title>Voluntários da filial do Rio de Janeiro, de camiseta branca e coletes vermelhos com a cruz vermelha, reunidos no auditório do Palácio da Cruz Vermelha, sob a cruz da parede e as bandeiras</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-brincadeira-arcos-932.webp</image:loc>
+      <image:title>Voluntária da filial, de colete vermelho, acompanha dois meninos que pulam dentro de arcos coloridos no chão de uma quadra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-corrida-saco-960.webp</image:loc>
+      <image:title>Voluntária da Cruz Vermelha, de colete vermelho, ajuda dois meninos a entrar no saco para a corrida, numa quadra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-juventude-960.webp</image:loc>
+      <image:title>Coordenadora de Juventude da filial, de camisa vermelha do uniforme, sorri cercada de crianças do projeto Impacto das Cores, diante de uma parede pintada com formas geométricas coloridas</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pedra-1919-th.webp</image:loc>
+      <image:title>Autoridades e enfermeiras de branco em volta da escavação, sob bandeirolas, enquanto um oficial assenta a pedra fundamental do edifício</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1920-960.webp</image:loc>
+      <image:title>Edifício da Cruz Vermelha em obras, cercado por andaimes e por um muro, ainda sem os andares superiores</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1923-960.webp</image:loc>
+      <image:title>Fachada do Palácio da Cruz Vermelha coberta de andaimes, já com os andares superiores e a estrutura da cúpula, em 1923</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-pedro-ernesto-960.webp</image:loc>
+      <image:title>Palácio Pedro Ernesto, na Cinelândia: fachada branca com duas torres de relógio e a bandeira do Brasil, com pedestres no calçadão em frente</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-tiradentes-960.webp</image:loc>
+      <image:title>Fachada do Palácio Tiradentes vista da escadaria: colunas coríntias e estátuas no alto da fachada, sob céu azul</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-e-vice-gabinete-473.webp</image:loc>
+      <image:title>O presidente Luiz Carlos dos Santos e o vice-presidente Antônio Pedregal sentados à mesa do gabinete da presidência, com as bandeiras e um painel de boas-vindas ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-luiz-carlos-dos-santos-960.webp</image:loc>
+      <image:title>Luiz Carlos dos Santos, presidente da filial, de braços cruzados e colete vermelho da Cruz Vermelha Brasileira, diante dos retratos da Galeria dos Presidentes</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-rua-640.webp</image:loc>
+      <image:title>Voluntário da Cruz Vermelha, agachado e de colete vermelho, entrega um cobertor a um homem idoso sentado numa cadeira na calçada, ao lado de um ponto de ônibus</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/principios-fundamentais/</loc>
+    <lastmod>2026-10-15T23:52:45+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/jean-pictet-1937-960.webp</image:loc>
+      <image:title>Jean Pictet, de terno escuro e gravata listrada, sentado à mesa de trabalho com uma caneta na mão e estantes de pastas ao fundo, na sede do CICV em Genebra, em 1937</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-primeiros-socorros-960.webp</image:loc>
+      <image:title>Voluntária da Cruz Vermelha, de colete vermelho, orienta jovens numa atividade prática de primeiros socorros, com um deles deitado no chão de uma quadra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-1-th.webp</image:loc>
+      <image:title>Enfermeiras da Cruz Vermelha Brasileira, de uniforme branco e touca com a cruz, atendem pacientes numa enfermaria; em primeiro plano, uma delas, de óculos, cuida de um paciente deitado numa maca</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp</image:loc>
+      <image:title>Voluntário de costas, de camiseta vermelha com o emblema da Cruz Vermelha Brasileira, Filial do Estado do Rio de Janeiro, diante de pessoas que separam caixas e sacolas de donativos na entrada de um prédio</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-profilaxia-inauguracao-th.webp</image:loc>
+      <image:title>Autoridades e dirigentes sentados em torno de uma mesa, numa sala com cartazes de saúde na parede, na inauguração do Departamento de Profilaxia da Tuberculose</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/equipe-corredor-960.webp</image:loc>
+      <image:title>Três voluntárias da Cruz Vermelha Brasileira, duas de colete vermelho e uma de camiseta branca com o nome da instituição, sorrindo num corredor do Palácio da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cruz-roja-chilena-rcp-2012-960.webp</image:loc>
+      <image:title>Vistos de cima, jovens voluntários da Cruz Vermelha Chilena ajoelhados em volta de dois manequins praticam compressões torácicas, acompanhados por uma pessoa de colete azul com a cruz vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/crescente-vermelho-tunisino-2021-960.webp</image:loc>
+      <image:title>Pessoa voluntária do Crescente Vermelho Tunisiano, de costas, com colete vermelho com o crescente vermelho num círculo branco, faz continência à bandeira da Tunísia hasteada diante de um prédio baixo, sob céu azul</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cartaz-cruz-vermelha-brasileira-1914-1918-619.webp</image:loc>
+      <image:title>Cartaz colorido da Primeira Guerra Mundial, sobre fundo amarelo: bandeiras do Brasil e dos Estados Unidos cruzadas, uma enfermeira da Cruz Vermelha de braços abertos no alto e, embaixo, uma figura feminina sentada sobre uma cruz vermelha, com os títulos “A Cruz Vermelha, Mãe de Todas as Nações” e “Symbolos da Liberdade y da Humanidade”</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-holanda-th.webp</image:loc>
+      <image:title>Página impressa com o título “O maremoto da Holanda”, uma gravura em medalhão e o agradecimento, em francês, assinado pela Cruz Vermelha Neerlandesa à Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/movimento-internacional/</loc>
+    <lastmod>2026-10-15T23:52:46+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/comite-dos-cinco-1863-960.webp</image:loc>
+      <image:title>Fotomontagem de 1863 com os cinco fundadores do Comitê Internacional: o general Dufour em pé, ao centro, e, em quatro medalhões ovais, Moynier, Dunant, Appia e Maunoir, com os nomes em caligrafia e uma cruz no rodapé</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/dunant-1901-retrato-960.webp</image:loc>
+      <image:title>Henri Dunant idoso, sentado numa cadeira de madeira, com longa barba branca, gorro escuro e casaco grosso de lã, olhando para a câmera</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cicv-sede-genebra-960.webp</image:loc>
+      <image:title>Fachada da sede do CICV em Genebra: prédio claro com o letreiro CICR ladeado por cruzes vermelhas no alto, bandeira hasteada, árvores e gramado à frente</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/ficv-sede-genebra-960.webp</image:loc>
+      <image:title>Entrada da sede da Federação Internacional em Genebra: fachada de vidro escuro com os Princípios Fundamentais gravados, porta giratória e totem com o logotipo IFRC</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cruz-vermelha-fiji-entrega-2012-960.webp</image:loc>
+      <image:title>Homem de colete refletivo entrega a uma moradora uma caixa com a cruz vermelha e o nome Fiji Red Cross Society, diante de um caminhão; ao lado, uma voluntária de colete branco com o emblema faz anotações</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/crescente-vermelho-tunisino-2021-960.webp</image:loc>
+      <image:title>Pessoa voluntária do Crescente Vermelho Tunisiano, de costas, com colete vermelho com o crescente branco, faz continência à bandeira da Tunísia diante de um prédio baixo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-instalacao-th.webp</image:loc>
+      <image:title>Recorte de jornal de 1935 com fotografias da sessão de instalação da III Conferência Pan-Americana da Cruz Vermelha, no Theatro Municipal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-holanda-th.webp</image:loc>
+      <image:title>Página da Revista da Cruz Vermelha Brasileira com o título O maremoto da Holanda e o agradecimento assinado pela Cruz Vermelha Neerlandesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp</image:loc>
+      <image:title>Voluntário de costas, com camiseta vermelha da Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro, diante de uma distribuição de donativos</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-favela-640.webp</image:loc>
+      <image:title>Voluntário da filial, de colete com a cruz vermelha, entrega um agasalho a um morador sentado numa rua de comunidade</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-corrida-saco-960.webp</image:loc>
+      <image:title>Voluntária da Cruz Vermelha, de colete vermelho, ajuda dois meninos a entrar no saco para a corrida, numa quadra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/emblema/</loc>
+    <lastmod>2026-10-15T23:52:54+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/dunant-jovem-960.webp</image:loc>
+      <image:title>Henry Dunant jovem: barba, bigode, gravata-borboleta e casaco escuro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/batalha-solferino-bossoli-960.webp</image:loc>
+      <image:title>Batalha de Solferino, 1859, em pintura de Carlo Bossoli: soldados avançam entre fumaça diante das ruínas e das torres de uma vila</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/assinatura-convencao-genebra-1864-960.webp</image:loc>
+      <image:title>Assinatura da Primeira Convenção de Genebra, 1864, em pintura de Armand-Dumaresq: delegados de casaca reunidos em volta de uma mesa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/convencao-genebra-1864-documento-960.webp</image:loc>
+      <image:title>Fac-símile da Convenção de Genebra de 1864 aberto, com texto manuscrito, assinaturas e lacres de cera vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-hospital-de-campanha-1944-960.webp</image:loc>
+      <image:title>Tendas de um hospital de campanha em 1944, com grandes cruzes em discos brancos, e uma enorme cruz de pano estendida no chão</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-bracadeira-enfermeiro-feb-1944-960.webp</image:loc>
+      <image:title>Soldado do serviço de saúde da FEB em 1944 com braçadeira da cruz vermelha e, às costas, um estojo de material de saúde marcado com a cruz</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-navio-hospital-usns-mercy-960.webp</image:loc>
+      <image:title>Navio-hospital USNS Mercy, pintado de branco com grandes cruzes vermelhas no casco e na chaminé</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-bracadeira-enfermeiro-militar-canada-960.webp</image:loc>
+      <image:title>Oficial enfermeiro militar canadense, de uniforme camuflado e braçadeira branca com a cruz vermelha, orientando dois soldados numa tenda de hospital de campanha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-ambulancia-cruz-vermelha-de-macau-960.webp</image:loc>
+      <image:title>Ambulância da Cruz Vermelha de Macau com a inscrição “Cruz Vermelha de Macau” em português</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-ambulancia-cruz-vermelha-italiana-960.webp</image:loc>
+      <image:title>Ambulância branca e vermelha da Cruz Vermelha Italiana numa praça de Parma, com o nome em letras grandes e o emblema pequeno</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-voluntarios-coletes-cruz-vermelha-americana-960.webp</image:loc>
+      <image:title>Voluntários da Cruz Vermelha Americana de coletes vermelhos com o emblema, posando sorrindo diante de uma tenda com cartazes da organização</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/ambulancia-crescente-vermelho-1877-960.webp</image:loc>
+      <image:title>Ambulância nº 5 do Crescente Vermelho a caminho do front na Guerra Russo-Turca, em gravura de 1885</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/hospital-crescente-vermelho-1916-960.webp</image:loc>
+      <image:title>Fileiras de tendas do acampamento-hospital do Crescente Vermelho em Hafir el Auja, em 1916, com um mastro e uma bandeira pequena ao centro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/leao-e-sol-vermelhos-bracal-960.webp</image:loc>
+      <image:title>Shams Pahlavi de uniforme escuro da Sociedade do Leão e Sol Vermelhos do Irã, com o emblema num distintivo costurado na manga esquerda e uma insígnia no peito</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/selo-leao-e-sol-vermelhos-1969-960.webp</image:loc>
+      <image:title>Selo postal da Alemanha Oriental de 1969 com o crescente vermelho, a cruz vermelha e o leão e sol vermelhos, pelos 50 anos da Liga das Sociedades da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-crescente-vermelho-turco-veiculo-960.webp</image:loc>
+      <image:title>Veículo de doação de sangue do Crescente Vermelho Turco, com o crescente vermelho e o nome Türk Kızılay</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-veiculo-cicv-land-cruiser-960.webp</image:loc>
+      <image:title>Veículo branco do CICV visto de frente, com o selo redondo da cruz vermelha e a inscrição Comité international Genève no capô, na porta e no para-choque</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/cruz-vermelha-brasileira-feb-1944-960.webp</image:loc>
+      <image:title>Voluntária da Cruz Vermelha Brasileira, de uniforme, chapéu e braçadeira da cruz vermelha no braço esquerdo, entrega itens a soldados da FEB, com enfermeiras de branco ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-cvb-hospital-curitiba-fachada-960.webp</image:loc>
+      <image:title>Fachada modernista do Hospital da Cruz Vermelha em Curitiba, com uma cruz vermelha grande no alto da entrada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-cvb-predio-porto-alegre-960.webp</image:loc>
+      <image:title>Casarão histórico da Cruz Vermelha Brasileira em Porto Alegre, com uma placa vermelha com o emblema e o nome junto ao portão e uma cruz vermelha pintada no portão</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-emblema.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/</loc>
+    <lastmod>2026-10-15T23:52:48+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/haia-1899-conferencia-da-paz-960.webp</image:loc>
+      <image:title>Delegados de terno escuro sentados em mesas dispostas em U, num salão com grandes pinturas murais, na Primeira Conferência Internacional da Paz, em Haia, 1899</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/campo-prisioneiros-stalag-xb-1940-960.webp</image:loc>
+      <image:title>Portão de madeira e arame farpado do campo de prisioneiros Stalag X B, em Sandbostel, com prisioneiros de uniforme conversando junto à cerca e barracões ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/genebra-1949-assinatura-convencoes-960.webp</image:loc>
+      <image:title>Delegados sentados lado a lado a uma longa mesa, assinando e folheando documentos, com assessores em pé atrás, na assinatura das Convenções de Genebra de 1949</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/encomenda-prisioneiros-cruz-vermelha-canadense-960.webp</image:loc>
+      <image:title>Caixa de papelão da Cruz Vermelha Canadense para prisioneiros de guerra, com a cruz vermelha, a inscrição Prisoners' Parcels e a lista do conteúdo em inglês e alemão</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/encomenda-prisioneiros-cruz-vermelha-britanica-960.webp</image:loc>
+      <image:title>Caixa de encomenda da Cruz Vermelha Britânica para prisioneiros de guerra, com a cruz vermelha, o emblema da Ordem de São João e a inscrição Comité International Croix Rouge, Genève-Transit</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/convencao-genebra-1864-documento-960.webp</image:loc>
+      <image:title>Fac-símile da Convenção de Genebra de 1864 aberto, com texto manuscrito, assinaturas e lacres de cera vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/protecao-civil-sinal-veiculo-960.webp</image:loc>
+      <image:title>Triângulo azul sobre fundo laranja, sinal da defesa civil, em adesivo redondo na porta branca de um veículo da proteção civil alemã</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-itamaraty-brasilia-960.webp</image:loc>
+      <image:title>Fachada do Palácio do Itamaraty, em Brasília, com arcos de concreto sobre vidro, espelho d'água com escultura branca e a guarda de honra em uniforme de gala sobre um tapete vermelho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/voluntario-microfone-960.webp</image:loc>
+      <image:title>Voluntário da Cruz Vermelha Brasileira Rio de Janeiro, de colete vermelho, fala ao microfone durante uma capacitação no salão da sede, com participantes de costas em primeiro plano</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+      <image:title>Equipe de voluntários da Cruz Vermelha Brasileira Rio de Janeiro, de camiseta branca com a cruz vermelha e coletes vermelhos, reunida em pé no auditório da sede, diante de uma grande cruz vermelha na parede e de retratos emoldurados</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/base-legal/</loc>
+    <lastmod>2026-10-15T23:52:49+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-do-catete-960.webp</image:loc>
+      <image:title>Palácio do Catete, no Rio de Janeiro: fachada neoclássica clara, de três pavimentos, com esquadrias altas e águias de bronze sobre a platibanda, vista da esquina em dia de sol</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-do-planalto-960.webp</image:loc>
+      <image:title>Palácio do Planalto, em Brasília, visto em diagonal: colunas curvas brancas, fachada de vidro, gramado e espelho d'água sob céu azul-escuro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-pedro-ernesto-960.webp</image:loc>
+      <image:title>Palácio Pedro Ernesto, na Cinelândia: fachada branca eclética com duas torres de relógio e a bandeira do Brasil no mastro, pedestres no calçadão de pedras portuguesas e prédios altos ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-tiradentes-960.webp</image:loc>
+      <image:title>Fachada principal do Palácio Tiradentes, no Centro do Rio: colunata de seis colunas coríntias, frontão com estátuas e duas esculturas sentadas ao lado da escadaria, sob céu azul no fim da tarde</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-luiz-carlos-dos-santos-960.webp</image:loc>
+      <image:title>Luiz Carlos dos Santos, presidente da filial, de braços cruzados e sorrindo, com colete vermelho com o emblema e o nome Cruz Vermelha Brasileira, diante dos retratos da Galeria dos Presidentes</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp</image:loc>
+      <image:title>Fotografia antiga em preto e branco: alunas de uniforme branco e touca atendem uma pessoa deitada no chão, ao lado de um veículo branco, enquanto uma pessoa de uniforme escuro observa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-brincadeira-arcos-932.webp</image:loc>
+      <image:title>Voluntária da filial, de colete vermelho, conduz dois meninos numa brincadeira de pular dentro de arcos coloridos numa quadra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-voluntaria-960.webp</image:loc>
+      <image:title>Voluntária da filial sorri abraçada a três meninas numa rua; no colete vermelho, o emblema da cruz vermelha com o nome Cruz Vermelha Brasileira embaixo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/congresso-nacional-960.webp</image:loc>
+      <image:title>Congresso Nacional, em Brasília: as duas torres gêmeas entre a cúpula convexa do Senado e a côncava da Câmara, com gramado e espelho d'água em primeiro plano</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/presidente-e-vice-gabinete-473.webp</image:loc>
+      <image:title>O presidente Luiz Carlos dos Santos e o vice-presidente Antônio Pedregal sentados à mesa do gabinete da presidência, com as bandeiras do Brasil e do estado e a faixa da Cruz Vermelha Brasileira ao fundo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/cursos-gratuitos/</loc>
+    <lastmod>2026-10-16T01:50:34+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-formacao-voluntarios-1080.webp</image:loc>
+      <image:title>Peça de divulgação da filial: equipe de voluntários de camiseta branca com a cruz vermelha reunida num salão da sede, e o texto Prontos para servir, o trabalho humanitário exige preparo contínuo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/auditorio-voluntarios-960.webp</image:loc>
+      <image:title>Turma de voluntários de camiseta branca com a cruz vermelha, sentada no auditório da sede, ouve um instrutor de colete vermelho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/equipe-corredor-960.webp</image:loc>
+      <image:title>Três voluntárias da filial, de colete e camiseta com a cruz vermelha e papéis na mão, num corredor do Palácio da Cruz Vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-sala-de-aula-th.webp</image:loc>
+      <image:title>Alunas de uniforme branco com a cruz vermelha, sentadas em carteiras de madeira numa sala de aula</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-aula-anatomia-th.webp</image:loc>
+      <image:title>Enfermeiras de uniforme branco e véu, sentadas, assistem a uma aula de anatomia; à esquerda, o professor junto a um esqueleto</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-exames-1922-th.webp</image:loc>
+      <image:title>Sala de exame com alunas de uniforme branco sentadas de costas e a banca examinadora à mesa, sob uma cruz vermelha na parede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/forca-tarefa-el-nino-banner-1200.webp</image:loc>
+      <image:title>Banner da Força-Tarefa Humanitária, Ações El Niño: voluntário de colete vermelho da Cruz Vermelha Brasileira Rio de Janeiro, de costas, diante de casas numa área alagada; texto: mobilização interna com voluntários para preparação e resposta humanitária, evento interno</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp</image:loc>
+      <image:title>Fotografia em preto e branco do acervo: mulheres de uniforme branco atendem uma pessoa deitada no chão, ao lado de um veículo, enquanto uma mulher de uniforme escuro observa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-varanda-escola-1917-960.webp</image:loc>
+      <image:title>Enfermeiras de uniforme branco e véu enfileiradas na varanda da Escola de Enfermeiras, sob a placa com o nome da instituição</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-voluntaria-th.webp</image:loc>
+      <image:title>Diploma de Enfermeira Voluntária da Cruz Vermelha Brasileira, com moldura ilustrada, a cruz vermelha e o nome da Escola de Enfermeiras</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-profissional-th.webp</image:loc>
+      <image:title>Diploma de Enfermeira Profissional da Escola Prática de Enfermeiras da Cruz Vermelha Brasileira, com moldura ilustrada e a cruz vermelha</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/voluntariado/</loc>
+    <lastmod>2026-10-16T01:50:31+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-juventude-960.webp</image:loc>
+      <image:title>Coordenadora de Juventude da filial sorrindo com crianças do projeto Impacto das Cores, de camiseta do projeto, diante de um muro pintado</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-primeiros-socorros-960.webp</image:loc>
+      <image:title>Voluntária da filial, de colete vermelho, orienta jovens numa atividade prática de primeiros socorros, com um deles deitado no chão de uma quadra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp</image:loc>
+      <image:title>Voluntário de costas, com camisa vermelha da Cruz Vermelha Brasileira, Filial do Estado do Rio de Janeiro, diante de uma distribuição de donativos</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/voluntario-microfone-960.webp</image:loc>
+      <image:title>Voluntário da filial, de colete vermelho, fala ao microfone diante da turma, numa capacitação na sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cruz-roja-chilena-rcp-2012-960.webp</image:loc>
+      <image:title>Vistos de cima, jovens, a maioria de jaleco branco, ajoelhados em volta de dois manequins, praticam compressões torácicas, orientados por um voluntário da Cruz Vermelha Chilena de colete azul</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/auditorio-voluntarios-960.webp</image:loc>
+      <image:title>Turma de voluntários, de camisa branca com a cruz vermelha, sentada no auditório da sede, com um instrutor de colete à frente</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp</image:loc>
+      <image:title>Fotografia antiga em preto e branco: duas voluntárias de uniforme branco, ajoelhadas, atendem uma pessoa deitada no chão ao lado de uma Kombi; uma terceira, de touca, acompanha de pé, e uma mulher de roupa escura observa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-voluntaria-th.webp</image:loc>
+      <image:title>Diploma de Enfermeira Voluntária da Cruz Vermelha Brasileira, com moldura ornamentada, a cruz vermelha e o nome da Escola de Enfermeiras</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/congresso-nacional-960.webp</image:loc>
+      <image:title>Congresso Nacional, em Brasília: as duas torres, a cúpula do Senado e a da Câmara, com o espelho d'água em frente</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-voluntaria-960.webp</image:loc>
+      <image:title>Voluntária da filial, de colete vermelho com o emblema da Cruz Vermelha, sorrindo abraçada a três meninas numa calçada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/</loc>
+    <lastmod>2026-10-16T01:50:29+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/gestao/</loc>
+    <lastmod>2026-10-17T20:31:57+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/turma-cbfi-salao-960.webp</image:loc>
+      <image:title>Voluntários de camiseta da Cruz Vermelha Brasileira, vistos de costas, na formação do CBFI no salão nobre da sede</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/pedido-de-documentos/</loc>
+    <lastmod>2026-10-17T20:31:58+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/campanha-agasalho.html</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/campanha-agasalho.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/winter-clothing-drive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/campanha-agasalho.html"/>
+    <lastmod>2026-10-16T01:50:40+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-rua-640.webp</image:loc>
+      <image:title>Voluntário da Cruz Vermelha Brasileira Rio de Janeiro entregando cobertor a morador em situação de rua no Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-favela-640.webp</image:loc>
+      <image:title>Voluntário da Cruz Vermelha Brasileira Rio de Janeiro em ação de doação de agasalhos em bairro popular do Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-cartaz-768.webp</image:loc>
+      <image:title>Cartaz oficial da Campanha do Agasalho da Cruz Vermelha Brasileira Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-fila-comunidade-1264.webp</image:loc>
+      <image:title>Comunidade recebendo doações de agasalhos da Cruz Vermelha Brasileira Rio de Janeiro</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-rua-1264.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-campanha-agasalho.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/equipe.html</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/equipe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/our-team/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/nuestro-equipo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/equipe.html"/>
+    <lastmod>2026-10-16T01:50:37+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/dia-cruz-vermelha-1254.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-equipe.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/noticias/</loc>
+    <lastmod>2026-10-17T18:07:53+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/transparencia/</loc>
+    <lastmod>2026-10-15T15:09:05+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/canais-oficiais/</loc>
+    <lastmod>2026-10-05T21:33:29+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/verificar/</loc>
+    <lastmod>2026-10-13T19:46:02+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/privacidade/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/privacidade/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/privacidade/"/>
+    <lastmod>2026-10-17T20:10:08+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/cookies/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/cookies/"/>
+    <lastmod>2026-10-13T19:46:22+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/termos/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/termos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/terminos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/termos/"/>
+    <lastmod>2026-10-13T19:46:24+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/reembolso/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/reembolso/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/refunds/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/reembolsos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/reembolso/"/>
+    <lastmod>2026-10-13T19:46:25+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/privacidade/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/privacidade/"/>
+    <lastmod>2026-10-17T20:10:10+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/cookies/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/cookies/"/>
+    <lastmod>2026-10-02T18:36:08+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/termos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/terminos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/termos/"/>
+    <lastmod>2026-10-10T05:14:48+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/refunds/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/reembolso/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/refunds/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/reembolsos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/reembolso/"/>
+    <lastmod>2026-10-13T19:46:26+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/privacidad/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/privacidade/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/privacidade/"/>
+    <lastmod>2026-10-17T20:10:11+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/cookies/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/cookies/"/>
+    <lastmod>2026-10-02T18:36:51+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/terminos/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/termos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/terminos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/termos/"/>
+    <lastmod>2026-10-10T05:14:50+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/reembolsos/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/reembolso/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/refunds/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/reembolsos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/reembolso/"/>
+    <lastmod>2026-10-13T19:46:28+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/"/>
+    <lastmod>2026-10-16T01:50:41+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/"/>
+    <lastmod>2026-10-16T01:50:45+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/faq/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/faq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/preguntas-frecuentes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/"/>
+    <lastmod>2026-10-16T01:50:44+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/preguntas-frecuentes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/faq/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/preguntas-frecuentes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/"/>
+    <lastmod>2026-10-16T01:50:48+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/donate/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/doe/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/donate/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/donar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/doe/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/donar/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/doe/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/donate/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/donar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/doe/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/courses/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/courses/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/cursos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/"/>
+    <lastmod>2026-10-13T19:46:18+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/cursos/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/courses/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/cursos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/"/>
+    <lastmod>2026-10-13T19:46:19+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/our-team/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/equipe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/our-team/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/nuestro-equipo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/equipe.html"/>
+    <lastmod>2026-10-16T01:50:42+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/es/nuestro-equipo/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/equipe.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/our-team/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/nuestro-equipo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/equipe.html"/>
+    <lastmod>2026-10-16T01:50:46+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/"/>
+    <lastmod>2026-10-02T18:36:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/conhecimento-tambem-salva-vidas-cruz-vermelha-brasileira-rio-de-janeiro-leva/cruz-vermelha-brasileira-rio-de-janeiro.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/alcoolicos-anonimos-reuniao-com-traducao-em-libras-no-leblon-completa-79-anos/toalha-com-o-simbolo-do-alcoolicos-anonimos-unidade-servico.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/caps-e-capsi-atendem-mare-alemao-e-penha-mostra-reportagem/voz-das-comunidades-caps-e-capsi-atendem-mare-alemao-penha-e.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/saude-nas-escolas-quiz-sobre-vape-hpv-e-preservativo-no-rio/card-da-secretaria-de-estado-de-saude-do-rj-com-estudante-e.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/deam-digital-rj-como-denunciar-violencia-domestica-online/deam-digital-rj-como-denunciar-violencia-domestica-online-1.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/choco-apelo-de-emergencia-da-ifrc-apoia-cruz-roja-colombiana/voluntarias-da-cruz-vermelha-colombiana-organizam-kits-de-al.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/helicoptero-dos-bombeiros-na-praia-o-que-fazer-e-o-que-evitar/card-do-podbradar-com-dois-bombeiros-militares-do-goa-em-est.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/ciclovia-tim-maia-interdicao-nesta-quarta-feira-2-9-em-funcao-da-ressaca-no-mar/cartaz-do-cor-rio-informa-interdicao-da-ciclovia-tim-maia-en.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida-1.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/recebemos-na-sede-da-cruz-vermelha-do-rio-de-janeiro-os-representantes-da/midia-1.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/7-de-setembro/midia-1.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-lei-lucas-o-que-a-lei-exige-das-escolas/sala-de-aula-infantil-vazia-com-um-estojo-de-primeiros-socor.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-suporte-basico-de-vida-o-que-e-e-quem-deveria-fazer/desfibrilador-externo-automatico-em-um-armario-de-parede-no.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-puncao-venosa-para-quem-e-e-o-que-aprofunda/bandeja-com-cateter-venoso-embalado-garrote-e-materiais-de-a.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-basico-para-o-dia-a-dia-em-casa/kit-de-primeiros-socorros-aberto-sobre-a-bancada-de-uma-cozi.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-cuidador-de-idosos-o-que-faz-e-como-se-capacitar/quarto-adaptado-com-poltrona-andador-barra-de-apoio-e-organi.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-bombeiro-civil-o-que-faz-e-como-se-formar/extintor-de-incendio-e-abrigo-de-hidrante-no-corredor-de-um.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/winter-clothing-drive/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/campanha-agasalho.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/winter-clothing-drive/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/campanha-agasalho.html"/>
+    <lastmod>2026-10-15T13:09:19+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-rua-640.webp</image:loc>
+      <image:title>A Brazilian Red Cross Rio de Janeiro volunteer hands a blanket to a person living on the street in Rio de Janeiro.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-hero-favela-640.webp</image:loc>
+      <image:title>A Brazilian Red Cross Rio de Janeiro volunteer at a winter clothing distribution in a low-income neighbourhood of Rio de Janeiro.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-cartaz-640.webp</image:loc>
+      <image:title>Official poster of the Brazilian Red Cross Rio de Janeiro Winter Clothing Drive, in Portuguese.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/agasalho-fila-comunidade-640.webp</image:loc>
+      <image:title>A community receiving winter clothing donations from the Brazilian Red Cross Rio de Janeiro.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-campanha-agasalho.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/history/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/historia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/history/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/historia/"/>
+    <lastmod>2026-10-13T19:46:06+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-botelho-th.webp</image:loc>
+      <image:title>Portrait of Joaquim de Oliveira Botelho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-socio-th.webp</image:loc>
+      <image:title>Member's diploma of the Brazilian Red Cross, with a decorated border and the red cross</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-sede-provisoria-1917-480.webp</image:loc>
+      <image:title>Provisional headquarters of the Brazilian Red Cross, a single-storey building with flags, with people and vintage cars in front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pedra-1919-th.webp</image:loc>
+      <image:title>Officials around an excavation as the foundation stone is laid; nurses in the background</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-cerimonia-1919-th.webp</image:loc>
+      <image:title>Group of nurses and guests under bunting at the foundation-stone ceremony</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1920-480.webp</image:loc>
+      <image:title>Red Cross building under construction, surrounded by scaffolding and a wall, still without the upper floors</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-obras-1923-480.webp</image:loc>
+      <image:title>Façade of the Red Cross Palace still with scaffolding, now with the upper floors and the dome structure</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-relevo-fachada-480.webp</image:loc>
+      <image:title>Sculptural group above the Palace entrance: a nurse supporting a wounded man, under the façade arch</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-heloisa-th.webp</image:loc>
+      <image:title>Portrait of Heloisa Loureiro Leal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-voluntaria-th.webp</image:loc>
+      <image:title>Volunteer Nurse diploma of the Brazilian Red Cross</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-profissional-th.webp</image:loc>
+      <image:title>Professional Nurse diploma of the Brazilian Red Cross Practical School of Nurses</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-varanda-escola-1917-480.webp</image:loc>
+      <image:title>Nurses in white uniforms and veils lined up on the School of Nurses veranda, under the sign bearing the institution's name</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diplomadas-1917-th.webp</image:loc>
+      <image:title>Panel of portrait medallions titled Nurses Graduated in 1917</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-aula-anatomia-th.webp</image:loc>
+      <image:title>Nurses in white uniforms attending an anatomy class, with the teacher in the background</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-sala-de-aula-th.webp</image:loc>
+      <image:title>Students in white uniforms with the red cross, seated at desks in a classroom</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diplomadas-1918-th.webp</image:loc>
+      <image:title>Panel of portrait medallions, the motto In pace et in bello caritas, and hospital and field scenes</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-quadro-1919-21-th.webp</image:loc>
+      <image:title>Board with portrait medallions of the nurses who graduated between 1919 and 1921</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-exames-1922-th.webp</image:loc>
+      <image:title>Examination room with students seated and the examining board at a table</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-visita-escola-th.webp</image:loc>
+      <image:title>Group of nurses in white uniforms in front of the School façade, with two ladies at the centre</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-entrega-diplomas-1918-th.webp</image:loc>
+      <image:title>Diploma ceremony, with nurses standing before a table and men seated</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-thaumaturgo-grupo-th.webp</image:loc>
+      <image:title>Large group of nurses and officers posing seated and standing, with a man at the centre</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-gripe-1918-th.webp</image:loc>
+      <image:title>Nine nurses in white uniforms, seated in three rows</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-tuberculose-diretoria-th.webp</image:loc>
+      <image:title>Board of the National Crusade against Tuberculosis gathered around a table</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-profilaxia-inauguracao-th.webp</image:loc>
+      <image:title>Officials seated around a table in a room with health posters on the wall</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-oficiais-italia-th.webp</image:loc>
+      <image:title>Montage of portraits of five uniformed nurses, with their names printed below each one</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-painel-feb-th.webp</image:loc>
+      <image:title>Illustrated panel with a large red cross, a portrait at the centre, tanks and ships</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-fisica-1-th.webp</image:loc>
+      <image:title>Photograph from the archive: Physical training of nurses in the Army (1 of 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-fisica-2-th.webp</image:loc>
+      <image:title>Photograph from the archive: Physical training of nurses in the Army (2 of 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-uniformes-th.webp</image:loc>
+      <image:title>Two women standing side by side in white uniforms with veils and the red cross</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-1-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (1 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-2-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (2 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-3-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (3 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-4-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (4 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-5-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (5 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-6-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (6 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-7-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (7 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-8-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (8 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-9-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (9 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-10-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (10 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-11-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (11 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-formaturas-12-th.webp</image:loc>
+      <image:title>Photograph from the archive: Graduations at the School of Nurses (12 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-1-th.webp</image:loc>
+      <image:title>Photograph from the archive: Brazilian Red Cross nurses in action (1 of 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-2-th.webp</image:loc>
+      <image:title>Photograph from the archive: Brazilian Red Cross nurses in action (2 of 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-3-th.webp</image:loc>
+      <image:title>Photograph from the archive: Brazilian Red Cross nurses in action (3 of 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-4-th.webp</image:loc>
+      <image:title>Photograph from the archive: Brazilian Red Cross nurses in action (4 of 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-5-th.webp</image:loc>
+      <image:title>Photograph from the archive: Brazilian Red Cross nurses in action (5 of 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-6-th.webp</image:loc>
+      <image:title>Photograph from the archive: Brazilian Red Cross nurses in action (6 of 6)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-1-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (1 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-2-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (2 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-3-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (3 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-4-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (4 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-5-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (5 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (6 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-7-th.webp</image:loc>
+      <image:title>Photograph from the archive: Students and volunteers in public activities: parade, exhibition and first-aid training (7 of 7)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-1-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (1 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-2-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (2 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-3-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (3 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-4-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (4 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-5-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (5 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-6-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (6 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-7-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (7 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-8-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (8 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-9-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (9 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-10-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (10 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-11-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (11 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-hospital-12-th.webp</image:loc>
+      <image:title>Photograph from the archive: The Brazilian Red Cross Hospital and its nurses in the 1950s and 1960s (12 of 12)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp</image:loc>
+      <image:title>Volunteer seen from behind, in a Brazilian Red Cross Rio de Janeiro State Branch vest, at a donation distribution</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-01-th.webp</image:loc>
+      <image:title>Portrait of Dr. Oswaldo Cruz</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-02-th.webp</image:loc>
+      <image:title>Portrait of Marshal Gregório Thaumaturgo de Azevedo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-03-th.webp</image:loc>
+      <image:title>Portrait of Engineer Miguel Calmon Du Pin e Almeida</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-04-th.webp</image:loc>
+      <image:title>Portrait of Marshal Antônio Ferreira do Amaral</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-05-th.webp</image:loc>
+      <image:title>Portrait of Commander Carlos Pereira Leal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-06-th.webp</image:loc>
+      <image:title>Portrait of General Sebastião Ivo Soares</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-07-th.webp</image:loc>
+      <image:title>Portrait of General Álvaro Tourinho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-09-th.webp</image:loc>
+      <image:title>Portrait of Senator Vivaldo Palma Lima Filho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-10-th.webp</image:loc>
+      <image:title>Portrait of Minister Álvaro Tolentino Borge Dias</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-11-th.webp</image:loc>
+      <image:title>Portrait of Admiral Edgar Pereira de Beauclair</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-12-th.webp</image:loc>
+      <image:title>Portrait of Tom Willmontt Sloper</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-13-th.webp</image:loc>
+      <image:title>Portrait of Prof. Mavy d'Aché Assumpção Harmon</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-14-th.webp</image:loc>
+      <image:title>Portrait of Dr. Carlos Velloso de Oliveira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-16-th.webp</image:loc>
+      <image:title>Portrait of Air Brigadier Milton Segala Pauletto</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-pres-17-th.webp</image:loc>
+      <image:title>Portrait of Dr. Luiz Fernando Hernández</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-agenor-th.webp</image:loc>
+      <image:title>Portrait of Dr. Agenor Estelitta Lins</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-paiva-th.webp</image:loc>
+      <image:title>Portrait of General Carlos Paiva Gonçalves</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-uchoa-th.webp</image:loc>
+      <image:title>Portrait of Air Marshal Salvador B. Uchôa Cavalcanti</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-int-olivio-th.webp</image:loc>
+      <image:title>Portrait of General Olívio Vieira Filho</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-idalia-th.webp</image:loc>
+      <image:title>Portrait of Nurse Idália de Araújo Porto Alegre</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-getulio-th.webp</image:loc>
+      <image:title>Portrait of Dr. Getúlio Florentino dos Santos</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-elza-th.webp</image:loc>
+      <image:title>Portrait of Major Elza Cansanção Medeiros</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-virginia-th.webp</image:loc>
+      <image:title>Portrait of Captain Virgínia Maria de Niemeyer Portocarrero</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-dutra-th.webp</image:loc>
+      <image:title>Portrait of Marshal Eurico Gaspar Dutra</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-not-irene-th.webp</image:loc>
+      <image:title>Portrait of Nurse Irene de Miranda Cotegipe Milanez</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-nordeste-1-th.webp</image:loc>
+      <image:title>Photograph from the archive: Distribution of Brazilian Red Cross donations, with boxes marked with the red cross (1 of 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-nordeste-2-th.webp</image:loc>
+      <image:title>Photograph from the archive: Distribution of Brazilian Red Cross donations, with boxes marked with the red cross (2 of 2)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-ararajuba-emblema-th.webp</image:loc>
+      <image:title>Emblem with a yellow macaw and the text Operação Ararajuba, Cruz Vermelha Brasileira</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-ararajuba-csu-th.webp</image:loc>
+      <image:title>Children and an adult seated at the entrance of an Urban Social Centre, with an Operation Ararajuba banner</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-voluntario-sp-th.webp</image:loc>
+      <image:title>Volunteer seen from behind, in a Brazilian Red Cross vest, looking at destroyed houses and a car on a hillside</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-holanda-th.webp</image:loc>
+      <image:title>Page titled O maremoto da Holanda, with a thank-you signed by the Netherlands Red Cross</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-asia-2004-th.webp</image:loc>
+      <image:title>Lorry with boxes visible on the load and a banner reading Doações para Ásia, Cruz Vermelha Brasileira, Filial São Paulo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-instalacao-th.webp</image:loc>
+      <image:title>Newspaper clipping with photographs of the conference's opening session</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-comissao-th.webp</image:loc>
+      <image:title>Newspaper clipping with photographs of a meeting and an exhibition</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-pedra-anna-nery-th.webp</image:loc>
+      <image:title>Newspaper clipping with a photograph of people gathered at the foundation-stone ceremony</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-selo-th.webp</image:loc>
+      <image:title>Postage stamp with a nurse, the motto In pace et in bello caritas and the value 700 plus 100 réis</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-almoco-th.webp</image:loc>
+      <image:title>Newspaper clipping with a photograph of the delegates in front of the Albergue da Boa Vontade</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-c1935-encerramento-th.webp</image:loc>
+      <image:title>Newspaper clipping with a photograph of the closing assembly, with flags and the red cross</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-ana-nery-estatua-th.webp</image:loc>
+      <image:title>Bronze statue of Ana Nery, standing, with a shawl over her shoulders</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-vivaldo-discurso-th.webp</image:loc>
+      <image:title>Officials gathered outdoors; a man in a suit speaks in front of a microphone</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/historia-fachada-noturna-767.webp</image:loc>
+      <image:title>Illuminated façade of the Red Cross Palace at night</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/og-acervo.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/knowledge-saves-lives-too-the-branch-takes-its-courses-to-the-public/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/conhecimento-tambem-salva-vidas-cruz-vermelha-brasileira-rio-de-janeiro-leva/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/knowledge-saves-lives-too-the-branch-takes-its-courses-to-the-public/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/conhecimento-tambem-salva-vidas-cruz-vermelha-brasileira-rio-de-janeiro-leva/"/>
+    <lastmod>2026-10-02T18:36:34+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/conhecimento-tambem-salva-vidas-cruz-vermelha-brasileira-rio-de-janeiro-leva/cruz-vermelha-brasileira-rio-de-janeiro.jpg</image:loc>
+      <image:title>Brazilian Red Cross Rio de Janeiro team in red and white vests in front of the gate of the Red Cross Palace, in central Rio de Janeiro.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/conhecimento-tambem-salva-vidas-cruz-vermelha-brasileira-rio-de-janeiro-leva/cruz-vermelha-brasileira-rio-de-janeiro-2.jpg</image:loc>
+      <image:title>Brazilian Red Cross Rio de Janeiro team at the Lapa Arches, with course leaflets held up in the foreground.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/conhecimento-tambem-salva-vidas-cruz-vermelha-brasileira-rio-de-janeiro-leva/cruz-vermelha-brasileira-rio-de-janeiro-3.jpg</image:loc>
+      <image:title>Brazilian Red Cross Rio de Janeiro team standing on the black-and-white mosaic pavement outside a municipal health centre in central Rio.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/lucas-law-what-it-requires-of-brazilian-schools-and-how-to-train-staff/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-lei-lucas-o-que-a-lei-exige-das-escolas/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/lucas-law-what-it-requires-of-brazilian-schools-and-how-to-train-staff/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-lei-lucas-o-que-a-lei-exige-das-escolas/"/>
+    <lastmod>2026-10-02T18:36:37+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-lei-lucas-o-que-a-lei-exige-das-escolas/sala-de-aula-infantil-vazia-com-um-estojo-de-primeiros-socor.png</image:loc>
+      <image:title>An empty children's classroom with a first-aid kit on a shelf.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/basic-life-support-bls-course-what-it-is-and-who-it-is-for/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-suporte-basico-de-vida-o-que-e-e-quem-deveria-fazer/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/basic-life-support-bls-course-what-it-is-and-who-it-is-for/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-suporte-basico-de-vida-o-que-e-e-quem-deveria-fazer/"/>
+    <lastmod>2026-10-02T18:36:19+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-suporte-basico-de-vida-o-que-e-e-quem-deveria-fazer/desfibrilador-externo-automatico-em-um-armario-de-parede-no.png</image:loc>
+      <image:title>An automated external defibrillator in a wall cabinet in the lobby of a building.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/peripheral-iv-cannulation-course-who-it-is-for-and-what-you-learn/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-puncao-venosa-para-quem-e-e-o-que-aprofunda/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/peripheral-iv-cannulation-course-who-it-is-for-and-what-you-learn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-puncao-venosa-para-quem-e-e-o-que-aprofunda/"/>
+    <lastmod>2026-10-02T18:36:38+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-puncao-venosa-para-quem-e-e-o-que-aprofunda/bandeja-com-cateter-venoso-embalado-garrote-e-materiais-de-a.png</image:loc>
+      <image:title>A tray with a packaged venous catheter, a tourniquet and antiseptic supplies.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/basic-first-aid-course-what-to-do-in-the-first-minutes/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-basico-para-o-dia-a-dia-em-casa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/basic-first-aid-course-what-to-do-in-the-first-minutes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-basico-para-o-dia-a-dia-em-casa/"/>
+    <lastmod>2026-10-02T18:36:18+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-primeiros-socorros-basico-para-o-dia-a-dia-em-casa/kit-de-primeiros-socorros-aberto-sobre-a-bancada-de-uma-cozi.png</image:loc>
+      <image:title>An open first-aid kit on a kitchen worktop.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/carer-for-older-people-course-what-carers-do-and-how-to-train/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-cuidador-de-idosos-o-que-faz-e-como-se-capacitar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/carer-for-older-people-course-what-carers-do-and-how-to-train/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-cuidador-de-idosos-o-que-faz-e-como-se-capacitar/"/>
+    <lastmod>2026-10-02T18:36:23+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-cuidador-de-idosos-o-que-faz-e-como-se-capacitar/quarto-adaptado-com-poltrona-andador-barra-de-apoio-e-organi.png</image:loc>
+      <image:title>An adapted bedroom with an armchair, a walking frame, a grab rail and a pill organiser.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/civil-firefighter-course-what-the-job-involves-and-how-to-qualify-in-rio/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-bombeiro-civil-o-que-faz-e-como-se-formar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/civil-firefighter-course-what-the-job-involves-and-how-to-qualify-in-rio/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/curso-de-bombeiro-civil-o-que-faz-e-como-se-formar/"/>
+    <lastmod>2026-10-02T18:36:26+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/curso-de-bombeiro-civil-o-que-faz-e-como-se-formar/extintor-de-incendio-e-abrigo-de-hidrante-no-corredor-de-um.png</image:loc>
+      <image:title>A fire extinguisher and a fire hose cabinet in the corridor of a building.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/alcoholics-anonymous-sign-language-meeting-in-leblon-marks-79-years/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/alcoolicos-anonimos-reuniao-com-traducao-em-libras-no-leblon-completa-79-anos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/alcoholics-anonymous-sign-language-meeting-in-leblon-marks-79-years/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/alcoolicos-anonimos-reuniao-com-traducao-em-libras-no-leblon-completa-79-anos/"/>
+    <lastmod>2026-10-02T18:36:17+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/alcoolicos-anonimos-reuniao-com-traducao-em-libras-no-leblon-completa-79-anos/toalha-com-o-simbolo-do-alcoolicos-anonimos-unidade-servico.jpg</image:loc>
+      <image:title>Cloth bearing the Alcoholics Anonymous symbol — unity, service and recovery — in the group's meeting room.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/caps-and-capsi-public-mental-health-services-in-mare-alemao-and-penha/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/caps-e-capsi-atendem-mare-alemao-e-penha-mostra-reportagem/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/caps-and-capsi-public-mental-health-services-in-mare-alemao-and-penha/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/caps-e-capsi-atendem-mare-alemao-e-penha-mostra-reportagem/"/>
+    <lastmod>2026-10-02T18:36:22+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/caps-e-capsi-atendem-mare-alemao-e-penha-mostra-reportagem/voz-das-comunidades-caps-e-capsi-atendem-mare-alemao-penha-e.jpg</image:loc>
+      <image:title>Voz das Comunidades card: CAPS and CAPSi serve Maré, Alemão, Penha and neighbouring areas.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/caps-e-capsi-atendem-mare-alemao-e-penha-mostra-reportagem/caps-e-servico-publico-de-saude-mental-do-sus-o-capsi-atende.png</image:loc>
+      <image:title>CAPS is a public mental health service of the SUS; the CAPSi serves children and adolescents.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/health-in-schools-quiz-on-vaping-hpv-and-condoms-in-rio/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/saude-nas-escolas-quiz-sobre-vape-hpv-e-preservativo-no-rio/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/health-in-schools-quiz-on-vaping-hpv-and-condoms-in-rio/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/saude-nas-escolas-quiz-sobre-vape-hpv-e-preservativo-no-rio/"/>
+    <lastmod>2026-10-02T18:36:31+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/saude-nas-escolas-quiz-sobre-vape-hpv-e-preservativo-no-rio/card-da-secretaria-de-estado-de-saude-do-rj-com-estudante-e.jpg</image:loc>
+      <image:title>Rio de Janeiro State Health Department card showing a student and a health worker celebrating correct answers in the quiz on vaping, HPV and prevention.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/saude-nas-escolas-quiz-sobre-vape-hpv-e-preservativo-no-rio/cigarro-eletronico-frasco-de-vacina-e-preservativo-sobre-car.png</image:loc>
+      <image:title>An e-cigarette, a vaccine vial and a condom on a school desk: the three subjects of the quiz given to the students.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/deam-digital-rj-how-to-report-domestic-violence-online/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/deam-digital-rj-como-denunciar-violencia-domestica-online/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/deam-digital-rj-how-to-report-domestic-violence-online/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/deam-digital-rj-como-denunciar-violencia-domestica-online/"/>
+    <lastmod>2026-10-02T18:36:27+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/deam-digital-rj-como-denunciar-violencia-domestica-online/deam-digital-rj-como-denunciar-violencia-domestica-online-1.png</image:loc>
+      <image:title>A woman holds up a phone showing the Deam Digital RJ page, beside the text "a safe, confidential and supportive channel for women who are victims of domestic violence".</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/deam-digital-rj-como-denunciar-violencia-domestica-online/deam-digital-rj-como-denunciar-violencia-domestica-online-2.png</image:loc>
+      <image:title>A woman holds up a phone showing the Deam Digital RJ page, beside the text "a safe channel for anyone who needs help".</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/choco-ifrc-emergency-appeal-supports-the-colombian-red-cross/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/choco-apelo-de-emergencia-da-ifrc-apoia-cruz-roja-colombiana/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/choco-ifrc-emergency-appeal-supports-the-colombian-red-cross/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/choco-apelo-de-emergencia-da-ifrc-apoia-cruz-roja-colombiana/"/>
+    <lastmod>2026-10-15T13:09:14+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/choco-apelo-de-emergencia-da-ifrc-apoia-cruz-roja-colombiana/voluntarias-da-cruz-vermelha-colombiana-organizam-kits-de-al.jpg</image:loc>
+      <image:title>Colombian Red Cross volunteers put together food kits for the affected families in Chocó, with support from the IFRC Emergency Appeal.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/choco-apelo-de-emergencia-da-ifrc-apoia-cruz-roja-colombiana/choco-apelo-de-emergencia-da-ifrc-apoia-cruz-roja-colombi-2.png</image:loc>
+      <image:title>Aerial view of a riverside settlement of stilt houses surrounded by debris and mud after flooding.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/fire-brigade-helicopter-on-the-beach-what-to-do-and-what-to-avoid/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/helicoptero-dos-bombeiros-na-praia-o-que-fazer-e-o-que-evitar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/fire-brigade-helicopter-on-the-beach-what-to-do-and-what-to-avoid/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/helicoptero-dos-bombeiros-na-praia-o-que-fazer-e-o-que-evitar/"/>
+    <lastmod>2026-10-15T13:09:15+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/helicoptero-dos-bombeiros-na-praia-o-que-fazer-e-o-que-evitar/card-do-podbradar-com-dois-bombeiros-militares-do-goa-em-est.jpg</image:loc>
+      <image:title>PodBradar card showing two firefighters from the Air Operations Group in the studio, in the episode on safety around aircraft.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/tim-maia-cycle-path-closed-on-2-september-due-to-heavy-surf/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/ciclovia-tim-maia-interdicao-nesta-quarta-feira-2-9-em-funcao-da-ressaca-no-mar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/tim-maia-cycle-path-closed-on-2-september-due-to-heavy-surf/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/ciclovia-tim-maia-interdicao-nesta-quarta-feira-2-9-em-funcao-da-ressaca-no-mar/"/>
+    <lastmod>2026-10-15T13:09:16+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/ciclovia-tim-maia-interdicao-nesta-quarta-feira-2-9-em-funcao-da-ressaca-no-mar/cartaz-do-cor-rio-informa-interdicao-da-ciclovia-tim-maia-en.jpg</image:loc>
+      <image:title>COR-Rio poster announcing the closure of the Tim Maia cycle path between São Conrado and Vidigal because of heavy surf with waves of up to 3 m.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/yellow-september-and-suicide-prevention/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/yellow-september-and-suicide-prevention/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida/"/>
+    <lastmod>2026-10-15T13:09:18+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida-1.png</image:loc>
+      <image:title>A yellow ribbon, the symbol of the Yellow September suicide-prevention campaign, beside a sprig of leaves on a red and white background.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/branch-welcomes-the-rio-de-janeiro-state-civil-firefighters-association/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/recebemos-na-sede-da-cruz-vermelha-do-rio-de-janeiro-os-representantes-da/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/branch-welcomes-the-rio-de-janeiro-state-civil-firefighters-association/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/recebemos-na-sede-da-cruz-vermelha-do-rio-de-janeiro-os-representantes-da/"/>
+    <lastmod>2026-10-15T13:09:12+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/recebemos-na-sede-da-cruz-vermelha-do-rio-de-janeiro-os-representantes-da/midia-1.jpg</image:loc>
+      <image:title>Five representatives of the branch and of the Rio de Janeiro State Civil Firefighters Association stand in front of a backdrop showing the Red Cross fundamental principles, at the branch headquarters.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cruzvermelhariodejaneiro.org/en/news/7-september-parade-registration-of-branch-volunteers/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/noticias/7-de-setembro/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/news/7-september-parade-registration-of-branch-volunteers/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/noticias/7-de-setembro/"/>
+    <lastmod>2026-10-02T18:36:15+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/noticias/7-de-setembro/midia-1.jpg</image:loc>
+      <image:title>Poster for the 7 September parade registration, showing Brazilian Red Cross volunteers in white and red shirts lined up beside the Brazilian flag.</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-1440.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp</image:loc>
+    </image:image>
+  </url>
+</urlset>

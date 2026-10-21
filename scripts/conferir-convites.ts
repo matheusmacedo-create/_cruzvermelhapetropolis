@@ -1,0 +1,127 @@
+/**
+ * Confere as regras de "Pedir propostas": `npx tsx scripts/conferir-convites.ts`.
+ * Sai com código 1 se algo estiver errado.
+ */
+import {
+  dataComDia, lerPreco, lerPropostaDoFornecedor, motivoDaSugestao, prazoPadrao, resumoDosConvites, situacaoDoConvite, sugerirFornecedores,
+  textoDoConvite, textoDoLembrete, totalParaOFornecedor, vespera, type Convite,
+} from '../lib/compras/convites'
+import { writeFileSync } from 'node:fs'
+import { assinaturaEmNomeDe, corpoHtmlComAssinatura } from '../lib/correio/mensagem'
+
+let falhas = 0
+function igual<T>(obtido: T, esperado: T, rotulo: string) {
+  if (JSON.stringify(obtido) !== JSON.stringify(esperado)) {
+    falhas++
+    console.error(`✗ ${rotulo}\n   esperado: ${JSON.stringify(esperado)}\n   obtido:   ${JSON.stringify(obtido)}`)
+  }
+}
+
+// Preço: o ponto de milhar que todo mundo digita.
+igual(lerPreco('1.500'), 1500, '"1.500" é mil e quinhentos')
+igual(lerPreco('1.500,50'), 1500.5, '"1.500,50"')
+igual(lerPreco('12.5'), 12.5, '"12.5" é decimal')
+igual(lerPreco('12.50'), 12.5, '"12.50" é decimal')
+igual(lerPreco('R$ 3,99'), 3.99, 'com R$')
+igual(lerPreco('1.234.567'), 1234567, 'milhões com pontos')
+igual(lerPreco('1500.555'), 1500.56, 'arredonda a centavos')
+igual(lerPreco('abc'), null, 'texto não é preço')
+igual(lerPreco('-3'), null, 'negativo não passa')
+igual(lerPreco(''), null, 'vazio é nulo')
+
+// Prazo: 5 dias corridos, sem cair no fim de semana.
+igual(prazoPadrao('2026-09-21'), '2026-09-28', 'seg + 5 = sáb → segunda')
+igual(prazoPadrao('2026-09-22'), '2026-09-28', 'ter + 5 = dom → segunda')
+igual(prazoPadrao('2026-09-23'), '2026-09-28', 'qua + 5 = seg')
+igual(prazoPadrao('2026-09-26'), '2026-10-01', 'sáb + 5 = qui')
+igual(vespera('2026-10-01'), '2026-09-30', 'véspera')
+igual(vespera('2026-03-01'), '2026-02-28', 'véspera na virada do mês')
+igual(dataComDia('2026-09-29'), '29/09/2026 (terça-feira)', 'data com o dia da semana')
+
+// Sugestões: vende + cotou primeiro; sem e-mail ou já convidado não vem marcado.
+const lista = sugerirFornecedores([
+  { id: 'a', nome: 'Zeta', email: 'z@z.com' },
+  { id: 'b', nome: 'Alfa', email: 'a@a.com' },
+  { id: 'c', nome: 'Beta', email: null },
+  { id: 'd', nome: 'Gama', email: 'g@g.com' },
+  { id: 'e', nome: 'Delta', email: 'd@d.com' },
+], { vendem: new Set(['a', 'c', 'e']), cotacoes: new Map([['a', 2], ['d', 5]]), convidados: new Set(['e']) })
+igual(lista.map((s) => s.id), ['a', 'c', 'e', 'd', 'b'], 'ordem: vende e cotou, vende, cotou, resto')
+igual(lista.map((s) => s.marcado), [true, false, false, true, false], 'marcados: habitual com e-mail e ainda não convidado')
+igual(motivoDaSugestao(lista[0], 'Material de escritório'), 'vende Material de escritório · cotou 2 vezes', 'motivo completo')
+igual(motivoDaSugestao(lista[3], null), 'cotou 5 vezes', 'motivo só histórico')
+igual(motivoDaSugestao(lista[4], null), '', 'sem motivo')
+
+// Situação e resumo.
+const base: Convite = { enviado_em: null, envio_erro: null, visto_em: null, respondido_em: null, recusado_em: null, motivo_recusa: null, cancelado_em: null, lembrete_em: null }
+igual(situacaoDoConvite(base), 'link', 'sem envio: link pronto')
+igual(situacaoDoConvite({ ...base, enviado_em: 'x' }), 'enviado', 'enviado')
+igual(situacaoDoConvite({ ...base, enviado_em: 'x', visto_em: 'y' }), 'viu', 'abriu o link')
+igual(situacaoDoConvite({ ...base, envio_erro: 'falhou' }), 'falhou', 'e-mail não saiu')
+igual(situacaoDoConvite({ ...base, envio_erro: 'falhou', visto_em: 'y' }), 'viu', 'e-mail falhou mas o link foi aberto')
+igual(situacaoDoConvite({ ...base, enviado_em: 'x', respondido_em: 'z', cancelado_em: 'w' }), 'cancelado', 'cancelado vale mais')
+igual(situacaoDoConvite({ ...base, enviado_em: 'x', recusado_em: 'z' }), 'recusou', 'recusou')
+const r = resumoDosConvites([
+  { ...base, respondido_em: 'x' }, { ...base, respondido_em: 'x' }, { ...base, recusado_em: 'x' }, { ...base }, { ...base, cancelado_em: 'x' },
+])
+igual([r.total, r.propostas, r.responderam, r.pendentes], [4, 2, 3, 1], 'resumo ignora o cancelado')
+igual(r.texto, '2 de 4 mandaram proposta · 1 não vai cotar', 'texto do resumo')
+
+// A proposta do fornecedor.
+const itens = ['i1', 'i2']
+igual(lerPropostaDoFornecedor({ precos: [{ item_id: 'i1', valor_unitario: '' }] }, itens, '2026-09-26').erro !== undefined, true, 'sem preço nenhum: erro')
+const ok = lerPropostaDoFornecedor({ precos: [{ item_id: 'i1', valor_unitario: '1.500' }, { item_id: 'x', valor_unitario: '9' }], frete: '', validade: '2026-10-10', prazo_entrega: ' 5 dias ' }, itens, '2026-09-26')
+igual(ok.proposta?.precos, [{ item_id: 'i1', valor_unitario: 1500 }, { item_id: 'i2', valor_unitario: null }], 'item de fora é ignorado; o não cotado fica nulo')
+igual([ok.proposta?.frete, ok.proposta?.prazo_entrega], [0, '5 dias'], 'frete vazio = 0; texto aparado')
+igual(lerPropostaDoFornecedor({ precos: [{ item_id: 'i1', valor_unitario: '10' }], validade: '2026-09-01' }, itens, '2026-09-26').erro !== undefined, true, 'validade no passado: erro')
+igual(lerPropostaDoFornecedor({ precos: [{ item_id: 'i1', valor_unitario: '10' }], frete: '-1' }, itens, '2026-09-26').erro !== undefined, true, 'frete negativo: erro')
+igual(lerPropostaDoFornecedor({ precos: [{ item_id: 'i1', valor_unitario: 'dez' }] }, itens, '2026-09-26').erro !== undefined, true, 'preço em texto: erro')
+igual(totalParaOFornecedor([{ id: 'i1', quantidade: 10 }, { id: 'i2', quantidade: 2.5 }], { i1: '3,50', i2: '' }, '12'), { total: 47, cotados: 1 }, 'total com frete')
+
+// E-mails.
+const convite = textoDoConvite({
+  comprador: 'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro', fornecedor: 'Papelaria Centro', codigo: 'PC-2026-0001', titulo: 'Papel A4',
+  prazo: '2026-10-01', link: 'https://palacio.exemplo/cotacao/abc', itens: [{ descricao: 'Papel A4', especificacao: '75 g/m²\nbranco', quantidade: 10, unidade: 'resma' }],
+  localEntrega: 'Praça da Cruz Vermelha, 10', necessarioAte: '2026-10-10', recado: 'Entrega em horário comercial.',
+})
+igual(convite.assunto, 'Pedido de proposta PC-2026-0001 — Papel A4', 'assunto do convite')
+igual(convite.corpo.includes('1. Papel A4 — 10 resma\n   75 g/m² branco'), true, 'itens com a especificação em uma linha')
+igual(convite.corpo.includes('Prazo para a proposta: 01/10/2026 (quinta-feira)'), true, 'prazo com dia da semana')
+igual(convite.corpo.includes('https://palacio.exemplo/cotacao/abc'), true, 'link no corpo')
+igual(convite.corpo.includes('Entrega em horário comercial.'), true, 'recado entra')
+igual(/estimad|valor de refer/i.test(convite.corpo), false, 'nenhum valor estimado vai ao fornecedor')
+igual(/estimad|valor de refer/i.test(convite.html), false, 'nenhum valor estimado vai ao fornecedor (HTML)')
+igual(convite.html.includes('href="https://palacio.exemplo/cotacao/abc"'), true, 'botão com o link')
+igual(convite.html.includes('75 g/m²<br>branco'), true, 'especificação com quebra de linha no HTML')
+const comCnpj = textoDoConvite({
+  comprador: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '12345678000190', fornecedor: 'Loja <b>&</b> Cia', codigo: 'PC-2026-0002', titulo: 'Cadeiras <script>',
+  prazo: '2026-10-02', link: 'https://palacio.exemplo/cotacao/x"y', itens: [{ descricao: 'Cadeira & mesa', especificacao: null, quantidade: 2.5, unidade: 'un' }],
+  localEntrega: null, necessarioAte: null,
+})
+igual(comCnpj.corpo.includes('Nota fiscal em nome de: O-CVB Filial Rio de Janeiro Ensino Ltda - EPP — CNPJ 12.345.678/0001-90'), true, 'nota fiscal com o CNPJ de quem compra')
+igual(/<script>|<b>|x"y/.test(comCnpj.html), false, 'HTML escapa nome, título e link')
+igual(comCnpj.html.includes('Cadeira &amp; mesa') && comCnpj.html.includes('>2,5<'), true, 'item escapado e quantidade com vírgula')
+igual(/A O-CVB/.test(comCnpj.corpo + comCnpj.html), false, 'sem "A O-CVB…"')
+igual(textoDoLembrete({ comprador: 'X', fornecedor: 'Y', codigo: 'PC-2026-0001', titulo: 'Papel', prazo: '2026-10-01', link: 'L' }).html.includes('amanhã, 01/10/2026 (quinta-feira)'), true, 'lembrete em HTML')
+// A assinatura das caixas é da Filial: num pedido da Escola, a linha legal sai com a razão social e o CNPJ dela.
+const assinaturaDaCaixa = '<p><font size="1">Esta mensagem é confidencial.</font></p><p><font size="1">Cruz Vermelha Brasileira do Rio de Janeiro — CNPJ: 08.560.973/0001-97<br></font></p>'
+const daEscola = assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '67.733.551/0001-35' })
+igual(daEscola.includes('O-CVB Filial Rio de Janeiro Ensino Ltda - EPP — CNPJ: 67.733.551/0001-35'), true, 'assinatura em nome da Escola')
+igual(daEscola.includes('08.560.973'), false, 'nenhum CNPJ da Filial sobra na assinatura da Escola')
+igual(daEscola.includes('Esta mensagem é confidencial.'), true, 'o resto da assinatura fica igual')
+igual(assinaturaEmNomeDe(assinaturaDaCaixa, null), assinaturaDaCaixa, 'pedido da Filial: assinatura intacta')
+igual(assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'A <b>', cnpj: '1' }).includes('A &lt;b&gt;'), true, 'nome escapado na assinatura')
+
+if (process.argv[2]) {
+  const exemplo = textoDoConvite({
+    comprador: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '67733551000135', fornecedor: 'Matheus Macedo', codigo: 'PC-2026-0001', titulo: 'Material para o curso de Primeiros Socorros',
+    prazo: '2026-10-02', link: 'https://palacio.cruzvermelhariodejaneiro.org/cotacao/C0_exemplo', recado: 'Por favor, informe se há pronta entrega.',
+    itens: [{ descricao: 'Manequim de RCP adulto', especificacao: 'Com indicador de compressão', quantidade: 2, unidade: 'un' }, { descricao: 'Luva de procedimento M', especificacao: 'Caixa com 100', quantidade: 10, unidade: 'cx' }],
+    localEntrega: 'Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro/RJ', necessarioAte: '2026-10-15',
+  })
+  writeFileSync(process.argv[2], `<!doctype html><meta charset="utf-8"><body style="margin:24px;background:#fff">${corpoHtmlComAssinatura(exemplo.html, exemplo.corpo, assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '67.733.551/0001-35' })).html}</body>`)
+}
+igual(textoDoLembrete({ comprador: 'X', fornecedor: 'Y', codigo: 'PC-2026-0001', titulo: 'Papel', prazo: '2026-10-01', link: 'L' }).assunto, 'Lembrete: proposta PC-2026-0001 até 01/10/2026', 'assunto do lembrete')
+
+if (falhas) { console.error(`\n${falhas} falha(s).`); process.exit(1) }
+console.log('Pedir propostas: tudo certo.')

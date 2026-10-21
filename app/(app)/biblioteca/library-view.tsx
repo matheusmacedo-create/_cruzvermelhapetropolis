@@ -1,0 +1,346 @@
+'use client'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { enviarParaBiblioteca, type EtapaDoEnvio } from '@/lib/upload-cliente'
+import { tamanhoLegivel, textoDaEconomia } from '@/lib/midia/regras'
+import { AlertTriangle, CheckCircle2, Download, FileText, Folder, ImageIcon, Lock, Music, PenLine, Search, ShieldCheck, Sparkles, Trash2, UploadCloud, Video } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
+import { autorizarUsoDeImagem, otimizarFotosAntigas } from '@/app/actions/arquivos'
+
+type Item = { id: string; name: string; kind: string; contentType: string | null; size: number; status: string; tags: string[]; createdAt: string; storagePath: string | null; author: { name: string; initials: string; color?: string }; canDelete: boolean }
+const icons: Record<string, typeof FileText> = { foto: ImageIcon, video: Video, audio: Music, documento: FileText }
+const kinds = [['todos', 'Todos'], ['foto', 'Fotos'], ['video', 'Vídeos'], ['audio', 'Áudios'], ['documento', 'Documentos']]
+const format = (n: number) => (n <= 0 ? '0 KB' : tamanhoLegivel(n))
+
+const FOLDER_PREFIX = 'pasta:'
+const folderOf = (tags: string[]) => tags.find((t) => t.startsWith(FOLDER_PREFIX))?.slice(FOLDER_PREFIX.length) || null
+const visibleTags = (tags: string[]) => tags.filter((t) => !t.startsWith(FOLDER_PREFIX))
+
+/** O que o input de arquivo oferece: o que a Biblioteca aceita (lib/storage.ts), mais a foto HEIC, que o preparo converte. */
+const ACEITOS = 'image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv'
+
+export function LibraryView({ initialFiles, usedBytes, limitBytes, workspaceId, fotosAntigas, podeOtimizar }: {
+  initialFiles: Item[]; usedBytes: number; limitBytes: number; workspaceId: string
+  /** Fotos enviadas antes da otimização na entrada (só calculado para quem pode otimizar). */
+  fotosAntigas: { quantidade: number; bytes: number }
+  podeOtimizar: boolean
+}) {
+  const router = useRouter()
+  const input = useRef<HTMLInputElement>(null)
+  const [kind, setKind] = useState('todos')
+  const [folder, setFolder] = useState('todas')
+  const [query, setQuery] = useState('')
+  const [tags, setTags] = useState('')
+  const [newFolder, setNewFolder] = useState('')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [etapa, setEtapa] = useState<{ nome: EtapaDoEnvio; porcentagem: number } | null>(null)
+  /** "Alta qualidade": foto até 4096 px e vídeo como veio. Vale só para o próximo envio. */
+  const [altaQualidade, setAltaQualidade] = useState(false)
+  /** "Otimizar fotos antigas": quantas já foram de quantas, e o resumo no fim. */
+  const [otimizando, setOtimizando] = useState<{ feitas: number; total: number } | null>(null)
+  const [avisoDaOtimizacao, setAvisoDaOtimizacao] = useState('')
+  const [authorization, setAuthorization] = useState<'pending' | 'authorized' | 'internal'>('pending')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  /**
+   * A autorização de uso de imagem só existia no envio: um arquivo que
+   * chegasse por outro caminho — a foto do post importado do Cérebro, por
+   * exemplo — nascia pendente e ficava assim para sempre, sem nada na tela
+   * dizendo isso nem onde mudar. Aqui ela vira estado visível e decisão.
+   */
+  const [confirmando, setConfirmando] = useState<Item | null>(null)
+  /** Fotos e vídeos marcados para pedir autorização às pessoas por link (/biblioteca/autorizacoes). */
+  const [selecionadas, setSelecionadas] = useState<string[]>([])
+  const alternarSelecao = (id: string) => setSelecionadas((a) => a.includes(id) ? a.filter((x) => x !== id) : [...a, id])
+
+  async function autorizar(item: Item) {
+    setError(''); setSuccess('')
+    const form = new FormData()
+    form.set('fileId', item.id)
+    const r = await autorizarUsoDeImagem(form)
+    setConfirmando(null)
+    if (r.erro) { setError(r.erro); return }
+    setSuccess(`Autorização de uso registrada para ${item.name}.`)
+    router.refresh()
+  }
+
+  const knownFolders = useMemo(() => [...new Set(initialFiles.map((f) => folderOf(f.tags)).filter((f): f is string => !!f))].sort(), [initialFiles])
+
+  const list = initialFiles.filter((f) => {
+    if (kind !== 'todos' && f.kind !== kind) return false
+    if (folder === 'sem-pasta' && folderOf(f.tags)) return false
+    if (folder !== 'todas' && folder !== 'sem-pasta' && folderOf(f.tags) !== folder) return false
+    return `${f.name} ${f.tags.join(' ')}`.toLowerCase().includes(query.toLowerCase())
+  })
+
+  // Vídeo é convertido no navegador antes de subir: fechar a aba no meio perde o envio.
+  useEffect(() => {
+    if (!busy) return
+    const segurar = (e: BeforeUnloadEvent) => e.preventDefault()
+    window.addEventListener('beforeunload', segurar)
+    return () => window.removeEventListener('beforeunload', segurar)
+  }, [busy])
+
+  async function upload() {
+    const file = selectedFile ?? input.current?.files?.[0]
+    if (!file) { setError('Escolha um arquivo antes de enviar.'); return }
+    setBusy(true); setError(''); setSuccess(''); setEtapa(null)
+    const folderTag = newFolder.trim() ? `${FOLDER_PREFIX}${newFolder.trim()}` : ''
+    const allTags = [folderTag, ...tags.split(',').map((t) => t.trim())].filter(Boolean)
+
+    try {
+      // O mesmo caminho do hub e do editor (lib/upload-cliente.ts): prepara
+      // (foto leve, vídeo MP4), sobe direto ao armazenamento e registra.
+      const salvo = await enviarParaBiblioteca(file, {
+        workspaceId,
+        tags: allTags,
+        autorizacao: authorization,
+        perfil: altaQualidade ? 'alta' : 'padrao',
+        onEtapa: (nome, porcentagem) => setEtapa({ nome, porcentagem }),
+      })
+
+      const economia = textoDaEconomia(salvo.tamanhoOriginal, salvo.tamanho)
+      setSuccess(economia ? `“${salvo.nome}” enviado — ${economia}.` : `“${salvo.nome}” enviado com sucesso.`)
+      router.refresh()
+      if (input.current) input.current.value = ''
+      setSelectedFile(null)
+      setTags('')
+      setNewFolder('')
+      setAuthorization('pending')
+      setAltaQualidade(false)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Não foi possível enviar o arquivo.')
+    } finally {
+      setBusy(false); setEtapa(null)
+    }
+  }
+
+  const rotuloDoEnvio = !etapa ? 'Preparando…'
+    : etapa.nome === 'otimizando' ? (etapa.porcentagem > 0 ? `Otimizando… ${etapa.porcentagem}%` : 'Otimizando…')
+      : `Enviando… ${etapa.porcentagem}%`
+
+  /**
+   * "Otimizar fotos antigas": rodadas curtas da action até não sobrar foto.
+   * As que falham voltam em `pular`, para a rodada seguinte não tropeçar
+   * sempre na mesma; a tela para quando uma rodada não consegue nada.
+   */
+  async function otimizarAntigas() {
+    const n = fotosAntigas.quantidade
+    if (!confirm(`Otimizar ${n} foto(s)? Cada uma vira JPEG de até 2048 px, sem localização, no mesmo endereço. A versão original não fica guardada.`)) return
+    setError(''); setAvisoDaOtimizacao('')
+    setOtimizando({ feitas: 0, total: n })
+    let pular: string[] = []
+    let feitas = 0
+    let processados = 0
+    let antes = 0
+    let depois = 0
+    let parou = false
+    try {
+      for (;;) {
+        const r = await otimizarFotosAntigas(pular)
+        if (r.erro) { setError(r.erro); parou = true; break }
+        processados += r.processados
+        antes += r.antes
+        depois += r.depois
+        pular = [...pular, ...r.falhas]
+        feitas += r.processados + r.falhas.length
+        setOtimizando({ feitas, total: feitas + r.restantes })
+        if (!r.restantes || (!r.processados && !r.falhas.length) || pular.length >= 100) break
+      }
+      const economia = textoDaEconomia(antes, depois)
+      const partes = [
+        economia ? `${parou ? 'Até aqui' : 'Pronto'}: ${economia}.` : processados ? `${processados} foto(s) conferida(s); já estavam leves.` : '',
+        pular.length ? `${pular.length} foto(s) não puderam ser otimizadas agora.` : '',
+      ]
+      setAvisoDaOtimizacao(partes.filter(Boolean).join(' '))
+    } catch {
+      setError('A otimização parou no meio. Toque em “Otimizar agora” para continuar.')
+    } finally {
+      setOtimizando(null)
+      router.refresh()
+    }
+  }
+
+  async function remove(id: string, name: string) {
+    if (!confirm(`Excluir "${name}" permanentemente? Essa ação não pode ser desfeita.`)) return
+    setError('')
+    const res = await fetch(`/api/files/${id}`, { method: 'DELETE' })
+    if (res.ok) router.refresh()
+    else setError((await res.json()).error || 'Não foi possível excluir o arquivo.')
+  }
+
+  return (
+    <div className="flex flex-col gap-5">
+      <Card data-ajuda="biblioteca.envio" className="p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
+          <div className="flex-1">
+            <p className="text-sm font-semibold">Enviar arquivo</p>
+            <p className="mt-1 text-xs text-muted-foreground">PDF, Office, imagens, áudio ou vídeo · até 300 MB. Fotos e vídeos ficam mais leves no envio. Só arquivos com autorização de uso podem ir para as redes ou para o site.</p>
+            <input
+              ref={input}
+              type="file"
+              accept={ACEITOS}
+              onChange={(e) => { setSelectedFile(e.target.files?.[0] ?? null); setError(''); setSuccess('') }}
+              className="mt-3 block w-full text-sm"
+            />
+            <p className="mt-1.5 text-xs font-medium text-muted-foreground">
+              {selectedFile ? `Selecionado: ${selectedFile.name} (${format(selectedFile.size)})` : 'Nenhum arquivo selecionado ainda.'}
+            </p>
+            <label data-ajuda="biblioteca.alta-qualidade" className="mt-3 flex items-start gap-2 text-sm">
+              <input type="checkbox" checked={altaQualidade} onChange={(e) => setAltaQualidade(e.target.checked)} disabled={busy} className="mt-0.5 size-4 accent-[var(--primary)]" />
+              <span>
+                <span className="font-medium">Alta qualidade (para impressão ou edição)</span>
+                <span className="block text-xs text-muted-foreground">Fotos até 4096 px e vídeo como veio. Ocupa mais espaço.</span>
+              </span>
+            </label>
+          </div>
+          <label className="text-sm font-medium">
+            Pasta
+            <input
+              list="pasta-options"
+              value={newFolder}
+              onChange={(e) => setNewFolder(e.target.value)}
+              className="mt-1 h-10 w-full rounded-lg border border-border bg-background px-3 lg:w-48"
+              placeholder="Ex.: Eventos"
+            />
+            <datalist id="pasta-options">
+              {knownFolders.map((f) => <option key={f} value={f} />)}
+            </datalist>
+          </label>
+          <label className="text-sm font-medium">
+            Tags
+            <input value={tags} onChange={(e) => setTags(e.target.value)} className="mt-1 h-10 w-full rounded-lg border border-border bg-background px-3 lg:w-56" placeholder="evento, campanha" />
+          </label>
+          <label data-ajuda="biblioteca.uso-de-imagem" className="text-sm font-medium">
+            Uso de imagem
+            <select
+              value={authorization}
+              onChange={(e) => setAuthorization(e.target.value as typeof authorization)}
+              className="mt-1 h-10 w-full rounded-lg border border-border bg-background px-3 lg:w-52"
+            >
+              <option value="pending">Não informado</option>
+              <option value="authorized">Tem autorização</option>
+              <option value="internal">Uso interno apenas</option>
+            </select>
+          </label>
+          <Button onClick={upload} disabled={busy || !selectedFile}>{busy ? rotuloDoEnvio : <><UploadCloud className="size-4" />Enviar</>}</Button>
+        </div>
+        {busy && etapa?.nome === 'otimizando' && etapa.porcentagem > 0 && (
+          <p className="mt-3 text-xs text-muted-foreground" aria-live="polite">O vídeo está sendo convertido neste navegador antes de subir. Deixe esta aba aberta até terminar.</p>
+        )}
+        {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+        {success && <p className="mt-3 flex items-center gap-1.5 text-sm text-success"><CheckCircle2 className="size-4" />{success}</p>}
+        <div className="mt-4">
+          <div className="mb-1 flex justify-between text-xs text-muted-foreground"><span>Espaço usado</span><span>{format(usedBytes)} de {format(limitBytes)}</span></div>
+          <div className="h-2 overflow-hidden rounded-full bg-muted"><div className="h-full bg-primary" style={{ width: `${Math.min(100, (usedBytes / limitBytes) * 100)}%` }} /></div>
+          {podeOtimizar && (fotosAntigas.quantidade > 0 || otimizando || avisoDaOtimizacao) && (
+            <div data-ajuda="biblioteca.otimizar-antigas" className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border bg-muted/40 p-3 text-xs">
+              <p className="text-muted-foreground" aria-live="polite">
+                {otimizando ? `Otimizando… ${Math.min(otimizando.feitas, otimizando.total)} de ${otimizando.total}`
+                  : avisoDaOtimizacao || `${fotosAntigas.quantidade} ${fotosAntigas.quantidade === 1 ? 'foto enviada' : 'fotos enviadas'} antes da otimização ${fotosAntigas.quantidade === 1 ? 'ocupa' : 'ocupam'} ${tamanhoLegivel(fotosAntigas.bytes)}.`}
+              </p>
+              {!otimizando && fotosAntigas.quantidade > 0 && (
+                <Button size="sm" variant="outline" onClick={otimizarAntigas}><Sparkles className="size-4" />Otimizar agora</Button>
+              )}
+            </div>
+          )}
+        </div>
+      </Card>
+
+      <div data-ajuda="biblioteca.busca" className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1"><Search className="absolute left-3 top-3 size-4 text-muted-foreground" /><input value={query} onChange={(e) => setQuery(e.target.value)} className="h-10 w-full rounded-lg border border-border bg-background pl-9 pr-3" placeholder="Buscar arquivos e tags" /></div>
+        <div className="flex flex-wrap gap-2">{kinds.map(([value, label]) => <button key={value} type="button" onClick={() => setKind(value)} className={cn('rounded-lg px-3 py-2 text-sm', kind === value ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground')}>{label}</button>)}</div>
+      </div>
+
+      {knownFolders.length > 0 && (
+        <div data-ajuda="biblioteca.pastas" className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium text-muted-foreground">Pastas:</span>
+          <button type="button" onClick={() => setFolder('todas')} className={cn('inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium', folder === 'todas' ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground')}>Todas</button>
+          {knownFolders.map((f) => (
+            <button key={f} type="button" onClick={() => setFolder(f)} className={cn('inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium', folder === f ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground')}>
+              <Folder className="size-3" />{f}
+            </button>
+          ))}
+          <button type="button" onClick={() => setFolder('sem-pasta')} className={cn('inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium', folder === 'sem-pasta' ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground')}>Sem pasta</button>
+        </div>
+      )}
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground">{list.length} arquivo(s)</p>
+        <div className="flex flex-wrap gap-2">
+          {list.some((f) => f.kind === 'foto' || f.kind === 'video') && (
+            <Button variant="ghost" size="sm" onClick={() => setSelecionadas(list.filter((f) => (f.kind === 'foto' || f.kind === 'video') && f.status !== 'internal').map((f) => f.id).slice(0, 60))}>Selecionar as fotos da lista</Button>
+          )}
+          <Button data-ajuda="biblioteca.autorizacoes" variant="outline" size="sm" render={<Link href="/biblioteca/autorizacoes" />}><PenLine className="size-4" />Autorizações de imagem</Button>
+        </div>
+      </div>
+      {selecionadas.length > 0 && (
+        <div className="sticky top-2 z-10 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-primary/30 bg-card/95 p-3 shadow-sm">
+          <span className="text-sm">{selecionadas.length} selecionada(s){selecionadas.length > 60 && ' — no máximo 60 por link'}</span>
+          <div className="flex gap-2">
+            <Button size="sm" variant="ghost" onClick={() => setSelecionadas([])}>Limpar</Button>
+            <Button size="sm" render={<Link href={`/biblioteca/autorizacoes/nova?arquivos=${selecionadas.slice(0, 60).join(',')}`} />}><PenLine className="size-4" />Pedir autorização às pessoas</Button>
+          </div>
+        </div>
+      )}
+      <div data-ajuda="biblioteca.arquivos" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {list.map((f) => {
+          const Icon = icons[f.kind] || FileText
+          const preview = f.kind === 'foto' && f.storagePath ? `/api/private-blob?pathname=${encodeURIComponent(f.storagePath)}` : null
+          const fileFolder = folderOf(f.tags)
+          return (
+            <Card key={f.id} className={cn('overflow-hidden', selecionadas.includes(f.id) && 'ring-2 ring-primary')}>
+              <div className="relative flex aspect-video items-center justify-center bg-muted">
+                {(f.kind === 'foto' || f.kind === 'video') && f.status !== 'internal' && (
+                  <label className="absolute left-2 top-2 flex items-center gap-1.5 rounded-md bg-background/90 px-2 py-1 text-xs font-medium shadow-sm">
+                    <input type="checkbox" checked={selecionadas.includes(f.id)} onChange={() => alternarSelecao(f.id)} className="size-4 accent-[var(--primary)]" />
+                    <span className="sr-only">Selecionar {f.name} para pedir autorização</span><span aria-hidden="true">Selecionar</span>
+                  </label>
+                )}
+                {preview ? <img src={preview} alt={f.name} className="size-full object-cover" /> : <Icon className="size-10 text-muted-foreground" />}</div>
+              <div className="flex flex-col gap-3 p-4">
+                <div>
+                  <p className="truncate text-sm font-semibold">{f.name}</p>
+                  <p className="text-xs text-muted-foreground">{f.author.name} · {format(f.size)} · {new Intl.DateTimeFormat('pt-BR').format(new Date(f.createdAt))}</p>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {f.status === 'authorized' && <span className="inline-flex items-center gap-1 rounded bg-success/10 px-2 py-0.5 text-xs font-medium text-success"><ShieldCheck className="size-3" />Uso autorizado</span>}
+                  {f.status === 'pending' && <span className="inline-flex items-center gap-1 rounded bg-amber-500/15 px-2 py-0.5 text-xs font-medium text-amber-700"><AlertTriangle className="size-3" />Falta autorizar</span>}
+                  {f.status === 'internal' && <span className="inline-flex items-center gap-1 rounded bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground"><Lock className="size-3" />Uso interno</span>}
+                  {fileFolder && <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"><Folder className="size-3" />{fileFolder}</span>}
+                  {visibleTags(f.tags).map((t) => <span key={t} className="rounded bg-muted px-2 py-0.5 text-xs">#{t}</span>)}
+                </div>
+                {confirmando?.id === f.id ? (
+                  <div className="rounded-lg border border-border bg-muted/40 p-3 text-xs">
+                    <p className="text-muted-foreground">
+                      Confirmo que há autorização de uso de imagem das pessoas que aparecem nesta mídia para publicação
+                      pela Cruz Vermelha Brasileira — Rio de Janeiro.
+                    </p>
+                    <p className="mt-1 text-muted-foreground">Ainda não tem? <Link href={`/biblioteca/autorizacoes/nova?arquivos=${f.id}`} className="font-medium text-primary hover:underline">Peça às pessoas por link</Link> — cada uma assina no celular.</p>
+                    <div className="mt-2 flex gap-2">
+                      <Button size="sm" onClick={() => autorizar(f)}><CheckCircle2 className="size-4" />Confirmo</Button>
+                      <Button size="sm" variant="ghost" onClick={() => setConfirmando(null)}>Cancelar</Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="flex-1" render={<a href={`/api/files/${f.id}/download`} />}><Download className="size-4" />Baixar</Button>
+                    {f.status === 'pending' && (
+                      <Button variant="outline" size="sm" onClick={() => setConfirmando(f)}>Autorizar uso</Button>
+                    )}
+                    {f.canDelete && <Button variant="ghost" size="icon-sm" onClick={() => remove(f.id, f.name)} aria-label={`Excluir ${f.name}`}><Trash2 className="size-4" /></Button>}
+                  </div>
+                )}
+              </div>
+            </Card>
+          )
+        })}
+      </div>
+      {!list.length && <Card className="p-12 text-center text-sm text-muted-foreground">Nenhum arquivo encontrado.</Card>}
+    </div>
+  )
+}

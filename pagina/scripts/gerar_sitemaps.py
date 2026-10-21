@@ -1,0 +1,387 @@
+#!/usr/bin/env python3
+"""Gera os sitemaps do domínio cruzvermelhariodejaneiro.org para o Google Search Console.
+
+Saídas (em site/, publicadas na raiz do public_html):
+
+  sitemap-index.xml        índice: aponta para os três sitemaps abaixo (é o único endereço que
+                           precisa ser enviado no Search Console)
+  sitemap-paginas.xml      páginas fixas do domínio principal, com a data de modificação real
+                           (cabeçalho Last-Modified do servidor) e as imagens de cada página
+  sitemap-subdominios.xml  landing pages nos subdomínios (projetocores., puncaovenosav1.),
+                           cobertos pela propriedade de domínio do Search Console
+  + sitemap.xml            o da Redação (páginas fixas + notícias, sempre atual): só referenciado;
+                           é a fonte única das notícias (o sitemap-noticias.xml saiu do índice em 19/10/2026,
+                           por ficar defasado em relação a ele)
+
+Fora do índice, de propósito: sitemap-escola.xml (a escola fica em cursoscruzvermelha.org, outro
+domínio; gerado por gerar_sitemap_escola.py e enviado à parte, depois que a escola estiver verificada
+na mesma conta do Search Console).
+
+Regras:
+  - toda URL e toda imagem são conferidas ao vivo e só entram se responderem 200;
+  - página com noindex ou com canonical apontando para outro endereço fica de fora (avisa);
+  - lastmod só quando há fonte confiável (Last-Modified do servidor ou article:modified_time);
+    sem fonte, o campo é omitido, nunca inventado;
+  - logotipos, logos de parceiros e pixels de rastreio não entram como imagem.
+
+Uso:  python3 scripts/gerar_sitemaps.py
+Sem dependências além da biblioteca padrão. Precisa de rede (confere tudo ao vivo).
+"""
+from __future__ import annotations
+
+import html
+import json
+import re
+import sys
+import urllib.error
+import urllib.request
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from urllib.parse import urljoin, urlsplit
+
+import gerar_idiomas as idiomas
+
+RAIZ = Path(__file__).resolve().parent.parent
+SITE = RAIZ / "site"
+ORIGEM = "https://cruzvermelhariodejaneiro.org"
+AGENTE = "cvb-rj-sitemap/2.0 (+https://cruzvermelhariodejaneiro.org/)"
+
+# Páginas fixas do domínio principal: (caminho, arquivo local com as imagens ou None, changefreq, priority, nota)
+# Desde 05/10/2026 /verificar/, /transparencia/ e /canais-oficiais/ são públicas (abertura da trilha). As duas
+# últimas são geradas pela Redação por FTP; se alguma ainda estiver com noindex no ar, pagina_indexavel a deixa fora.
+PAGINAS = [
+    ("/", "index.html", "weekly", "1.0", "Home"),
+    # Doação de volta em 19/10/2026 (DOACAO_NO_AR = True em gerar_doe.py e gerar_idiomas.py, sem os .htaccess do 503).
+    ("/doe/", "doe/index.html", "monthly", "0.8", "Doação"),
+    # A matrícula vende os cursos da escola (a Ltda): desde 19/10/2026 (segunda recusa do Ad Grants, achado M09) fica
+    # abaixo das páginas institucionais, que têm de 0.6 a 0.8. /bio/ saiu no mesmo dia: é noindex (gerar_bio.py, M14).
+    ("/matricula-cursos-presenciais/", "matricula-cursos-presenciais/index.html", "monthly", "0.5", "Matrícula em cursos presenciais"),
+    ("/historia/", "historia/index.html", "monthly", "0.7", "História da filial"),
+    # Páginas institucionais (11/10/2026, scripts/gerar_institucional.py): só entram depois de publicadas (pagina_indexavel).
+    ("/quem-somos/", "quem-somos/index.html", "monthly", "0.7", "Quem somos"),
+    ("/principios-fundamentais/", "principios-fundamentais/index.html", "yearly", "0.7", "Princípios Fundamentais"),
+    ("/movimento-internacional/", "movimento-internacional/index.html", "yearly", "0.6", "Movimento Internacional"),
+    ("/emblema/", "emblema/index.html", "yearly", "0.6", "O emblema"),
+    ("/direito-internacional-humanitario/", "direito-internacional-humanitario/index.html", "yearly", "0.6", "Direito Internacional Humanitário"),
+    ("/base-legal/", "base-legal/index.html", "monthly", "0.6", "Base legal"),
+    ("/cursos-gratuitos/", "cursos-gratuitos/index.html", "weekly", "0.8", "Formação de voluntários"),
+    ("/voluntariado/", "voluntariado/index.html", "monthly", "0.7", "Voluntariado"),
+    ("/voluntariado/cadastro/", "voluntariado/cadastro/index.html", "monthly", "0.6", "Cadastro de voluntário"),
+    ("/gestao/", "gestao/index.html", "monthly", "0.6", "Como funciona a nossa gestão"),
+    ("/pedido-de-documentos/", "pedido-de-documentos/index.html", "yearly", "0.4", "Pedido de documentos"),
+    ("/campanha-agasalho.html", "campanha-agasalho.html", "monthly", "0.6", "Campanha do Agasalho"),
+    ("/equipe.html", "equipe.html", "monthly", "0.5", "Equipe"),
+    ("/noticias/", None, "daily", "0.8", "Notícias (Redação)"),
+    ("/transparencia/", None, "weekly", "0.7", "Portal da transparência (Redação)"),
+    ("/canais-oficiais/", None, "monthly", "0.5", "Canais oficiais (Redação)"),
+    ("/verificar/", "verificar/index.html", "monthly", "0.6", "Verificação de documentos"),
+    # Políticas: geradas por gerar_politicas.py, nas três línguas (até 27/09/2026, a Redação gerava
+    # só /termos/ e /privacidade/). A doação (/doe/, /en/donate/, /es/donar/) ficou fora de 25/09 a 19/10/2026.
+    ("/privacidade/", "privacidade/index.html", "yearly", "0.3", "Política de Privacidade"),
+    ("/cookies/", "cookies/index.html", "yearly", "0.3", "Política de Cookies"),
+    ("/termos/", "termos/index.html", "yearly", "0.3", "Termos de Uso"),
+    ("/reembolso/", "reembolso/index.html", "yearly", "0.3", "Cancelamento e reembolso"),
+    ("/en/privacy/", "en/privacy/index.html", "yearly", "0.2", "Privacidade em inglês"),
+    ("/en/cookies/", "en/cookies/index.html", "yearly", "0.2", "Cookies em inglês"),
+    ("/en/terms/", "en/terms/index.html", "yearly", "0.2", "Termos em inglês"),
+    ("/en/refunds/", "en/refunds/index.html", "yearly", "0.2", "Reembolso em inglês"),
+    ("/es/privacidad/", "es/privacidad/index.html", "yearly", "0.2", "Privacidade em espanhol"),
+    ("/es/cookies/", "es/cookies/index.html", "yearly", "0.2", "Cookies em espanhol"),
+    ("/es/terminos/", "es/terminos/index.html", "yearly", "0.2", "Termos em espanhol"),
+    ("/es/reembolsos/", "es/reembolsos/index.html", "yearly", "0.2", "Reembolso em espanhol"),
+    # O acervo (/acervo/, /en/archive/, /es/acervo/) saiu em 19/10/2026: as cinco coleções ainda dizem "Em breve"
+    # (achados L02/M10 da segunda recusa do Ad Grants). Volta para cá quando houver itens publicados.
+    ("/en/", "en/index.html", "monthly", "0.7", "Institucional em inglês"),
+    ("/es/", "es/index.html", "monthly", "0.7", "Institucional em espanhol"),
+    ("/en/faq/", "en/faq/index.html", "monthly", "0.6", "Perguntas frequentes em inglês"),
+    ("/es/preguntas-frecuentes/", "es/preguntas-frecuentes/index.html", "monthly", "0.6", "Perguntas frequentes em espanhol"),
+    ("/en/donate/", "en/donate/index.html", "monthly", "0.5", "Doação em inglês"),
+    ("/es/donar/", "es/donar/index.html", "monthly", "0.5", "Doação em espanhol"),
+    ("/en/courses/", "en/courses/index.html", "monthly", "0.4", "Cursos em inglês"),
+    ("/es/cursos/", "es/cursos/index.html", "monthly", "0.4", "Cursos em espanhol"),
+    ("/en/our-team/", "en/our-team/index.html", "monthly", "0.5", "Equipe em inglês"),
+    ("/es/nuestro-equipo/", "es/nuestro-equipo/index.html", "monthly", "0.5", "Equipe em espanhol"),
+    # Páginas só em inglês (scripts/gerar_ingles.py); as notícias em inglês entram logo abaixo.
+    ("/en/news/", "en/news/index.html", "weekly", "0.6", "Notícias em inglês"),
+    ("/en/winter-clothing-drive/", "en/winter-clothing-drive/index.html", "monthly", "0.5", "Campanha do Agasalho em inglês"),
+    ("/en/history/", "en/history/index.html", "monthly", "0.6", "História em inglês"),
+]
+
+# Notícias traduzidas: original da Redação → versão em inglês (gravado por gerar_ingles.py).
+NOTICIAS_EN = json.loads((RAIZ / "traducoes" / "en" / "mapa-hreflang.json").read_text(encoding="utf-8"))
+PAGINAS += [(en, f"{en.strip('/')}/index.html", "monthly", "0.5", "Notícia em inglês") for en in NOTICIAS_EN.values()]
+
+# Versões da mesma página em outros idiomas, declaradas no sitemap com xhtml:link. O Google
+# aceita o hreflang na página, no sitemap ou nos dois; declarar nos dois é o recomendado.
+ALTERNATIVAS = {
+    "/": {"pt-BR": "/", "en": "/en/", "es": "/es/"},
+    "/en/": {"pt-BR": "/", "en": "/en/", "es": "/es/"},
+    "/es/": {"pt-BR": "/", "en": "/en/", "es": "/es/"},
+    # A FAQ só existe em inglês e espanhol: em português ela é uma seção da home, e âncora não
+    # serve de hreflang. O par fica sem pt-BR, como nas próprias páginas.
+    "/en/faq/": {"en": "/en/faq/", "es": "/es/preguntas-frecuentes/", "x-default": "/"},
+    "/es/preguntas-frecuentes/": {"en": "/en/faq/", "es": "/es/preguntas-frecuentes/", "x-default": "/"},
+    # Cursos: o par en+es, como na FAQ. A página em português é a de matrícula, com checkout — é
+    # outro tipo de página, não a mesma em outra língua, e não declara hreflang. Entrar no cluster
+    # só pelo sitemap criaria divergência entre o que o sitemap diz e o que a página diz.
+    "/en/courses/": {"en": "/en/courses/", "es": "/es/cursos/", "x-default": "/matricula-cursos-presenciais/"},
+    "/es/cursos/": {"en": "/en/courses/", "es": "/es/cursos/", "x-default": "/matricula-cursos-presenciais/"},
+    # Equipe: cluster completo, porque equipe.html é a mesma página em português e declara hreflang.
+    "/equipe.html": {"pt-BR": "/equipe.html", "en": "/en/our-team/", "es": "/es/nuestro-equipo/"},
+    "/en/our-team/": {"pt-BR": "/equipe.html", "en": "/en/our-team/", "es": "/es/nuestro-equipo/"},
+    "/es/nuestro-equipo/": {"pt-BR": "/equipe.html", "en": "/en/our-team/", "es": "/es/nuestro-equipo/"},
+    # Acervo (/acervo/ + /en/archive/ + /es/acervo/): cluster fora desde 19/10/2026, junto com as páginas (ver PAGINAS).
+    # Pares pt-BR + en. A campanha declara o par nas duas páginas. /noticias/, /privacidade/ e
+    # /termos/ são da Redação e ainda não declaram hreflang: até declararem, só o lado em inglês
+    # entra aqui, para o sitemap não dizer mais do que as páginas dizem.
+    # História: par pt-BR + en; as duas páginas declaram hreflang (x-default no português).
+    "/historia/": {"pt-BR": "/historia/", "en": "/en/history/", "x-default": "/historia/"},
+    "/en/history/": {"pt-BR": "/historia/", "en": "/en/history/", "x-default": "/historia/"},
+    "/campanha-agasalho.html": {"pt-BR": "/campanha-agasalho.html", "en": "/en/winter-clothing-drive/"},
+    "/en/winter-clothing-drive/": {"pt-BR": "/campanha-agasalho.html", "en": "/en/winter-clothing-drive/"},
+    "/en/news/": {"pt-BR": "/noticias/", "en": "/en/news/"},
+    "/en/privacy/": {"pt-BR": "/privacidade/", "en": "/en/privacy/"},
+    "/en/terms/": {"pt-BR": "/termos/", "en": "/en/terms/"},
+}
+ALTERNATIVAS.update({en: {"pt-BR": pt, "en": en} for pt, en in NOTICIAS_EN.items()})
+# Doação: cluster completo com x-default no português, como declaram gerar_doe.py e gerar_idiomas.py.
+for _chave in ("privacidade", "cookies", "termos", "reembolso", "doar"):
+    _c = idiomas.PAGINAS[_chave]
+    for _url in _c.values():
+        ALTERNATIVAS[_url] = {"pt-BR": _c["pt"], "en": _c["en"], "es": _c["es"]}
+        if _chave == "doar":
+            ALTERNATIVAS[_url]["x-default"] = _c["pt"]
+
+# Landing pages nos subdomínios: (URL exatamente como o canonical, changefreq, priority, nota)
+# A landing de Punção Venosa (puncaovenosav1., Vercel) saiu em 19/10/2026: é página de venda de um curso da escola
+# (achados M09/C9), e o sitemap do domínio da ONG não a anuncia mais. A página continua no ar.
+SUBDOMINIOS = [
+    ("https://projetocores.cruzvermelhariodejaneiro.org/", "monthly", "0.6", "Projeto Impacto das Cores (Hostinger)"),
+]
+
+SITEMAP_REDACAO = f"{ORIGEM}/sitemap.xml"
+NS_SITEMAP = "http://www.sitemaps.org/schemas/sitemap/0.9"
+NS_IMAGEM = "http://www.google.com/schemas/sitemap-image/1.1"
+NS_XHTML = "http://www.w3.org/1999/xhtml"
+EXTENSOES_IMAGEM = (".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif")
+IGNORAR_IMAGEM = re.compile(r"logo|/parceiros/|facebook\.com/tr|^data:", re.I)
+
+
+# ----------------------------------------------------------------------------- rede
+def requisitar(url: str, metodo: str = "GET") -> tuple[int, dict[str, str], str]:
+    """(status, cabeçalhos em minúsculas, corpo). Erros HTTP viram status; erro de rede vira 0."""
+    req = urllib.request.Request(url, method=metodo, headers={"User-Agent": AGENTE, "Accept": "*/*"})
+    try:
+        with urllib.request.urlopen(req, timeout=40) as resp:
+            corpo = "" if metodo == "HEAD" else resp.read().decode("utf-8", errors="replace")
+            return resp.status, {k.lower(): v for k, v in resp.headers.items()}, corpo
+    except urllib.error.HTTPError as erro:
+        return erro.code, {k.lower(): v for k, v in erro.headers.items()}, ""
+    except Exception as erro:  # noqa: BLE001
+        print(f"  ! sem resposta de {url}: {erro}", file=sys.stderr)
+        return 0, {}, ""
+
+
+def existe(url: str) -> tuple[bool, str | None]:
+    """Confere ao vivo (HEAD, com GET de reserva). Devolve (200?, Last-Modified em W3C ou None)."""
+    status, cabecalhos, _ = requisitar(url, "HEAD")
+    if status in (0, 403, 405, 501):
+        status, cabecalhos, _ = requisitar(url, "GET")
+    return status == 200, w3c_de_http(cabecalhos.get("last-modified"))
+
+
+def w3c_de_http(valor: str | None) -> str | None:
+    if not valor:
+        return None
+    try:
+        return parsedate_to_datetime(valor).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    except (TypeError, ValueError):
+        return None
+
+
+def w3c_de_iso(valor: str | None) -> str | None:
+    if not valor:
+        return None
+    try:
+        return datetime.fromisoformat(valor.replace("Z", "+00:00")).astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    except ValueError:
+        return valor[:10] if re.match(r"\d{4}-\d{2}-\d{2}", valor) else None
+
+
+# ----------------------------------------------------------------------------- páginas e imagens
+def meta(pagina: str, nome: str) -> str | None:
+    """Conteúdo de <meta name|property="nome" content="..."> (qualquer ordem dos atributos)."""
+    for padrao in (rf'<meta[^>]+(?:name|property)="{re.escape(nome)}"[^>]+content="([^"]*)"',
+                   rf'<meta[^>]+content="([^"]*)"[^>]+(?:name|property)="{re.escape(nome)}"'):
+        achado = re.search(padrao, pagina, re.I)
+        if achado:
+            return html.unescape(achado.group(1))
+    return None
+
+
+def canonical(pagina: str) -> str | None:
+    achado = re.search(r'<link[^>]+rel="canonical"[^>]+href="([^"]*)"', pagina, re.I) or \
+        re.search(r'<link[^>]+href="([^"]*)"[^>]+rel="canonical"', pagina, re.I)
+    return html.unescape(achado.group(1)) if achado else None
+
+
+def imagens_de(pagina: str, base: str) -> list[tuple[str, str]]:
+    """[(URL absoluta, título)] das imagens de conteúdo: <img src/alt>, fundos em CSS e og:image."""
+    achadas: dict[str, str] = {}
+
+    def guardar(src: str, titulo: str = "") -> None:
+        src = html.unescape(src.strip())
+        if not src or IGNORAR_IMAGEM.search(src):
+            return
+        url = urljoin(base, src)
+        if urlsplit(url).scheme not in ("http", "https") or not url.lower().split("?")[0].endswith(EXTENSOES_IMAGEM):
+            return
+        if url not in achadas or (titulo and not achadas[url]):
+            achadas[url] = titulo.strip()
+
+    for tag in re.findall(r"<img\b[^>]*>", pagina, re.I):
+        src = re.search(r'\ssrc="([^"]*)"', tag)
+        alt = re.search(r'\salt="([^"]*)"', tag)
+        if src:
+            guardar(src.group(1), html.unescape(alt.group(1)) if alt else "")
+    for src in re.findall(r"""url\(\s*['"]?([^'")]+)['"]?\s*\)""", pagina):
+        guardar(src)
+    og = meta(pagina, "og:image")
+    if og:
+        guardar(og)
+    return list(achadas.items())
+
+
+def entrada(loc: str, lastmod: str | None, changefreq: str, priority: str, imagens: list[tuple[str, str]],
+            alternativas: dict[str, str] | None = None) -> str:
+    linhas = ["  <url>", f"    <loc>{html.escape(loc, quote=True)}</loc>"]
+    # As versões da mesma página em outros idiomas. O Google aceita o hreflang na página, no
+    # sitemap ou nos dois; declarar nos dois é o recomendado, e é o que fazemos.
+    for codigo, caminho in (alternativas or {}).items():
+        linhas.append(f'    <xhtml:link rel="alternate" hreflang="{codigo}" href="{ORIGEM}{caminho}"/>')
+    # O x-default sai do português, quando existe. Página que só tem en+es (a FAQ) declara o seu
+    # na própria tabela, e aí o laço acima já o emitiu — não duplicar.
+    if alternativas and alternativas.get("pt-BR") and "x-default" not in alternativas:
+        linhas.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ORIGEM}{alternativas["pt-BR"]}"/>')
+    if lastmod:
+        linhas.append(f"    <lastmod>{lastmod}</lastmod>")
+    linhas += [f"    <changefreq>{changefreq}</changefreq>", f"    <priority>{priority}</priority>"]
+    for url, titulo in imagens:
+        linhas.append("    <image:image>")
+        linhas.append(f"      <image:loc>{html.escape(url, quote=True)}</image:loc>")
+        if titulo:
+            linhas.append(f"      <image:title>{html.escape(titulo, quote=False)}</image:title>")
+        linhas.append("    </image:image>")
+    linhas.append("  </url>")
+    return "\n".join(linhas)
+
+
+def urlset(comentario: str, entradas: list[str]) -> str:
+    return "\n".join([
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        f"<!-- {comentario}\n     Gerado por scripts/gerar_sitemaps.py em {agora_w3c()}. Não editar à mão. -->",
+        f'<urlset xmlns="{NS_SITEMAP}" xmlns:image="{NS_IMAGEM}" xmlns:xhtml="{NS_XHTML}">',
+        *entradas,
+        "</urlset>",
+        "",
+    ])
+
+
+def agora_w3c() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+
+
+def conferir_imagens(imagens: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    validas = []
+    for url, titulo in imagens:
+        ok, _ = existe(url)
+        if ok:
+            validas.append((url, titulo))
+        else:
+            print(f"  ! imagem fora do ar, ignorada: {url}", file=sys.stderr)
+    return validas
+
+
+def pagina_indexavel(url: str, esperado: str) -> tuple[bool, str, dict[str, str]]:
+    """Baixa a página e diz se pode entrar no sitemap: 200, sem noindex, canonical (se houver) igual à URL."""
+    status, cabecalhos, corpo = requisitar(url)
+    if status != 200:
+        print(f"  ! {url} respondeu {status}, fora do sitemap", file=sys.stderr)
+        return False, corpo, cabecalhos
+    robots = (meta(corpo, "robots") or "") + " " + cabecalhos.get("x-robots-tag", "")
+    if "noindex" in robots.lower():
+        print(f"  ! {url} tem noindex, fora do sitemap", file=sys.stderr)
+        return False, corpo, cabecalhos
+    canon = canonical(corpo)
+    if canon and canon.rstrip("/") != esperado.rstrip("/"):
+        print(f"  ! {url} tem canonical {canon}, fora do sitemap", file=sys.stderr)
+        return False, corpo, cabecalhos
+    return True, corpo, cabecalhos
+
+
+# ----------------------------------------------------------------------------- os quatro arquivos
+def gerar_paginas() -> tuple[str, int]:
+    entradas = []
+    for caminho, arquivo, changefreq, priority, nota in PAGINAS:
+        url = ORIGEM + caminho
+        print(f"- {nota}: {url}")
+        ok, corpo, cabecalhos = pagina_indexavel(url, url)
+        if not ok:
+            continue
+        lastmod = w3c_de_http(cabecalhos.get("last-modified"))
+        fonte = (SITE / arquivo).read_text(encoding="utf-8") if arquivo else ""
+        imagens = conferir_imagens(imagens_de(fonte, url)) if fonte else []
+        entradas.append(entrada(url, lastmod, changefreq, priority, imagens, ALTERNATIVAS.get(caminho)))
+        print(f"  lastmod {lastmod or '(sem fonte)'} · {len(imagens)} imagens")
+    return urlset("Páginas fixas do site institucional da Cruz Vermelha Brasileira, filial Rio de Janeiro.", entradas), len(entradas)
+
+
+
+def gerar_subdominios() -> tuple[str, int]:
+    entradas = []
+    for url, changefreq, priority, nota in SUBDOMINIOS:
+        print(f"- {nota}: {url}")
+        ok, corpo, cabecalhos = pagina_indexavel(url, url)
+        if not ok:
+            continue
+        lastmod = w3c_de_http(cabecalhos.get("last-modified"))
+        imagens = conferir_imagens(imagens_de(corpo, url))
+        entradas.append(entrada(url, lastmod, changefreq, priority, imagens))
+        print(f"  lastmod {lastmod or '(sem fonte)'} · {len(imagens)} imagens")
+    return urlset("Landing pages nos subdomínios de cruzvermelhariodejaneiro.org (propriedade de domínio no Search Console).", entradas), len(entradas)
+
+
+def gerar_indice(gerados: list[str]) -> str:
+    linhas = ['<?xml version="1.0" encoding="UTF-8"?>',
+              "<!-- Índice de sitemaps da Cruz Vermelha Brasileira, filial Rio de Janeiro. Envie este endereço no Google\n"
+              f"     Search Console (propriedade de domínio cruzvermelhariodejaneiro.org). Gerado por scripts/gerar_sitemaps.py em {agora_w3c()}.\n"
+              "     sitemap.xml é mantido pela Redação (regenerado a cada notícia); os outros dois vêm deste repositório. -->",
+              f'<sitemapindex xmlns="{NS_SITEMAP}">']
+    for nome in gerados:
+        linhas += ["  <sitemap>", f"    <loc>{ORIGEM}/{nome}</loc>", f"    <lastmod>{agora_w3c()}</lastmod>", "  </sitemap>"]
+    _, redacao_lastmod = existe(SITEMAP_REDACAO)
+    linhas += ["  <sitemap>", f"    <loc>{SITEMAP_REDACAO}</loc>"] + ([f"    <lastmod>{redacao_lastmod}</lastmod>"] if redacao_lastmod else []) + ["  </sitemap>"]
+    linhas += ["</sitemapindex>", ""]
+    return "\n".join(linhas)
+
+
+def main() -> int:
+    saidas = {}
+    for nome, gerador in (("sitemap-paginas.xml", gerar_paginas), ("sitemap-subdominios.xml", gerar_subdominios)):
+        print(f"\n== {nome}")
+        xml, quantidade = gerador()
+        if quantidade == 0:
+            print(f"nenhuma URL válida para {nome}; nada foi gravado", file=sys.stderr)
+            return 1
+        saidas[nome] = (xml, quantidade)
+    saidas["sitemap-index.xml"] = (gerar_indice(list(saidas)), len(saidas) + 1)
+    print()
+    for nome, (xml, quantidade) in saidas.items():
+        (SITE / nome).write_text(xml, encoding="utf-8")
+        print(f"gravado site/{nome} ({quantidade} entradas, {len(xml.encode('utf-8'))} bytes)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

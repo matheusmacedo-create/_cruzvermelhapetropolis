@@ -1,0 +1,141 @@
+/**
+ * Confere o conteúdo da ajuda contra o código: `npx tsx scripts/conferir-ajuda.ts`.
+ *
+ * - todo alvo citado num tour tem um `data-ajuda="..."` em algum arquivo;
+ * - toda ajuda é de uma área que existe em lib/navegacao.ts (e toda área tem ajuda);
+ * - ids de tarefa e pergunta são únicos dentro da área (viram âncora na Central);
+ *   na Área do Voluntário, únicos na página inteira (/membro/ajuda junta tudo);
+ * - telas internas moram dentro do endereço da área;
+ * - a ajuda geral não manda a equipe da escola usar o "Criar" nem abrir chamado;
+ * - toda área tem o "Na prática" (3 a 7 momentos) e as "mais perguntadas" existem;
+ * - avisa do que passa da medida (docs/AJUDA.md §11): "para que serve" ou
+ *   "quem usa" acima de 400 caracteres, resumo de painel acima de 260,
+ *   resposta acima de 900, mais de 15 tarefas ou 20 perguntas numa área, tour
+ *   de tela interna com um balão só.
+ *
+ * Sai com código 1 se algo estiver errado, para caber num passo de validação.
+ */
+import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { join } from 'node:path'
+import { GUIAS, MAIS_PERGUNTADAS, SO_DA_REDACAO, TOPICOS_GERAIS, alvosCitados, perguntaDaAjuda } from '../lib/ajuda'
+import { resumoEDetalhe } from '../lib/ajuda/texto'
+import { GUIAS_DO_MEMBRO, BOAS_VINDAS_DO_MEMBRO, TOPICOS_DO_MEMBRO } from '../lib/ajuda/membro'
+import { TODOS_OS_GRUPOS, areaDoCaminho } from '../lib/navegacao'
+
+const raiz = join(__dirname, '..')
+const erros: string[] = []
+const avisos: string[] = []
+
+function arquivos(dir: string): string[] {
+  return readdirSync(dir).flatMap((nome) => {
+    const caminho = join(dir, nome)
+    if (statSync(caminho).isDirectory()) return nome === 'node_modules' || nome.startsWith('.') ? [] : arquivos(caminho)
+    return /\.tsx?$/.test(nome) ? [caminho] : []
+  })
+}
+
+// data-ajuda="x" e data-ajuda={... 'x' ...} (inclusive condicional: {primeiro ? 'x' : undefined}).
+// Dentro das chaves só conta string com ponto (`<área>.<coisa>`): a condição
+// (`tipo === 'institucional'`) não é alvo.
+// Valor montado em tempo de execução (`${...}`) não conta: o conteúdo cita alvos fixos.
+const marcados = new Set<string>()
+for (const arquivo of [...arquivos(join(raiz, 'app')), ...arquivos(join(raiz, 'components'))]) {
+  const texto = readFileSync(arquivo, 'utf8')
+  for (const m of texto.matchAll(/data-ajuda="([^"$]+)"/g)) marcados.add(m[1])
+  for (const m of texto.matchAll(/data-ajuda=\{([^}]*)\}/g)) for (const v of m[1].matchAll(/'([a-z0-9-]+\.[a-z0-9.-]+)'/g)) marcados.add(v[1])
+}
+
+const citados = [
+  ...alvosCitados(),
+  ...BOAS_VINDAS_DO_MEMBRO.flatMap((p) => (p.alvo ? [{ alvo: p.alvo, onde: 'boas-vindas do voluntário' }] : [])),
+  ...GUIAS_DO_MEMBRO.flatMap((g) => [{ onde: g.href, passos: g.tour }, ...(g.telas ?? []).map((t) => ({ onde: t.caminho, passos: t.tour }))])
+    .flatMap(({ onde, passos }) => passos.flatMap((p) => (p.alvo ? [{ alvo: p.alvo, onde: `voluntário ${onde}` }] : []))),
+]
+for (const { alvo, onde } of citados) {
+  if (!marcados.has(alvo)) erros.push(`alvo sem elemento: "${alvo}" (tour de ${onde})`)
+}
+
+const hrefs = new Set(TODOS_OS_GRUPOS.flatMap((g) => g.areas.map((a) => a.href)))
+const comAjuda = new Set<string>()
+for (const guia of GUIAS) {
+  if (!hrefs.has(guia.href)) erros.push(`ajuda de área que não existe no menu: ${guia.href}`)
+  if (comAjuda.has(guia.href)) erros.push(`área com duas ajudas: ${guia.href}`)
+  comAjuda.add(guia.href)
+  const ids = [...guia.tarefas.map((t) => t.id), ...guia.perguntas.map((p) => p.id)]
+  const repetidos = ids.filter((id, n) => ids.indexOf(id) !== n)
+  if (repetidos.length) erros.push(`${guia.href}: ids repetidos ${[...new Set(repetidos)].join(', ')}`)
+  for (const id of ids) if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) erros.push(`${guia.href}: id fora do padrão "${id}"`)
+  for (const tela of guia.telas ?? []) {
+    // A tela é da área se o menu a põe lá (inclui as moradas: /mensagens/[id] é de Aprovações).
+    const exemplo = tela.caminho.replace(/\[\.\.\.[^\]]+\]/g, 'x/y').replace(/\[[^\]]+\]/g, 'x')
+    if (areaDoCaminho(exemplo)?.area.href !== guia.href) erros.push(`${guia.href}: tela fora da área ${tela.caminho}`)
+    if (!tela.tour.length) avisos.push(`${guia.href}: tela sem tour ${tela.caminho}`)
+    else if (tela.tour.length === 1) avisos.push(`${guia.href}: a tela ${tela.caminho} tem um balão só (um tour de um passo não é tour)`)
+  }
+  // A medida das coisas (§11): o que passa daqui vira rolagem sem fim no painel.
+  if (guia.paraQueServe.length > 400) avisos.push(`${guia.href}: "para que serve" com ${guia.paraQueServe.length} caracteres (até 400; o resto cabe nas perguntas)`)
+  if ((guia.quemUsa?.length ?? 0) > 400) avisos.push(`${guia.href}: "quem usa" com ${guia.quemUsa!.length} caracteres (até 400)`)
+  const { resumo } = resumoEDetalhe(guia.paraQueServe)
+  if (resumo.length > 260) avisos.push(`${guia.href}: a primeira frase do "para que serve" tem ${resumo.length} caracteres (o painel mostra só ela; até 260)`)
+  if (guia.tarefas.length > 15) avisos.push(`${guia.href}: ${guia.tarefas.length} tarefas (até 15; o que sobra vira pergunta ou some)`)
+  if (guia.perguntas.length > 20) avisos.push(`${guia.href}: ${guia.perguntas.length} perguntas (até 20; junte as parecidas)`)
+  for (const p of guia.perguntas) if (p.resposta.length > 900) avisos.push(`${guia.href}#${p.id}: resposta com ${p.resposta.length} caracteres (até 900; divida em duas perguntas)`)
+  for (const r of guia.relacionadas ?? []) if (!hrefs.has(r)) erros.push(`${guia.href}: relacionada inexistente ${r}`)
+  if (guia.tour.length && (guia.tour.length < 2 || guia.tour.length > 8)) avisos.push(`${guia.href}: tour com ${guia.tour.length} passos (o ideal é 3 a 7)`)
+  if (!guia.perguntas.length) avisos.push(`${guia.href}: sem perguntas frequentes`)
+  if (!guia.naPratica) erros.push(`${guia.href}: sem "Na prática" (como imaginamos a área funcionando)`)
+  else if (guia.naPratica.passos.length < 3 || guia.naPratica.passos.length > 7) avisos.push(`${guia.href}: "Na prática" com ${guia.naPratica.passos.length} momentos (o ideal é 3 a 7)`)
+  if (!guia.tarefas.some((t) => t.exemplo)) avisos.push(`${guia.href}: nenhum passo a passo com exemplo`)
+}
+for (const m of MAIS_PERGUNTADAS) if (!perguntaDaAjuda(m.area, m.id)) erros.push(`mais perguntadas: não existe ${m.area}#${m.id}`)
+for (const href of hrefs) if (!comAjuda.has(href) && href !== '/ajuda') avisos.push(`área sem ajuda: ${href}`)
+
+const idsGerais = TOPICOS_GERAIS.flatMap((t) => [t.id, ...t.tarefas.map((x) => x.id), ...t.perguntas.map((p) => p.id)])
+const repetidosGerais = idsGerais.filter((id, n) => idsGerais.indexOf(id) !== n)
+if (repetidosGerais.length) erros.push(`tópicos gerais: ids repetidos ${[...new Set(repetidosGerais)].join(', ')}`)
+
+// A ajuda geral também é da equipe da escola, que não tem o "Criar" nem abre
+// chamados: a tarefa que manda usar um dos dois leva o selo SO_DA_REDACAO
+// (e some para ela); a pergunta, que não tem selo, precisa dizer o caminho da escola.
+const soDaRedacao = /“Criar”|\bchamados?\b/i
+for (const topico of TOPICOS_GERAIS) {
+  for (const t of topico.tarefas) {
+    if (t.quem !== SO_DA_REDACAO && soDaRedacao.test([t.titulo, ...t.passos, t.dica ?? ''].join(' '))) erros.push(`tópicos gerais: a tarefa "${t.id}" cita o “Criar” ou chamado sem quem: '${SO_DA_REDACAO}'`)
+  }
+  for (const p of topico.perguntas) {
+    const texto = `${p.pergunta} ${p.resposta}`
+    if (soDaRedacao.test(texto) && !/escola/i.test(texto)) avisos.push(`tópicos gerais: a pergunta "${p.id}" cita o “Criar” ou chamado e não diz o que a equipe da escola faz`)
+  }
+}
+
+// A Central do voluntário (/membro/ajuda) põe destinos e tópicos numa página só: o id é âncora da página inteira.
+const idsDoMembro = [
+  ...GUIAS_DO_MEMBRO.flatMap((g) => [...g.tarefas.map((t) => t.id), ...g.perguntas.map((p) => p.id)]),
+  ...TOPICOS_DO_MEMBRO.flatMap((t) => [...t.tarefas.map((x) => x.id), ...t.perguntas.map((p) => p.id)]),
+]
+const repetidosDoMembro = idsDoMembro.filter((id, n) => idsDoMembro.indexOf(id) !== n)
+if (repetidosDoMembro.length) erros.push(`voluntário: ids repetidos ${[...new Set(repetidosDoMembro)].join(', ')}`)
+for (const id of idsDoMembro) if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) erros.push(`voluntário: id fora do padrão "${id}"`)
+
+const usados = new Set(citados.map((c) => c.alvo))
+const soltos = [...marcados].filter((m) => !usados.has(m))
+if (soltos.length) avisos.push(`marcados sem uso em tour (ok se for de propósito): ${soltos.join(', ')}`)
+
+// O corte de frases do painel (lib/ajuda/texto.ts): casos que já deram errado.
+const cortes: [string, string][] = [
+  ['Uma frase só.', 'Uma frase só.'],
+  ['Curta. Depois uma segunda frase que completa a ideia da primeira com calma.', 'Curta. Depois uma segunda frase que completa a ideia da primeira com calma.'],
+  ['Pautas é o quadro editorial: cada cartão é uma pauta, e as colunas são as etapas, de “Entrada” a “Pronto”. Dentro, tudo mais.', 'Pautas é o quadro editorial: cada cartão é uma pauta, e as colunas são as etapas, de “Entrada” a “Pronto”.'],
+  ['O E-mail do setor é a caixa de e-mail do seu setor. “Caixa de entrada” mostra o que chegou.', 'O E-mail do setor é a caixa de e-mail do seu setor. “Caixa de entrada” mostra o que chegou.'],
+  ['Versão 2.0 do site. Nada muda para quem lê.', 'Versão 2.0 do site. Nada muda para quem lê.'],
+]
+for (const [texto, esperado] of cortes) {
+  const { resumo, detalhe } = resumoEDetalhe(texto)
+  if (resumo !== esperado) erros.push(`corte de frases: "${texto.slice(0, 40)}…" deu "${resumo}"`)
+  if (`${resumo} ${detalhe}`.trim() !== texto) erros.push(`corte de frases perdeu texto em "${texto.slice(0, 40)}…"`)
+}
+
+for (const a of avisos) console.log(`aviso: ${a}`)
+for (const e of erros) console.log(`ERRO: ${e}`)
+console.log(`${GUIAS.length} áreas com ajuda, ${citados.length} alvos citados, ${marcados.size} marcados, ${erros.length} erro(s).`)
+process.exit(erros.length ? 1 : 0)

@@ -1,0 +1,83 @@
+import Link from 'next/link'
+import { Card } from '@/components/ui/card'
+import { PainelDoWhatsapp, type LinhaDoRegistroNaTela } from '@/components/admin/whatsapp'
+import { CartaoDoAssistente } from '@/components/admin/whatsapp-assistente'
+import { exigirAdministracao } from '@/lib/configuracoes/servidor'
+import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { cotaDeConversas, resumoDaFila } from '@/lib/whatsapp/fila'
+import { configDoWhatsapp, perfilConectado, situacaoDaConexao, situacaoDoWebhook } from '@/lib/whatsapp/servidor'
+import { estadoDoAssistente } from '@/lib/whatsapp/assistente/uso'
+import { formatarNumero, mascararNumero } from '@/lib/whatsapp/regras'
+
+export const metadata = { title: 'WhatsApp — Configurações' }
+
+const Cabecalho = () => <p className="mb-6 text-sm text-muted-foreground">O número do Palácio Virtual no WhatsApp, pela Kapso (API oficial do WhatsApp): os avisos do sino chegam por lá para quem confirmou o número em Meu perfil, e o bot responde a quem escreve.</p>
+
+export default async function WhatsappPage() {
+  const context = await exigirAdministracao()
+
+  const config = await configDoWhatsapp(context.workspace.id)
+  if (!config) {
+    return <div className="mx-auto max-w-3xl"><Cabecalho />
+      <Card data-ajuda="whatsapp.configurar" className="flex flex-col gap-3 p-6">
+        <h2 className="font-semibold">Falta configurar o WhatsApp</h2>
+        <ol className="list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
+          <li>Abra <Link href="/configuracoes/integracoes" className="text-primary hover:underline">Integrações</Link>, no submenu, e ache o cartão “WhatsApp (Kapso — API oficial)”.</li>
+          <li>Cole a chave da API da Kapso (app.kapso.ai → Integrations → API keys) e o Phone number ID do número.</li>
+          <li>Toque em “Salvar no cofre” e volte a esta tela para ligar o recebimento de mensagens.</li>
+        </ol>
+        <p className="text-xs text-muted-foreground">A chave vai direto para o cofre e não aparece mais para ninguém. Nunca a mande por chat, e-mail ou print.</p>
+      </Card>
+    </div>
+  }
+
+  const supabase = await createClient()
+  const admin = createAdminClient()
+  const [conexao, webhook, meu, registro, fila, cota, assistente] = await Promise.all([
+    situacaoDaConexao(config),
+    situacaoDoWebhook(config, context.workspace.id),
+    supabase.from('whatsapp_contas').select('numero').eq('user_id', context.user.id).maybeSingle(),
+    supabase.from('whatsapp_mensagens').select('id, direcao, tipo, situacao, numero, comando, erro, criado_em, profiles:user_id(full_name)')
+      .eq('workspace_id', context.workspace.id).order('criado_em', { ascending: false }).limit(30),
+    // A fila guarda o texto das mensagens: é lida pelo servidor, e a tela recebe só as contagens.
+    resumoDaFila(admin, context.workspace.id),
+    // As conversas iniciadas nas últimas 24 h (a cota diária da Meta): só a contagem.
+    cotaDeConversas(admin, context.workspace.id),
+    // O assistente (whatsapp_ia_config): a configuração e os números de hoje, sem nada de conversa.
+    estadoDoAssistente(admin, context.workspace.id),
+  ])
+  const conectado = conexao.estado === 'conectado' ? await perfilConectado(config) : { numero: null, nome: null }
+
+  const linhas: LinhaDoRegistroNaTela[] = (registro.data ?? []).map((l) => {
+    const perfil = (Array.isArray(l.profiles) ? l.profiles[0] : l.profiles) as { full_name?: string | null } | null
+    return {
+      id: l.id as number,
+      quando: l.criado_em as string,
+      direcao: l.direcao as 'entrada' | 'saida',
+      tipo: l.tipo as string,
+      situacao: l.situacao as string,
+      quem: perfil?.full_name ?? mascararNumero(l.numero as string | null),
+      detalhe: (l.erro as string | null) ?? (l.comando ? `Comando: ${l.comando}` : null),
+    }
+  })
+  return <div className="mx-auto max-w-3xl"><Cabecalho />
+    <PainelDoWhatsapp
+      numeroId={config.numeroId}
+      modelos={{ aviso: config.modelo, codigo: config.modeloCodigo, seguranca: config.modeloSeguranca }}
+      estado={conexao.estado}
+      erro={conexao.erro}
+      webhook={webhook}
+      numeroConectado={conectado.numero ? formatarNumero(conectado.numero) : null}
+      nomeConectado={conectado.nome}
+      meuNumero={meu.data?.numero ? formatarNumero(meu.data.numero as string) : null}
+      registro={linhas}
+      registroIndisponivel={Boolean(registro.error)}
+      fila={fila}
+      conversas={cota?.usadas ?? null}
+    />
+    <div className="mt-6">
+      <CartaoDoAssistente a={assistente} />
+    </div>
+  </div>
+}

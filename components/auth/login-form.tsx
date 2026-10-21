@@ -1,0 +1,72 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { Eye, EyeOff, Loader2, LockKeyhole, UserRound } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { entrar } from '@/app/actions/entrada'
+import { impressaoDoNavegador, type Impressao } from './impressao'
+
+/**
+ * `rodape`: troca o rodapé padrão (esqueci a senha, aviso do registro) — o app de e-mail tem o dele.
+ * `usuario`: o rótulo e o exemplo do campo de usuário — o app de e-mail só entra por usuário, sem e-mail.
+ */
+export function LoginForm({ needsBootstrap, aviso, voltar, rodape, usuario: campoUsuario }: {
+  needsBootstrap: boolean
+  aviso?: string
+  voltar?: string | null
+  rodape?: React.ReactNode
+  usuario?: { rotulo: string; placeholder: string }
+}) {
+  const router = useRouter()
+  const [setup, setSetup] = useState(needsBootstrap)
+  const [fullName, setFullName] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  // A impressão do aparelho começa a ser colhida quando a tela abre, para
+  // estar pronta no clique (docs/registro-de-acessos.md §3).
+  const impressao = useRef<Promise<Impressao | null> | null>(null)
+  useEffect(() => { impressao.current = impressaoDoNavegador() }, [])
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault(); setLoading(true); setError('')
+    try {
+      if (setup) {
+        const response = await fetch('/api/bootstrap', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ fullName, username, password }) })
+        const result = await response.json()
+        if (!response.ok) throw new Error(result.error)
+      }
+      // A senha vai ao servidor, que confere o bloqueio por tentativas erradas,
+      // entra (gravando o cookie da sessão) e registra o acesso. A tela só
+      // recebe "entrou" ou a mensagem (app/actions/entrada.ts).
+      const sinais = await Promise.race([
+        impressao.current ?? Promise.resolve(null),
+        new Promise<null>((resolver) => setTimeout(() => resolver(null), 3000)),
+      ]).catch(() => null)
+      const r = await entrar(username.trim(), password, JSON.stringify(sinais ?? {}))
+      if (r?.erro) throw new Error(r.erro)
+      // Veio de um QR (?voltar=, já conferido na página): volta para lá.
+      router.push(voltar ?? '/dashboard'); router.refresh()
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Não foi possível entrar.')
+    } finally { setLoading(false) }
+  }
+
+  return (
+    <form onSubmit={submit} className="flex flex-col gap-5">
+      {setup && <div className="rounded-lg border border-primary/25 bg-primary/5 p-4"><p className="text-sm font-semibold">Configuração inicial</p><p className="mt-1 text-sm text-muted-foreground">Crie o primeiro administrador. Nenhum e-mail será enviado.</p></div>}
+      {setup && <label className="flex flex-col gap-2 text-sm font-medium">Nome completo<input required minLength={3} value={fullName} onChange={(e) => setFullName(e.target.value)} className="h-11 rounded-lg border border-border bg-background px-3 outline-none focus:border-ring focus:ring-2 focus:ring-ring/30" placeholder="Nome do administrador" /></label>}
+      {aviso && !setup && <p role="status" className="rounded-lg bg-success/10 px-3 py-2 text-sm text-success">{aviso}</p>}
+      <label className="flex flex-col gap-2 text-sm font-medium">{setup ? 'Usuário' : campoUsuario?.rotulo ?? 'Usuário ou e-mail'}<div className="relative"><UserRound className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"/><input required autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value.toLowerCase())} className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-3 outline-none focus:border-ring focus:ring-2 focus:ring-ring/30" placeholder={setup ? 'nome.sobrenome' : campoUsuario?.placeholder ?? 'nome.sobrenome ou seu@email.com'} /></div></label>
+      <label className="flex flex-col gap-2 text-sm font-medium">Senha<div className="relative"><LockKeyhole className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"/><input required minLength={8} autoComplete={setup ? 'new-password' : 'current-password'} type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-11 outline-none focus:border-ring focus:ring-2 focus:ring-ring/30" placeholder="Mínimo de 8 caracteres"/><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">{showPassword ? <EyeOff className="size-4"/> : <Eye className="size-4"/>}</button></div></label>
+      {error && <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+      <Button type="submit" size="lg" className="h-12" disabled={loading}>{loading && <Loader2 className="size-4 animate-spin"/>}{setup ? 'Criar administrador e entrar' : 'Entrar'}</Button>
+      {!needsBootstrap && rodape}
+      {!needsBootstrap && !rodape && <div className="flex flex-col items-center gap-2 text-center text-xs text-muted-foreground"><Link href="/esqueci-senha" className="text-sm text-primary underline-offset-4 hover:underline">Esqueci minha senha</Link><p>Acesso exclusivo para colaboradores cadastrados.</p><p className="max-w-xs text-[11px] leading-snug">Por segurança, registramos data, local aproximado e dados do aparelho de cada acesso.</p></div>}
+    </form>
+  )
+}

@@ -1,0 +1,271 @@
+/**
+ * O que cada rede aceita, por formato.
+ *
+ * Números tirados da documentação do Upload-Post (photo-requirements,
+ * video-requirements) em agosto de 2026. Onde a documentação manda consultar a
+ * rede, ficamos com o recomendado — a conferência avisa, não bloqueia, então
+ * errar para o lado cauteloso custa um aviso e não uma publicação impedida.
+ *
+ * Este arquivo roda no navegador: nada de 'server-only' aqui.
+ */
+
+export type Proporcao = { min: number; max: number; ideal: number }
+
+export type Requisito = {
+  /** largura ÷ altura */
+  proporcao: Proporcao
+  larguraMinima?: number
+  alturaMinima?: number
+  tamanhoMaximo?: number
+  duracaoMinima?: number
+  duracaoMaxima?: number
+  caracteres?: number
+}
+
+const NOVE_POR_DEZESSEIS: Proporcao = { min: 0.5, max: 0.62, ideal: 0.5625 }
+
+/** rede → formato → requisito. Ausência significa "a rede não faz esse formato". */
+export const REQUISITOS: Record<string, Partial<Record<string, Requisito>>> = {
+  instagram: {
+    feed: { proporcao: { min: 0.8, max: 1.91, ideal: 1 }, larguraMinima: 320, caracteres: 2_200 },
+    stories: { proporcao: NOVE_POR_DEZESSEIS, larguraMinima: 720, alturaMinima: 1280,
+      tamanhoMaximo: 300 * 1024 * 1024, duracaoMaxima: 60, caracteres: 2_200 },
+    reels: { proporcao: NOVE_POR_DEZESSEIS, larguraMinima: 720, alturaMinima: 1280,
+      tamanhoMaximo: 300 * 1024 * 1024, duracaoMinima: 3, duracaoMaxima: 15 * 60, caracteres: 2_200 },
+  },
+  facebook: {
+    texto: { proporcao: { min: 0, max: 99, ideal: 1 }, caracteres: 63_206 },
+    feed: { proporcao: { min: 0.5, max: 1.91, ideal: 1.91 }, caracteres: 63_206 },
+    stories: { proporcao: NOVE_POR_DEZESSEIS, larguraMinima: 540, alturaMinima: 960,
+      duracaoMaxima: 60, caracteres: 63_206 },
+    reels: { proporcao: NOVE_POR_DEZESSEIS, larguraMinima: 540, alturaMinima: 960,
+      duracaoMinima: 3, duracaoMaxima: 90, caracteres: 63_206 },
+  },
+  linkedin: {
+    texto: { proporcao: { min: 0, max: 99, ideal: 1 }, caracteres: 3_000 },
+    feed: { proporcao: { min: 0.42, max: 2.4, ideal: 1.91 }, caracteres: 3_000 },
+  },
+  x: {
+    texto: { proporcao: { min: 0, max: 99, ideal: 1 }, caracteres: 25_000 },
+    feed: { proporcao: { min: 0.33, max: 3, ideal: 1.78 }, tamanhoMaximo: 5 * 1024 * 1024, caracteres: 25_000 },
+  },
+  threads: {
+    texto: { proporcao: { min: 0, max: 99, ideal: 1 }, caracteres: 25_000 },
+    feed: { proporcao: { min: 0.1, max: 10, ideal: 1 }, larguraMinima: 320,
+      tamanhoMaximo: 8 * 1024 * 1024, caracteres: 25_000 },
+  },
+  bluesky: {
+    texto: { proporcao: { min: 0, max: 99, ideal: 1 }, caracteres: 300 },
+    feed: { proporcao: { min: 0.1, max: 10, ideal: 1 }, caracteres: 300 },
+  },
+  pinterest: {
+    feed: { proporcao: { min: 0.6, max: 0.72, ideal: 0.667 }, larguraMinima: 600, alturaMinima: 900,
+      tamanhoMaximo: 20 * 1024 * 1024, caracteres: 500 },
+  },
+  google_business: {
+    texto: { proporcao: { min: 0, max: 99, ideal: 1 }, caracteres: 1_500 },
+    feed: { proporcao: { min: 0.5, max: 2, ideal: 1 }, caracteres: 1_500 },
+  },
+}
+
+/**
+ * Quantas mídias cada rede aceita numa publicação só.
+ *
+ * O que passa disso não é recusado — Threads e X quebram em vários posts
+ * automaticamente — mas quem está publicando precisa saber que vai virar mais
+ * de um post antes de clicar.
+ */
+export const LIMITE_DE_MIDIAS: Record<string, number> = {
+  instagram: 10,
+  threads: 10,
+  facebook: 10,
+  pinterest: 5,
+  x: 4,
+  linkedin: 9,
+  bluesky: 4,
+  google_business: 1,
+}
+
+/** O teto do conjunto marcado é o da rede mais restrita. */
+export function limiteDeMidias(redes: string[]): number {
+  const limites = redes.map((r) => LIMITE_DE_MIDIAS[r]).filter((n): n is number => Boolean(n))
+  return limites.length ? Math.min(...limites) : 10
+}
+
+export type Midia = {
+  largura: number
+  altura: number
+  duracao?: number
+  tamanho?: number
+}
+
+export type Achado = {
+  rede: string
+  nivel: 'erro' | 'aviso'
+  mensagem: string
+}
+
+const proporcaoLegivel = (p: number) =>
+  p >= 0.99 && p <= 1.01 ? '1:1'
+    : p > 1 ? `${p.toFixed(2)}:1`
+      : `1:${(1 / p).toFixed(2)}`
+
+const segundos = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}min${String(Math.round(s % 60)).padStart(2, '0')}` : `${Math.round(s)}s`)
+
+/**
+ * Confere um post contra cada rede marcada.
+ *
+ * "erro" é o que a rede recusa; "aviso" é o que ela aceita mas fica feio —
+ * tipicamente corte de imagem. A distinção importa porque um corte às vezes é
+ * aceitável e um recusa nunca é.
+ */
+const FORMATOS_ROTULO: Record<string, string> = {
+  texto: 'Texto', feed: 'Feed', stories: 'Stories', reels: 'Reels',
+}
+
+export function conferir(params: {
+  formato: string
+  redes: string[]
+  texto: string
+  midia?: Midia | null
+  /** Quantas mídias no total; 1 quando não é carrossel. */
+  quantidade?: number
+}): Achado[] {
+  const { formato, redes, texto, midia, quantidade = 1 } = params
+  const achados: Achado[] = []
+
+  for (const rede of redes) {
+    const req = REQUISITOS[rede]?.[formato]
+    if (!req) {
+      achados.push({ rede, nivel: 'erro', mensagem: `não publica neste formato` })
+      continue
+    }
+
+    if (quantidade > 1) {
+      const teto = LIMITE_DE_MIDIAS[rede]
+      if (teto === 1) {
+        achados.push({ rede, nivel: 'erro', mensagem: `não aceita carrossel; publica uma mídia por vez` })
+      } else if (teto && quantidade > teto) {
+        achados.push({
+          rede, nivel: 'aviso',
+          mensagem: `${quantidade} mídias passam do limite de ${teto} — vira mais de um post`,
+        })
+      }
+      if (formato === 'stories' || formato === 'reels') {
+        achados.push({ rede, nivel: 'erro', mensagem: `${FORMATOS_ROTULO[formato] ?? formato} não aceita carrossel` })
+      }
+    }
+
+    if (req.caracteres && texto.length > req.caracteres) {
+      achados.push({
+        rede, nivel: 'erro',
+        mensagem: `texto com ${texto.length} caracteres; o limite é ${req.caracteres.toLocaleString('pt-BR')}`,
+      })
+    }
+
+    if (!midia) continue
+
+    const proporcao = midia.altura > 0 ? midia.largura / midia.altura : 0
+    if (proporcao && (proporcao < req.proporcao.min || proporcao > req.proporcao.max)) {
+      achados.push({
+        rede, nivel: 'aviso',
+        // Dizer a faixa aceita não ajuda ninguém a agir; dizer o formato
+        // esperado, sim. Quem vê "9:16" sabe o que fazer com a foto.
+        mensagem: `a mídia é ${proporcaoLegivel(proporcao)} e a rede espera ${proporcaoLegivel(req.proporcao.ideal)} — vai cortar`,
+      })
+    }
+
+    if (req.larguraMinima && midia.largura < req.larguraMinima) {
+      achados.push({ rede, nivel: 'erro', mensagem: `largura de ${midia.largura}px; o mínimo é ${req.larguraMinima}px` })
+    }
+    if (req.alturaMinima && midia.altura < req.alturaMinima) {
+      achados.push({ rede, nivel: 'erro', mensagem: `altura de ${midia.altura}px; o mínimo é ${req.alturaMinima}px` })
+    }
+
+    if (req.tamanhoMaximo && midia.tamanho && midia.tamanho > req.tamanhoMaximo) {
+      const mb = (n: number) => `${Math.round(n / 1024 / 1024)} MB`
+      achados.push({ rede, nivel: 'erro', mensagem: `arquivo de ${mb(midia.tamanho)}; o limite é ${mb(req.tamanhoMaximo)}` })
+    }
+
+    if (midia.duracao !== undefined) {
+      if (req.duracaoMinima && midia.duracao < req.duracaoMinima) {
+        achados.push({ rede, nivel: 'erro', mensagem: `vídeo de ${segundos(midia.duracao)}; o mínimo é ${segundos(req.duracaoMinima)}` })
+      }
+      if (req.duracaoMaxima && midia.duracao > req.duracaoMaxima) {
+        achados.push({ rede, nivel: 'erro', mensagem: `vídeo de ${segundos(midia.duracao)}; o máximo é ${segundos(req.duracaoMaxima)}` })
+      }
+    }
+  }
+
+  return achados
+}
+
+/**
+ * Quais outras redes aceitariam este mesmo post sem mudar nada. Responde a
+ * pergunta "dá para aproveitar em mais lugares?" sem obrigar a marcar cada uma
+ * e ver no que dá.
+ */
+export function tambemAceitam(params: {
+  formato: string
+  jaMarcadas: string[]
+  conectadas: string[]
+  texto: string
+  midia?: Midia | null
+  quantidade?: number
+}): string[] {
+  const { formato, jaMarcadas, conectadas, texto, midia, quantidade = 1 } = params
+  return conectadas
+    .filter((rede) => !jaMarcadas.includes(rede) && REQUISITOS[rede]?.[formato])
+    .filter((rede) => conferir({ formato, redes: [rede], texto, midia, quantidade }).every((a) => a.nivel !== 'erro'))
+}
+
+export type Enquadramento = {
+  /** largura ÷ altura com que a prévia deve ser desenhada */
+  proporcao: number
+  /** true quando a rede vai cortar, porque a mídia está fora da faixa aceita */
+  corta: boolean
+}
+
+/**
+ * Com que proporção a prévia deve aparecer.
+ *
+ * O Instagram não força tudo em 1:1: entre 4:5 e 1.91:1 ele publica na
+ * proporção original. Desenhar sempre quadrado mostraria um corte que não vai
+ * acontecer — e esconderia o corte quando ele acontece de verdade.
+ *
+ * Dentro da faixa aceita, a prévia usa a proporção da própria mídia. Fora dela,
+ * usa a proporção ideal da rede, que é exatamente o recorte que o post vai
+ * sofrer.
+ */
+export function enquadrar(formato: string, rede: string, midia?: Midia | null): Enquadramento {
+  const req = REQUISITOS[rede]?.[formato]
+  const ideal = req?.proporcao.ideal ?? 1
+
+  if (!midia || !midia.largura || !midia.altura) return { proporcao: ideal, corta: false }
+
+  const proporcao = midia.largura / midia.altura
+  if (!req) return { proporcao, corta: false }
+
+  const dentro = proporcao >= req.proporcao.min && proporcao <= req.proporcao.max
+  if (dentro) return { proporcao, corta: false }
+
+  // Stories e Reels têm tela fixa: seja o que for que entre, sai em 9:16.
+  if (formato === 'stories' || formato === 'reels') return { proporcao: ideal, corta: true }
+
+  // No feed a tela é elástica, então o corte para na borda mais próxima da
+  // faixa aceita — uma foto 9:16 vira 4:5, não 1:1.
+  const limite = proporcao < req.proporcao.min ? req.proporcao.min : req.proporcao.max
+  return { proporcao: limite, corta: true }
+}
+
+/** "4:5", "1:1", "16:9" — a leitura que as pessoas usam, não o número cru. */
+export function proporcaoEmTexto(proporcao: number): string {
+  const conhecidas: Array<[number, string]> = [
+    [1, '1:1'], [4 / 5, '4:5'], [9 / 16, '9:16'], [16 / 9, '16:9'],
+    [1.91, '1.91:1'], [2 / 3, '2:3'], [3 / 4, '3:4'], [3 / 2, '3:2'],
+  ]
+  for (const [valor, rotulo] of conhecidas) {
+    if (Math.abs(proporcao - valor) < 0.02) return rotulo
+  }
+  return proporcao > 1 ? `${proporcao.toFixed(2)}:1` : `1:${(1 / proporcao).toFixed(2)}`
+}

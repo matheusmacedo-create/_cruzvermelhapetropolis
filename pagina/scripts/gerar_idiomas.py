@@ -1,0 +1,938 @@
+#!/usr/bin/env python3
+"""Gera as páginas em inglês e espanhol a partir de site/idiomas.json.
+
+  site/en/            site/es/            página institucional
+  site/en/donate/     site/es/donar/      página de doação (só com DOACAO_NO_AR = True)
+  site/en/archive/    site/es/acervo/     o acervo (o português, /acervo/, é gerado pela Redação)
+
+As políticas (privacidade, termos, cookies, reembolso) nas três línguas saem de
+scripts/gerar_politicas.py, que usa a moldura() e o PAGINAS daqui.
+
+O visual é o mesmo da home: cabeçalho, rodapé e CSS saem de partes_da_home(), e só os textos
+mudam. Cada página declara hreflang para as três versões, com x-default no português — sem isso
+o Google trata as versões como conteúdo duplicado e escolhe uma.
+
+A página de doação explica e encaminha para /doe/, que é a engrenagem que recebe o dinheiro e
+está em português. Traduzir aquele fluxo é mexer em página que recebe pagamento, e não entra
+aqui: a página em inglês diz, com todas as letras, que a tela de pagamento é em português, e
+traduz os botões que a pessoa vai encontrar.
+
+Uso:  python3 scripts/gerar_idiomas.py     (depois, publicar site/en/ e site/es/)
+"""
+from __future__ import annotations
+
+import html
+import json
+import re
+import sys
+from pathlib import Path
+
+import gerar_matricula_presencial as base
+import icones
+
+RAIZ = Path(__file__).resolve().parent.parent
+SITE = RAIZ / "site"
+DADOS = SITE / "idiomas.json"
+HOME = SITE / "index.html"
+ORIGEM = "https://cruzvermelhariodejaneiro.org"
+# O verbete da Wikipédia saiu do rodapé e do sameAs em 19/10/2026 (achado K3: criado pela conta da própria filial). Perfis oficiais iguais aos da home.
+PERFIS = ["https://www.instagram.com/cruzvermelhabrasileirarj/", "https://www.facebook.com/profile.php?id=61591390052128", "https://www.youtube.com/@cruzvermelhariodejaneiro-org"]
+ESCOLA = "https://escola.cursoscruzvermelha.org"
+EMAIL = "contato@cruzvermelhariodejaneiro.org"
+NOME_OFICIAL = "Cruz Vermelha Brasileira - Filial do Estado do Rio de Janeiro"  # o "name" do NGO na home em português
+ENDERECO = "Praça da Cruz Vermelha, 10 · Centro · Rio de Janeiro · RJ · 20230-130"
+VOLUNTARIO = "/voluntariado/cadastro/"  # formulário próprio (scripts/gerar_voluntariado_cadastro.py), em português
+# A doação online ficou suspensa de 25/09 a 19/10/2026: sem "Donate/Donar" no menu, sem a porta de
+# doação na home e sem gerar /en/donate/ e /es/donar/ (que respondiam 503 pelos .htaccess). Religada
+# em 19/10/2026 (decisão do Matheus): True aqui e em gerar_doe.py, sem os .htaccess.
+DOACAO_NO_AR = True
+# Caminho de cada página, por idioma. O português é o x-default.
+PAGINAS = {"home": {"pt": "/", "en": "/en/", "es": "/es/"},
+           "doar": {"pt": "/doe/", "en": "/en/donate/", "es": "/es/donar/"},
+           # Em português a FAQ é uma seção da home, não uma página: daí o "#".
+           "faq": {"pt": "/#faq", "en": "/en/faq/", "es": "/es/preguntas-frecuentes/"},
+           # A página em português dos cursos é a de matrícula, com checkout: é outro tipo de
+           # página, não a mesma em outra língua. Fica de x-default, fora do par hreflang — o "#"
+           # é o que sinaliza isso para alternativas(), como na FAQ.
+           "cursos": {"pt": "/matricula-cursos-presenciais/#cursos", "en": "/en/courses/", "es": "/es/cursos/"},
+           # A equipe existe nas três línguas e são a mesma página: cluster completo.
+           "equipe": {"pt": "/equipe.html", "en": "/en/our-team/", "es": "/es/nuestro-equipo/"},
+           # O acervo em português é da Redação (lib/acervo/paginas.ts, com a mesma lista de hreflang);
+           # aqui ficam a apresentação em inglês e em espanhol, que levam para ele.
+           "acervo": {"pt": "/acervo/", "en": "/en/archive/", "es": "/es/acervo/"},
+           # Políticas: a mesma página nas três línguas (scripts/gerar_politicas.py).
+           "privacidade": {"pt": "/privacidade/", "en": "/en/privacy/", "es": "/es/privacidad/"},
+           "termos": {"pt": "/termos/", "en": "/en/terms/", "es": "/es/terminos/"},
+           "cookies": {"pt": "/cookies/", "en": "/en/cookies/", "es": "/es/cookies/"},
+           "reembolso": {"pt": "/reembolso/", "en": "/en/refunds/", "es": "/es/reembolsos/"},
+           # A história só existe em português e em inglês (site/en/history/, mantida à mão): sem "es", o
+           # seletor de idioma não mostra o ES nela.
+           "historia": {"pt": "/historia/", "en": "/en/history/", "es": None},
+           # Páginas de erro: /404.html, /en/404.html (gerar_ingles.py) e /es/404.html (aqui).
+           "erro": {"pt": "/404.html", "en": "/en/404.html", "es": "/es/404.html"}}
+# Páginas que só existem em português e entram no menu e no rodapé de EN/ES: o link leva hreflang/lang="pt-BR".
+TRANSPARENCIA = "/transparencia/"
+NOTICIAS_PT = "/noticias/"
+CAMPANHA_PT = "/campanha-agasalho.html"
+FINANCIAMENTO = "/quem-somos/#como-nos-financiamos"
+ERRO_ES = SITE / "es" / "404.html"
+HISTORIA_EN = SITE / "en" / "history" / "index.html"  # mantida à mão; o cabeçalho, o rodapé e o CSS saem daqui
+EQUIPE = SITE / "equipe.html"
+FAQ = SITE / "faq-idiomas.json"
+CURSOS = SITE / "matricula-cursos-presenciais" / "cursos.json"
+
+
+def esc(s: str) -> str:
+    return html.escape(str(s), quote=True)
+
+
+def alternativas(pagina: str, atual: str) -> str:
+    """As tags hreflang da página, para os três idiomas, mais o x-default no português."""
+    caminhos = PAGINAS[pagina]
+    pt = caminhos["pt"]
+    linhas = []
+    # Âncora não serve de hreflang. Quando o português é só uma seção ("/#faq"), o cluster fica
+    # com en e es, e o x-default aponta para a página inteira, sem o "#".
+    if "#" not in pt:
+        linhas.append(f'  <link rel="alternate" hreflang="pt-BR" href="{ORIGEM}{pt}">')
+    linhas += [f'  <link rel="alternate" hreflang="en" href="{ORIGEM}{caminhos["en"]}">',
+               f'  <link rel="alternate" hreflang="es" href="{ORIGEM}{caminhos["es"]}">',
+               f'  <link rel="alternate" hreflang="x-default" href="{ORIGEM}{pt.split("#")[0] or "/"}">']
+    return "\n".join(linhas)
+
+
+def seletor(pagina: str, atual: str) -> str:
+    """Seletor de idioma: link direto, nunca redirecionamento pelo idioma do navegador.
+
+    Redirecionar por Accept-Language prenderia o Googlebot — que vem "em inglês", dos EUA — numa
+    versão só, e tiraria de quem quer ler em português a chance de escolher.
+    """
+    siglas = {"pt": ("PT", "Português", "pt-BR"), "en": ("EN", "English", "en"), "es": ("ES", "Español", "es")}
+    itens = []
+    for codigo, caminho in PAGINAS[pagina].items():
+        if caminho is None:  # página que não existe nesse idioma
+            continue
+        sigla, nome, marca = siglas[codigo]
+        if codigo == atual:
+            itens.append(f'<span class="idioma-atual" aria-current="true" lang="{marca}">{sigla}</span>')
+        else:
+            itens.append(f'<a href="{caminho}" hreflang="{marca}" lang="{marca}" aria-label="{nome}">{sigla}</a>')
+    # "Language" no português também: gerar_politicas.py troca por "Idioma" na versão em português.
+    rotulo = "Idioma" if atual == "es" else "Language"
+    return f'<div class="seletor-idioma" role="navigation" aria-label="{rotulo}">' + " ".join(itens) + "</div>"
+
+
+ESTILO_EXTRA = """
+    /* O CSS de .seletor-idioma vem do CSS da home, copiado por partes_da_home(). */
+    .i18n-hero { background:var(--soft); border-bottom:1px solid var(--line); padding:64px 0 48px }
+    .i18n-hero h1 { font-size:clamp(2rem,3.4vw,3rem); color:var(--black); margin:0 0 14px }
+    .i18n-hero p { color:var(--muted); max-width:720px; font-size:1.05rem; margin:0 }
+    .i18n-bloco { padding:48px 0; border-bottom:1px solid var(--line) }
+    .i18n-bloco h2 { font-size:1.5rem; margin:0 0 14px }
+    .i18n-bloco p { color:var(--muted); max-width:760px; margin:0 0 14px }
+    .i18n-principios { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:28px; list-style:none; padding:0 }
+    .i18n-principios li { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px }
+    .i18n-principios strong { display:block; color:var(--black); font-size:.95rem; margin-bottom:4px }
+    .i18n-principios span { color:var(--muted); font-size:.9rem }
+    .i18n-passos { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:28px 0 0; list-style:none; padding:0 }
+    .i18n-passos li { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:22px }
+    .i18n-passos strong { display:block; margin-bottom:6px }
+    .i18n-passos span { color:var(--muted); font-size:.94rem }
+    .i18n-nota { color:var(--muted); font-size:.9rem; margin:18px 0 0; max-width:760px }
+    .i18n-caixa { background:var(--soft); border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin-top:24px }
+    .i18n-caixa p { margin:0 }
+    .i18n-caixa p + p { margin-top:14px }
+    .i18n-tabela-rolo { overflow-x:auto; margin-top:24px }
+    .i18n-tabela { width:100%; border-collapse:collapse; min-width:620px }
+    .i18n-tabela th, .i18n-tabela td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); font-size:.95rem }
+    .i18n-tabela th { background:var(--soft); font-weight:800; font-size:.85rem; text-transform:uppercase; letter-spacing:.02em }
+    .i18n-tabela td:last-child, .i18n-tabela th:last-child { white-space:nowrap }
+    .i18n-fichas { display:grid; gap:18px; margin-top:24px }
+    .i18n-fichas article { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px }
+    .i18n-fichas h3 { margin:0 0 8px; font-size:1.05rem }
+    .i18n-fichas h3 small { color:var(--muted); font-weight:600; font-size:.85rem; margin-left:8px }
+    .i18n-fichas p { margin:0; color:var(--muted); font-size:.95rem }
+    .i18n-fichas .i18n-email { margin-top:10px; overflow-wrap:anywhere }
+    .i18n-fichas .i18n-email a { color:var(--red); font-weight:700; text-decoration:none }
+    .i18n-fichas .i18n-email a:hover { text-decoration:underline }
+    .i18n-porta { margin-top:12px !important }
+    .i18n-porta a { color:var(--red); font-weight:800; text-decoration:none }
+    .i18n-porta a:hover { text-decoration:underline }
+    .i18n-texto a { color:var(--red); font-weight:700; text-decoration:underline; text-underline-offset:2px; overflow-wrap:anywhere }
+    @media (min-width:920px) { .i18n-portas { grid-template-columns:repeat(2,1fr) } }
+    .i18n-fichas ul { margin:10px 0 0; padding-left:18px; color:var(--muted); font-size:.92rem }
+    .i18n-fichas li { margin:2px 0 }
+    .i18n-diretoria article { text-align:center }
+    .i18n-diretoria h3 { font-size:1rem }
+    .i18n-diretoria p { color:var(--red); font-weight:800; font-size:.85rem; text-transform:uppercase; letter-spacing:.02em }
+    @media (min-width:920px) { .i18n-fichas { grid-template-columns:1fr 1fr } .i18n-diretoria, .i18n-areas { grid-template-columns:repeat(3,1fr) } }
+    @media (max-width:920px) { .i18n-principios, .i18n-passos { grid-template-columns:1fr } }
+"""
+
+
+def link(url: str, texto: str, extra: str = "") -> str:
+    """Um <a>. Página que só existe em português leva hreflang/lang="pt-BR" (avisa o buscador e o leitor de tela)."""
+    so_pt = url.startswith("/") and not url.startswith(("/en/", "/es/")) and url != "/"
+    marca = ' hreflang="pt-BR" lang="pt-BR"' if so_pt else ""
+    return f'<a href="{esc(url)}"{marca}{extra}>{esc(texto)}</a>'
+
+
+def cabecalho(idioma: dict, pagina: str) -> str:
+    """O cabeçalho da home em português, com os rótulos do idioma (menu de 19/10/2026, Ad Grants).
+
+    Seis itens, como no português: "Quem somos" e "Como ajudar" em grupo (nav-grupo, o mesmo HTML que o
+    script do menu da home abre e fecha), Notícias, Transparência, Escola e Contato; à direita, o seletor
+    de idioma e o botão vermelho de doação. A escola é a página de cursos do idioma, não a matrícula.
+    """
+    m, pasta, codigo = idioma["menu"], idioma["pasta"], idioma["codigo"]
+    sobre = [(f"/{pasta}/#sobre", m["quem_somos"])]
+    if PAGINAS["historia"].get(codigo):
+        sobre.append((PAGINAS["historia"][codigo], m["historia"]))
+    sobre += [(PAGINAS["equipe"][codigo], m["equipe"]), (f"/{pasta}/#principios", m["principios"]),
+              (f"/{pasta}/#movimento", m["movimento"]), (PAGINAS["faq"][codigo], m["faq"])]
+    ajudar = []
+    if DOACAO_NO_AR:
+        ajudar.append((PAGINAS["doar"][codigo], m["doar"]))
+    ajudar.append((VOLUNTARIO, m["voluntario"]))
+    ajudar.append((idioma.get("caminho_campanha") or CAMPANHA_PT, m["campanha"]))
+
+    def grupo(ident: str, rotulo: str, itens: list) -> str:
+        filhos = "\n              ".join(link(a, b) for a, b in itens)
+        return f"""<div class="nav-grupo">
+            <button class="nav-grupo-botao" type="button" aria-expanded="false" aria-controls="menu-{ident}">{esc(rotulo)}</button>
+            <div class="nav-sub" id="menu-{ident}">
+              {filhos}
+            </div>
+          </div>"""
+    itens = [grupo("sobre", m["sobre"], sobre), grupo("ajudar", m["ajudar"], ajudar),
+             link(idioma.get("caminho_noticias") or NOTICIAS_PT, m["noticias"]),
+             link(TRANSPARENCIA, m["transparencia"]),
+             link(PAGINAS["cursos"][codigo], m["escola"]),
+             link(f"/{pasta}/#contato", m["contato"])]
+    nav = "\n          ".join(itens)
+    doar = (f'\n          <a href="{PAGINAS["doar"][codigo]}" class="btn-doe-topo">{esc(m["botao_doar"])}</a>'
+            if DOACAO_NO_AR else "")
+    return f"""  <header class="main-header">
+    <div class="header-container">
+      <a href="/{pasta}/" class="logo-area" style="text-decoration:none;color:inherit;">
+        <img alt="{esc(idioma['instituicao'])}" class="logo-img" src="/assets/otim/logo-cvb-rj-520.webp" width="520" height="156">
+      </a>
+      <button class="nav-toggle" type="button" aria-label="{esc(m['abrir'])}" aria-expanded="false" aria-controls="menu-painel">
+        <i class="fa-solid fa-bars"><svg class="ico ico-bars" aria-hidden="true" focusable="false"><use href="#i-bars"/></svg><svg class="ico ico-xmark" aria-hidden="true" focusable="false"><use href="#i-xmark"/></svg></i>
+      </button>
+      <div class="header-collapse" id="menu-painel">
+        <nav class="nav-links" aria-label="{esc(m['principal'])}">
+          {nav}
+        </nav>
+        <div class="header-actions">
+          {seletor(pagina, codigo)}{doar}
+        </div>
+      </div>
+    </div>
+  </header>"""
+
+
+def menu_js(idioma: dict, partes: dict) -> str:
+    """O script do menu da home com os rótulos do botão no idioma da página.
+
+    O script é copiado da home (partes_da_home) e diz "Abrir menu"/"Fechar menu": sem a troca, o leitor de tela
+    anunciaria o botão em português numa página em inglês ou espanhol (aviso do README, 13/10/2026). Se a home
+    mudar esses textos, o gerador para em vez de publicar o rótulo errado.
+    """
+    js, m = partes["menu_js"], idioma["menu"]
+    trocas = [("isOpen ? 'Fechar menu' : 'Abrir menu'", f"isOpen ? '{m['fechar']}' : '{m['abrir']}'"),
+              ("setAttribute('aria-label', 'Abrir menu')", f"setAttribute('aria-label', '{m['abrir']}')")]
+    for velho, novo in trocas:
+        if velho not in js:
+            raise SystemExit(f"o script do menu da home mudou (não achei {velho!r}): ajuste menu_js() em gerar_idiomas.py")
+        js = js.replace(velho, novo)
+    if "Abrir menu" in js or "Fechar menu" in js:
+        raise SystemExit("sobrou rótulo do menu em português no script do menu")
+    return js
+
+
+def rodape(idioma: dict) -> str:
+    """Rodapé com CNPJ e endereço; sem a plataforma da escola, o acervo ("Em breve") e a Wikipédia (19/10/2026).
+
+    A escola entra como "Escola de Educação e Saúde", na página de cursos do idioma; a história em inglês
+    (/en/history/) ganha um link aqui e no menu (achado L09: estava no sitemap sem nenhum link interno).
+    """
+    r, codigo = idioma["rodape"], idioma["codigo"]
+    sobre = []
+    if r.get("noticias"):
+        sobre.append(link(idioma["caminho_noticias"], r["noticias"]))
+    if r.get("historia") and PAGINAS["historia"].get(codigo):
+        sobre.append(link(PAGINAS["historia"][codigo], r["historia"]))
+    sobre += [link(TRANSPARENCIA, r["transparencia"]), link(PAGINAS["cursos"][codigo], r["escola"]), link("/", r["portugues"])]
+    ajudar = ([link(PAGINAS["doar"][codigo], r["doar"])] if DOACAO_NO_AR else []) + [link(VOLUNTARIO, r["voluntario"])]
+    linhas = lambda xs: "".join(f"\n        <p>{x}</p>" for x in xs)
+    return f"""  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img class="footer-logo" alt="{esc(idioma['instituicao'])}" src="/assets/otim/logo-cvb-rj-520.webp" width="520" height="156" loading="lazy" decoding="async">
+        <p>{esc(r['principios'])}</p>
+      </div>
+      <div class="footer-col">
+        <h4>{esc(r['sobre'])}</h4>
+        <p>{esc(idioma['instituicao'])}</p>{linhas(sobre)}
+      </div>
+      <div class="footer-col">
+        <h4>{esc(r['ajudar'])}</h4>{linhas(ajudar)}
+      </div>
+      <div class="footer-col">
+        <h4>{esc(r['contato'])}</h4>
+        <p>{esc(ENDERECO)}</p>
+        <p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
+        <p>CNPJ 08.560.973/0001-97</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="wrap">
+        <span>&copy; 2026 {esc(idioma['instituicao'])}</span>
+        <span class="sep">|</span>
+        <a href="{PAGINAS['privacidade'][codigo]}">{esc(r['privacidade'])}</a>
+        <span class="sep">|</span>
+        <a href="{PAGINAS['termos'][codigo]}">{esc(r['termos'])}</a>
+        <span class="sep">|</span>
+        <a href="{PAGINAS['cookies'][codigo]}">{esc(r['cookies'])}</a>
+        <span class="sep">|</span>
+        <a href="{PAGINAS['reembolso'][codigo]}">{esc(r['reembolso'])}</a>
+        <span class="sep">|</span>
+        <a href="{PAGINAS['cookies'][codigo]}#preferencias" data-cvrj-cookies>{esc(r['preferencias'])}</a>
+      </div>
+    </div>
+  </footer>"""
+
+
+def moldura(idioma: dict, pagina: str, titulo: str, descricao: str, corpo: str, ld: list, partes: dict,
+            imagem: str = "og-home.jpg", css: str = "") -> str:
+    caminho = PAGINAS[pagina][idioma["codigo"]]
+    ld_json = json.dumps(ld, ensure_ascii=False, separators=(",", ":"))
+    assert "</" not in ld_json, "JSON-LD não pode conter </ (fecharia o <script>)"
+    html_ = f"""<!DOCTYPE html>
+<html lang="{idioma['codigo']}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{esc(titulo)}</title>
+  <meta name="description" content="{esc(descricao)}">
+  <link rel="canonical" href="{ORIGEM}{caminho}">
+{alternativas(pagina, idioma['codigo'])}
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{idioma['og_locale']}">
+  <meta property="og:title" content="{esc(titulo)}">
+  <meta property="og:description" content="{esc(descricao)}">
+  <meta property="og:url" content="{ORIGEM}{caminho}">
+  <meta property="og:image" content="{ORIGEM}/assets/otim/{imagem}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"></noscript>
+  <style>{partes['estilo_sem_tag']}{ESTILO_EXTRA}{css}</style>
+  <script type="application/ld+json">{ld_json}</script>
+{partes['ga4']}
+{partes['pixel']}
+</head>
+<body>
+{cabecalho(idioma, pagina)}
+  <main>
+{corpo}
+  </main>
+{rodape(idioma)}
+{menu_js(idioma, partes)}
+</body>
+</html>
+"""
+    return icones.converter(html_)  # troca as tags do Font Awesome, injeta o sprite e o CSS
+
+
+def pagina_home(idioma: dict, partes: dict) -> str:
+    h = idioma["home"]
+    blocos = []
+    for i, b in enumerate(h["blocos"]):
+        ident = ["sobre", "atuacao", "sede"][i] if i < 3 else f"bloco{i}"
+        paras = "\n        ".join(f"<p>{esc(p)}</p>" for p in b["paragrafos"])
+        if b.get("link"):  # [rótulo, chave de PAGINAS]: o link da frase da escola, na língua da página
+            paras += (f'\n        <p class="i18n-porta"><a href="{PAGINAS[b["link"][1]][idioma["codigo"]]}">'
+                      f'{esc(b["link"][0])} &rarr;</a></p>')
+        blocos.append(f"""    <section class="i18n-bloco" id="{ident}">
+      <div class="wrap">
+        <h2>{esc(b['titulo'])}</h2>
+        {paras}
+      </div>
+    </section>""")
+    principios = "\n          ".join(
+        f"<li><strong>{esc(a)}</strong><span>{esc(b)}</span></li>" for a, b in h["principios"])
+    programas = "\n          ".join(
+        f"<article><h3>{esc(a)}</h3><p>{esc(b)}</p></article>" for a, b in h["programas"])
+    def porta(titulo: str, texto: str, rotulo: str, chave: str) -> str:
+        """Uma porta de entrada: página gerada deste idioma, ou o formulário do voluntariado."""
+        if chave == "voluntario":
+            url = VOLUNTARIO
+            extra = ' hreflang="pt-BR" lang="pt-BR"'
+        else:
+            url, extra = (PAGINAS[chave][idioma["codigo"]] if chave in PAGINAS else "#" + chave), ""
+        return (f"<article><h3>{esc(titulo)}</h3><p>{esc(texto)}</p>"
+                f'<p class="i18n-porta"><a href="{url}"{extra}>{esc(rotulo)} &rarr;</a></p></article>')
+
+    portas = [x for x in h["caminhos"] if DOACAO_NO_AR or x[3] != "doar"]
+    caminhos = "\n          ".join(porta(*x) for x in portas)
+    # "Four ways" com três cartões (achados M15/C12): o número sai da lista que de fato aparece.
+    caminhos_linha = h["caminhos_linha"].replace("{n}", h["numeros"][len(portas)])
+    if DOACAO_NO_AR:
+        cta = f'<a class="btn btn-red" href="{PAGINAS["doar"][idioma["codigo"]]}">{esc(h["cta_doar"])}</a>'
+    else:
+        cta = (f'<a class="btn btn-red" href="{VOLUNTARIO}" hreflang="pt-BR" '
+               f'lang="pt-BR">{esc(h["cta_voluntario"])}</a>')
+    voluntario = (f'<a class="btn btn-outline" href="{VOLUNTARIO}" hreflang="pt-BR" '
+                  f'lang="pt-BR">{esc(h["cta_voluntario"])}</a>')
+    # As duas ações da missão já no topo, como na home em português (doar e ser voluntário).
+    topo = cta + "\n          " + voluntario if DOACAO_NO_AR else cta
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(h['sobrancelha'])}</p>
+        <h1>{esc(h['h1'])}</h1>
+        <p>{esc(h['linha'])}</p>
+        <div class="cta-row" style="margin-top:24px">
+          {topo}
+        </div>
+      </div>
+    </section>
+{chr(10).join(blocos)}
+    <section class="i18n-bloco" id="movimento">
+      <div class="wrap">
+        <h2>{esc(h['movimento_titulo'])}</h2>
+        {chr(10).join("        <p>" + esc(x) + "</p>" for x in h["movimento_paragrafos"]).strip()}
+      </div>
+    </section>
+    <section class="i18n-bloco" id="programas">
+      <div class="wrap">
+        <h2>{esc(h['programas_titulo'])}</h2>
+        <p>{esc(h['programas_linha'])}</p>
+        <div class="i18n-fichas">
+          {programas}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco" id="caminhos">
+      <div class="wrap">
+        <h2>{esc(h['caminhos_titulo'])}</h2>
+        <p>{esc(caminhos_linha)}</p>
+        <div class="i18n-fichas i18n-portas">
+          {caminhos}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco" id="principios">
+      <div class="wrap">
+        <h2>{esc(h['principios_titulo'])}</h2>
+        <ul class="i18n-principios">
+          {principios}
+        </ul>
+      </div>
+    </section>
+    <section class="i18n-bloco" id="contato">
+      <div class="wrap">
+        <h2>{esc(h['cta_titulo'])}</h2>
+        <p>{esc(h['cta_texto'])}</p>
+        <div class="cta-row" style="margin-top:20px">
+          {topo}
+          <a class="btn btn-outline" href="/matricula-cursos-presenciais/" hreflang="pt-BR" lang="pt-BR">{esc(h['cta_cursos'])}</a>
+          <a class="btn btn-outline" href="mailto:{EMAIL}">{EMAIL}</a>
+        </div>
+        <p class="i18n-nota">{esc(h['aviso_cursos'])}</p>
+      </div>
+    </section>"""
+    # O @id é o mesmo da home em português porque a entidade é a mesma: nome oficial e URL iguais aos de lá,
+    # e o nome traduzido entra como alternateName (dois nós com o mesmo @id e dados diferentes se contradizem).
+    ld = [{"@context": "https://schema.org", "@type": "NGO", "@id": f"{ORIGEM}/#organizacao",
+           "name": NOME_OFICIAL, "alternateName": idioma["instituicao"], "url": f"{ORIGEM}/",
+           # inLanguage é de CreativeWork, não de Organization: no NGO o validador recusa.
+           "parentOrganization": {"@type": "NGO", "name": idioma["nacional"]},
+           "taxID": "08.560.973/0001-97", "email": EMAIL,
+           "address": {"@type": "PostalAddress", "streetAddress": "Praça da Cruz Vermelha, 10",
+                       "addressLocality": "Rio de Janeiro", "addressRegion": "RJ",
+                       "postalCode": "20230-130", "addressCountry": "BR"},
+           "sameAs": PERFIS},
+          {"@context": "https://schema.org", "@type": "WebPage",
+           "url": f"{ORIGEM}{PAGINAS['home'][idioma['codigo']]}", "name": idioma["home"]["titulo"],
+           "description": idioma["home"]["descricao"], "inLanguage": idioma["codigo"],
+           "isPartOf": {"@id": f"{ORIGEM}/#site"}}]
+    return moldura(idioma, "home", h["titulo"], h["descricao"], corpo, ld, partes)
+
+
+def pagina_doar(idioma: dict, partes: dict) -> str:
+    d = idioma["doar"]
+    passos = "\n          ".join(
+        f"<li><strong>{esc(a)}</strong><span>{esc(b)}</span></li>" for a, b in d["como"])
+    exterior = "\n          ".join(f"<p>{esc(x)}</p>" for x in d["exterior_paragrafos"])
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(d['sobrancelha'])}</p>
+        <h1>{esc(d['h1'])}</h1>
+        <p>{esc(d['linha'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(d['como_titulo'])}</h2>
+        <ul class="i18n-passos">
+          {passos}
+        </ul>
+        <div class="cta-row" style="margin-top:32px">
+          <a class="btn btn-red" href="/doe/" hreflang="pt-BR" lang="pt-BR">{esc(d['botao'])}</a>
+        </div>
+        <p class="i18n-nota">{esc(d['botao_nota'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(d['exterior_titulo'])}</h2>
+        <div class="i18n-caixa">
+          {exterior}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(d['idioma_titulo'])}</h2>
+        <div class="i18n-caixa"><p>{d['idioma_texto']}</p></div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(d['transparencia_titulo'])}</h2>
+        <p>{esc(d['transparencia'])}</p>
+        <h2 style="margin-top:32px">{esc(d['outra_forma_titulo'])}</h2>
+        <p>{esc(d['outra_forma'])}</p>
+        <div class="cta-row" style="margin-top:20px">
+          <a class="btn btn-outline" href="mailto:{EMAIL}">{EMAIL}</a>
+        </div>
+      </div>
+    </section>"""
+    caminho = PAGINAS["doar"][idioma["codigo"]]
+    ld = [{"@context": "https://schema.org", "@type": "WebPage", "url": f"{ORIGEM}{caminho}",
+           "name": d["titulo"], "description": d["descricao"], "inLanguage": idioma["codigo"],
+           "isPartOf": {"@id": f"{ORIGEM}/#site"}},
+          {"@context": "https://schema.org", "@type": "DonateAction",
+           "name": d["titulo"], "target": f"{ORIGEM}/doe/",
+           "recipient": {"@id": f"{ORIGEM}/#organizacao"}}]
+    return moldura(idioma, "doar", d["titulo"], d["descricao"], corpo, ld, partes)
+
+
+def resposta_html(texto: str, links: list) -> str:
+    """Transforma em <a> os trechos listados em `links`, casando pelo texto exato.
+
+    Link para página que só existe em português (a matrícula, o formulário do voluntariado) leva
+    hreflang/lang="pt-BR": avisa o buscador, e o leitor de tela, que ali a língua muda.
+    """
+    texto = esc(texto)
+    for l in links:
+        alvo, url = esc(l["texto"]), l["url"]
+        if alvo not in texto:
+            raise SystemExit(f"trecho do link não está na resposta: {l['texto']!r}")
+        if url.startswith("http"):
+            extra = ' target="_blank" rel="noopener"'
+        elif url.startswith(("/en/", "/es/")):
+            extra = ""
+        else:
+            extra = ' hreflang="pt-BR" lang="pt-BR"'
+        texto = texto.replace(alvo, f'<a href="{esc(url)}"{extra}>{alvo}</a>', 1)
+    return texto
+
+
+def ler_equipe() -> tuple[list, list]:
+    """Diretoria e coordenações lidas de equipe.html, que é a fonte de quem é quem.
+
+    Os nomes não são traduzidos e não podem divergir entre as versões: manter uma segunda lista
+    no idiomas.json garantiria que um dia as duas ficassem diferentes. Daqui sai só gente; os
+    rótulos de cargo e de área são traduzidos no idiomas.json, casados pelo nome em português.
+    """
+    fonte = EQUIPE.read_text(encoding="utf-8")
+    limpar = lambda s: html.unescape(re.sub(r"<[^>]+>", "", s)).strip()
+    # O e-mail de cada cartão (o do setor, cadastrado no E-mail do setor da Redação) vem logo
+    # depois do nome, na diretoria, e da lista de pessoas, nas coordenações.
+    diretoria = [(limpar(c), limpar(n), m) for c, n, m in
+                 re.findall(r'<div class="role">(.*?)</div>\s*<div class="name">(.*?)</div>'
+                            r'\s*<a class="leader-email" href="mailto:([^"]+)"', fonte, re.S)]
+    coordenacoes = [(limpar(a), [limpar(x) for x in re.findall(r"<li[^>]*>(.*?)</li>", pessoas, re.S)], m)
+                    for a, _, pessoas, m in
+                    re.findall(r'<div class="area-name">(.*?)</div>(.*?)<ul>(.*?)</ul>'
+                               r'\s*<a class="area-email" href="mailto:([^"]+)"', fonte, re.S)]
+    if len(diretoria) != 3 or len(coordenacoes) != 11:
+        raise SystemExit(f"equipe.html mudou de forma: {len(diretoria)} na diretoria, "
+                         f"{len(coordenacoes)} coordenações com e-mail (esperado 3 e 11)")
+    return diretoria, coordenacoes
+
+
+def pagina_equipe(idioma: dict, partes: dict, equipe: tuple) -> str:
+    """Diretoria, coordenações, a sede e como fazer parceria — em inglês e espanhol."""
+    e = idioma["equipe"]
+    diretoria, coordenacoes = equipe
+    email = lambda m: f'<p class="i18n-email"><a href="mailto:{esc(m)}">{esc(m)}</a></p>'
+    cartoes = "\n          ".join(
+        f'<article><h3>{esc(nome)}</h3><p>{esc(e["cargos"].get(cargo, cargo))}</p>{email(m)}</article>'
+        for cargo, nome, m in diretoria)
+    areas = []
+    for area, pessoas, m in coordenacoes:
+        titulo, sobre = e["areas"].get(area, (area, ""))
+        gente = "".join(f"<li>{esc(x)}</li>" for x in pessoas)
+        areas.append(f'<article><h3>{esc(titulo)}</h3><p>{esc(sobre)}</p><ul>{gente}</ul>{email(m)}</article>')
+    como = "\n          ".join(f"<p>{esc(x)}</p>" for x in e["como_paragrafos"])
+    sede = "\n          ".join(f"<p>{esc(x)}</p>" for x in e["sede_paragrafos"])
+    parceria = "\n        ".join(f"<p>{esc(x)}</p>" for x in e["parceria_paragrafos"])
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(e['sobrancelha'])}</p>
+        <h1>{esc(e['h1'])}</h1>
+        <p>{esc(e['linha'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(e['diretoria_titulo'])}</h2>
+        <div class="i18n-fichas i18n-diretoria">
+          {cartoes}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(e['como_titulo'])}</h2>
+        <div class="i18n-caixa">
+          {como}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(e['areas_titulo'])}</h2>
+        <p>{esc(e['areas_linha'])}</p>
+        <div class="i18n-fichas i18n-areas">
+          {chr(10).join("          " + a for a in areas).strip()}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(e['sede_titulo'])}</h2>
+        {sede}
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(e['parceria_titulo'])}</h2>
+        {parceria}
+        <div class="cta-row" style="margin-top:22px">
+          <a class="btn btn-red" href="mailto:{EMAIL}">{EMAIL}</a>
+          <a class="btn btn-outline" href="{VOLUNTARIO}" hreflang="pt-BR" lang="pt-BR">{esc(e['cta_voluntario'])}</a>
+        </div>
+      </div>
+    </section>"""
+    caminho = PAGINAS["equipe"][idioma["codigo"]]
+    ld = [{"@context": "https://schema.org", "@type": "AboutPage", "url": f"{ORIGEM}{caminho}",
+           "name": e["titulo_aba"], "description": e["descricao"], "inLanguage": idioma["codigo"]}]
+    return moldura(idioma, "equipe", e["titulo_aba"], e["descricao"], corpo, ld, partes)
+
+
+def pagina_cursos(idioma: dict, partes: dict, cursos: dict) -> str:
+    """Os cursos em inglês e espanhol, com o bloco de como a escola sustenta a filial (achado C12).
+
+    Não é tradução da página de vendas: é a ficha honesta, com a restrição dita antes da tabela
+    (aula em português, presencial, no Rio, e matrícula que pede CPF). Carga horária, escolaridade
+    e valor saem de cursos.json, a mesma fonte da página em português, para não saírem de sincronia.
+    """
+    c = idioma["cursos"]
+    por_slug = {x["slug"]: x for x in cursos["cursos"]}
+    linhas = []
+    for slug, nome in c["nomes"].items():
+        d_ = por_slug[slug]
+        escolaridade = c["escolaridade"].get(d_["escolaridade"], d_["escolaridade"])
+        horas = re.sub(r"\s*horas?", "", d_["carga_horaria"]).strip()
+        valor = f'R$ {d_["valor_curso_centavos"] / 100:,.0f}'.replace(",", ".")
+        linhas.append(f"            <tr><td>{esc(nome)}</td><td>{esc(horas)}</td>"
+                      f"<td>{esc(escolaridade)}</td><td>{esc(valor)}</td></tr>")
+    avisos = "\n          ".join(f"<p>{esc(x)}</p>" for x in c["aviso_paragrafos"])
+    # A carga horária do catálogo vem em português ("8 horas"): em inglês vira "8 hours"; em espanhol "horas" já serve.
+    def carga(slug: str) -> str:
+        texto = por_slug[slug]["carga_horaria"]
+        return re.sub(r"\bhoras?\b", "hours", texto) if idioma["codigo"] == "en" else texto
+    fichas = "\n          ".join(
+        f'<article><h3>{esc(c["nomes"][s])} <small>{esc(carga(s))}</small></h3>'
+        f"<p>{esc(x)}</p></article>" for s, x in c["detalhes"].items())
+    passos = "\n          ".join(
+        f"<li><strong>{esc(a)}</strong><span>{esc(b)}</span></li>" for a, b in c["como"])
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(c['sobrancelha'])}</p>
+        <h1>{esc(c['h1'])}</h1>
+        <p>{esc(c['linha'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco" id="financiamento">
+      <div class="wrap">
+        <h2>{esc(c['financiamento_titulo'])}</h2>
+        <div class="i18n-caixa">
+          <p>{esc(c['financiamento_texto'])}</p>
+          <p class="i18n-porta">{link(FINANCIAMENTO, c['financiamento_link'] + " →")}</p>
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(c['aviso_titulo'])}</h2>
+        <div class="i18n-caixa">
+          {avisos}
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(c['tabela_titulo'])}</h2>
+        <div class="i18n-tabela-rolo">
+          <table class="i18n-tabela">
+            <thead><tr>{''.join(f'<th>{esc(h)}</th>' for h in c['cabecalho'])}</tr></thead>
+            <tbody>
+{chr(10).join(linhas)}
+            </tbody>
+          </table>
+        </div>
+        <p class="i18n-nota">{esc(c['tabela_nota'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(c['detalhe_titulo'])}</h2>
+        <div class="i18n-fichas">
+          {fichas}
+        </div>
+        <p class="i18n-nota">{esc(c['detalhe_nota'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(c['como_titulo'])}</h2>
+        <ul class="i18n-passos">
+          {passos}
+        </ul>
+        <div class="cta-row" style="margin-top:32px">
+          <a class="btn btn-red" href="{PAGINAS['cursos']['pt']}" hreflang="pt-BR" lang="pt-BR">{esc(c['botao'])}</a>
+          <a class="btn btn-outline" href="{ESCOLA}" target="_blank" rel="noopener" hreflang="pt-BR" lang="pt-BR">{esc(idioma['menu']['plataforma'])}</a>
+        </div>
+        <p class="i18n-nota">{esc(c['botao_nota'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(c['faq_titulo'])}</h2>
+        <p>{esc(c['faq_texto'])}</p>
+        <div class="cta-row" style="margin-top:20px">
+          <a class="btn btn-outline" href="{PAGINAS['faq'][idioma['codigo']]}">{esc(c['faq_link'])}</a>
+        </div>
+      </div>
+    </section>"""
+    caminho = PAGINAS["cursos"][idioma["codigo"]]
+    ld = [{"@context": "https://schema.org", "@type": "WebPage", "url": f"{ORIGEM}{caminho}",
+           "name": c["titulo_aba"], "description": c["descricao"], "inLanguage": idioma["codigo"]}]
+    return moldura(idioma, "cursos", c["titulo_aba"], c["descricao"], corpo, ld, partes)
+
+
+def pagina_faq(idioma: dict, partes: dict, faq: dict) -> str:
+    """A FAQ do idioma, com a mesma marcação <details> da home em português (o CSS vem copiado)."""
+    d = faq[idioma["codigo"]]
+    blocos, entidades, primeira = [], [], True
+    for g in d["grupos"]:
+        blocos.append(f'          <h3 class="faq-grupo">{esc(g["titulo"])}</h3>')
+        for q in g["perguntas"]:
+            pergunta, resposta = q["pergunta"].strip(), q["resposta"].strip()
+            blocos.append(
+                f'          <details class="faq-item"{" open" if primeira else ""}>\n'
+                f'            <summary>{esc(pergunta)}</summary>\n'
+                f'            <div class="faq-answer">{resposta_html(resposta, q.get("links", []))}</div>\n'
+                f'          </details>')
+            entidades.append({"@type": "Question", "name": pergunta,
+                              "acceptedAnswer": {"@type": "Answer", "text": resposta}})
+            primeira = False
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(d['sobrancelha'])}</p>
+        <h1>{esc(d['titulo'])}</h1>
+        <p>{esc(d['subtitulo'])}</p>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <div class="faq-list">
+{chr(10).join(blocos)}
+        </div>
+        <p class="i18n-nota">{esc(d['nota'])}</p>
+        <div class="cta-row" style="margin-top:20px">
+          <a class="btn btn-outline" href="mailto:{EMAIL}">{EMAIL}</a>
+        </div>
+      </div>
+    </section>"""
+    caminho = PAGINAS["faq"][idioma["codigo"]]
+    ld = [{"@context": "https://schema.org", "@type": "FAQPage", "@id": f"{ORIGEM}{caminho}#faq",
+           "url": f"{ORIGEM}{caminho}", "name": d["titulo"], "inLanguage": idioma["codigo"],
+           "mainEntity": entidades}]
+    return moldura(idioma, "faq", d["titulo_aba"], d["descricao"], corpo, ld, partes)
+
+
+def com_email(texto_escapado: str) -> str:
+    """O e-mail do texto (já escapado) vira link."""
+    return texto_escapado.replace(EMAIL, f'<a href="mailto:{EMAIL}">{EMAIL}</a>')
+
+
+def pagina_acervo(idioma: dict, partes: dict) -> str:
+    """A apresentação do acervo: o que é, as coleções, a língua do catálogo e como contribuir."""
+    a = idioma["acervo"]
+    colecoes = "\n          ".join(
+        f"<li><strong>{esc(nome)}</strong><span>{esc(resumo)}</span></li>" for _, nome, resumo in a["colecoes"])
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(a['sobrancelha'])}</p>
+        <h1>{esc(a['h1'])}</h1>
+        <p>{esc(a['linha'])}</p>
+        <div class="cta-row" style="margin-top:28px">
+          <a class="btn btn-red" href="{PAGINAS['acervo']['pt']}" hreflang="pt-BR" lang="pt-BR">{esc(a['botao'])}</a>
+        </div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(a['colecoes_titulo'])}</h2>
+        <p class="i18n-texto">{esc(a['colecoes_nota'])}</p>
+        <ul class="i18n-principios">
+          {colecoes}
+        </ul>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(a['idioma_titulo'])}</h2>
+        <div class="i18n-caixa"><p>{esc(a['idioma_texto'])}</p></div>
+      </div>
+    </section>
+    <section class="i18n-bloco">
+      <div class="wrap">
+        <h2>{esc(a['contribua_titulo'])}</h2>
+        <p class="i18n-texto">{com_email(esc(a['contribua']))}</p>
+        <h2 style="margin-top:32px">{esc(a['uso_titulo'])}</h2>
+        <p class="i18n-texto">{com_email(esc(a['uso']))}</p>
+      </div>
+    </section>"""
+    caminho = PAGINAS["acervo"][idioma["codigo"]]
+    url = f"{ORIGEM}{caminho}"
+    ld = [{"@context": "https://schema.org", "@type": "CollectionPage", "@id": f"{url}#pagina", "url": url,
+           "name": a["sobrancelha"], "description": a["descricao"], "inLanguage": idioma["codigo"],
+           "isPartOf": {"@id": f"{ORIGEM}/#site"}, "about": {"@id": f"{ORIGEM}/#organizacao"},
+           # A coleção é a mesma do português: o @id é o da página /acervo/ (Redação).
+           "mainEntity": {"@id": f"{ORIGEM}{PAGINAS['acervo']['pt']}#acervo"}},
+          {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": idioma["instituicao_curta"], "item": f"{ORIGEM}{PAGINAS['home'][idioma['codigo']]}"},
+              {"@type": "ListItem", "position": 2, "name": a["sobrancelha"], "item": url}]}]
+    return moldura(idioma, "acervo", a["titulo"], a["descricao"], corpo, ld, partes, imagem="og-acervo.jpg")
+
+
+ESTILO_ERRO = """
+    .i18n-erro-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px }
+"""
+
+
+def pagina_erro(idioma: dict, partes: dict) -> str:
+    """A página 404 do idioma (hoje, só o espanhol: a inglesa sai de gerar_ingles.py, com o mesmo formato).
+
+    site/es/.htaccess aponta o ErrorDocument de /es/ para ela; sem isso, /es/<qualquer coisa> mostrava a 404
+    em português (achado L09).
+    """
+    e = idioma["erro"]
+    pt = ' hreflang="pt-BR" lang="pt-BR"'
+    links = "".join(f'<a class="btn {"btn-red" if i == 0 else "btn-outline"}" href="{u}"{pt if u == "/" else ""}>{esc(n)}</a>'
+                    for i, (n, u) in enumerate(e["links"]))
+    corpo = f"""    <section class="i18n-hero">
+      <div class="wrap">
+        <p class="eyebrow">{esc(e['sobrancelha'])}</p>
+        <h1>{esc(e['h1'])}</h1>
+        <p>{esc(e['texto'])}</p>
+        <div class="i18n-erro-links">{links}</div>
+      </div>
+    </section>"""
+    html_ = moldura(idioma, "erro", e["titulo"], e["texto"], corpo, [], partes, css=ESTILO_ERRO)
+    # Página de erro: sem canonical nem hreflang, e fora da busca (como a /en/404.html).
+    html_ = re.sub(r'  <link rel="(canonical|alternate)"[^>]*>\n', "", html_)
+    html_ = re.sub(r'  <meta property="og:url"[^>]*>\n', "", html_)
+    return html_.replace('<meta name="viewport"', '<meta name="robots" content="noindex">\n  <meta name="viewport"', 1)
+
+
+def trecho(html_: str, inicio: str, fim: str, desde: int = 0) -> tuple[int, int]:
+    """Onde está o trecho que começa em `inicio` e termina no primeiro `fim` depois dele."""
+    a = html_.index(inicio, desde)
+    return a, html_.index(fim, a) + len(fim)
+
+
+def atualizar_historia_en(idioma: dict, partes: dict) -> bool:
+    """/en/history/ é mantida à mão, mas o cabeçalho, o rodapé, o CSS da moldura e o script do menu são os daqui.
+
+    Sem isso ela ficava com o menu antigo (Courses, Site em português) e sem o CSS dos grupos do menu. O
+    conteúdo da página (o <style> próprio, o <main> e o script da galeria) não muda.
+    """
+    if not HISTORIA_EN.exists():
+        return False
+    pagina = HISTORIA_EN.read_text(encoding="utf-8")
+    modelo = moldura(idioma, "historia", "", "", "", [], partes)
+    novo = pagina
+    for inicio, fim in (("  <style>", "</style>"), ('  <header class="main-header">', "  </header>"),
+                        ("  <footer>", "  </footer>"), ("  <script>\n    document.querySelector('.nav-toggle')", "</script>")):
+        a, b = trecho(modelo, inicio, fim)
+        x, y = trecho(novo, inicio, fim)
+        novo = novo[:x] + modelo[a:b] + novo[y:]
+    novo = icones.injetar_sprite(icones.trocar_tags(novo))
+    if novo == pagina:
+        return False
+    HISTORIA_EN.write_text(novo, encoding="utf-8")
+    return True
+
+
+def main() -> int:
+    dados = json.loads(DADOS.read_text(encoding="utf-8"))
+    partes = base.partes_da_home(HOME.read_text(encoding="utf-8"))
+    # partes['estilo'] vem com as tags <style>: aqui o CSS entra numa tag nossa, com o extra junto.
+    partes["estilo_sem_tag"] = re.sub(r"^\s*<style>|</style>\s*$", "", partes["estilo"])
+    faq = json.loads(FAQ.read_text(encoding="utf-8"))
+    cursos = json.loads(CURSOS.read_text(encoding="utf-8"))
+    equipe = ler_equipe()
+    total = 0
+    for codigo, idioma in dados["idiomas"].items():
+        for nome, gerar in (("home", pagina_home), ("doar", pagina_doar),
+                            ("faq", lambda i, p: pagina_faq(i, p, faq)),
+                            ("cursos", lambda i, p: pagina_cursos(i, p, cursos)),
+                            ("equipe", lambda i, p: pagina_equipe(i, p, equipe)),
+                            ("acervo", pagina_acervo)):
+            if nome == "doar" and not DOACAO_NO_AR:
+                continue
+            destino = SITE / PAGINAS[nome][codigo].strip("/") / "index.html"
+            destino.parent.mkdir(parents=True, exist_ok=True)
+            # Sem o widget de chat: a interface dele é toda em português, e abrir um chat em
+            # português para quem está lendo em inglês é pior do que não ter chat. Estas páginas
+            # põem o e-mail em evidência, e a equipe responde nos três idiomas.
+            html_ = gerar(idioma, partes)
+            destino.write_text(html_, encoding="utf-8")
+            print(f"gravado {destino.relative_to(RAIZ)} ({len(html_.encode('utf-8'))} bytes)")
+            total += 1
+    html_ = pagina_erro(dados["idiomas"]["es"], partes)
+    ERRO_ES.write_text(html_, encoding="utf-8")
+    print(f"gravado {ERRO_ES.relative_to(RAIZ)} ({len(html_.encode('utf-8'))} bytes)")
+    total += 1
+    if atualizar_historia_en(dados["idiomas"]["en"], partes):
+        print(f"atualizado {HISTORIA_EN.relative_to(RAIZ)} (cabeçalho, rodapé e CSS da moldura)")
+    print(f"{total} páginas em {len(dados['idiomas'])} idiomas")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
