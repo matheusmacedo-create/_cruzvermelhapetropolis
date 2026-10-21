@@ -11,9 +11,15 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 1. Infraestrutura (antes do primeiro deploy)
 
-- [ ] **Supabase**: projeto próprio de Petrópolis. Aplicar as migrações de
-      `supabase/migrations/` em ordem num banco vazio. Depois, se quiser, pôr o
-      `project_ref` novo em `.mcp.json` (foi retirado o do RJ).
+- [x] **Supabase**: projeto próprio `RedacaoCruzVermelha-Petropolis`
+      (ref `eukirzqargewyarrbxht`, região São Paulo `sa-east-1`), criado em
+      21/10/2026; migrações de `supabase/migrations/` em aplicação, em ordem,
+      num banco vazio. Já está em `.mcp.json`. Para abrir vaga no plano
+      gratuito, o projeto `puncaovenosa-fullautomatic` foi **pausado** (dá para
+      reativar no painel do Supabase quando precisar).
+      As sementes das migrações vieram iguais às do RJ e precisam de ajuste
+      pela própria Redação: entidade financeira "Filial Rio de Janeiro" (CNPJ
+      do RJ), cursos da escola e o mapa do ecossistema.
 - [ ] **Vercel**: projeto novo ligado a este repositório (raiz = Redação; a
       `pagina/` já fica fora pelo `.vercelignore`). Variáveis — só os nomes, valores
       novos: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`,
