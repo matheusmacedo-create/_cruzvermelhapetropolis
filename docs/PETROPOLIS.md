@@ -13,8 +13,10 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 - [x] **Supabase**: projeto próprio `RedacaoCruzVermelha-Petropolis`
       (ref `eukirzqargewyarrbxht`, região São Paulo `sa-east-1`), criado em
-      21/10/2026; migrações de `supabase/migrations/` em aplicação, em ordem,
-      num banco vazio. Já está em `.mcp.json`. Para abrir vaga no plano
+      21/10/2026. As 5 primeiras migrações foram pelo conector do Supabase; as
+      demais entram pelo workflow **Aplicar migrações** (Actions → Run
+      workflow), que usa o Secret `SUPABASE_DB_URL` (Session pooler do banco
+      de Petrópolis) e roda `scripts/aplicar-migracoes.sh`. Já está em `.mcp.json`. Para abrir vaga no plano
       gratuito, o projeto `puncaovenosa-fullautomatic` foi **pausado** (dá para
       reativar no painel do Supabase quando precisar).
       As sementes das migrações vieram iguais às do RJ e precisam de ajuste

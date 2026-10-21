@@ -1,0 +1,47 @@
+# Aplica no banco de Petrópolis as migrações de supabase/migrations/ que ainda
+# faltam (scripts/aplicar-migracoes.sh). Só roda quando alguém clica em
+# "Run workflow" e digita a ref do projeto; usa o Secret SUPABASE_DB_URL
+# (Supabase → Connect → Session pooler, com a senha).
+name: Aplicar migrações
+
+on:
+  workflow_dispatch:
+    inputs:
+      projeto:
+        description: 'Ref do projeto Supabase (confirmação)'
+        required: true
+        default: eukirzqargewyarrbxht
+      so_listar:
+        description: 'Só listar o que seria aplicado'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aplicar-migracoes
+  cancel-in-progress: false
+
+jobs:
+  aplicar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar psql 17
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+
+      - name: Aplicar
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          PROJETO_ESPERADO: ${{ inputs.projeto }}
+          SO_LISTAR: ${{ inputs.so_listar && '1' || '' }}
+          PSQL: /usr/lib/postgresql/17/bin/psql
+        run: bash scripts/aplicar-migracoes.sh
