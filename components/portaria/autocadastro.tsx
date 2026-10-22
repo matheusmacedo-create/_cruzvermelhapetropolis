@@ -82,7 +82,7 @@ export function Autocadastro({ token }: { token: string }) {
       {/* Armadilha para robôs: fora da tela, sem foco. */}
       <input type="text" name="site" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] size-px opacity-0" />
       <p className="text-xs text-muted-foreground">
-        Os dados ficam no livro de visitantes da Cruz Vermelha Brasileira – RJ, só para a segurança da filial e, se você marcar, para a resposta da sua visita no WhatsApp. Não pedimos documento.
+        Os dados ficam no livro de visitantes da Cruz Vermelha Brasileira – Petrópolis, só para a segurança da filial e, se você marcar, para a resposta da sua visita no WhatsApp. Não pedimos documento.
       </p>
       {erro && <p role="alert" className="flex items-start gap-1.5 text-sm text-destructive"><XCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />{erro}</p>}
       <button type="submit" disabled={enviando} className={botaoDoMembro} data-autocadastro-enviar>

@@ -6,7 +6,7 @@ import { Autocadastro } from '@/components/portaria/autocadastro'
 import { espacoDaEntrada } from '@/lib/portaria/servidor'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Visitante — Cruz Vermelha RJ', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Visitante — Cruz Vermelha Petrópolis', robots: { index: false, follow: false } }
 
 /**
  * O QR da portaria abre aqui (/visitante?t=<segredo>): o visitante se

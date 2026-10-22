@@ -47,7 +47,7 @@ export async function Cracha({ cracha, pdf }: { cracha: CrachaPronto; pdf: strin
         {/* Frente */}
         <figure className={CARTAO} aria-label={`Frente do crachá de ${cracha.nomeCompleto}`}>
           <div className="px-6 pt-5">
-            <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} sizes="210px" className="h-auto w-full" />
+            <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} sizes="210px" className="h-auto w-full" />
           </div>
           <div className="mx-auto mt-3 h-[150px] w-[120px] overflow-hidden bg-[#eeeeee]">
             {cracha.foto
@@ -60,7 +60,7 @@ export async function Cracha({ cracha, pdf }: { cracha: CrachaPronto; pdf: strin
             </p>
             <p className={cn(condensada.className, 'mt-2 line-clamp-2 min-h-[17px] px-4 text-center text-[14px] font-bold uppercase leading-tight')}>{funcao}</p>
             <p className="mt-1.5 px-3 pb-2.5 text-center text-[8.5px] leading-tight text-[#3a3a3a]">
-              Filial do Estado do Rio de Janeiro<br />CNPJ {DADOS_DA_FILIAL.cnpj}
+              Filial do Município de Petrópolis<br />CNPJ {DADOS_DA_FILIAL.cnpj}
             </p>
           </div>
         </figure>
@@ -89,7 +89,7 @@ export async function Cracha({ cracha, pdf }: { cracha: CrachaPronto; pdf: strin
           </p>
           <div className="mt-1 bg-[#e32219] px-4 py-1.5 text-[8px] leading-snug text-white">
             <p className={cn(condensada.className, 'text-[11px] font-bold leading-tight')}>CRUZ VERMELHA BRASILEIRA</p>
-            <p>Filial do Estado do Rio de Janeiro</p>
+            <p>Filial do Município de Petrópolis</p>
             <p>{DADOS_DA_FILIAL.endereco}</p>
             <p>{DADOS_DA_FILIAL.telefone} · {DADOS_DA_FILIAL.email}</p>
           </div>

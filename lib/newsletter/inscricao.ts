@@ -16,7 +16,7 @@ import { randomBytes } from 'node:crypto'
  * consentimento — e é por isso que ele não pode ser montado na tela.
  */
 export const TEXTO_DO_CONSENTIMENTO =
-  'Autorizo a Cruz Vermelha Brasileira — Filial Rio de Janeiro a enviar para o meu '
+  'Autorizo a Cruz Vermelha Brasileira — Filial Petrópolis a enviar para o meu '
   + 'e-mail notícias, campanhas e informações sobre cursos. Sei que posso sair da lista '
   + 'a qualquer momento pelo link presente em todas as mensagens.'
 

@@ -99,7 +99,7 @@ export default async function EscolaPage({ searchParams }: { searchParams: Promi
       <SecoesDaEscola atual="/escola" financeiro={nivelEscola >= 2} marketing={nivelMkt >= 2} />
       <PageHeader
         title="Escola de Educação e Saúde"
-        description="Uma empresa da Cruz Vermelha RJ, com receita e gestão próprias. A administração dela mora aqui: vendas, marketing e advertoriais. Alunos, turmas e secretaria ficam no sistema da escola."
+        description="Uma empresa da Cruz Vermelha Petrópolis, com receita e gestão próprias. A administração dela mora aqui: vendas, marketing e advertoriais. Alunos, turmas e secretaria ficam no sistema da escola."
       />
       {semLivros && (
         <p className="rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground" role="status" id="sem-livros">

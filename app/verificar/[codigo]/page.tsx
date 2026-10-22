@@ -12,7 +12,7 @@ import { SeloVisual } from '@/components/app/oficios/selo-visual'
 import { conferirSelo, garantirSelo, impressaoLegivel } from '@/lib/oficios/selo'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Conferência de ofício — Cruz Vermelha RJ', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Conferência de ofício — Cruz Vermelha Petrópolis', robots: { index: false, follow: false } }
 
 /**
  * A página pública de um ofício, aberta pelo código de 32 caracteres do
@@ -76,7 +76,7 @@ export default async function VerificarOficio({ params }: { params: Promise<{ co
           rodape={
             <div className="flex flex-col gap-1">
               {/* No padrão dos documentos assinados eletronicamente (SEI, protocolos de assinatura): quem assina, a lei, onde conferir e os hashes. Nunca o setor como "sistema": o sistema é da filial. */}
-              <p>Documento assinado eletronicamente {o.modo_assinatura === 'govbr' ? 'com assinatura gov.br' : 'no Palácio Virtual da Cruz Vermelha Brasileira – RJ'}, nos termos da Lei nº 14.063/2020, conforme horário oficial de Brasília.</p>
+              <p>Documento assinado eletronicamente {o.modo_assinatura === 'govbr' ? 'com assinatura gov.br' : 'no Palácio Virtual da Cruz Vermelha Brasileira – Petrópolis'}, nos termos da Lei nº 14.063/2020, conforme horário oficial de Brasília.</p>
               <p>A autenticidade deste documento pode ser conferida em {DOMINIO_DO_PALACIO}/verificar/{codigo}, com o código verificador <span className="font-mono">{codigo}</span>.</p>
               <p>Hash do documento (SHA-256): <span className="break-all font-mono">{o.hash_documento}</span></p>
               {o.hash_manifesto && <p>Hash do protocolo de assinaturas (SHA-256): <span className="break-all font-mono">{o.hash_manifesto}</span>{carimbo?.estado === 'confirmado' && carimbo.bloco ? ` — registrado no bloco ${carimbo.bloco.toLocaleString('pt-BR')} do Bitcoin` : ''}</p>}
@@ -121,7 +121,7 @@ export default async function VerificarOficio({ params }: { params: Promise<{ co
 
         {selo && conferenciaDoSelo && (
           <section className="flex flex-col gap-3 rounded-lg border border-neutral-300 bg-white p-5 text-sm print:hidden">
-            <h2 className="flex items-center gap-2 text-base font-semibold"><ShieldCheck className="size-5" />Selo digital da Cruz Vermelha RJ</h2>
+            <h2 className="flex items-center gap-2 text-base font-semibold"><ShieldCheck className="size-5" />Selo digital da Cruz Vermelha Petrópolis</h2>
             {seloValido ? (
               <p className="flex items-start gap-2 text-emerald-800"><CheckCircle2 className="mt-0.5 size-4 shrink-0" />O selo confere: este ofício, com estas assinaturas, foi selado pela filial. Impressão digital da chave: <span className="font-mono">{impressaoLegivel(selo.chave_id)}</span>.</p>
             ) : (

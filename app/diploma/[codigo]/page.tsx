@@ -11,7 +11,7 @@ import { Marca } from '@/components/membro/marca'
 const decodificar = (bruto: string) => { try { return decodeURIComponent(bruto) } catch { return '' } }
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Verificação de diploma — Cruz Vermelha RJ', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Verificação de diploma — Cruz Vermelha Petrópolis', robots: { index: false, follow: false } }
 
 /**
  * Qualquer pessoa confere aqui um Diploma de Reconhecimento pelo código
@@ -39,7 +39,7 @@ export default async function VerificarDiploma({ params }: { params: Promise<{ c
           ) : (
             <div className="flex flex-col gap-4">
               {d.revogado_em
-                ? <p className="flex items-center gap-2 font-semibold text-destructive"><XCircle className="size-6" />Diploma cancelado pela Cruz Vermelha RJ</p>
+                ? <p className="flex items-center gap-2 font-semibold text-destructive"><XCircle className="size-6" />Diploma cancelado pela Cruz Vermelha Petrópolis</p>
                 : <p className="flex items-center gap-2 font-semibold text-success"><BadgeCheck className="size-6" />Diploma de Reconhecimento autêntico</p>}
               <dl className="grid gap-3 text-sm">
                 <div><dt className="text-xs text-muted-foreground">Concedido a</dt><dd className="text-base font-medium">{d.nome}</dd></div>

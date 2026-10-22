@@ -14,7 +14,7 @@ import { emailDaFotoDoCracha, emailDeAvisoGeral, emailDeBoasVindas, emailDeCerti
  * não pode desfazer nem esconder isso — fica no log.
  */
 
-export const REMETENTE_DO_VOLUNTARIADO = 'Cruz Vermelha RJ · Voluntariado <voluntariado@noticias.cruzvermelhariodejaneiro.org>'
+export const REMETENTE_DO_VOLUNTARIADO = 'Cruz Vermelha Petrópolis · Voluntariado <voluntariado@noticias.cruzvermelhariodejaneiro.org>'
 
 const remetente = () => process.env.VOLUNTARIADO_REMETENTE?.trim() || REMETENTE_DO_VOLUNTARIADO
 

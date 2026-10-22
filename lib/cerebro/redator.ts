@@ -58,14 +58,14 @@ const TETO_MATERIAL = 8_000
 /** Abaixo disto o Cérebro não viu ação da filial — e a matéria não pode inventar uma. */
 const NOTA_MINIMA_DE_ACAO = 60
 
-export const CONFERIR_ACAO_DA_FILIAL = 'Confirmar se a filial RJ tem ação neste assunto antes de publicar'
+export const CONFERIR_ACAO_DA_FILIAL = 'Confirmar se a filial de Petrópolis tem ação neste assunto antes de publicar'
 
 /**
  * A conta da própria filial. O contrato só marca isso na mídia (`daCasa`);
  * sem mídia, o identificador da conta é a pista que resta. Em dúvida, o
  * material é de terceiro — é o lado que não faz a Cruz assinar o que não fez.
  */
-const CONTA_DA_CASA = /cruz\s*vermelha\s*(?:brasileira)?\s*rj|cvb[-_\s]?rj/i
+const CONTA_DA_CASA = /cruz\s*vermelha\s*(?:brasileira)?\s*petr[oó]polis|cvb[-_\s]?petr[oó]polis/i
 
 function fatoEhDaCasa(p: PautaDoCerebro): boolean {
   if (p.midia?.daCasa) return true
@@ -158,7 +158,7 @@ function sistemaDoRedator(p: PautaDoCerebro): string {
     REGRAS_DURAS_DE_FATO,
     '',
     'SEU PAPEL NESTA TAREFA',
-    'Você é repórter da Cruz Vermelha Brasileira — Filial Rio de Janeiro (CVB-RJ) escrevendo a partir de um sinal de fonte externa: uma publicação que o Cérebro — o sistema que observa as contas oficiais — apontou como pauta possível. O sinal é a apuração disponível, não a matéria pronta: você redige a partir dele, e só dele.',
+    'Você é repórter da Cruz Vermelha Brasileira — Filial Petrópolis (CVB Petrópolis) escrevendo a partir de um sinal de fonte externa: uma publicação que o Cérebro — o sistema que observa as contas oficiais — apontou como pauta possível. O sinal é a apuração disponível, não a matéria pronta: você redige a partir dele, e só dele.',
     ...autoria,
     '',
     'TRAVAS DESTA PAUTA (do Cérebro) — cada uma é regra literal:',

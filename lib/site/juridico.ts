@@ -12,9 +12,9 @@
  * medição), o texto muda lá.
  */
 export const DADOS_DA_FILIAL = {
-  nome: 'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro',
-  cnpj: '08.560.973/0001-97',
-  endereco: 'Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro/RJ, CEP 20230-130',
-  email: 'contato@cruzvermelhariodejaneiro.org',
-  telefone: '(21) 99992-2864',
+  nome: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis',
+  cnpj: '09.198.238/0001-48',
+  endereco: 'Rua Carlos Gomes, 6 — Centro, Petrópolis/RJ, CEP 25680-120',
+  email: 'cvbpetropolis@gmail.com',
+  telefone: '(24) 2243-4758',
 } as const

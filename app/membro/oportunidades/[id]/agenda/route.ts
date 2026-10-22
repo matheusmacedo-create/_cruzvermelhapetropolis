@@ -16,6 +16,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const o = await oportunidadeDoMembro(m, id)
   if (!o || o.cancelada_em) return new Response('Oportunidade não encontrada.', { status: 404 })
   return new Response(ics(o, `${urlBase()}/membro/oportunidades`), {
-    headers: { 'Content-Type': 'text/calendar; charset=utf-8', 'Content-Disposition': 'attachment; filename="cruz-vermelha-rj.ics"', 'Cache-Control': 'private, no-store' },
+    headers: { 'Content-Type': 'text/calendar; charset=utf-8', 'Content-Disposition': 'attachment; filename="cruz-vermelha-petropolis.ics"', 'Cache-Control': 'private, no-store' },
   })
 }

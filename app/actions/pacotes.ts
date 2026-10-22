@@ -897,7 +897,7 @@ export async function publicarPacote(formData: FormData): Promise<ResultadoDoHub
       const quandoOBoletim = boletim.agendar_para ?? pacote.agendar_para ?? undefined
 
       const remessa = await enviarEdicao(context.workspace.id, {
-        assunto: extras.assunto || mestre.titulo || 'Novidades da Cruz Vermelha RJ',
+        assunto: extras.assunto || mestre.titulo || 'Novidades da Cruz Vermelha Petrópolis',
         chamada: extras.chamada,
         paragrafos: texto.split(/\n{2,}/).map((p: string) => p.replace(/\n/g, ' ').trim()).filter(Boolean),
         // Só oferece o botão quando há página de verdade para ele apontar.

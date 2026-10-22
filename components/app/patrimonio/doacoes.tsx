@@ -203,7 +203,7 @@ export function FormularioDeEntrega({ campanhas, locais, materiais, disponivel, 
   const comEstoque = locais.filter((l) => Object.values(disponivel[l.id] ?? {}).some((q) => q > 0))
   const [p, setP] = useState<Omit<DadosDaEntrega, 'itens'>>({
     campanha_id: campanhaInicial ?? '', local_id: comEstoque[0]?.id ?? locais[0]?.id ?? '', data: hoje, beneficiario_tipo: 'familia', beneficiario_nome: '', beneficiario_documento: '',
-    responsavel: '', pessoas: '', municipio: 'Rio de Janeiro', bairro: '', observacao: '',
+    responsavel: '', pessoas: '', municipio: 'Petrópolis', bairro: '', observacao: '',
   })
   const [itens, setItens] = useState<{ chave: number; item_id: string; quantidade: string }[]>([{ chave: 1, item_id: '', quantidade: '' }])
   const [erro, setErro] = useState('')

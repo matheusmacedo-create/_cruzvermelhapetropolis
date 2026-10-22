@@ -10,7 +10,7 @@ import { tamanhoLegivel } from '@/lib/envios/regras'
 // Página pública, sem login: o link secreto do álbum do evento (docs/envio-de-acoes.md §9).
 // Fora do Google, e sem mandar o endereço (com o token) para outros sites.
 export const metadata: Metadata = {
-  title: 'Álbum do evento — Cruz Vermelha RJ',
+  title: 'Álbum do evento — Cruz Vermelha Petrópolis',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 }
@@ -61,7 +61,7 @@ export default async function Album({ params }: { params: Promise<{ token: strin
           ? <Galeria token={token} fotos={fotos.map(({ id, nome, categoria, autor, temMiniatura }) => ({ id, nome, categoria, autor, temMiniatura }))} />
           : <p className="rounded-xl border border-border bg-card p-6 text-center text-sm text-muted-foreground">Ainda não chegou nenhuma foto. Quem esteve no evento pode mandar pelo link de envio que a comunicação compartilhou.</p>}
 
-        <p className="text-xs text-muted-foreground">As fotos são de quem esteve no evento e da Cruz Vermelha Brasileira – Filial RJ. Use com respeito às pessoas retratadas; para publicar, fale com a comunicação.</p>
+        <p className="text-xs text-muted-foreground">As fotos são de quem esteve no evento e da Cruz Vermelha Brasileira – Filial Petrópolis. Use com respeito às pessoas retratadas; para publicar, fale com a comunicação.</p>
       </main>
     </div>
   )

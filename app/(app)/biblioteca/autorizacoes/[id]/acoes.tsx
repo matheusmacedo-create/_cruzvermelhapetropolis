@@ -9,7 +9,7 @@ import { assinaturaDe, encerrarColeta, marcarFotosAutorizadas, revogarAutorizaca
 
 export function CompartilharLink({ link, titulo }: { link: string; titulo: string }) {
   const [copiado, setCopiado] = useState(false)
-  const texto = `Olá! Estas são as fotos de "${titulo}" da Cruz Vermelha RJ. Para podermos divulgá-las, veja as fotos e assine a autorização por este link (leva um minuto): ${link}`
+  const texto = `Olá! Estas são as fotos de "${titulo}" da Cruz Vermelha Petrópolis. Para podermos divulgá-las, veja as fotos e assine a autorização por este link (leva um minuto): ${link}`
   async function copiar() {
     try { await navigator.clipboard.writeText(link); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch { /* sem permissão: o campo está à vista para copiar */ }
   }

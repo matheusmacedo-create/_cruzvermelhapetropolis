@@ -537,8 +537,8 @@ export const primeiroNome = (nome: string) => nome.trim().split(/\s+/)[0] || nom
 export function textoDoPedidoDeDocumentos(p: { nome: string; url: string; renovacao?: boolean; lembrete?: boolean }): string {
   const nome = primeiroNome(p.nome)
   const abertura = p.lembrete
-    ? `${nome ? `${nome}, f` : 'F'}altam os seus documentos para a verificação na Cruz Vermelha RJ.`
-    : `Olá${nome ? `, ${nome}` : ''}! Para seguir com a sua ${p.renovacao ? 'atuação' : 'inscrição'} como voluntário(a) da Cruz Vermelha RJ, precisamos ${p.renovacao ? 'renovar o seu atestado de antecedentes' : 'confirmar quem você é'}.`
+    ? `${nome ? `${nome}, f` : 'F'}altam os seus documentos para a verificação na Cruz Vermelha Petrópolis.`
+    : `Olá${nome ? `, ${nome}` : ''}! Para seguir com a sua ${p.renovacao ? 'atuação' : 'inscrição'} como voluntário(a) da Cruz Vermelha Petrópolis, precisamos ${p.renovacao ? 'renovar o seu atestado de antecedentes' : 'confirmar quem você é'}.`
   const oQue = p.renovacao
     ? 'Leva poucos minutos: você emite o atestado de antecedentes (gratuito, no site da Polícia Civil) e envia pelo link.'
     : 'Leva uns 10 minutos: foto do seu documento, atestado de antecedentes (gratuito, emitido na hora no site da Polícia Civil) e duas referências.'

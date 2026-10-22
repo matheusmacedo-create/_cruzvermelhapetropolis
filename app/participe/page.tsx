@@ -9,7 +9,7 @@ import { NOMES_DOS_SETORES } from '@/lib/equipe'
 
 // Título inteiro: esta página fica fora de app/membro, então o modelo
 // "%s · Área do Voluntário" não se aplica aqui.
-export const metadata: Metadata = { title: 'Seja voluntário — Cruz Vermelha RJ', description: 'Inscrição de voluntários da Cruz Vermelha Brasileira – Filial do Rio de Janeiro.' }
+export const metadata: Metadata = { title: 'Seja voluntário — Cruz Vermelha Petrópolis', description: 'Inscrição de voluntários da Cruz Vermelha Brasileira – Filial de Petrópolis.' }
 
 const hoje = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date())
 

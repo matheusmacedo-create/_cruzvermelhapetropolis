@@ -30,5 +30,5 @@ export default async function BibliotecaPage() {
     if (!error && antigas) fotosAntigas = { quantidade: antigas.length, bytes: antigas.reduce((t, f) => t + Number(f.size_bytes ?? 0), 0) }
   }
 
-  return <div><PageHeader title="Biblioteca de mídia" description="Arquivos privados compartilhados com a equipe do Palácio Virtual Cruz Vermelha Brasileira Rio de Janeiro." /><LibraryView initialFiles={files} usedBytes={used} limitBytes={WORKSPACE_STORAGE_LIMIT} workspaceId={context.workspace.id} fotosAntigas={fotosAntigas} podeOtimizar={podeOtimizar} /></div>
+  return <div><PageHeader title="Biblioteca de mídia" description="Arquivos privados compartilhados com a equipe do Palácio Virtual Cruz Vermelha Brasileira Petrópolis." /><LibraryView initialFiles={files} usedBytes={used} limitBytes={WORKSPACE_STORAGE_LIMIT} workspaceId={context.workspace.id} fotosAntigas={fotosAntigas} podeOtimizar={podeOtimizar} /></div>
 }

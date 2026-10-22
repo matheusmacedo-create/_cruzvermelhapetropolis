@@ -219,7 +219,7 @@ export async function certificadosDoMembro(m: Membro): Promise<CertificadoDoMemb
 }
 
 /** O mesmo emissor impresso no PDF (`lib/cursos/certificado-pdf.ts`). */
-const EMISSOR = 'Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro'
+const EMISSOR = 'Cruz Vermelha Brasileira – Filial do Município de Petrópolis'
 
 const anoEMes = (d: Date) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit' }).format(d).split('-').map(Number)
 

@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   const f = FORMATOS[opcoes.formato]
   const [{ qr, endereco }, logo, texto, negrito, titulo] = await Promise.all([
     linkEQrDoEnvio(),
-    readFile(join(process.cwd(), 'public', 'images', 'logo-cvrj.png')),
+    readFile(join(process.cwd(), 'public', 'images', 'logo-cvb-petropolis.png')),
     fonte('LibreFranklin_400Regular.ttf'),
     fonte('LibreFranklin_700Bold.ttf'),
     fonte('BarlowCondensed_700Bold.ttf'),

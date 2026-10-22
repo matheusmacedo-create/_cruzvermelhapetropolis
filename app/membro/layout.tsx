@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   // Cada página exporta o próprio título ("Cursos", "Entrar"…); sem ele, vale o padrão.
-  title: { template: '%s · Área do Voluntário', default: 'Área do Voluntário — Cruz Vermelha RJ' },
-  description: 'O espaço do voluntário da Cruz Vermelha Brasileira – Filial do Rio de Janeiro.',
+  title: { template: '%s · Área do Voluntário', default: 'Área do Voluntário — Cruz Vermelha Petrópolis' },
+  description: 'O espaço do voluntário da Cruz Vermelha Brasileira – Filial de Petrópolis.',
   robots: { index: false, follow: false },
 }
 

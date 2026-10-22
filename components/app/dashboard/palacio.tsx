@@ -52,7 +52,7 @@ export function AberturaDoPalacio({ data, saudacao, resumo, destaques, acao }: {
       <div className="flex items-center justify-between gap-3 border-b-2 border-primary pb-2.5">
         <p className="flex min-w-0 items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground">
           <Cruz className="size-3.5 shrink-0 text-primary" />
-          <span className="truncate">Palácio Virtual<span className="hidden sm:inline"> · Cruz Vermelha Brasileira — Rio de Janeiro</span></span>
+          <span className="truncate">Palácio Virtual<span className="hidden sm:inline"> · Cruz Vermelha Brasileira — Petrópolis</span></span>
         </p>
         <div className="flex shrink-0 items-center gap-3">
           <p className="hidden text-xs font-medium text-muted-foreground sm:block">{data}</p>

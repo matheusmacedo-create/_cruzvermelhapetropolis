@@ -751,7 +751,7 @@ const CANAIS: GuiaDaArea = {
   naPratica: {
     titulo: 'Um golpe no WhatsApp desmentido em minutos',
     passos: [
-      'Circula uma mensagem pedindo doação por Pix em nome da Cruz Vermelha RJ, de um número desconhecido.',
+      'Circula uma mensagem pedindo doação por Pix em nome da Cruz Vermelha Petrópolis, de um número desconhecido.',
       'Quem recebeu abre a página de canais oficiais do site e vê que aquele número não está na lista.',
       'A Comunicação publica o alerta nas redes com o link da lista oficial.',
       'Quando a filial troca um telefone, a lista é republicada como versão nova e fica registrada na trilha.',

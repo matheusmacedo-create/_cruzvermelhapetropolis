@@ -80,19 +80,20 @@ export function pascoa(ano: number): string {
 
 export type Feriado = { dia: string; nome: string; tipo: 'nacional' | 'estadual' | 'municipal' | 'facultativo' }
 
-/** Feriados nacionais, do estado e da cidade do Rio de Janeiro, e os pontos facultativos que mexem no expediente. */
+/** Feriados nacionais, do estado do Rio de Janeiro e da cidade de Petrópolis, e os pontos facultativos que mexem no expediente. */
 export function feriados(ano: number): Feriado[] {
   const p = pascoa(ano)
   const lista: Feriado[] = [
     { dia: montarDia(ano, 1, 1), nome: 'Confraternização Universal', tipo: 'nacional' },
-    { dia: montarDia(ano, 1, 20), nome: 'São Sebastião (cidade do Rio)', tipo: 'municipal' },
     { dia: somarDias(p, -48), nome: 'Carnaval', tipo: 'facultativo' },
     { dia: somarDias(p, -47), nome: 'Carnaval', tipo: 'facultativo' },
     { dia: somarDias(p, -2), nome: 'Sexta-feira Santa', tipo: 'nacional' },
     { dia: montarDia(ano, 4, 21), nome: 'Tiradentes', tipo: 'nacional' },
     { dia: montarDia(ano, 4, 23), nome: 'São Jorge (estado do RJ)', tipo: 'estadual' },
+    { dia: montarDia(ano, 3, 16), nome: 'Aniversário de Petrópolis', tipo: 'municipal' },
     { dia: montarDia(ano, 5, 1), nome: 'Dia do Trabalho', tipo: 'nacional' },
     { dia: somarDias(p, 60), nome: 'Corpus Christi', tipo: 'facultativo' },
+    { dia: montarDia(ano, 6, 29), nome: 'São Pedro de Alcântara (padroeiro de Petrópolis)', tipo: 'municipal' },
     { dia: montarDia(ano, 9, 7), nome: 'Independência do Brasil', tipo: 'nacional' },
     { dia: montarDia(ano, 10, 12), nome: 'Nossa Senhora Aparecida', tipo: 'nacional' },
     { dia: montarDia(ano, 11, 2), nome: 'Finados', tipo: 'nacional' },

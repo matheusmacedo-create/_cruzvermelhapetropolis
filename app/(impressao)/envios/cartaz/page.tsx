@@ -39,7 +39,7 @@ export default async function CartazDoEnvio({ searchParams }: { searchParams: Pr
       <div className={`mx-auto w-fit print:[zoom:1] ${opcoes.formato === 'a4' ? 'max-[860px]:[zoom:0.72] max-[600px]:[zoom:0.45]' : 'max-[600px]:[zoom:0.75]'}`}>
         <div className="cartaz-cvb shadow-xl print:shadow-none" style={{ width: f.largura * escala, height: f.altura * escala }} aria-label={`Cartaz (${f.rotulo}): mande a sua ação para a Comunicação`}>
           <div style={{ zoom: escala }} className="print:[zoom:1]">
-            <Cartaz {...opcoes} qr={qr} logo="/images/logo-cvrj.png" endereco={endereco} fontes={{ texto: 'var(--font-libre-franklin), sans-serif', titulo: `${condensada.style.fontFamily}, sans-serif` }} />
+            <Cartaz {...opcoes} qr={qr} logo="/images/logo-cvb-petropolis.png" endereco={endereco} fontes={{ texto: 'var(--font-libre-franklin), sans-serif', titulo: `${condensada.style.fontFamily}, sans-serif` }} />
           </div>
         </div>
       </div>

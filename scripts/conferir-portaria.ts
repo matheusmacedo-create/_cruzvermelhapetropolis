@@ -418,7 +418,7 @@ const botoesDoModelo = (m: ObjetoDoModelo | null) => (m?.components ?? []).flatM
 igual([foraV2?.name, botoesDoModelo(foraV2)], ['portaria_visita_v2', idsDaFicha.map((id, i) => [String(i), id])], 'ficha fora da janela: o v2 aprovado, com o id da visita em cada resposta rápida')
 const corpoV2 = foraV2?.components.find((c) => c.type === 'body')
 igual(corpoV2?.type === 'body' ? corpoPreenchido(modeloDoCatalogo('portaria_visita_v2')!, corpoV2.parameters.map((x) => x.text)) : '',
-  'Chegou uma visita para você na recepção da Cruz Vermelha RJ.\n\nQuem é: João Silva (Gráfica Boa)\nAssunto: Entrega de cartazes\nHorário: 14:05, registrada por Maria Souza\n\nToque em uma das opções para responder à portaria.',
+  'Chegou uma visita para você na recepção da Cruz Vermelha Petrópolis.\n\nQuem é: João Silva (Gráfica Boa)\nAssunto: Entrega de cartazes\nHorário: 14:05, registrada por Maria Souza\n\nToque em uma das opções para responder à portaria.',
   'ficha fora da janela: o corpo como chega ao celular')
 igual(modeloDaFichaForaDaJanela({ naMeta: naMeta({ portaria_visita: 'UTILITY' }), montagem, cofre, textoDoAviso: 'aviso' })?.name, 'portaria_visita', 'ficha fora da janela: só o v1 aprovado, ele')
 igual(modeloDaFichaForaDaJanela({ naMeta: naMeta({ portaria_visita_v2: 'MARKETING', portaria_visita: 'UTILITY' }), montagem, cofre, textoDoAviso: 'aviso' })?.name, 'portaria_visita',
@@ -438,7 +438,7 @@ const paraOVisitante = modeloDaSituacao('resposta_ao_visitante', naMeta({ portar
   { parametros: parametrosParaVisitante({ quem: 'Ana Lima', setor: 'Comunicação Social', resposta: 'aguardar' }) })
 const corpoAoVisitante = paraOVisitante?.components.find((c) => c.type === 'body')
 igual(corpoAoVisitante?.type === 'body' ? corpoPreenchido(modeloDoCatalogo('portaria_resposta_visitante_v2')!, corpoAoVisitante.parameters.map((x) => x.text)) : '',
-  'Recepção da Cruz Vermelha RJ: atualização sobre a sua visita a Ana Lima (Comunicação Social).\n\nSituação: Aguarde na recepção, por favor. Avisaremos por aqui quando puder subir.\n\nEm caso de dúvida, procure a recepção.',
+  'Recepção da Cruz Vermelha Petrópolis: atualização sobre a sua visita a Ana Lima (Comunicação Social).\n\nSituação: Aguarde na recepção, por favor. Avisaremos por aqui quando puder subir.\n\nEm caso de dúvida, procure a recepção.',
   'ao visitante: o v2, como chega ao celular')
 igual(modeloDaSituacao('resposta_ao_visitante', naMeta({ portaria_resposta_visitante_v2: 'MARKETING' }), { parametros: ['Ana', SITUACAO_PARA_VISITANTE.subir] }), null,
   'ao visitante: sem modelo de Utilidade aprovado, nada sai (a portaria fica sabendo)')

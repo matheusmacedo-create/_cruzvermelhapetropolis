@@ -18,7 +18,7 @@ export const BLOCOS = {
   pautas: { nome: 'Minhas pautas', descricao: 'As suas pautas em aberto, por prazo.', largura: 'largo' },
   projetos: { nome: 'Projetos', descricao: 'Os projetos ativos, os seus primeiro.', largura: 'largo' },
   hoje: { nome: 'Hoje na comunicação', descricao: 'O que está no calendário hoje, o que foi ao ar e o que falhou.', largura: 'estreito' },
-  tempo: { nome: 'Tempo no Rio', descricao: 'A previsão de 7 dias, com alerta de chuva forte e calor.', largura: 'estreito' },
+  tempo: { nome: 'Tempo em Petrópolis', descricao: 'A previsão de 7 dias, com alerta de chuva forte e calor.', largura: 'estreito' },
   equipe: { nome: 'A equipe agora', descricao: 'O que a equipe fez por último.', largura: 'estreito' },
   semana: { nome: 'A semana da comunicação', descricao: 'Dia a dia da semana, os números e a saúde dos canais.', largura: 'inteiro' },
   indicadores: { nome: 'Indicadores', descricao: 'Os últimos 30 dias comparados aos 30 anteriores.', largura: 'inteiro' },

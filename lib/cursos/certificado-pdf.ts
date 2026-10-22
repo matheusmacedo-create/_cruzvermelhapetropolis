@@ -113,11 +113,11 @@ export async function gerarPdfDoCertificado(d: DadosDoCertificado): Promise<Uint
   let y = paragrafoJustificado(p, [
     { texto: 'concluiu o curso', fonte: f.texto },
     { texto: d.curso, fonte: f.negrito },
-    { texto: `, ministrado pela Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro na Área do Voluntário${carga}${nota}.`, fonte: f.texto },
+    { texto: `, ministrado pela Cruz Vermelha Brasileira – Filial do Município de Petrópolis na Área do Voluntário${carga}${nota}.`, fonte: f.texto },
   ], 118, A - 292, L - 236, 13, 19.5, TINTA)
 
   y -= 8
-  escrever(p, f.textoItalico, `Rio de Janeiro, ${dataPorExtenso(d.emitidoEm)}.`, { x: L - 118, y, tamanho: 12.5, alinhar: 'direita' })
+  escrever(p, f.textoItalico, `Petrópolis, ${dataPorExtenso(d.emitidoEm)}.`, { x: L - 118, y, tamanho: 12.5, alinhar: 'direita' })
   if (d.validoAte) escrever(p, f.texto, `Válido até ${dataPorExtenso(d.validoAte)}.`, { x: L - 118, y: y - 16, tamanho: 9.5, alinhar: 'direita', cor: CINZA })
 
   // Assinatura (tipográfica, como no modelo) e o ornamento do pé.
@@ -125,7 +125,7 @@ export async function gerarPdfDoCertificado(d: DadosDoCertificado): Promise<Uint
   escrever(p, f.caligrafia, quem.nome, { x: L / 2, y: 126, tamanho: 24, alinhar: 'centro' })
   p.drawLine({ start: { x: L / 2 - 110, y: 118 }, end: { x: L / 2 + 110, y: 118 }, thickness: 0.5, color: CINZA })
   escrever(p, f.destaque, quem.cargo, { x: L / 2, y: 106, tamanho: 9.5, alinhar: 'centro' })
-  escrever(p, f.texto, 'Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro', { x: L / 2, y: 94, tamanho: 8, alinhar: 'centro', cor: CINZA })
+  escrever(p, f.texto, 'Cruz Vermelha Brasileira – Filial do Município de Petrópolis', { x: L / 2, y: 94, tamanho: 8, alinhar: 'centro', cor: CINZA })
   ornamento(p, L / 2, 66)
 
   // Verificação: o código à esquerda, o QR à direita, dentro da moldura.

@@ -28,7 +28,7 @@ export const ALVOS = {
       'Preencha a inscrição: leva poucos minutos.',
       'A coordenação do Voluntariado entra em contato com você.',
     ],
-    rodape: 'Voluntariado da Cruz Vermelha Brasileira – Rio de Janeiro: sem remuneração, com formação, equipe e propósito.',
+    rodape: 'Voluntariado da Cruz Vermelha Brasileira – Petrópolis: sem remuneração, com formação, equipe e propósito.',
   },
   area: {
     rotulo: 'Área do Voluntário (quem já é)',

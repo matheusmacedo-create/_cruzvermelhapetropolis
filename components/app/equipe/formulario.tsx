@@ -115,7 +115,7 @@ export function FormularioDeMembro({ m, pessoais, nivel, gestores, logins, setor
         <Campo rotulo="Admissão"><input id="e-admissao" name="admissao" type="date" defaultValue={v('admissao')} className={inputClass} /></Campo>
         <Campo rotulo="Jornada semanal (horas)"><input id="e-jornada" name="jornada_semanal" inputMode="decimal" maxLength={5} defaultValue={v('jornada_semanal')} className={inputClass} /></Campo>
         <Campo rotulo="Horário" dica="Ex.: seg. a sex., 9h às 18h"><input id="e-horario" name="horario" maxLength={120} defaultValue={v('horario')} className={inputClass} /></Campo>
-        <Campo rotulo="Local de trabalho" dica="Ex.: Sede – Praça da Cruz Vermelha"><input id="e-local" name="local_trabalho" maxLength={120} defaultValue={v('local_trabalho')} className={inputClass} /></Campo>
+        <Campo rotulo="Local de trabalho" dica="Ex.: Sede – Rua Carlos Gomes"><input id="e-local" name="local_trabalho" maxLength={120} defaultValue={v('local_trabalho')} className={inputClass} /></Campo>
         {m && (
           <>
             <Campo rotulo="Vigência da mudança" dica="Em branco: hoje."><input id="e-vigencia" data-ajuda="rh.vigencia" name="vigencia" type="date" className={inputClass} /></Campo>

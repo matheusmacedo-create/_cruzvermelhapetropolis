@@ -36,7 +36,7 @@ export default async function VerificacaoPage({ searchParams }: { searchParams: 
         <p className="mt-3 leading-relaxed text-muted-foreground">
           {cadastrar
             ? `Olá, ${primeiroNome}. Para o seu papel, o Palácio Virtual exige, além da senha, um código gerado por um app no seu celular. Leva um minuto.`
-            : 'Abra o app autenticador no seu celular e digite o número de 6 dígitos do Palácio Virtual CVB-RJ.'}
+            : 'Abra o app autenticador no seu celular e digite o número de 6 dígitos do Palácio Virtual CVB Petrópolis.'}
         </p>
         <div className="mt-8 rounded-xl border border-border bg-card p-6">
           <EtapaDeVerificacao

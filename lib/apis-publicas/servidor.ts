@@ -97,8 +97,8 @@ export async function valorFipe(tipo: TipoFipe, marca: string, modelo: string, a
 
 // ---------------------------------------------------------------- tempo
 
-/** Sede da filial: Praça Cruz Vermelha, Centro do Rio. */
-export const SEDE = { lat: -22.9113, lng: -43.1873 }
+/** Sede da filial: Rua Carlos Gomes, 6, Centro de Petrópolis. */
+export const SEDE = { lat: -22.5086, lng: -43.1786 }
 
 export async function previsaoDoRio(): Promise<DiaDoTempo[]> {
   const q = new URLSearchParams({

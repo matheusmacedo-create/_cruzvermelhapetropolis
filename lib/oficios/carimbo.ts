@@ -31,7 +31,7 @@ const CALENDARIOS_CONHECIDOS = new Set([
   ...CALENDARIOS,
 ])
 
-const ACEITA = { Accept: 'application/vnd.opentimestamps.v1', 'User-Agent': 'Redacao-CVB-RJ' }
+const ACEITA = { Accept: 'application/vnd.opentimestamps.v1', 'User-Agent': 'Redacao-CVB Petrópolis' }
 const TEMPO = 12_000
 
 async function buscar(url: string, init?: RequestInit): Promise<Response> {

@@ -68,7 +68,7 @@ export async function carimbarTempo(hash: Buffer, url: string = process.env.AUDI
   const r = await fetch(url, {
     method: 'POST',
     body: new Uint8Array(der),
-    headers: { 'Content-Type': 'application/timestamp-query', Accept: 'application/timestamp-reply', 'User-Agent': 'Redacao-CVB-RJ' },
+    headers: { 'Content-Type': 'application/timestamp-query', Accept: 'application/timestamp-reply', 'User-Agent': 'Redacao-CVB Petrópolis' },
     signal: AbortSignal.timeout(15_000),
     cache: 'no-store',
   })

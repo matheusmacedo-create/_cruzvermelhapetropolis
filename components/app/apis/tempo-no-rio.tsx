@@ -29,7 +29,7 @@ export async function TempoNoRio({ compacto = false }: { compacto?: boolean } = 
   return (
     <Card className={cn('p-4', temAlerta && 'border-destructive/50')}>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="text-sm font-semibold">Tempo no Rio · 7 dias</h3>
+        <h3 className="text-sm font-semibold">Tempo em Petrópolis · 7 dias</h3>
         <a href="https://open-meteo.com/" target="_blank" rel="noreferrer" className="text-[11px] text-muted-foreground hover:underline">Previsão: Open-Meteo</a>
       </div>
       {pior.length > 0 && (

@@ -23,7 +23,7 @@ import { indiceDaAjuda } from '@/lib/ajuda'
 import { lerVersao } from '@/lib/versao'
 
 // Cada área põe o próprio nome na aba (via tituloDaArea); aqui só o sobrenome.
-export const metadata = { title: { template: '%s — Palácio Virtual', default: 'Palácio Virtual — Cruz Vermelha RJ' } }
+export const metadata = { title: { template: '%s — Palácio Virtual', default: 'Palácio Virtual — Cruz Vermelha Petrópolis' } }
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const context = await requireWorkspace({ escola: true })

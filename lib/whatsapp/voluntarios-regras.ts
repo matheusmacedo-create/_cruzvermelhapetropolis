@@ -11,7 +11,7 @@ import { normalizar as normalizarBusca } from '@/lib/navegacao'
 
 export const VERSAO_DO_CONSENTIMENTO = '2026-09-27'
 export const TEXTO_DO_CONSENTIMENTO =
-  'Autorizo a Cruz Vermelha Brasileira – Filial do Rio de Janeiro a me mandar pelo WhatsApp, neste número, as oportunidades de voluntariado ' +
+  'Autorizo a Cruz Vermelha Brasileira – Filial de Petrópolis a me mandar pelo WhatsApp, neste número, as oportunidades de voluntariado ' +
   'e avisos sobre as minhas inscrições. Posso parar a qualquer momento respondendo SAIR ou pela Área do Voluntário. ' +
   'O número é usado só para isso e não é compartilhado.'
 
@@ -19,7 +19,7 @@ export const consentimentoGuardado = () => `[${VERSAO_DO_CONSENTIMENTO}] ${TEXTO
 
 const limpo = (t: string, max: number) => t.replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, '').replace(/[*_~`]/g, '').replace(/\s+/g, ' ').trim().slice(0, max)
 
-export const RODAPE_DO_VOLUNTARIO = '_Cruz Vermelha RJ · Voluntariado. Responda *menu* para ver as opções ou *sair* para não receber mais._'
+export const RODAPE_DO_VOLUNTARIO = '_Cruz Vermelha Petrópolis · Voluntariado. Responda *menu* para ver as opções ou *sair* para não receber mais._'
 
 /** O anúncio de uma oportunidade: o essencial e o link para se inscrever na Área. */
 export function textoDaOportunidade(p: { titulo: string; quando: string; local: string | null; vagas: string | null; url: string }): string {
@@ -51,7 +51,7 @@ export function comandoDoVoluntario(entrada: string, p: { pausado: boolean }): C
 export function textoDoMenuDoVoluntario(p: { nome: string | null; pausado: boolean; urlBase: string }): string {
   const nome = limpo(p.nome ?? '', 60).split(' ')[0]
   return [
-    `${nome ? `Olá, ${nome}!` : 'Olá!'} Aqui é o WhatsApp do *Voluntariado* da Cruz Vermelha RJ.`,
+    `${nome ? `Olá, ${nome}!` : 'Olá!'} Aqui é o WhatsApp do *Voluntariado* da Cruz Vermelha Petrópolis.`,
     p.pausado ? '_Você saiu dos avisos por aqui._' : null,
     ['Responda com o número:', '*1* – as oportunidades abertas', '*2* – as suas inscrições',
       p.pausado ? '*3* – voltar a receber as oportunidades por aqui' : '*3* – parar de receber por aqui'].join('\n'),

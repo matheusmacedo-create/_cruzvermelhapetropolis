@@ -48,10 +48,22 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 3. Identidade e conteúdo
 
-- [ ] Nome, endereço, CNPJ, telefones e e-mail (dados no `README.md`) nos
-      rodapés, JSON-LD (`NGO`), páginas de privacidade/termos/reembolso e
-      e-mails transacionais.
-- [ ] Logotipos (`docs/identidade/`) no lugar dos do RJ, na Redação e no site.
+- [x] **Redação (22/10/2026):** nome da filial, CNPJ, endereço, telefone e
+      e-mail (`lib/site/juridico.ts`, dados do cartão CNPJ), logo
+      (`public/images/logo-cvb-petropolis.png`, encaixada na mesma grade da do
+      RJ, e a cópia embutida em `lib/oficios/logo.ts`), textos de telas,
+      e-mails, WhatsApp, PDFs (ofício, crachá, certificado, diploma), cartazes,
+      prompts da IA e ajuda; feriados municipais de Petrópolis (16/3 e 29/6) e
+      previsão do tempo na sede. O produto continua se chamando **Palácio
+      Virtual**, com o selo do palácio do RJ — decidir se muda.
+- [ ] Domínios e endereços: `lib/dominio.ts`, links de e-mail e do site ainda
+      usam `cruzvermelhariodejaneiro.org` (esperando o domínio de Petrópolis).
+- [ ] O que ainda é do RJ de propósito, até o canal existir: o Cérebro/Radar
+      lê "contas oficiais do Rio"; a assinatura legal das caixas de e-mail
+      (`lib/correio/mensagem.ts`) procura a linha do RJ; identificadores
+      internos (`cvrj_*`, `@usuarios.cvrj.local`) ficam como estão.
+- [ ] Modelos de WhatsApp: os textos mudaram ("Cruz Vermelha Petrópolis") e
+      precisam ser cadastrados assim na conta da Meta de Petrópolis.
 - [ ] Equipe, história, notícias, fotos e textos institucionais da `pagina/site/`.
 - [ ] Traduções (`pagina/traducoes/`, `pagina/site/en`, `pagina/site/es`).
 

@@ -1,7 +1,7 @@
 import { Recado } from '@/components/newsletter/recado'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Pronto — Cruz Vermelha RJ' }
+export const metadata = { title: 'Pronto — Cruz Vermelha Petrópolis' }
 
 export default async function SaiuDosComunicados({
   searchParams,

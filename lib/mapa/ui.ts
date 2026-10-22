@@ -190,7 +190,7 @@ export function montarMapaDoEcossistema(moldura: HTMLElement, dadosIniciais: Dad
     geral.innerHTML = ''
     const raiz = arvore.raiz
     const miolo = h('div', { class: 'miolo' })
-    miolo.append(h('header', null, h('div', { class: 'eyebrow' }, 'Ecossistema digital'), h('h2', null, 'Cruz Vermelha Brasileira do Rio de Janeiro'), h('p', null, `${raiz.children.length} sistemas · ${raiz.total} recursos · ${pct(raiz)}% no ar${raiz.updatedAt ? ` · última entrega em ${dataCurta(raiz.updatedAt)}` : ''}`)))
+    miolo.append(h('header', null, h('div', { class: 'eyebrow' }, 'Ecossistema digital'), h('h2', null, 'Cruz Vermelha Brasileira de Petrópolis'), h('p', null, `${raiz.children.length} sistemas · ${raiz.total} recursos · ${pct(raiz)}% no ar${raiz.updatedAt ? ` · última entrega em ${dataCurta(raiz.updatedAt)}` : ''}`)))
     const tiles = h('div', { class: 'sistemas' })
     for (const s of raiz.children) {
       if (!passa(s) || !s.system) continue

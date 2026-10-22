@@ -38,7 +38,7 @@ function moldura(opcoes: { miolo: string; urlDeSaida: string; preheader: string 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>Cruz Vermelha Brasileira — Rio de Janeiro</title>
+<title>Cruz Vermelha Brasileira — Petrópolis</title>
 </head>
 <body style="margin:0;padding:0;background:#f7f8fa;">
 <!-- O preheader é o trecho que a caixa de entrada mostra ao lado do assunto.
@@ -50,7 +50,7 @@ function moldura(opcoes: { miolo: string; urlDeSaida: string; preheader: string 
   <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:100%;background:#ffffff;border:1px solid ${LINHA};border-radius:8px;">
 
     <tr><td style="padding:28px 32px 0;border-top:4px solid ${VERMELHO};border-radius:8px 8px 0 0;">
-      <img src="${LOGO}" width="132" alt="Cruz Vermelha Brasileira — Rio de Janeiro" style="height:auto;display:block;border:0;">
+      <img src="${LOGO}" width="132" alt="Cruz Vermelha Brasileira — Petrópolis" style="height:auto;display:block;border:0;">
     </td></tr>
 
     <tr><td style="padding:24px 32px 8px;font-family:Arial,Helvetica,sans-serif;color:${TINTA};font-size:16px;line-height:1.6;">
@@ -58,7 +58,7 @@ ${opcoes.miolo}
     </td></tr>
 
     <tr><td style="padding:24px 32px 28px;border-top:1px solid ${LINHA};font-family:Arial,Helvetica,sans-serif;color:${SUAVE};font-size:12px;line-height:1.6;">
-      <p style="margin:0 0 8px;">Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro</p>
+      <p style="margin:0 0 8px;">Cruz Vermelha Brasileira — Filial do Município de Petrópolis</p>
       <p style="margin:0 0 12px;"><a href="${SITE}" style="color:${SUAVE};">cruzvermelhariodejaneiro.org</a></p>
       <p style="margin:0;">Você recebe esta mensagem porque confirmou a inscrição na nossa lista.
         <a href="${escapar(opcoes.urlDeSaida)}" style="color:${VERMELHO};font-weight:bold;">Sair da lista</a>.</p>
@@ -98,7 +98,7 @@ export function emailDeConfirmacao(dados: {
       <p style="margin:0 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:${VERMELHO};">Falta um passo</p>
       <h1 style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:1.25;color:#0f1318;">Confirme sua inscrição</h1>
       <p style="margin:0 0 16px;">${ola}</p>
-      <p style="margin:0 0 16px;">Alguém — esperamos que você — pediu para receber as novidades da Cruz Vermelha do Rio de Janeiro: cursos, campanhas e o destino das doações.</p>
+      <p style="margin:0 0 16px;">Alguém — esperamos que você — pediu para receber as novidades da Cruz Vermelha de Petrópolis: cursos, campanhas e o destino das doações.</p>
       <p style="margin:0 0 16px;">Para começar a receber, é só confirmar:</p>
       ${botao(dados.urlConfirmar, 'Confirmar inscrição')}
       <p style="margin:0 0 16px;font-size:14px;color:${SUAVE};">O link vale por 3 dias. Se o botão não funcionar, copie e cole este endereço no navegador:<br>
@@ -111,7 +111,7 @@ export function emailDeConfirmacao(dados: {
     dados.nome ? `Olá, ${dados.nome.split(' ')[0]}!` : 'Olá!',
     '',
     'Alguém — esperamos que você — pediu para receber as novidades da Cruz',
-    'Vermelha do Rio de Janeiro: cursos, campanhas e o destino das doações.',
+    'Vermelha de Petrópolis: cursos, campanhas e o destino das doações.',
     '',
     'Para começar a receber, confirme neste endereço:',
     dados.urlConfirmar,
@@ -122,13 +122,13 @@ export function emailDeConfirmacao(dados: {
     'pedido expira sozinho.',
     '',
     '--',
-    'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro',
+    'Cruz Vermelha Brasileira — Filial do Município de Petrópolis',
     SITE,
     `Sair da lista: ${dados.urlDeSaida}`,
   ].join('\n')
 
   return {
-    assunto: 'Confirme sua inscrição na newsletter da Cruz Vermelha RJ',
+    assunto: 'Confirme sua inscrição na newsletter da Cruz Vermelha Petrópolis',
     html: moldura({
       miolo,
       urlDeSaida: dados.urlDeSaida,
@@ -184,7 +184,7 @@ ${chamada}${corpo}
     ...(dados.urlDaMateria ? ['', `Leia a matéria completa: ${dados.urlDaMateria}`] : []),
     '',
     '--',
-    'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro',
+    'Cruz Vermelha Brasileira — Filial do Município de Petrópolis',
     SITE,
     `Sair da lista: ${dados.urlDeSaida}`,
   ].join('\n')

@@ -294,7 +294,7 @@ export async function adaptarLegendaDoDestino(formData: FormData): Promise<Resul
       limite: formato.texto.max,
       dobra: formato.texto.dobra,
       maxHashtags: formato.texto.maxHashtags,
-      instituicao: 'Cruz Vermelha Brasileira — Rio de Janeiro',
+      instituicao: 'Cruz Vermelha Brasileira — Petrópolis',
     })
 
     return { texto: proposta }

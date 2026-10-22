@@ -62,7 +62,7 @@ export async function salvarRascunho(id: string, formData: FormData): Promise<Re
     const agora = new Date().toISOString()
     const { data, error } = await supabase.from('oficios').update({
       setor: ouNulo(texto(formData, 'setor', 120)),
-      local: texto(formData, 'local', 120) || 'Rio de Janeiro',
+      local: texto(formData, 'local', 120) || 'Petrópolis',
       destinatario_nome: ouNulo(texto(formData, 'destinatario_nome', 200)),
       destinatario_cargo: ouNulo(texto(formData, 'destinatario_cargo', 200)),
       destinatario_orgao: ouNulo(texto(formData, 'destinatario_orgao', 200)),

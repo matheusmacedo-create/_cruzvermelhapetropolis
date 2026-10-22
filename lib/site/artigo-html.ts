@@ -468,8 +468,8 @@ export function montarPaginaDoArtigo(dados: DadosDoArtigo): string {
           <h2 class="rail-titulo">Para entender</h2>
           <ul>
             <li>A Cruz Vermelha Brasileira integra o maior movimento humanitário do mundo, presente em 191 países.</li>
-            <li>No Rio de Janeiro, a filial atua na formação de voluntários, na capacitação em primeiros socorros, na educação preventiva e no apoio comunitário.</li>
-            <li>A filial forma os próprios voluntários, na sede, no Centro do Rio.</li>
+            <li>Em Petrópolis, a filial atua na formação de voluntários, na capacitação em primeiros socorros, na educação preventiva e no apoio comunitário.</li>
+            <li>A filial forma os próprios voluntários, na sede, no Centro de Petrópolis.</li>
           </ul>
         </section>
         <p class="rail-cta"><a href="/voluntariado/">Seja voluntário no Rio →</a><br><a href="/doe/">Doe para a filial →</a></p>

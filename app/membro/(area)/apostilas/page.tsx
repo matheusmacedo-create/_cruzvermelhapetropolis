@@ -26,7 +26,7 @@ export default async function Apostilas({ searchParams }: { searchParams: Promis
   // na metade esquerda e o "Ver curso" solto na direita, longe dele.
   return (
     <div className="flex max-w-2xl flex-col gap-6">
-      <CabecalhoDaPagina titulo="Apostilas" descricao="Materiais de estudo e consulta da Cruz Vermelha RJ." />
+      <CabecalhoDaPagina titulo="Apostilas" descricao="Materiais de estudo e consulta da Cruz Vermelha Petrópolis." />
       {erro === 'indisponivel' && (
         <Recado tipo="erro" acao={<Link href="/membro/mensagens?nova=outro" className={botaoSecundario}>Avisar a coordenação</Link>}>
           Não foi possível abrir essa apostila agora. Tente de novo ou avise a coordenação.

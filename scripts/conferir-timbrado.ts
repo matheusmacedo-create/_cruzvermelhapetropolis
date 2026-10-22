@@ -28,9 +28,10 @@ const fontes = async (b: Uint8Array) => {
 const corpo = Array.from({ length: 14 }, (_v, i) => `Parágrafo ${i + 1}: a Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro solicita a cessão do espaço para a campanha de vacinação, com atendimento gratuito à população, respeitando os Princípios Fundamentais de Humanidade, Imparcialidade e Neutralidade.`).join('\n\n')
 
 async function main() {
-  conferir('filial tirada do nome completo', NOME_DA_FILIAL === 'Filial do Estado do Rio de Janeiro', NOME_DA_FILIAL)
+  conferir('filial tirada do nome completo', NOME_DA_FILIAL === 'Filial do Município de Petrópolis', NOME_DA_FILIAL)
   conferir('decreto em três linhas', LINHAS_DO_DECRETO.join(' ') === 'Reconhecida como Utilidade Pública Internacional - Decreto nº 9.620, de 13/06/1912')
-  conferir('rodapé com quatro linhas e o site', linhasDoRodape().length === 4 && linhasDoRodape()[3].includes('cruzvermelhariodejaneiro.org'))
+  // E-mail de webmail (gmail.com) não vira site no rodapé; com domínio próprio, o site volta a aparecer.
+  conferir('rodapé com quatro linhas, sem webmail como site', linhasDoRodape().length === 4 && !linhasDoRodape()[3].includes('| gmail.com |') && linhasDoRodape()[3].includes('cvbpetropolis@gmail.com'))
 
   const dados = {
     doc: {

@@ -766,7 +766,7 @@ const ACERVO: GuiaDaArea = {
     {
       id: 'completar-ficha',
       titulo: 'Completar a ficha de um item',
-      exemplo: 'Na foto “Sede em 1952”, a Carla preenche: “Fachada da sede na Praça da Cruz Vermelha, 1952; doada pela família de uma ex-voluntária”.',
+      exemplo: 'Na foto “Sede em 1952”, a Carla preenche: “Fachada da sede na Rua Carlos Gomes, 1952; doada pela família de uma ex-voluntária”.',
       passos: [
         'No “Catálogo”, toque no cartão do item e depois em “Editar ficha”.',
         'Preencha “Título” e “Descrição”: o que é, quem aparece, onde, quando e por que importa.',

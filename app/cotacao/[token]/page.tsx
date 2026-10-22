@@ -9,7 +9,7 @@ import { dataCurta } from '@/lib/financeiro/regras'
 
 // O link do fornecedor (docs/compras-cotacao-automatica.md): sem login, fora do Google.
 export const metadata: Metadata = {
-  title: 'Pedido de proposta — Cruz Vermelha RJ',
+  title: 'Pedido de proposta — Cruz Vermelha Petrópolis',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 }

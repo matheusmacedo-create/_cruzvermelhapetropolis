@@ -285,7 +285,7 @@ function FormularioDaHome({ podeLigar, executar, processando }: {
                   ? 'A situação do formulário é visível para administradores.'
                   : estado === 'sem-resposta'
                     ? 'Não consegui ler a home do site agora. Isso costuma ser instabilidade passageira — confira de novo daqui a pouco.'
-                    : 'A home promete "Receba novidades da Cruz Vermelha RJ". Enquanto o formulário de lá não apontar para cá, quem se inscreve tem o endereço descartado sem saber.'}
+                    : 'A home promete "Receba novidades da Cruz Vermelha Petrópolis". Enquanto o formulário de lá não apontar para cá, quem se inscreve tem o endereço descartado sem saber.'}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

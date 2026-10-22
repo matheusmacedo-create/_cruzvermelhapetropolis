@@ -21,9 +21,9 @@ import { ENDERECO_DO_PALACIO } from '../dominio'
 
 export const ORIGEM_DO_ACERVO = 'https://cruzvermelhariodejaneiro.org'
 export const POR_PAGINA = 24
-export const IMAGEM_PADRAO = { url: `${ORIGEM_DO_ACERVO}/assets/otim/og-acervo.jpg`, largura: 1200, altura: 630, alt: 'Acervo da Cruz Vermelha Brasileira Rio de Janeiro' }
+export const IMAGEM_PADRAO = { url: `${ORIGEM_DO_ACERVO}/assets/otim/og-acervo.jpg`, largura: 1200, altura: 630, alt: 'Acervo da Cruz Vermelha Brasileira Petrópolis' }
 export const ENDERECO_DA_EQUIPE = `${ENDERECO_DO_PALACIO}/acervo`
-const NOME_DA_FILIAL = 'Cruz Vermelha Brasileira Rio de Janeiro'
+const NOME_DA_FILIAL = 'Cruz Vermelha Brasileira Petrópolis'
 const EMAIL = 'contato@cruzvermelhariodejaneiro.org'
 
 export type ArquivosNoSite = {
@@ -189,7 +189,7 @@ export function paginaInicialDoAcervo(p: { itens: ItemPublico[]; origem?: string
   const url = `${origem}/acervo/`
   const porColecao = new Map<Colecao, ItemPublico[]>(COLECOES.map((c) => [c, p.itens.filter((i) => i.colecao === c)]))
   const recentes = [...p.itens].sort(ordemDoAcervo).slice(0, 12)
-  const descricao = 'Acervo da Cruz Vermelha Brasileira Rio de Janeiro: documentos, fotografias, vídeos, recortes de imprensa e a história da filial, para consulta pública.'
+  const descricao = 'Acervo da Cruz Vermelha Brasileira Petrópolis: documentos, fotografias, vídeos, recortes de imprensa e a história da filial, para consulta pública.'
   const colecoes = COLECOES.filter((c) => porColecao.get(c)!.length).map((c) => {
     const n = porColecao.get(c)!.length
     return `<li><a href="${e(origem + caminhoDaColecao(c))}"><strong>${e(COLECAO[c].nome)}</strong><span>${e(COLECAO[c].resumo)}</span><em>${n} ${n === 1 ? 'item' : 'itens'}</em></a></li>`
@@ -199,8 +199,8 @@ export function paginaInicialDoAcervo(p: { itens: ItemPublico[]; origem?: string
       ${trilha(passos)}
       <header class="acervo-topo">
         <p class="acervo-selo">Acervo</p>
-        <h1>Acervo da Cruz Vermelha Brasileira Rio de Janeiro</h1>
-        <p class="acervo-intro">Documentos, fotografias, vídeos, o que a imprensa publicou e os registros da história da filial, organizados para consulta. É a memória da ação humanitária da Cruz Vermelha Brasileira no Rio de Janeiro, guardada com a data, a autoria e as condições de uso de cada item.</p>
+        <h1>Acervo da Cruz Vermelha Brasileira Petrópolis</h1>
+        <p class="acervo-intro">Documentos, fotografias, vídeos, o que a imprensa publicou e os registros da história da filial, organizados para consulta. É a memória da ação humanitária da Cruz Vermelha Brasileira em Petrópolis, guardada com a data, a autoria e as condições de uso de cada item.</p>
         <p class="acervo-idiomas">Also in <a href="${e(origem)}/en/archive/" hreflang="en" lang="en">English</a> · También en <a href="${e(origem)}/es/acervo/" hreflang="es" lang="es">español</a></p>
       </header>
       ${colecoes ? `<section class="acervo-secao" aria-labelledby="colecoes">

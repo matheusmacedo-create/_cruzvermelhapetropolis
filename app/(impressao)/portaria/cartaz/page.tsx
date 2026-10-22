@@ -33,7 +33,7 @@ export default async function CartazDaPortaria() {
       <article className="mx-auto flex h-[297mm] w-[210mm] flex-col overflow-hidden bg-white text-neutral-900 shadow-xl max-[860px]:[zoom:0.72] max-[600px]:[zoom:0.45] print:shadow-none print:[zoom:1]" aria-label="Cartaz: registro de visitante">
         <div className="h-[4mm] bg-[rgb(227_34_25)] [print-color-adjust:exact] [-webkit-print-color-adjust:exact]" />
         <div className="flex flex-1 flex-col items-center px-[18mm] pb-[12mm] pt-[16mm] text-center">
-          <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} priority sizes="80mm" className="h-auto w-[72mm]" />
+          <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} priority sizes="80mm" className="h-auto w-[72mm]" />
           <h1 className="mt-[14mm] text-[44pt] font-extrabold leading-none tracking-tight">Visitante?</h1>
           <p className="mt-[4mm] text-[18pt] leading-snug text-neutral-700">Registre a sua entrada pelo celular.</p>
           <div className="mt-[12mm] rounded-[4mm] border-[1.4mm] border-[rgb(227_34_25)] bg-white p-[5mm] [print-color-adjust:exact] [-webkit-print-color-adjust:exact]">

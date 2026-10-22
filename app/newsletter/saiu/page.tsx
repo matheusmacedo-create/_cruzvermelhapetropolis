@@ -1,6 +1,6 @@
 import { Recado } from '@/components/newsletter/recado'
 
-export const metadata = { title: 'Você saiu da lista — Cruz Vermelha RJ' }
+export const metadata = { title: 'Você saiu da lista — Cruz Vermelha Petrópolis' }
 
 export default function Saiu() {
   return (

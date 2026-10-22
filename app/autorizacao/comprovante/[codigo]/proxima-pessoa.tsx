@@ -14,7 +14,7 @@ export function ProximaPessoa({ codigo, chave, link }: { codigo: string; chave: 
   const router = useRouter()
   function mandar() {
     const endereco = `${window.location.origin}/autorizacao/comprovante/${codigo}?c=${encodeURIComponent(chave)}`
-    const texto = `Meu comprovante de autorização de uso de imagem da Cruz Vermelha RJ (${codigo}). Por este link posso ver ou revogar quando quiser: ${endereco}`
+    const texto = `Meu comprovante de autorização de uso de imagem da Cruz Vermelha Petrópolis (${codigo}). Por este link posso ver ou revogar quando quiser: ${endereco}`
     window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, '_blank', 'noopener,noreferrer')
   }
   return (

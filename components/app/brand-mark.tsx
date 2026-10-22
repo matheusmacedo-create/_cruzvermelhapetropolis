@@ -38,8 +38,8 @@ export function BrandMark({
           </>
         )}
         <Image
-          src="/images/logo-cvrj.png"
-          alt="Cruz Vermelha Brasileira - Rio de Janeiro"
+          src="/images/logo-cvb-petropolis.png"
+          alt="Cruz Vermelha Brasileira - Petrópolis"
           width={1844}
           height={752}
           priority

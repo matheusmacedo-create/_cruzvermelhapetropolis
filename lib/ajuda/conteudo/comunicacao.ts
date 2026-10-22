@@ -359,7 +359,7 @@ const DIRECT_DAS_REDES: GuiaDaArea = {
     {
       id: 'responder-direct',
       titulo: 'Responder uma mensagem do Direct',
-      exemplo: 'Chega: “Vocês recebem roupas no sábado?”. O Bruno responde “Sim, das 9h às 13h, na Praça da Cruz Vermelha, 10” e a conversa sai de “Pendente”.',
+      exemplo: 'Chega: “Vocês recebem roupas no sábado?”. O Bruno responde “Sim, das 9h às 13h, na Rua Carlos Gomes, 6” e a conversa sai de “Pendente”.',
       passos: [
         'Abra “Direct das redes” e fique em “Mensagens”.',
         'Toque na conversa. Ela abre inteira, em balões.',
@@ -1079,7 +1079,7 @@ const ENVIOS_DA_EQUIPE: GuiaDaArea = {
     {
       id: 'dados-de-quem-manda',
       pergunta: 'O que acontece com os dados de quem manda?',
-      resposta: 'O formulário avisa que o material fica guardado pela Cruz Vermelha Brasileira – Filial RJ e só é usado na comunicação da instituição, depois da avaliação. Nome, setor, WhatsApp e e-mail aparecem para quem avalia e, se o envio vira pauta, para a equipe, na pauta; o nome também vira crédito das fotos na Biblioteca.\n\nCom “Transcrever com IA”, o áudio vai para o serviço de IA que faz a transcrição. O aparelho de quem manda guarda o nome e os contatos, para não pedir de novo no próximo envio.',
+      resposta: 'O formulário avisa que o material fica guardado pela Cruz Vermelha Brasileira – Filial Petrópolis e só é usado na comunicação da instituição, depois da avaliação. Nome, setor, WhatsApp e e-mail aparecem para quem avalia e, se o envio vira pauta, para a equipe, na pauta; o nome também vira crédito das fotos na Biblioteca.\n\nCom “Transcrever com IA”, o áudio vai para o serviço de IA que faz a transcrição. O aparelho de quem manda guarda o nome e os contatos, para não pedir de novo no próximo envio.',
       termos: ['LGPD', 'privacidade', 'dados pessoais', 'contato', 'telefone'],
     },
     {

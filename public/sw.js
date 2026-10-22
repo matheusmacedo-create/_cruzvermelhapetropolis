@@ -18,7 +18,7 @@ const MAXIMO = 300
 self.addEventListener('install', (evento) => {
   evento.waitUntil(
     caches.open(ESTATICOS)
-      .then((cache) => cache.addAll([OFFLINE, '/images/logo-cvrj.png']))
+      .then((cache) => cache.addAll([OFFLINE, '/images/logo-cvb-petropolis.png']))
       .then(() => self.skipWaiting()),
   )
 })

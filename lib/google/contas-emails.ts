@@ -14,11 +14,11 @@ const primeiroNome = (nome: string) => nome.trim().split(/\s+/)[0] || nome
 
 export function emailDeContaDoGoogle(p: { nome: string; email: string; senha: string; setor: string; grupo: string | null }): EmailPronto {
   return montar({
-    assunto: 'Seu e-mail da Cruz Vermelha RJ está pronto',
+    assunto: 'Seu e-mail da Cruz Vermelha Petrópolis está pronto',
     preheader: `${p.email} já existe. Aqui está a senha provisória e como entrar.`,
     titulo: `Seu e-mail está pronto, ${primeiroNome(p.nome)}`,
     blocos: [
-      { tipo: 'p', texto: `Este é o seu endereço de e-mail na Cruz Vermelha Brasileira, filial do Rio de Janeiro, no setor ${p.setor}:` },
+      { tipo: 'p', texto: `Este é o seu endereço de e-mail na Cruz Vermelha Brasileira, filial de Petrópolis, no setor ${p.setor}:` },
       { tipo: 'destaque', texto: p.email },
       { tipo: 'p', texto: 'E esta é a sua senha provisória. Ela vale só para o primeiro acesso: o Google pede uma senha nova assim que você entrar.' },
       { tipo: 'destaque', texto: p.senha },

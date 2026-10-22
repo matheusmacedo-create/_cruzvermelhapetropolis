@@ -42,7 +42,7 @@ export function FolhaDoOficio({ doc, assinaturas, rodape, marcaDagua }: {
       {/* O timbrado do manual (p. 24): logo à esquerda, o decreto à direita e o setor centrado, sem fio nem marca d'água. */}
       <header>
         <div className="flex items-start justify-between gap-4">
-          <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} sizes="190px" className="-ml-[3%] h-auto w-[120px] shrink-0 sm:w-[190px]" />
+          <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} sizes="190px" className="-ml-[3%] h-auto w-[120px] shrink-0 sm:w-[190px]" />
           <p className="mt-1 text-right text-[9px] leading-snug text-neutral-500 sm:text-[10px]">{LINHAS_DO_DECRETO.map((l) => <span key={l} className="block whitespace-nowrap">{l}</span>)}</p>
         </div>
         {doc.setor && <p className="mt-1 text-center text-lg font-semibold uppercase tracking-tight text-neutral-900 [font-stretch:condensed]">{doc.setor}</p>}

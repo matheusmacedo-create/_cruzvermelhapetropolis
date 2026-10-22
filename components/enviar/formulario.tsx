@@ -421,7 +421,7 @@ export function FormularioDeEnvio({ hoje: hojeDoServidor, setores, termo, evento
             <p className="text-sm text-muted-foreground">Depois de enviar, você recebe um <strong>link e um QR code</strong> para as pessoas assinarem este termo no celular — é essa assinatura que libera as fotos para publicação.</p>
           )}
           <p className="mt-1 text-xs text-muted-foreground">
-            O que você manda fica guardado pela Cruz Vermelha Brasileira – Filial RJ e só é usado na comunicação da instituição, depois da avaliação da equipe de comunicação.
+            O que você manda fica guardado pela Cruz Vermelha Brasileira – Filial Petrópolis e só é usado na comunicação da instituição, depois da avaliação da equipe de comunicação.
           </p>
         </fieldset>
       )}

@@ -243,7 +243,7 @@ export function FormularioPublico({ hoje: hojeDoServidor, setores }: { hoje: str
       <fieldset className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <legend className={legenda}>Onde você está</legend>
         <Campo id="i-bairro" rotulo="Bairro"><input id="i-bairro" name="bairro" maxLength={120} className={campoDoMembro} /></Campo>
-        <Campo id="i-cidade" rotulo="Cidade"><input id="i-cidade" name="cidade" maxLength={120} defaultValue="Rio de Janeiro" autoComplete="address-level2" className={campoDoMembro} /></Campo>
+        <Campo id="i-cidade" rotulo="Cidade"><input id="i-cidade" name="cidade" maxLength={120} defaultValue="Petrópolis" autoComplete="address-level2" className={campoDoMembro} /></Campo>
         <Campo id="i-uf" rotulo="UF"><select id="i-uf" name="uf" defaultValue="RJ" autoComplete="address-level1" className={campoDoMembro}>{UFS.map((u) => <option key={u}>{u}</option>)}</select></Campo>
       </fieldset>
 
@@ -299,7 +299,7 @@ export function FormularioPublico({ hoje: hojeDoServidor, setores }: { hoje: str
             <ChevronDown className="size-4 shrink-0 text-muted-foreground group-open:rotate-180 motion-safe:transition-transform" aria-hidden="true" />
           </summary>
           <div className="flex flex-col gap-2 px-4 pb-4">
-            <p>A Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro trata os dados deste formulário para analisar a sua inscrição, organizar as atividades de voluntariado, contratar o seguro de voluntário quando houver, e falar com você e com o seu contato de emergência.</p>
+            <p>A Cruz Vermelha Brasileira – Filial do Município de Petrópolis trata os dados deste formulário para analisar a sua inscrição, organizar as atividades de voluntariado, contratar o seguro de voluntário quando houver, e falar com você e com o seu contato de emergência.</p>
             <p>CPF e dados de saúde ficam guardados cifrados e só são vistos por quem coordena o voluntariado; cada acesso fica registrado. A foto, se você enviar, serve para o crachá e para a equipe reconhecer você; os links de redes sociais, se informar, servem para a coordenação conhecer o seu perfil público. Os dados não são vendidos nem compartilhados para fins comerciais.</p>
             <p>Você pode pedir a qualquer momento acesso, correção ou a exclusão dos seus dados pelos canais oficiais da filial. Dados de menores de 18 anos são tratados com a autorização do responsável.</p>
           </div>

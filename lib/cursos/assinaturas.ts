@@ -21,7 +21,7 @@ const doSetor = (setor: string) => SETORES.find((s) => s.nome === setor)?.pessoa
 /** A assinatura de sempre: a presidência da filial (lib/equipe.ts). */
 export function assinaturaDaPresidencia(): Assinatura {
   const p = cargoDe('Presidente')
-  return p ? { nome: p.nome, cargo: 'Presidente' } : { nome: 'Cruz Vermelha Brasileira – RJ', cargo: 'Presidência' }
+  return p ? { nome: p.nome, cargo: 'Presidente' } : { nome: 'Cruz Vermelha Brasileira – Petrópolis', cargo: 'Presidência' }
 }
 
 /** Sugestões para a área de Diplomas, na ordem do diploma: presidência, vice e a coordenação do Voluntariado. */

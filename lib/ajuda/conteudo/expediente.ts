@@ -136,7 +136,7 @@ const OFICIOS: GuiaDaArea = {
         'Confira a folha ao lado. Em telas menores, ela fica na aba “Pré-visualizar”.',
         'Espere aparecer “Rascunho salvo às…”: o rascunho salva sozinho.',
       ],
-      dica: 'O “Vocativo” já vem com “Prezado(a) Senhor(a),”, o “Local” vazio vira “Rio de Janeiro” e o “Fecho” vazio vira “Atenciosamente,”. No “Corpo”, linhas que começam com “-”, “•”, “1)” ou “a)” viram itens de lista.',
+      dica: 'O “Vocativo” já vem com “Prezado(a) Senhor(a),”, o “Local” vazio vira “Petrópolis” e o “Fecho” vazio vira “Atenciosamente,”. No “Corpo”, linhas que começam com “-”, “•”, “1)” ou “a)” viram itens de lista.',
     },
     {
       id: 'emitir-oficio',
@@ -321,8 +321,8 @@ const OFICIOS: GuiaDaArea = {
     },
     {
       id: 'selo-digital',
-      pergunta: 'O que é o selo digital da Cruz Vermelha RJ?',
-      resposta: 'Quando a última pessoa assina, o Palácio Virtual sela o ofício com a chave digital da própria filial: aparece o carimbo redondo com a cruz, o número do ofício, a data e a impressão digital da chave, ao lado de um QR code da página de conferência. O Bitcoin prova quando as assinaturas existiam; o selo prova que foi a filial que emitiu, porque só ela tem a chave.\n\nNa página pública, “Selo digital da Cruz Vermelha RJ” diz se o selo confere e oferece os arquivos para conferir com o OpenSSL, sem o Palácio Virtual.',
+      pergunta: 'O que é o selo digital da Cruz Vermelha Petrópolis?',
+      resposta: 'Quando a última pessoa assina, o Palácio Virtual sela o ofício com a chave digital da própria filial: aparece o carimbo redondo com a cruz, o número do ofício, a data e a impressão digital da chave, ao lado de um QR code da página de conferência. O Bitcoin prova quando as assinaturas existiam; o selo prova que foi a filial que emitiu, porque só ela tem a chave.\n\nNa página pública, “Selo digital da Cruz Vermelha Petrópolis” diz se o selo confere e oferece os arquivos para conferir com o OpenSSL, sem o Palácio Virtual.',
       termos: ['carimbo digital', 'selo', 'chave da filial', 'assinatura digital', 'QR code', 'Ed25519'],
     },
     {

@@ -22,13 +22,13 @@ export function FrenteDoCrachaDeVisitante({ numero, deitado = false }: { numero:
   return (
     <div className={CARTAO} aria-label={`Frente do crachá de visitante ${numero}`}>
       <div className="px-[6mm] pt-[5mm]">
-        <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} sizes="200px" className="h-auto w-full" />
+        <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} sizes="200px" className="h-auto w-full" />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
         <p className={cn(condensada.className, 'text-[46pt] font-bold leading-none tracking-tight')}>{numero}</p>
       </div>
       <p className={cn(condensada.className, VERMELHO, 'flex h-[13mm] items-center justify-center text-[26pt] font-bold uppercase leading-none tracking-wide text-white')}>Visitante</p>
-      <p className="px-[3mm] py-[2mm] text-center text-[6.5pt] leading-tight text-[#3a3a3a]">Use visível durante toda a visita.<br />Filial do Estado do Rio de Janeiro</p>
+      <p className="px-[3mm] py-[2mm] text-center text-[6.5pt] leading-tight text-[#3a3a3a]">Use visível durante toda a visita.<br />Filial do Município de Petrópolis</p>
     </div>
   )
 }
@@ -60,8 +60,8 @@ function FrenteDeitada({ numero }: { numero: string }) {
     <div className={CARTAO_DEITADO} aria-label={`Frente do crachá de visitante ${numero}`}>
       <div className="flex flex-1 items-center gap-[4mm] px-[5mm] pt-[4mm]">
         <div className="flex w-[38mm] shrink-0 flex-col gap-[2mm]">
-          <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} sizes="160px" className="h-auto w-full" />
-          <p className="text-[6pt] leading-tight text-[#3a3a3a]">Use visível durante toda a visita.<br />Filial do Estado do Rio de Janeiro</p>
+          <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} sizes="160px" className="h-auto w-full" />
+          <p className="text-[6pt] leading-tight text-[#3a3a3a]">Use visível durante toda a visita.<br />Filial do Município de Petrópolis</p>
         </div>
         <p className={cn(condensada.className, 'min-w-0 flex-1 text-center text-[40pt] font-bold leading-none tracking-tight')}>{numero}</p>
       </div>

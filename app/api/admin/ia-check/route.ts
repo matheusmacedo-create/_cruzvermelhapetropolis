@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     try {
       const { texto: resposta, medida } = await reescreverComClaude({
         system: 'Responda apenas com o texto reescrito, sem comentários.',
-        texto: 'Reescreva em uma frase: A Cruz Vermelha do Rio abriu inscrições para o curso de primeiros socorros.',
+        texto: 'Reescreva em uma frase: A Cruz Vermelha de Petrópolis abriu inscrições para o curso de primeiros socorros.',
       })
       claude.teste = { ok: true, devolveu: resposta.slice(0, 200), custo: medida }
       claude.veredito = `Funcionando: a chamada completou em ${medida.segundos}s no modelo ${medida.modelo}.`
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
       // modelo devolveu "Teste (Teste) — …" e o diagnóstico deixou de exercitar
       // o caminho que a redação usa. O teste tem de ter a forma do uso.
       const { texto: resposta, medida } = await adaptarTexto({
-        texto: 'A Cruz Vermelha Brasileira do Rio de Janeiro abriu inscrições para o curso de primeiros socorros.',
+        texto: 'A Cruz Vermelha Brasileira de Petrópolis abriu inscrições para o curso de primeiros socorros.',
         canal: 'Facebook', formato: 'Feed', limite: 280, dobra: 125,
       })
       teste = {

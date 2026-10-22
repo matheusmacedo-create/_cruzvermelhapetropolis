@@ -10,7 +10,7 @@ import { Moldura } from '../moldura'
 // Página pública, sem login: o link (e o QR code) que a equipe manda a quem
 // aparece nas fotos. Fora do Google e sem mandar o endereço (com o token) adiante.
 export const metadata: Metadata = {
-  title: 'Autorização de uso de imagem — Cruz Vermelha RJ',
+  title: 'Autorização de uso de imagem — Cruz Vermelha Petrópolis',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 }

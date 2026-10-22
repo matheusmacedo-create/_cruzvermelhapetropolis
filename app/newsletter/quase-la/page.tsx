@@ -1,6 +1,6 @@
 import { Recado } from '@/components/newsletter/recado'
 
-export const metadata = { title: 'Confirme sua inscrição — Cruz Vermelha RJ' }
+export const metadata = { title: 'Confirme sua inscrição — Cruz Vermelha Petrópolis' }
 
 /**
  * Onde o formulário sem JavaScript chega depois de enviar.

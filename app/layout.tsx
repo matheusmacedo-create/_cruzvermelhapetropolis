@@ -15,9 +15,9 @@ const libreFranklin = Libre_Franklin({
 })
 
 export const metadata: Metadata = {
-  title: 'Palácio Virtual — Cruz Vermelha Brasileira Rio de Janeiro',
+  title: 'Palácio Virtual — Cruz Vermelha Brasileira Petrópolis',
   description:
-    'Ambiente interno da Cruz Vermelha Brasileira — Filial do Rio de Janeiro: comunicação, expediente, gestão, pessoas e voluntariado num só lugar.',
+    'Ambiente interno da Cruz Vermelha Brasileira — Filial de Petrópolis: comunicação, expediente, gestão, pessoas e voluntariado num só lugar.',
   generator: 'v0.app',
 }
 

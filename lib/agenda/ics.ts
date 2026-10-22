@@ -61,7 +61,7 @@ export function gerarIcs(itens: ItemDaAgenda[], { nome, baseUrl, agora = new Dat
   const linhas = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Cruz Vermelha RJ//Palácio Virtual//PT-BR',
+    'PRODID:-//Cruz Vermelha Petrópolis//Palácio Virtual//PT-BR',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${escaparTexto(nome)}`,

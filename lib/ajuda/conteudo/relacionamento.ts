@@ -23,7 +23,7 @@ import type { GuiaDaArea } from '../tipos'
 
 const NEWSLETTER: GuiaDaArea = {
   href: '/newsletter',
-  paraQueServe: 'A Newsletter guarda a lista de quem pediu para receber as notícias da Cruz Vermelha do Rio de Janeiro: quem confirmou, quem ainda não confirmou e quem saiu. Mostra também como a lista cresceu e as últimas edições enviadas. A edição em si é escrita e enviada em “Publicações”, como mais um destino do pacote.',
+  paraQueServe: 'A Newsletter guarda a lista de quem pediu para receber as notícias da Cruz Vermelha de Petrópolis: quem confirmou, quem ainda não confirmou e quem saiu. Mostra também como a lista cresceu e as últimas edições enviadas. A edição em si é escrita e enviada em “Publicações”, como mais um destino do pacote.',
   quemUsa: 'Toda a equipe do Palácio Virtual vê a lista, acrescenta endereços, reenvia convites e exporta. Apagar alguém da lista, ver a situação do formulário do site, ligá-lo e ver o diagnóstico completo do envio são só para administradores.',
   naPratica: {
     titulo: 'Quem pediu recebe as notícias, sem spam',
@@ -259,7 +259,7 @@ const IMPRENSA: GuiaDaArea = {
   naPratica: {
     titulo: 'O release da campanha chega aos jornalistas certos',
     passos: [
-      'A Carla importa a planilha com 80 contatos de imprensa do Rio.',
+      'A Carla importa a planilha com 80 contatos de imprensa de Petrópolis.',
       'O Palácio verifica os e-mails e marca os inválidos, que ficam de fora das campanhas.',
       'Ela monta a campanha “Release: campanha do agasalho” e envia para os contatos de saúde e cidade.',
       'No dia seguinte, vê quem abriu e manda um lembrete só para quem não abriu.',

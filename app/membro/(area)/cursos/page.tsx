@@ -33,7 +33,7 @@ export default async function Cursos() {
   const comCapa = cursos.some((c) => c.capa)
   return (
     <div className="flex flex-col gap-6">
-      <CabecalhoDaPagina titulo="Cursos" descricao="Formação da Cruz Vermelha RJ para voluntários. Concluiu, o certificado sai na hora." />
+      <CabecalhoDaPagina titulo="Cursos" descricao="Formação da Cruz Vermelha Petrópolis para voluntários. Concluiu, o certificado sai na hora." />
       {!cursos.length && (
         <EstadoVazio icone={GraduationCap} titulo="Os cursos estão sendo preparados."
           texto={temApostilas ? 'Assim que a coordenação publicar, eles aparecem aqui. Enquanto isso, as apostilas já estão disponíveis.' : 'Assim que a coordenação publicar, eles aparecem aqui.'}

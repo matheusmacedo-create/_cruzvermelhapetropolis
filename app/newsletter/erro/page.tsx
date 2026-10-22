@@ -1,6 +1,6 @@
 import { Recado } from '@/components/newsletter/recado'
 
-export const metadata = { title: 'Não deu certo — Cruz Vermelha RJ' }
+export const metadata = { title: 'Não deu certo — Cruz Vermelha Petrópolis' }
 
 // O motivo chega pela URL porque quem cai aqui veio de um POST de formulário
 // sem JavaScript, que navegou para cá. Texto vindo da URL é renderizado como

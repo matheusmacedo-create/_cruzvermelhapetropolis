@@ -40,8 +40,8 @@ const BOTOES_DA_VISITA: readonly BotaoDoModelo[] = [
   { tipo: 'QUICK_REPLY', texto: 'Não pode agora' },
 ]
 
-const VISITA_V2 = 'Chegou uma visita para você na recepção da Cruz Vermelha RJ.\n\nQuem é: {{1}}\nAssunto: {{2}}\nHorário: {{3}}\n\nToque em uma das opções para responder à portaria.'
-const VISITA = 'Visita na portaria da Cruz Vermelha RJ para você.\n\nVisitante: {{1}}\nMotivo: {{2}}\nChegada: {{3}}\n\nResponda pelos botões abaixo.'
+const VISITA_V2 = 'Chegou uma visita para você na recepção da Cruz Vermelha Petrópolis.\n\nQuem é: {{1}}\nAssunto: {{2}}\nHorário: {{3}}\n\nToque em uma das opções para responder à portaria.'
+const VISITA = 'Visita na portaria da Cruz Vermelha Petrópolis para você.\n\nVisitante: {{1}}\nMotivo: {{2}}\nChegada: {{3}}\n\nResponda pelos botões abaixo.'
 
 /**
  * O catálogo, em ordem de preferência. Na visita, os de foto (cabeçalho de imagem) vêm antes, mas só servem quando há a
@@ -61,11 +61,11 @@ export const CATALOGO_DOS_MODELOS: Record<SituacaoDoModelo, readonly ModeloDoCat
   resposta_ao_visitante: [
     {
       nome: 'portaria_resposta_visitante_v2', cabecalho: null, parametros: 2, botoes: [],
-      corpo: 'Recepção da Cruz Vermelha RJ: atualização sobre a sua visita a {{1}}.\n\nSituação: {{2}}\n\nEm caso de dúvida, procure a recepção.',
+      corpo: 'Recepção da Cruz Vermelha Petrópolis: atualização sobre a sua visita a {{1}}.\n\nSituação: {{2}}\n\nEm caso de dúvida, procure a recepção.',
     },
     {
       nome: 'portaria_resposta_visitante', cabecalho: null, parametros: 2, botoes: [],
-      corpo: 'Portaria da Cruz Vermelha RJ: sua visita para {{1}}.\n\nResposta: {{2}}\n\nQualquer dúvida, fale com a recepção.',
+      corpo: 'Portaria da Cruz Vermelha Petrópolis: sua visita para {{1}}.\n\nResposta: {{2}}\n\nQualquer dúvida, fale com a recepção.',
     },
   ],
 }

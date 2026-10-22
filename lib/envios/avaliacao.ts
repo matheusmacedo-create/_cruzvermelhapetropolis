@@ -139,7 +139,7 @@ export async function avisarQuemEnviou(contentId: string, workspaceId: string, u
         const enviado = await enviarComSeguranca(e.email, montar({
           assunto: 'A ação que você mandou virou matéria',
           preheader: e.titulo.slice(0, 120),
-          titulo: 'Sua ação está no site da Cruz Vermelha RJ',
+          titulo: 'Sua ação está no site da Cruz Vermelha Petrópolis',
           blocos: [
             { tipo: 'p', texto: mensagemDePublicacao(e.nome, e.titulo, url) },
             { tipo: 'botao', rotulo: 'Ver a matéria', url },

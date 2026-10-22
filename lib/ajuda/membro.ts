@@ -74,7 +74,7 @@ export const BOAS_VINDAS_DO_MEMBRO: PassoDoTour[] = [
 
 const INICIO: GuiaDaArea = {
   href: '/membro',
-  paraQueServe: 'O Início junta o que é seu. Primeiro, o que pede ação: um termo de bem para aceitar ou uma prova final por fazer. Logo abaixo da saudação, os destaques da Cruz Vermelha RJ, quando houver. Depois, sua próxima atividade, o curso em andamento, seus números, os avisos da coordenação, seus certificados e as últimas atividades. No fim, sempre, os sete Princípios Fundamentais da Cruz Vermelha.',
+  paraQueServe: 'O Início junta o que é seu. Primeiro, o que pede ação: um termo de bem para aceitar ou uma prova final por fazer. Logo abaixo da saudação, os destaques da Cruz Vermelha Petrópolis, quando houver. Depois, sua próxima atividade, o curso em andamento, seus números, os avisos da coordenação, seus certificados e as últimas atividades. No fim, sempre, os sete Princípios Fundamentais da Cruz Vermelha.',
   quemUsa: 'Cursos, inscrições, horas e certificados são só seus. Os destaques, os avisos e as oportunidades abertas são os mesmos para todo o voluntariado.',
   tour: [
     {
@@ -90,7 +90,7 @@ const INICIO: GuiaDaArea = {
     {
       alvo: 'membro.banners',
       titulo: 'Destaques',
-      texto: 'Campanhas, agradecimentos e chamadas da Cruz Vermelha RJ. Com mais de um, eles se revezam; use as setas ou arraste para ver os outros.',
+      texto: 'Campanhas, agradecimentos e chamadas da Cruz Vermelha Petrópolis. Com mais de um, eles se revezam; use as setas ou arraste para ver os outros.',
       seAusente: 'pular',
     },
     {
@@ -219,7 +219,7 @@ const INICIO: GuiaDaArea = {
 
 const FORMACAO: GuiaDaArea = {
   href: '/membro/cursos',
-  paraQueServe: 'Formação reúne os cursos da Cruz Vermelha RJ para o voluntariado, as apostilas e os seus certificados. Você faz os cursos no seu ritmo; ao concluir as aulas (e passar na prova final, quando o curso tem uma), o certificado sai na hora, com um código que qualquer pessoa confere.',
+  paraQueServe: 'Formação reúne os cursos da Cruz Vermelha Petrópolis para o voluntariado, as apostilas e os seus certificados. Você faz os cursos no seu ritmo; ao concluir as aulas (e passar na prova final, quando o curso tem uma), o certificado sai na hora, com um código que qualquer pessoa confere.',
   tour: [
     {
       titulo: 'Formação',
@@ -314,7 +314,7 @@ const FORMACAO: GuiaDaArea = {
       tour: [
         {
           titulo: 'Apostilas',
-          texto: 'Materiais de estudo e consulta da Cruz Vermelha RJ, em PDF. As de um curso ficam juntas, com “Ver curso”.',
+          texto: 'Materiais de estudo e consulta da Cruz Vermelha Petrópolis, em PDF. As de um curso ficam juntas, com “Ver curso”.',
         },
         {
           alvo: 'membro.apostilas',

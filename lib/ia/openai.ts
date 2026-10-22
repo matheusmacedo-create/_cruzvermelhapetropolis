@@ -327,7 +327,7 @@ export async function adaptarTexto(pedido: {
       {
         role: 'system',
         content: [
-          `Você adapta textos institucionais da ${pedido.instituicao ?? 'Cruz Vermelha Brasileira — Rio de Janeiro'} para redes sociais.`,
+          `Você adapta textos institucionais da ${pedido.instituicao ?? 'Cruz Vermelha Brasileira — Petrópolis'} para redes sociais.`,
           'Escreva em português do Brasil, em tom institucional, sóbrio e humano — é uma organização humanitária, não uma marca de varejo.',
           'Não invente fato, número, data, nome nem citação que não esteja no texto recebido. Se faltar informação, escreva menos.',
           'Não use emoji em excesso: no máximo um, e só se couber ao assunto.',

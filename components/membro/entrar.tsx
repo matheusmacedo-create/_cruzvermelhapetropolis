@@ -389,9 +389,9 @@ function PassoDoCodigo({ email, enviadoEm, reenviado, voltar, aoTrocarEmail, aoR
           <li>Confira se o e-mail acima está certo.</li>
           {/* Mesmo número que a Política de Privacidade publica como o WhatsApp do Voluntariado (repositório do site, site/politicas.json). Mudou lá, muda aqui. */}
           <li>
-            Ainda sem código? Fale com a coordenação do Voluntariado pelo WhatsApp{' '}
+            Ainda sem código? Fale com a coordenação do Voluntariado pelo telefone{' '}
             {/* nowrap: sem ele, o ponto final caía sozinho na linha de baixo. */}
-            <span className="whitespace-nowrap"><LinkExterno href="https://wa.me/5521970360264">(21) 97036-0264</LinkExterno>.</span>
+            <span className="whitespace-nowrap"><a href="tel:+552422434758" className="underline underline-offset-2">(24) 2243-4758</a>.</span>
           </li>
         </ul>
       </details>

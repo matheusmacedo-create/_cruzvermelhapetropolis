@@ -32,7 +32,7 @@ export async function reciboDeDoacao(d: DadosDoRecibo): Promise<Uint8Array> {
   )
   if (d.observacao) folha.paragrafo(`Observação: ${d.observacao}`, 9, false, 8)
   folha.paragrafo('Valor de mercado conforme a ITG 2002 (R1) — Entidade sem Finalidade de Lucros. Este recibo não se refere a doação em dinheiro.', 8, false, 6)
-  folha.paragrafo(`Rio de Janeiro, ${dataPorExtenso(d.data)}.`, 10, false, 0)
+  folha.paragrafo(`Petrópolis, ${dataPorExtenso(d.data)}.`, 10, false, 0)
   folha.assinaturas([{ linha1: d.recebidoPor, linha2: `Pela ${DADOS_DA_FILIAL.nome}` }])
   folha.rodapes(`${d.codigo} · emitido pelo Palácio Virtual em ${d.geradoEm}`)
   return pdf.save()
@@ -57,7 +57,7 @@ export async function termoDeEntrega(d: DadosDoTermo): Promise<Uint8Array> {
   )
   folha.tabela([{ titulo: 'Item', largura: 380 }, { titulo: 'Quantidade', largura: 115, direita: true }], d.itens.map((i) => [i.descricao, quantidade(i.quantidade, i.unidade)]))
   if (d.observacao) folha.paragrafo(`Observação: ${d.observacao}`, 9, false, 8)
-  folha.paragrafo(`Rio de Janeiro, ${dataPorExtenso(d.data)}.`, 10, false, 0)
+  folha.paragrafo(`Petrópolis, ${dataPorExtenso(d.data)}.`, 10, false, 0)
   folha.assinaturas([
     { linha1: d.responsavel || d.beneficiario, linha2: 'Quem recebeu (nome e assinatura)' },
     { linha1: d.entreguePor, linha2: `Pela ${DADOS_DA_FILIAL.nome}` },

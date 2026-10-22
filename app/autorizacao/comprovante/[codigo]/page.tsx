@@ -8,7 +8,7 @@ import { Revogar } from './revogar'
 import { ProximaPessoa } from './proxima-pessoa'
 
 export const metadata: Metadata = {
-  title: 'Comprovante de autorização de imagem — Cruz Vermelha RJ',
+  title: 'Comprovante de autorização de imagem — Cruz Vermelha Petrópolis',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 }

@@ -116,14 +116,16 @@ export function lerCnpjBrasilApi(j: unknown): Empresa | null {
 export type Feriado = { data: string; nome: string; abrangencia: 'nacional' | 'estadual' | 'municipal' }
 
 /**
- * Feriados do Rio que a BrasilAPI (só nacionais) não traz, ambos de data
- * fixa: São Sebastião (20/1, municipal, padroeiro da cidade) e São Jorge
- * (23/4, estadual). Ponto facultativo não entra: não é feriado.
+ * Feriados locais que a BrasilAPI (só nacionais) não traz, todos de data
+ * fixa: o aniversário de Petrópolis (16/3, municipal), São Jorge (23/4,
+ * estadual) e São Pedro de Alcântara (29/6, municipal, padroeiro da cidade).
+ * Ponto facultativo não entra: não é feriado.
  */
 export function feriadosLocaisDoRio(ano: number): Feriado[] {
   return [
-    { data: `${ano}-01-20`, nome: 'São Sebastião (padroeiro do Rio)', abrangencia: 'municipal' },
+    { data: `${ano}-03-16`, nome: 'Aniversário de Petrópolis', abrangencia: 'municipal' },
     { data: `${ano}-04-23`, nome: 'São Jorge', abrangencia: 'estadual' },
+    { data: `${ano}-06-29`, nome: 'São Pedro de Alcântara (padroeiro de Petrópolis)', abrangencia: 'municipal' },
   ]
 }
 

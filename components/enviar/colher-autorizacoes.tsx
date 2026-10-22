@@ -38,7 +38,7 @@ export function ColherAutorizacoes({ envioId, token, titulo, temMenores }: { env
     try { await navigator.clipboard.writeText(link); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch { /* o link está à vista para copiar */ }
   }
 
-  const recado = `Olá! Estas são as fotos de "${titulo}" da Cruz Vermelha RJ. Para podermos divulgá-las, veja as fotos e assine a autorização por este link (leva um minuto): ${link}`
+  const recado = `Olá! Estas são as fotos de "${titulo}" da Cruz Vermelha Petrópolis. Para podermos divulgá-las, veja as fotos e assine a autorização por este link (leva um minuto): ${link}`
 
   return (
     <section aria-labelledby="colher" className="flex flex-col gap-3 rounded-xl border border-primary/30 bg-card p-4">

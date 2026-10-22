@@ -3214,7 +3214,7 @@ banco em `20261002150000` e `20261004170000` (`supabase/tests/conversoes.test.sq
 **Marca.** O emblema (a cruz) é **sempre vermelho sobre fundo branco** — nunca
 vazado em branco sobre vermelho, nunca como marca d'água, nunca recortado. Faixa
 de destaque com a marca é branca com filete vermelho; o vermelho da marca é
-`--primary` (`rgb(227 34 25)`). A logo oficial é `public/images/logo-cvrj.png`.
+`--primary` (`rgb(227 34 25)`). A logo oficial é `public/images/logo-cvb-petropolis.png`.
 O vermelho da marca é acento (logo, botão principal, item ativo, filetes), não
 sinal de problema: erro e atraso usam `--destructive` (`rgb(185 28 28)`, mais
 escuro), sempre com ícone ou texto junto. Não use `primary` para alerta nem

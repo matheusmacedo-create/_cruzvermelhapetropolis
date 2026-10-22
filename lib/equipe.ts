@@ -52,7 +52,7 @@ export const SETORES: Setor[] = [
   },
   {
     nome: 'Educação e Saúde',
-    descricao: 'A Escola de Educação e Saúde CVB-RJ e os cursos presenciais na sede.',
+    descricao: 'A Escola de Educação e Saúde CVB Petrópolis e os cursos presenciais na sede.',
     papelSugerido: 'colaborador',
     pessoas: [{ nome: 'Marcio Romero' }, { nome: 'Alessandra Rachel' }],
   },

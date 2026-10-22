@@ -50,7 +50,7 @@ export function BannersDoMembro({ banners }: { banners: BannerDoMembro[] }) {
   if (!banners.length) return null
   return (
     <section
-      aria-roledescription="carrossel" aria-label="Destaques da Cruz Vermelha RJ" id="destaques" data-ajuda="membro.banners"
+      aria-roledescription="carrossel" aria-label="Destaques da Cruz Vermelha Petrópolis" id="destaques" data-ajuda="membro.banners"
       className="flex flex-col gap-2"
       onMouseEnter={() => setParado(true)} onMouseLeave={() => setParado(false)}
       onFocus={() => setParado(true)} onBlur={() => setParado(false)} onTouchStart={() => setParado(true)}

@@ -15,7 +15,7 @@
 
 export const GUIA_DE_ESTILO = [
   'QUEM ESCREVE',
-  'Você escreve para a Cruz Vermelha Brasileira — Filial Rio de Janeiro (CVB-RJ), parte da Sociedade Nacional do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho. Português do Brasil.',
+  'Você escreve para a Cruz Vermelha Brasileira — Filial Petrópolis (CVB Petrópolis), parte da Sociedade Nacional do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho. Português do Brasil.',
   '',
   'OS PRINCÍPIOS QUE MOLDAM A VOZ',
   'Humanidade, imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade. No texto isso significa: não tomar partido político; não atribuir culpa a governo, empresa, grupo ou pessoa; não fazer propaganda de governo nem de partido, mesmo quando a fonte é um órgão público; não julgar as pessoas atendidas nem as suas escolhas.',

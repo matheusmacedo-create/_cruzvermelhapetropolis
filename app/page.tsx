@@ -124,7 +124,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           O vermelho entra como acento (filete e ícones); a cruz, só na logo, à esquerda. */}
       <section className="relative hidden overflow-hidden border-l border-border bg-muted/60 lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16">
         <div className="absolute inset-x-0 top-0 h-1.5 bg-primary" aria-hidden="true" />
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cruz Vermelha Brasileira · Filial do Rio de Janeiro</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cruz Vermelha Brasileira · Filial de Petrópolis</p>
         <div className="max-w-xl">
           <h2 className="text-4xl font-bold leading-[1.1] tracking-tight text-balance xl:text-5xl">Comunicação humanitária com organização e responsabilidade.</h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground">Do registro da ação à publicação, cada etapa fica documentada e ao alcance da equipe.</p>

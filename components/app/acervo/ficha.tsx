@@ -214,7 +214,7 @@ export function FichaDoItem({ item, onFechar, onSalvo }: { item: ItemNaTela; onF
                 {(p) => <input {...p} name="autoria" maxLength={200} value={autoria} onChange={(e) => setAutoria(e.target.value)} placeholder="Ex.: Maria Silva" className={inputClass} />}
               </Campo>
               <Campo rotulo="Local" opcional ajuda="Onde foi.">
-                {(p) => <input {...p} name="local" maxLength={200} value={local} onChange={(e) => setLocal(e.target.value)} placeholder="Ex.: Sede da filial, no Centro do Rio" className={inputClass} />}
+                {(p) => <input {...p} name="local" maxLength={200} value={local} onChange={(e) => setLocal(e.target.value)} placeholder="Ex.: Sede da filial, no Centro de Petrópolis" className={inputClass} />}
               </Campo>
             </div>
 

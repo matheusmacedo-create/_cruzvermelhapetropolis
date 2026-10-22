@@ -9,7 +9,7 @@
  * (manual, pp. 17–20): a cruz continua vermelha sobre branco.
  */
 
-export const NOME_COMPLETO = 'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro'
+export const NOME_COMPLETO = 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis'
 export const DECRETO = 'Reconhecida como Utilidade Pública Internacional – Decreto nº 9.620, de 13/06/1912'
 export const SITE = 'cruzvermelhariodejaneiro.org'
 export const VERMELHO = 'rgb(227, 34, 25)'
@@ -35,7 +35,7 @@ export const CHAMADAS = {
   acao: {
     rotulo: 'Fez uma ação?',
     titulo: ['Fez uma ação?', 'Mande para a Comunicação.'],
-    texto: 'Fotos, vídeos, áudios e o relato do que aconteceu viram post e matéria — e mostram o trabalho da Cruz Vermelha Brasileira no Rio de Janeiro.',
+    texto: 'Fotos, vídeos, áudios e o relato do que aconteceu viram post e matéria — e mostram o trabalho da Cruz Vermelha Brasileira em Petrópolis.',
   },
   hoje: {
     rotulo: 'Registre a ação de hoje',

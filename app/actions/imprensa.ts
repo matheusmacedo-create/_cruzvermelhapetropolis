@@ -388,7 +388,7 @@ export async function excluirContatos(formData: FormData): Promise<{ erro?: stri
 
 // ---------------------------------------------------------------- campanhas
 
-const REMETENTE_PADRAO = 'Cruz Vermelha RJ — Comunicação <imprensa@noticias.cruzvermelhariodejaneiro.org>'
+const REMETENTE_PADRAO = 'Cruz Vermelha Petrópolis — Comunicação <imprensa@noticias.cruzvermelhariodejaneiro.org>'
 const remetenteDaCampanha = () => process.env.IMPRENSA_REMETENTE?.trim() || REMETENTE_PADRAO
 const respostaDaCampanha = () => process.env.IMPRENSA_RESPONDER_PARA?.trim() || undefined
 

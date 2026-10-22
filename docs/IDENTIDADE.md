@@ -32,7 +32,7 @@ pelo Matheus em 27/09/2026.
 
 - **Cor:** `--primary` é `rgb(227 34 25)`, o vermelho do manual.
 - **Tipografia:** o app usa **Libre Franklin**, a Franklin Gothic redesenhada e livre.
-- **Logo:** `public/images/logo-cvrj.png` é a composição oficial da filial (p. 21). A Área do Voluntário proíbe cruz desenhada, recortada ou em marca-d'água (`components/membro/marca.tsx`), o que está de acordo com o uso indicativo (p. 47).
+- **Logo:** `public/images/logo-cvb-petropolis.png` é a composição oficial da filial (p. 21). A Área do Voluntário proíbe cruz desenhada, recortada ou em marca-d'água (`components/membro/marca.tsx`), o que está de acordo com o uso indicativo (p. 47).
 
 ## 3. Feito em 27/09/2026
 

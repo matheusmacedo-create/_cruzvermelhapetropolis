@@ -56,7 +56,7 @@ export default async function CartazDosCursos({ searchParams }: { searchParams: 
       <article className="papel mx-auto flex h-[297mm] w-[210mm] flex-col overflow-hidden bg-white text-neutral-900 shadow-xl max-[860px]:[zoom:0.72] max-[600px]:[zoom:0.45] print:shadow-none print:[zoom:1]" aria-label={`Cartaz: matrícula em ${curso.nome}`} data-cartaz-curso={curso.id}>
         <div className="h-[4mm] bg-[rgb(227_34_25)] [print-color-adjust:exact] [-webkit-print-color-adjust:exact]" />
         <div className="flex flex-1 flex-col items-center px-[18mm] pb-[12mm] pt-[14mm] text-center">
-          <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} priority sizes="80mm" className="h-auto w-[66mm]" />
+          <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} priority sizes="80mm" className="h-auto w-[66mm]" />
           <p className={`mt-[9mm] text-[15pt] font-semibold uppercase tracking-[0.12em] ${vermelho}`}>Escola de Educação e Saúde</p>
           <h1 className={`mt-[3mm] ${corpoDoTitulo} font-extrabold leading-[1.05] tracking-tight [text-wrap:balance]`} data-cartaz-titulo>
             {chamada.titulo[0]}

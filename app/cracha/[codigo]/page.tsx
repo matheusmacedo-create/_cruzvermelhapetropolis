@@ -11,10 +11,10 @@ import { cn } from '@/lib/utils'
 const decodificar = (bruto: string) => { try { return decodeURIComponent(bruto) } catch { return '' } }
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Verificação de crachá — Cruz Vermelha RJ', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Verificação de crachá — Cruz Vermelha Petrópolis', robots: { index: false, follow: false } }
 
 const ESTADOS = {
-  ativo: { titulo: 'Crachá válido', texto: 'Pessoa ativa na Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro.', icone: BadgeCheck, cor: 'bg-[#1f7a3d]' },
+  ativo: { titulo: 'Crachá válido', texto: 'Pessoa ativa na Cruz Vermelha Brasileira – Filial do Município de Petrópolis.', icone: BadgeCheck, cor: 'bg-[#1f7a3d]' },
   inativo: { titulo: 'Crachá inativo', texto: 'Esta pessoa não faz mais parte da filial. Não aceite este crachá como identificação.', icone: XCircle, cor: 'bg-[#b3261e]' },
   invalido: { titulo: 'Crachá não reconhecido', texto: 'Este código não é de um crachá da filial. Não aceite: pode ser falsificação.', icone: ShieldAlert, cor: 'bg-[#b3261e]' },
   indisponivel: { titulo: 'Verificação indisponível', texto: 'Não foi possível consultar o cadastro agora. Tente de novo em alguns minutos ou ligue para a filial.', icone: AlertTriangle, cor: 'bg-[#8a5a00]' },
@@ -38,7 +38,7 @@ export default async function VerificarCracha({ params }: { params: Promise<{ co
     <main className="min-h-screen bg-[#f4f1ec] text-[#1f1f1f]">
       <header className="border-b border-black/10 bg-white">
         <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 py-3">
-          <Image src="/images/logo-cvrj.png" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={1844} height={752} sizes="140px" className="h-auto w-[140px]" priority />
+          <Image src="/images/logo-cvb-petropolis.png" alt="Cruz Vermelha Brasileira – Petrópolis" width={1844} height={752} sizes="140px" className="h-auto w-[140px]" priority />
           <span className={cn(condensada.className, 'text-right text-[13px] font-semibold uppercase leading-tight tracking-wide text-[#5f6062]')}>Verificação<br />de crachá</span>
         </div>
       </header>

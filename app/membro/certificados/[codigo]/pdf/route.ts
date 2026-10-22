@@ -13,7 +13,7 @@ let logoDoSite: Promise<Uint8Array | null> | null = null
 async function logoDoCertificado(origem: string) {
   const doDisco = await logoOficial()
   if (doDisco) return doDisco
-  logoDoSite ??= fetch(new URL('/images/logo-cvrj.png', origem)).then(async (r) => (r.ok ? new Uint8Array(await r.arrayBuffer()) : null)).catch(() => null)
+  logoDoSite ??= fetch(new URL('/images/logo-cvb-petropolis.png', origem)).then(async (r) => (r.ok ? new Uint8Array(await r.arrayBuffer()) : null)).catch(() => null)
   return logoDoSite
 }
 

@@ -62,7 +62,7 @@ export const emailConfigurado = () => Boolean(process.env.RESEND_API_KEY?.trim()
  * O leitor continua reconhecendo a origem: o nome do domínio institucional
  * está inteiro dentro do endereço.
  */
-export const REMETENTE_PADRAO = 'Cruz Vermelha RJ <noticias@noticias.cruzvermelhariodejaneiro.org>'
+export const REMETENTE_PADRAO = 'Cruz Vermelha Petrópolis <noticias@noticias.cruzvermelhariodejaneiro.org>'
 
 export function remetente(): string {
   return process.env.NEWSLETTER_REMETENTE?.trim() || REMETENTE_PADRAO
@@ -247,7 +247,7 @@ export async function dominiosVerificados(): Promise<{ nome: string; estado: str
  */
 export type MensagemDeConta = { para: string; assunto: string; html: string; texto: string; /** Remetente próprio no mesmo domínio verificado (ex.: o do Voluntariado). */ de?: string }
 
-export const REMETENTE_DE_CONTA = 'Palácio Virtual CVB-RJ <acesso@noticias.cruzvermelhariodejaneiro.org>'
+export const REMETENTE_DE_CONTA = 'Palácio Virtual CVB Petrópolis <acesso@noticias.cruzvermelhariodejaneiro.org>'
 
 export async function enviarEmailDeConta(m: MensagemDeConta): Promise<{ id: string }> {
   const resposta = process.env.CONTA_RESPONDER_PARA?.trim() || respostaPara()

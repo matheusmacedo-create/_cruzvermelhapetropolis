@@ -51,9 +51,9 @@ export function origemDoSite(baseUrl: string): string {
 }
 
 /** O nome da filial em texto visível, títulos, descrições, alt e dados estruturados. */
-export const NOME_DO_SITE = 'Cruz Vermelha Brasileira Rio de Janeiro'
+export const NOME_DO_SITE = 'Cruz Vermelha Brasileira Petrópolis'
 /** O nome formal, o mesmo do nó da organização no JSON-LD da home. */
-export const NOME_FORMAL_DA_FILIAL = 'Cruz Vermelha Brasileira - Filial do Estado do Rio de Janeiro'
+export const NOME_FORMAL_DA_FILIAL = 'Cruz Vermelha Brasileira - Filial do Município de Petrópolis'
 
 /** A imagem de compartilhamento da home: vale para toda página que não tem a sua. */
 export const IMAGEM_PADRAO_DO_SITE = {
@@ -566,7 +566,7 @@ export function rodapeDoSite(origem: string, ano: number | string): string {
         </div>
         <div class="footer-col">
           <h4>Sobre</h4>
-          <p>Cruz Vermelha Brasileira<br>Filial do Estado do Rio de Janeiro<br>CNPJ ${f.cnpj}</p>
+          <p>Cruz Vermelha Brasileira<br>Filial do Município de Petrópolis<br>CNPJ ${f.cnpj}</p>
           <p><a href="${o}/quem-somos/">Quem somos</a></p>
           <p><a href="${o}/transparencia/">Portal da transparência</a></p>
           <p><a href="${o}/canais-oficiais/">Canais oficiais</a></p>
@@ -576,7 +576,7 @@ export function rodapeDoSite(origem: string, ano: number | string): string {
         </div>
         <div class="footer-col">
           <h4>Contato</h4>
-          <p>${icone('location-dot')} Praça da Cruz Vermelha, 10 · Centro · Rio de Janeiro – RJ · CEP 20230-130</p>
+          <p>${icone('location-dot')} Rua Carlos Gomes, 6 · Centro · Petrópolis – RJ · CEP 25680-120</p>
           <p>${icone('phone')} ${f.telefone}</p>
           <p>${icone('envelope')} ${f.email}</p>
         </div>
@@ -590,7 +590,7 @@ export function rodapeDoSite(origem: string, ano: number | string): string {
       </div>
       <div class="footer-bottom">
         <div class="footer-inner">
-          <span>&copy; ${escapar(String(ano))} Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro · CNPJ ${f.cnpj}</span>
+          <span>&copy; ${escapar(String(ano))} Cruz Vermelha Brasileira – Filial do Município de Petrópolis · CNPJ ${f.cnpj}</span>
           <span class="sep">|</span>
           <a href="${o}/noticias/">Notícias</a>
           <span class="sep">|</span>

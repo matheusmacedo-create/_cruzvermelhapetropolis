@@ -53,10 +53,10 @@ const CARGOS: Record<string, string> = { presidente: 'Presidência', presidencia
  */
 export function nomeSugerido(email: string, setor: string | null | undefined): string {
   const local = (email.split('@')[0] ?? '').toLowerCase()
-  if (CARGOS[local]) return `CVB-RJ · ${CARGOS[local]}`
+  if (CARGOS[local]) return `CVB Petrópolis · ${CARGOS[local]}`
   if (/^[a-z]+(\.[a-z]+)+$/.test(local)) {
-    return `${local.split('.').map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ')} · CVB-RJ`
+    return `${local.split('.').map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ')} · CVB Petrópolis`
   }
-  if (setor?.trim()) return `CVB-RJ · ${setor.trim().replace(/\s*\/\s*/g, ' e ')}`
-  return `CVB-RJ · ${local.charAt(0).toUpperCase()}${local.slice(1)}`
+  if (setor?.trim()) return `CVB Petrópolis · ${setor.trim().replace(/\s*\/\s*/g, ' e ')}`
+  return `CVB Petrópolis · ${local.charAt(0).toUpperCase()}${local.slice(1)}`
 }

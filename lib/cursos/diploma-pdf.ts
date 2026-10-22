@@ -114,7 +114,7 @@ function desenharDiploma(p: PDFPage, f: FontesDoDiploma, logo: PDFImage | null, 
   escrever(p, f.textoItalico, '“Aliviar e atenuar o sofrimento humano.”', { x: L - 190, y: A - 270, tamanho: 12, alinhar: 'direita', cor: CINZA })
 
   // Um pouco mais alto que no modelo: sobra lugar para até três assinaturas mesmo com o texto mais longo (600 letras).
-  escrever(p, f.textoItalico, 'A Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro confere este Diploma a', { x: L / 2, y: A - 322, tamanho: 18, alinhar: 'centro', largura: L - 300 })
+  escrever(p, f.textoItalico, 'A Cruz Vermelha Brasileira – Filial do Município de Petrópolis confere este Diploma a', { x: L / 2, y: A - 322, tamanho: 18, alinhar: 'centro', largura: L - 300 })
   escrever(p, f.caligrafia, d.nome, { x: L / 2, y: A - 398, tamanho: 62, alinhar: 'centro', largura: L - 300 })
   // O texto da coordenação vai até 600 letras: longo, ele desce um ponto ou dois para a data não encostar nas assinaturas.
   const texto = textoDoDiploma(d)
@@ -123,7 +123,7 @@ function desenharDiploma(p: PDFPage, f: FontesDoDiploma, logo: PDFImage | null, 
 
   y -= 12
   escrever(p, f.textoItalico, 'O Poder da Humanidade', { x: L - 150, y, tamanho: 11, alinhar: 'direita', cor: CINZA })
-  escrever(p, f.textoItalico, `Rio de Janeiro, ${dataPorExtenso(d.emitidoEm)}.`, { x: L - 150, y: y - 22, tamanho: 17, alinhar: 'direita' })
+  escrever(p, f.textoItalico, `Petrópolis, ${dataPorExtenso(d.emitidoEm)}.`, { x: L - 150, y: y - 22, tamanho: 17, alinhar: 'direita' })
 
   // Assinaturas: uma só fica à esquerda, como no modelo; duas ou três se distribuem entre as cantoneiras.
   const assinaturas = d.assinaturas?.length ? d.assinaturas.slice(0, 3) : [assinaturaDaPresidencia()]

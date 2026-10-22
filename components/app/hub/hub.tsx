@@ -1361,7 +1361,7 @@ function EditorDaNoticia({ base, mestre, onMudar, fileIds, onFileIds, biblioteca
                     <input
                       value={atual.credito}
                       onChange={(e) => mudarLegenda({ credito: e.target.value })}
-                      placeholder="Crédito — ex.: Ana Souza/CVB-RJ"
+                      placeholder="Crédito — ex.: Ana Souza/CVB Petrópolis"
                       disabled={congelado}
                       className={inputClass}
                     />
@@ -2754,7 +2754,7 @@ function GradeDaBiblioteca({ biblioteca, selecionados, onMudar, limite, desabili
           <p className="font-medium">Liberar “{liberando.nome}” para publicação?</p>
           <p className="mt-1 text-muted-foreground">
             Este arquivo veio de outra instituição e está marcado como uso interno. Ao liberar, você declara que a
-            Cruz Vermelha Brasileira — Rio de Janeiro tem permissão da fonte para republicá-lo, e assume o compromisso
+            Cruz Vermelha Brasileira — Petrópolis tem permissão da fonte para republicá-lo, e assume o compromisso
             de dar o crédito na peça. A liberação é restrita a administradores e fica registrada no log, com seu nome.
           </p>
           <div className="mt-2 flex gap-2">
@@ -2771,7 +2771,7 @@ function GradeDaBiblioteca({ biblioteca, selecionados, onMudar, limite, desabili
           <p className="font-medium">Autorizar “{confirmando.nome}”?</p>
           <p className="mt-1 text-muted-foreground">
             Confirmo que há autorização de uso de imagem das pessoas que aparecem nesta mídia para publicação pela Cruz
-            Vermelha Brasileira — Rio de Janeiro. Isto fica registrado na Biblioteca e vale para todos os usos deste arquivo.
+            Vermelha Brasileira — Petrópolis. Isto fica registrado na Biblioteca e vale para todos os usos deste arquivo.
           </p>
           <div className="mt-2 flex gap-2">
             <Button size="sm" onClick={() => { onAutorizar?.(confirmando); setConfirmando(null) }}>
@@ -3534,7 +3534,7 @@ function CampoDaMateria({ valor, onMudar, desabilitado, max, tamanho, estourou, 
                 <input
                   value={foto.credito}
                   onChange={(e) => mudarFoto(foto.indice, { credito: e.target.value })}
-                  placeholder="Crédito — ex.: Ana Souza/CVB-RJ"
+                  placeholder="Crédito — ex.: Ana Souza/CVB Petrópolis"
                   disabled={desabilitado}
                   className={inputClass}
                 />

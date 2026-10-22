@@ -12,7 +12,7 @@ export function emailDoCodigo(p: { nome: string; codigo: string; minutos: number
     preheader: `Use o código ${p.codigo} para entrar na Área do Voluntário.`,
     titulo: 'Seu código de acesso',
     blocos: [
-      { tipo: 'p', texto: `Olá, ${primeiroNome(p.nome)}. Use este código para entrar na Área do Voluntário da Cruz Vermelha RJ:` },
+      { tipo: 'p', texto: `Olá, ${primeiroNome(p.nome)}. Use este código para entrar na Área do Voluntário da Cruz Vermelha Petrópolis:` },
       { tipo: 'destaque', texto: p.codigo },
       { tipo: 'p', texto: `Ele vale por ${p.minutos} minutos e só uma vez.` },
       { tipo: 'nota', texto: `Não pediu? Pode ignorar este e-mail: sem o código ninguém entra. Endereço da área: ${p.url}` },
@@ -22,14 +22,14 @@ export function emailDoCodigo(p: { nome: string; codigo: string; minutos: number
 
 export function emailDeConvite(p: { nome: string; url: string; convidadoPor: string }): EmailPronto {
   return montar({
-    assunto: 'Sua Área do Voluntário na Cruz Vermelha RJ',
+    assunto: 'Sua Área do Voluntário na Cruz Vermelha Petrópolis',
     preheader: 'Cursos, certificados, oportunidades e um canal direto com a filial.',
     titulo: 'Bem-vindo à Área do Voluntário',
     blocos: [
       { tipo: 'p', texto: `Olá, ${primeiroNome(p.nome)}. ${p.convidadoPor} liberou a sua Área do Voluntário: um espaço só seu, com seus certificados, suas horas, cursos e oportunidades para atuar com a gente.` },
       { tipo: 'botao', rotulo: 'Entrar na Área do Voluntário', url: p.url },
       { tipo: 'p', texto: 'Não tem senha: na hora de entrar, você informa este e-mail e recebe um código.' },
-      { tipo: 'nota', texto: 'Se você não é voluntário da Cruz Vermelha Brasileira no Rio de Janeiro, ignore esta mensagem.' },
+      { tipo: 'nota', texto: 'Se você não é voluntário da Cruz Vermelha Brasileira em Petrópolis, ignore esta mensagem.' },
     ],
   })
 }
@@ -80,10 +80,10 @@ export function emailDeResposta(p: { nome: string; assunto: string; resposta: st
 export function emailDeBoasVindas(p: { nome: string; url: string }): EmailPronto {
   return montar({
     assunto: 'Sua inscrição de voluntário foi aprovada',
-    preheader: 'Bem-vindo à Cruz Vermelha RJ. Sua Área do Voluntário já está liberada.',
+    preheader: 'Bem-vindo à Cruz Vermelha Petrópolis. Sua Área do Voluntário já está liberada.',
     titulo: 'Bem-vindo ao Voluntariado',
     blocos: [
-      { tipo: 'p', texto: `Olá, ${primeiroNome(p.nome)}. A coordenação aprovou sua inscrição: agora você faz parte do Voluntariado da Cruz Vermelha Brasileira no Rio de Janeiro.` },
+      { tipo: 'p', texto: `Olá, ${primeiroNome(p.nome)}. A coordenação aprovou sua inscrição: agora você faz parte do Voluntariado da Cruz Vermelha Brasileira em Petrópolis.` },
       { tipo: 'p', texto: 'Na sua Área do Voluntário você encontra cursos e apostilas, certificados, as próximas ações para se inscrever e um canal direto com a coordenação.' },
       { tipo: 'botao', rotulo: 'Entrar na Área do Voluntário', url: p.url },
       { tipo: 'nota', texto: 'Não tem senha: na hora de entrar, você informa este e-mail e recebe um código.' },
@@ -143,7 +143,7 @@ export function emailDeAvisoGeral(p: { nome: string; titulo: string; texto: stri
       { tipo: 'p', texto: `Olá, ${primeiroNome(p.nome)}.` },
       ...p.texto.split(/\n{2,}/).map((t) => ({ tipo: 'p' as const, texto: t.trim() })).filter((b) => b.texto),
       { tipo: 'botao', rotulo: 'Abrir a Área do Voluntário', url: p.url },
-      { tipo: 'nota', texto: `Você recebe os avisos da coordenação do Voluntariado da Cruz Vermelha RJ. Para não receber mais por e-mail: ${p.urlSair}` },
+      { tipo: 'nota', texto: `Você recebe os avisos da coordenação do Voluntariado da Cruz Vermelha Petrópolis. Para não receber mais por e-mail: ${p.urlSair}` },
     ],
   })
 }
@@ -195,8 +195,8 @@ export function emailDoPedidoDeDocumentos(p: { nome: string; url: string; renova
     titulo: p.lembrete ? 'Faltam os seus documentos' : p.renovacao ? 'Atestado de antecedentes' : 'Verificação do candidato',
     blocos: [
       { tipo: 'p', texto: p.lembrete
-        ? `Olá, ${primeiroNome(p.nome)}. Ainda faltam os seus documentos para a verificação na Cruz Vermelha RJ. ${oQue}`
-        : `Olá, ${primeiroNome(p.nome)}. Para seguir com a sua ${p.renovacao ? 'atuação' : 'inscrição'} como voluntário(a) da Cruz Vermelha RJ, precisamos ${p.renovacao ? 'renovar o seu atestado de antecedentes' : 'confirmar quem você é'}. ${oQue}` },
+        ? `Olá, ${primeiroNome(p.nome)}. Ainda faltam os seus documentos para a verificação na Cruz Vermelha Petrópolis. ${oQue}`
+        : `Olá, ${primeiroNome(p.nome)}. Para seguir com a sua ${p.renovacao ? 'atuação' : 'inscrição'} como voluntário(a) da Cruz Vermelha Petrópolis, precisamos ${p.renovacao ? 'renovar o seu atestado de antecedentes' : 'confirmar quem você é'}. ${oQue}` },
       { tipo: 'botao', rotulo: p.renovacao ? 'Enviar o atestado' : 'Enviar meus documentos', url: p.url },
       { tipo: 'p', texto: `O link é pessoal e vale ${p.dias} dias. Você pode parar e voltar: o que já enviou fica guardado.` },
       { tipo: 'nota', texto: 'A Cruz Vermelha nunca pede senha nem dados de banco por link. Os documentos ficam cifrados, só a coordenação do Voluntariado abre, e cada abertura fica registrada.' },

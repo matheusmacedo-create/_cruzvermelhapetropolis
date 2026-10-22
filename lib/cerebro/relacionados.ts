@@ -106,7 +106,7 @@ async function extrairPalavras(titulo: string, resumo: string): Promise<string[]
           max_tokens: 200,
           output_config: { effort: 'low' },
           system:
-            'Você extrai termos de busca de notícias para uma redação no Rio de Janeiro. ' +
+            'Você extrai termos de busca de notícias para uma redação em Petrópolis. ' +
             'Dado o texto de um post ou notícia, devolva os 2 a 4 termos que definem O ASSUNTO ' +
             '(tema central, nomes próprios, lugar quando importar). Nada genérico ("novidade", ' +
             '"atenção", "hoje"), nada de hashtag ou emoji. Responda APENAS com JSON no formato ' +

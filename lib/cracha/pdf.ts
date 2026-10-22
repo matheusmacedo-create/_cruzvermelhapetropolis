@@ -76,7 +76,7 @@ export async function gerarPdfDoCracha(d: DadosDoPdfDoCracha): Promise<Uint8Arra
   const funcao = [d.funcao, d.setor].filter(Boolean).join(' · ').toUpperCase()
   quebrar(f.condensadaNegrito, funcao, 9, L - mm(8)).slice(0, 2)
     .forEach((linha, i) => escrever(frente, f.condensadaNegrito, linha, { x: L / 2, y: topo(73.8 + i * 3.4), tamanho: 9, alinhar: 'centro' }))
-  escrever(frente, f.texto, 'Filial do Estado do Rio de Janeiro', { x: L / 2, y: topo(81.6), tamanho: 5, alinhar: 'centro', cor: CINZA })
+  escrever(frente, f.texto, 'Filial do Município de Petrópolis', { x: L / 2, y: topo(81.6), tamanho: 5, alinhar: 'centro', cor: CINZA })
   escrever(frente, f.texto, `CNPJ ${DADOS_DA_FILIAL.cnpj}`, { x: L / 2, y: topo(83.8), tamanho: 5, alinhar: 'centro', cor: CINZA })
 
   // ---------------------------------------------------------------- verso
@@ -106,7 +106,7 @@ export async function gerarPdfDoCracha(d: DadosDoPdfDoCracha): Promise<Uint8Arra
   const blocoAltura = 3.2 + 2.1 + contato.length * 2.1 + 1.4
   verso.drawRectangle({ x: 0, y: topo(blocoTopo + blocoAltura), width: L, height: mm(blocoAltura), color: VERMELHO })
   escrever(verso, f.condensadaNegrito, 'CRUZ VERMELHA BRASILEIRA', { x: mm(4), y: topo(blocoTopo + 3), tamanho: 6.8, cor: BRANCO })
-  escrever(verso, f.texto, 'Filial do Estado do Rio de Janeiro', { x: mm(4), y: topo(blocoTopo + 5.1), tamanho: 4.6, cor: BRANCO })
+  escrever(verso, f.texto, 'Filial do Município de Petrópolis', { x: mm(4), y: topo(blocoTopo + 5.1), tamanho: 4.6, cor: BRANCO })
   contato.forEach((linha, i) => escrever(verso, f.texto, linha, { x: mm(4), y: topo(blocoTopo + 7.2 + i * 2.1), tamanho: 4.6, cor: BRANCO }))
 
   const aviso = quebrar(f.texto, 'Este crachá é a identificação oficial do(a) colaborador(a) da Cruz Vermelha Brasileira, de uso pessoal e intransferível. A instituição credencia o portador como pertencente aos seus quadros e solicita às autoridades civis e militares que o reconheçam como tal.', 3.9, L - mm(6))

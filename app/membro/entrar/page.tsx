@@ -83,7 +83,7 @@ export default async function EntrarNaAreaDoMembro({ searchParams }: { searchPar
             ))}
           </ul>
         </div>
-        <p className="relative px-10 pb-8 text-sm xl:px-14">Cruz Vermelha Brasileira · Filial do Rio de Janeiro</p>
+        <p className="relative px-10 pb-8 text-sm xl:px-14">Cruz Vermelha Brasileira · Filial de Petrópolis</p>
       </aside>
     </div>
   )

@@ -1,7 +1,7 @@
 import { Recado } from '@/components/newsletter/recado'
 import { RedirecionarParaNoticias } from '@/components/newsletter/redirecionar'
 
-export const metadata = { title: 'Inscrição confirmada — Cruz Vermelha RJ' }
+export const metadata = { title: 'Inscrição confirmada — Cruz Vermelha Petrópolis' }
 
 /** Quem acabou de pedir notícias vai para as notícias. */
 const CENTRAL_DE_NOTICIAS = 'https://cruzvermelhariodejaneiro.org/noticias/'
@@ -36,7 +36,7 @@ export default async function Confirmado({
       acao={<RedirecionarParaNoticias url={CENTRAL_DE_NOTICIAS} />}
     >
       <p>
-        Você vai receber as novidades da Cruz Vermelha do Rio de Janeiro: cursos,
+        Você vai receber as novidades da Cruz Vermelha de Petrópolis: cursos,
         campanhas e o destino das doações.
       </p>
       <p>Toda mensagem que enviarmos traz um link para sair da lista, caso mude de ideia.</p>

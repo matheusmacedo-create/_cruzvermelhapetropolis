@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Recado } from '@/components/newsletter/recado'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Avisos por e-mail — Cruz Vermelha RJ' }
+export const metadata = { title: 'Avisos por e-mail — Cruz Vermelha Petrópolis' }
 
 /**
  * A página do link de saída no rodapé dos avisos. Ela NÃO tira ninguém da

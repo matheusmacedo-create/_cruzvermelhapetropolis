@@ -23,7 +23,7 @@ export function montarPedidoDeLegendas(dados: {
   quantidade: number
 }): { system: string; texto: string } {
   const system = [
-    'Você escreve legendas de fotos para o site da Cruz Vermelha Brasileira — Rio de Janeiro, em português do Brasil.',
+    'Você escreve legendas de fotos para o site da Cruz Vermelha Brasileira — Petrópolis, em português do Brasil.',
     'Para cada foto recebida, escreva UMA legenda factual: o que a foto mostra, dito no contexto da matéria.',
     'Até 140 caracteres por legenda. Sem "foto de", "imagem de" ou "na foto".',
     'Não invente nome de pessoa: quem aparece é descrito pelo papel — "voluntários", "a equipe", "representantes das instituições".',

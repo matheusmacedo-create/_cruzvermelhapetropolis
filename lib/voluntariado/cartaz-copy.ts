@@ -16,9 +16,9 @@ export const COPY_DO_VOLUNTARIADO: CopyDoVoluntariado = {
     padrao: { rotulo: 'Tem um tempo? Seja voluntário.', titulo: ['Tem um tempo?', 'Seja voluntário.'], texto: 'Ações humanitárias, primeiros socorros, campanhas de saúde e emergências. Há lugar para você, e formação para quem chega.' },
     'faca-parte': { rotulo: 'Faça parte da Cruz Vermelha', titulo: ['Faça parte', 'da Cruz Vermelha.'], texto: 'Doe tempo e cuidado a quem precisa. A inscrição leva poucos minutos, e a coordenação entra em contato com você.' },
     ajudar: { rotulo: 'Ajudar começa aqui', titulo: ['Ajudar', 'começa aqui.'], texto: 'Sem experiência? A Cruz Vermelha forma quem chega. Inscreva-se pelo celular.' },
-    'rio-precisa': { rotulo: 'O Rio precisa de voluntários', titulo: ['O Rio precisa', 'de voluntários.'], texto: 'Emergências, saúde, doações, Juventude. Na inscrição, você diz onde quer atuar.' },
-    'quer-ajudar': { rotulo: 'Quer ajudar? Comece pela inscrição.', titulo: ['Quer ajudar?', 'Comece pela inscrição.'], texto: 'Ações humanitárias, primeiros socorros, campanhas e emergências. Você recebe formação e entra numa equipe que já atua no Rio.' },
-    'estar-presente': { rotulo: 'Estar presente onde alguém precisa', titulo: ['Estar presente', 'onde alguém precisa.'], texto: 'É assim que a Cruz Vermelha atua no Rio. Você pode fazer parte: há formação para quem chega e trabalho que faz diferença.' },
+    'rio-precisa': { rotulo: 'Petrópolis precisa de voluntários', titulo: ['Petrópolis precisa', 'de voluntários.'], texto: 'Emergências, saúde, doações, Juventude. Na inscrição, você diz onde quer atuar.' },
+    'quer-ajudar': { rotulo: 'Quer ajudar? Comece pela inscrição.', titulo: ['Quer ajudar?', 'Comece pela inscrição.'], texto: 'Ações humanitárias, primeiros socorros, campanhas e emergências. Você recebe formação e entra numa equipe que já atua em Petrópolis.' },
+    'estar-presente': { rotulo: 'Estar presente onde alguém precisa', titulo: ['Estar presente', 'onde alguém precisa.'], texto: 'É assim que a Cruz Vermelha atua em Petrópolis. Você pode fazer parte: há formação para quem chega e trabalho que faz diferença.' },
     'se-aprende': { rotulo: 'Servir quem precisa se aprende aqui', titulo: ['Servir quem precisa', 'se aprende aqui.'], texto: 'Ninguém chega pronto. Quem entra no voluntariado passa por cursos e aprende com quem já está no campo.' },
   },
   area: {

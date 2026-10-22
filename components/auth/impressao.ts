@@ -26,7 +26,7 @@ function canvas(): string | null {
   ctx.fillRect(100, 1, 62, 20)
   ctx.fillStyle = '#069'
   ctx.font = '15px "Arial"'
-  ctx.fillText('Cruz Vermelha RJ ✚ ação 😃', 2, 15)
+  ctx.fillText('Cruz Vermelha Petrópolis ✚ ação 😃', 2, 15)
   ctx.fillStyle = 'rgba(102, 204, 0, 0.7)'
   ctx.font = 'bold 16px serif'
   ctx.fillText('Palácio Virtual ÇÃÕ ẞ 🩺', 4, 45)

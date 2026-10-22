@@ -10,7 +10,8 @@ const documento: DocumentoNoPortal = {
 
 for (const documentos of [[], [documento]]) {
   const html = paginaDaTransparencia({ documentos, parcerias: [], agora: new Date('2026-10-19T12:00:00Z'), indexar: true })
-  assert.match(html, /67\.733\.551\/0001-35/, 'identifica a empresa que vende os cursos')
+  assert.match(html, /associação sem fins lucrativos/, 'diz como a filial se financia')
+  assert.doesNotMatch(html, /67\.733\.551/, 'não cita a empresa de cursos do RJ')
   assert.match(html, /href="\/quem-somos\/#como-nos-financiamos"/, 'permite conferir o destino das receitas')
   assert.match(html, /href="\/pedido-de-documentos\/"/, 'oferece contato para documentos não publicados')
   assert.match(html, /não substituem a análise do conteúdo/, 'não apresenta a trilha como auditoria contábil')

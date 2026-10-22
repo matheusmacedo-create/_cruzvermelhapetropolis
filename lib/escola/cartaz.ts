@@ -21,10 +21,10 @@ import { normalizar } from '@/lib/chamados/setores'
 export const MATRICULA_NO_SITE = 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/'
 export const PARAMETRO_DO_CURSO = 'curso'
 export const CHAVE_PADRAO = 'inscricoes'
-export const TEXTO_PADRAO = 'Curso presencial na Cruz Vermelha RJ, com certificado. Aponte a câmera e faça a matrícula pelo celular.'
+export const TEXTO_PADRAO = 'Curso presencial na Cruz Vermelha Petrópolis, com certificado. Aponte a câmera e faça a matrícula pelo celular.'
 /** Nome de curso mais comprido que isto não cabe na linha do título: vai para a frase. */
 export const NOME_LONGO = 40
-const TEXTO_PADRAO_CURTO = 'Curso presencial na Cruz Vermelha RJ, com certificado.'
+const TEXTO_PADRAO_CURTO = 'Curso presencial na Cruz Vermelha Petrópolis, com certificado.'
 
 export type CursoDoCartaz = { id: string; nome: string; descricao: string | null; paginaUrl: string | null }
 
@@ -66,7 +66,7 @@ export const CHAMADAS_DO_CURSO: Record<string, Chamada> = {
   vagas: { rotulo: 'Vagas abertas. Matricule-se.', titulo: ['Vagas abertas.', 'Matricule-se.'], texto: '{curso}: presencial, na sede, com certificado da Cruz Vermelha.' },
   'nova-turma': { rotulo: 'Nova turma. Garanta a vaga.', titulo: ['Nova turma.', 'Garanta a vaga.'], texto: '{curso}, presencial, na sede. A secretaria confirma turma e horário.' },
   aprenda: { rotulo: 'Aprenda com a Cruz Vermelha', titulo: ['Aprenda com', 'a Cruz Vermelha.'], texto: '{curso}, presencial, com certificado no seu currículo.' },
-  'na-cruz-vermelha': { rotulo: '… na Cruz Vermelha', titulo: ['{curso}', 'na Cruz Vermelha.'], texto: 'Aulas presenciais na sede, no Centro do Rio, e o certificado no seu currículo. Faça a matrícula pelo site.' },
+  'na-cruz-vermelha': { rotulo: '… na Cruz Vermelha', titulo: ['{curso}', 'na Cruz Vermelha.'], texto: 'Aulas presenciais na sede, no Centro de Petrópolis, e o certificado no seu currículo. Faça a matrícula pelo site.' },
   'no-curriculo': { rotulo: 'No currículo: …', titulo: ['No currículo:', '{curso}.'], texto: 'Certificado da Cruz Vermelha, aulas presenciais na sede e uma habilidade que abre portas. Faça a matrícula pelo site; a secretaria confirma a turma.' },
 }
 

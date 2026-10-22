@@ -318,7 +318,7 @@ export function LibraryView({ initialFiles, usedBytes, limitBytes, workspaceId, 
                   <div className="rounded-lg border border-border bg-muted/40 p-3 text-xs">
                     <p className="text-muted-foreground">
                       Confirmo que há autorização de uso de imagem das pessoas que aparecem nesta mídia para publicação
-                      pela Cruz Vermelha Brasileira — Rio de Janeiro.
+                      pela Cruz Vermelha Brasileira — Petrópolis.
                     </p>
                     <p className="mt-1 text-muted-foreground">Ainda não tem? <Link href={`/biblioteca/autorizacoes/nova?arquivos=${f.id}`} className="font-medium text-primary hover:underline">Peça às pessoas por link</Link> — cada uma assina no celular.</p>
                     <div className="mt-2 flex gap-2">

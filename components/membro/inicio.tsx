@@ -79,7 +79,7 @@ export function InicioView({ nome, perfil, hoje, hora, agora, formacoes, ativida
 
       <div id="boas-vindas">
         <CabecalhoDaPagina sobretitulo={`${saudacao(hora)},`} titulo={primeiroNome(nome)} descricao={linha || undefined}>
-          <p className="text-sm text-muted-foreground">No voluntariado da Cruz Vermelha RJ desde {mesEAno(perfil.aprovado_em ?? perfil.created_at)}</p>
+          <p className="text-sm text-muted-foreground">No voluntariado da Cruz Vermelha Petrópolis desde {mesEAno(perfil.aprovado_em ?? perfil.created_at)}</p>
         </CabecalhoDaPagina>
       </div>
 

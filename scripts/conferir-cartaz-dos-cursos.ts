@@ -45,7 +45,7 @@ igual(montarChamada(CHAVE_PADRAO, CHAMADAS_DO_CURSO[CHAVE_PADRAO], marcadoresDoC
 const leiLucas: CursoDoCartaz = { id: '3', nome: 'Primeiros Socorros Lei Lucas - Ambientes com Crianças', descricao: null, paginaUrl: null }
 verdade(nomeLongo(leiLucas) && !nomeLongo(puncao) && leiLucas.nome.length > NOME_LONGO, 'nomeLongo pelo limite')
 const listaLonga = chamadasDoCurso(leiLucas, COPY_POR_CURSO)
-igual(listaLonga[0], { chave: CHAVE_PADRAO, rotulo: 'Inscrições abertas', titulo: ['Inscrições abertas.', 'Matricule-se.'], texto: `${leiLucas.nome}: Curso presencial na Cruz Vermelha RJ, com certificado.` }, 'nome comprido: a de sempre com o nome na frase')
+igual(listaLonga[0], { chave: CHAVE_PADRAO, rotulo: 'Inscrições abertas', titulo: ['Inscrições abertas.', 'Matricule-se.'], texto: `${leiLucas.nome}: Curso presencial na Cruz Vermelha Petrópolis, com certificado.` }, 'nome comprido: a de sempre com o nome na frase')
 verdade(listaLonga.every((c) => `${c.titulo[0]} ${c.titulo[1]}`.length <= 60 && c.texto.length <= MAXIMO_DO_TEXTO), 'nome comprido: nenhum título passa de 60 nem frase de 160')
 verdade(!listaLonga.some((c) => c.chave === 'na-cruz-vermelha' || c.chave === 'no-curriculo'), 'nome comprido: as chamadas com o nome no título saem')
 verdade(listaLonga.some((c) => c.chave === 'trabalha-com-criancas'), 'nome comprido: a copy do modelo continua')

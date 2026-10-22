@@ -5,7 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { hashDoToken } from '@/lib/contas/servidor'
 import { problemaDoConvite } from '@/lib/google/contas-regras'
 
-export const metadata = { title: 'Criar meu e-mail — Cruz Vermelha RJ' }
+export const metadata = { title: 'Criar meu e-mail — Cruz Vermelha Petrópolis' }
 export const dynamic = 'force-dynamic'
 
 /**

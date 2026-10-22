@@ -60,7 +60,7 @@ export function blocoLigado(urlDaRota: string): string {
       </style>
       <div class="wrap">
         <p class="eyebrow">Fique por dentro</p>
-        <h2>Receba novidades da Cruz Vermelha Brasileira Rio de Janeiro</h2>
+        <h2>Receba novidades da Cruz Vermelha Brasileira Petrópolis</h2>
         <p class="lead">Cursos, campanhas e o impacto da sua doação, direto no seu e-mail.</p>
         <form class="newsletter-form" id="newsletter-form" action="${urlDaRota}" method="post">
           <label class="newsletter-armadilha" aria-hidden="true">Não preencha este campo
@@ -70,7 +70,7 @@ export function blocoLigado(urlDaRota: string): string {
           <button type="submit" class="btn">Quero Receber</button>
           <label class="newsletter-aceite">
             <input type="checkbox" name="consentimento" value="1" required>
-            <span>Autorizo a Cruz Vermelha Brasileira — Filial Rio de Janeiro a enviar para o meu e-mail notícias, campanhas e informações sobre cursos. Sei que posso sair da lista a qualquer momento pelo link presente em todas as mensagens.</span>
+            <span>Autorizo a Cruz Vermelha Brasileira — Filial Petrópolis a enviar para o meu e-mail notícias, campanhas e informações sobre cursos. Sei que posso sair da lista a qualquer momento pelo link presente em todas as mensagens.</span>
           </label>
         </form>
         <p class="newsletter-recado" id="newsletter-recado" role="status" aria-live="polite"></p>

@@ -112,7 +112,7 @@ export default async function EnvioPage({ params }: { params: Promise<{ id: stri
               <Linha rotulo="Enviado por">{envio.nome}{envio.setor ? ` · ${envio.setor}` : ''}</Linha>
               {envio.whatsapp && (
                 <Linha rotulo="WhatsApp">
-                  <a href={linkDoWhatsapp(envio.whatsapp, `Olá, ${envio.nome.split(' ')[0]}! Aqui é da comunicação da Cruz Vermelha RJ, sobre a ação "${envio.titulo}" (${envio.protocolo}).`)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary underline-offset-4 hover:underline">
+                  <a href={linkDoWhatsapp(envio.whatsapp, `Olá, ${envio.nome.split(' ')[0]}! Aqui é da comunicação da Cruz Vermelha Petrópolis, sobre a ação "${envio.titulo}" (${envio.protocolo}).`)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary underline-offset-4 hover:underline">
                     <MessageCircle className="size-3.5" aria-hidden="true" />+{envio.whatsapp}
                   </a>
                 </Linha>

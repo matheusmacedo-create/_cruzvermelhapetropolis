@@ -10,7 +10,7 @@ import { Moldura } from '../../autorizacao/moldura'
 // Página pública, sem login: o link pessoal que o RH manda para a pessoa completar a própria ficha.
 // Fora do Google e sem mandar o endereço (com o token) adiante.
 export const metadata: Metadata = {
-  title: 'Complete a sua ficha — Cruz Vermelha RJ',
+  title: 'Complete a sua ficha — Cruz Vermelha Petrópolis',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 }
@@ -25,7 +25,7 @@ export default async function Ficha({ params }: { params: Promise<{ token: strin
       <CabecalhoDaPagina
         sobretitulo="Recursos humanos"
         titulo={convite.aberto && convite.nome ? `${convite.nome}, complete a sua ficha` : 'Complete a sua ficha'}
-        descricao="Estes dados ficam com o RH da Cruz Vermelha RJ e só são usados para a sua ficha de trabalho."
+        descricao="Estes dados ficam com o RH da Cruz Vermelha Petrópolis e só são usados para a sua ficha de trabalho."
       />
       {!convite.aberto ? (
         <Recado tipo="aviso" titulo="Este link não vale mais">Ele já foi usado, venceu ou foi trocado por um mais novo. Se ainda falta algo, peça um link novo ao RH.</Recado>

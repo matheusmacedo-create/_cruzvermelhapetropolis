@@ -233,7 +233,7 @@ export function linkDoWhatsapp(numero: string, mensagem: string): string {
 }
 
 export const mensagemDePublicacao = (nome: string, titulo: string, url: string) =>
-  `Olá, ${nome.split(' ')[0]}! A ação que você mandou ("${titulo}") virou matéria no site da Cruz Vermelha RJ: ${url} — obrigado por compartilhar!`
+  `Olá, ${nome.split(' ')[0]}! A ação que você mandou ("${titulo}") virou matéria no site da Cruz Vermelha Petrópolis: ${url} — obrigado por compartilhar!`
 
 export const tamanhoLegivel = (bytes: number) =>
   bytes >= 1024 ** 3 ? `${(bytes / 1024 ** 3).toFixed(1).replace('.', ',')} GB`

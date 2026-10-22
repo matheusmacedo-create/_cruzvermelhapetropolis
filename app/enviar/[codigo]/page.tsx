@@ -8,7 +8,7 @@ import { eventoPeloCodigo } from '@/lib/envios/eventos'
 // O link de envio de um evento (docs/envio-de-acoes.md §9): o mesmo formulário
 // de /enviar, e tudo o que chega por aqui cai no álbum do evento.
 export const metadata: Metadata = {
-  title: 'Mandar fotos do evento — Cruz Vermelha RJ',
+  title: 'Mandar fotos do evento — Cruz Vermelha Petrópolis',
   robots: { index: false, follow: false },
   referrer: 'no-referrer',
 }

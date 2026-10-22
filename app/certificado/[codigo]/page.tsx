@@ -9,7 +9,7 @@ import { Marca } from '@/components/membro/marca'
 const decodificar = (bruto: string) => { try { return decodeURIComponent(bruto) } catch { return '' } }
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Verificação de certificado — Cruz Vermelha RJ', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Verificação de certificado — Cruz Vermelha Petrópolis', robots: { index: false, follow: false } }
 
 /**
  * Qualquer pessoa confere aqui um certificado da Área do Voluntário pelo
@@ -44,7 +44,7 @@ export default async function VerificarCertificado({ params }: { params: Promise
           ) : (
             <div className="flex flex-col gap-4">
               {c.revogado_em ? (
-                <p className="flex items-center gap-2 font-semibold text-destructive"><XCircle className="size-6" />Certificado cancelado pela Cruz Vermelha RJ</p>
+                <p className="flex items-center gap-2 font-semibold text-destructive"><XCircle className="size-6" />Certificado cancelado pela Cruz Vermelha Petrópolis</p>
               ) : vencido ? (
                 <p className="flex items-center gap-2 font-semibold text-warning-foreground"><AlertTriangle className="size-6" />Certificado autêntico, com validade vencida</p>
               ) : (
@@ -60,7 +60,7 @@ export default async function VerificarCertificado({ params }: { params: Promise
             </div>
           )}
         </section>
-        <p className="text-center text-xs text-muted-foreground">Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro</p>
+        <p className="text-center text-xs text-muted-foreground">Cruz Vermelha Brasileira – Filial do Município de Petrópolis</p>
       </div>
     </main>
   )

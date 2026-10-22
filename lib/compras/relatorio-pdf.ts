@@ -47,7 +47,7 @@ export async function relatorioDeCompras(d: DadosDoRelatorio): Promise<Uint8Arra
       if (c.justificativa) folha.paragrafo(`Justificativa da escolha: ${c.justificativa}`, 8.5, false, 6)
     }
   }
-  folha.paragrafo(`Rio de Janeiro, ${dataPorExtenso(d.geradoEm.slice(0, 10))}.`, 9, false, 0)
+  folha.paragrafo(`Petrópolis, ${dataPorExtenso(d.geradoEm.slice(0, 10))}.`, 9, false, 0)
   folha.rodapes(`Compras e contratações · ${d.mesPorExtenso} · ${d.empresa}`)
   return pdf.save()
 }

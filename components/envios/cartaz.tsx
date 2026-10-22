@@ -64,7 +64,7 @@ export function Cartaz(p: PropsDoCartaz) {
   const condensada = (tamanho: number, s: CSSProperties = {}): CSSProperties => ({ fontFamily: p.fontes.titulo, fontWeight: 700, fontSize: u(tamanho), textTransform: 'uppercase', ...s })
 
   // ---------------------------------------------------------------- peças
-  const imgLogo = <img src={p.logo} alt="Cruz Vermelha Brasileira – Rio de Janeiro" width={u(m.logo)} height={u(m.logo / PROPORCAO_DA_LOGO)} style={{ width: u(m.logo), height: u(m.logo / PROPORCAO_DA_LOGO) }} />
+  const imgLogo = <img src={p.logo} alt="Cruz Vermelha Brasileira – Petrópolis" width={u(m.logo)} height={u(m.logo / PROPORCAO_DA_LOGO)} style={{ width: u(m.logo), height: u(m.logo / PROPORCAO_DA_LOGO) }} />
   // Sobre o vermelho, a logo vai numa caixa branca com respiro (a área de proteção do manual).
   const logo = destaque
     ? <div style={caixaBranca({ padding: `${u(12)}px ${u(20)}px`, alignSelf: 'flex-start' })}>{imgLogo}</div>

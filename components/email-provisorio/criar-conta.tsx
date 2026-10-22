@@ -85,7 +85,7 @@ export function CriarContaDoGoogle({ token, setorFixo, setores }: {
       </label>
       {erro && <p role="alert" className="flex items-start gap-2 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive"><AlertTriangle className="mt-0.5 size-4 shrink-0" />{erro}</p>}
       <Button type="submit" size="lg" className="h-12" disabled={ocupado}>{ocupado && <Loader2 className="size-4 animate-spin" />}{ocupado ? 'Criando no Google…' : 'Criar meu e-mail'}</Button>
-      <p className="text-center text-[11px] leading-snug text-muted-foreground">A conta é criada no Google Workspace da Cruz Vermelha RJ. Registramos data e local aproximado de cada criação.</p>
+      <p className="text-center text-[11px] leading-snug text-muted-foreground">A conta é criada no Google Workspace da Cruz Vermelha Petrópolis. Registramos data e local aproximado de cada criação.</p>
     </form>
   )
 }

@@ -112,7 +112,7 @@ export async function virarPauta(envioId: string, arquivoIds: string[], criarMat
       for (const arquivo of (arquivos ?? []) as ArquivoDoEnvio[]) {
         // Um arquivo que falha não derruba o resto: vira aviso, e a pauta segue.
         const r = await copiarParaBiblioteca(admin, {
-          arquivo, workspaceId: ws, usuarioId: context.user.id, autorizacao: envio.autorizacao_imagem, credito: `${envio.nome}/CVB-RJ`, usado,
+          arquivo, workspaceId: ws, usuarioId: context.user.id, autorizacao: envio.autorizacao_imagem, credito: `${envio.nome}/CVB Petrópolis`, usado,
         }).catch((causa) => ({ fileId: undefined, motivo: `${arquivo.nome}: a cópia para a Biblioteca falhou (${causa instanceof Error ? causa.message.slice(0, 120) : 'erro'}).` }))
         if (r.fileId) fileIds.push(r.fileId)
         else if (r.motivo) avisos.push(r.motivo)
@@ -128,7 +128,7 @@ export async function virarPauta(envioId: string, arquivoIds: string[], criarMat
       }).select('id').single()
       if (erroPeca || !peca) throw new Error('A pauta foi criada, mas não a matéria.')
       // O crédito de cada foto já vem preenchido: quem mandou é quem fotografou.
-      const legendas = Object.fromEntries(fileIds.map((id) => [id, { legenda: '', credito: `${envio.nome}/CVB-RJ` }]))
+      const legendas = Object.fromEntries(fileIds.map((id) => [id, { legenda: '', credito: `${envio.nome}/CVB Petrópolis` }]))
       const { data: pacote, error: erroPacote } = await supabase.from('social_packages').insert({
         workspace_id: ws, titulo_interno: envio.titulo.slice(0, 200), origem_tipo: 'materia', origem_id: peca.id,
         mestre: { corpo, titulo: envio.titulo, subtitulo: '', legendas }, mestre_file_ids: fileIds, created_by: context.user.id,

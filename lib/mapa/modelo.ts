@@ -122,7 +122,7 @@ const TIPO_DO_NO = { sistema: 'system', categoria: 'category', item: 'item' } as
 export function montarArvore(itens: ItemDoMapa[], pendencias: PendenciaDoMapa[]): { raiz: No; porId: Map<string, No>; orfaos: string[] } {
   const porId = new Map<string, No>()
   const raiz: No = {
-    id: 'inicio', name: 'Cruz Vermelha Brasileira do Rio de Janeiro', type: 'root', parentId: null, system: null, status: null, estado: null,
+    id: 'inicio', name: 'Cruz Vermelha Brasileira de Petrópolis', type: 'root', parentId: null, system: null, status: null, estado: null,
     statusDetail: '', description: '', url: null, entregas: [], updatedAt: null, pendencias: [], children: [], counts: contagensVazias(), total: 0, pend: 0, feitas: 0,
   }
   porId.set(raiz.id, raiz)

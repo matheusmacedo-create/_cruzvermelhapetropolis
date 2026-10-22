@@ -74,13 +74,13 @@ export function montar(opcoes: { assunto: string; preheader: string; titulo: str
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapar(opcoes.preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f7f8fa;"><tr><td align="center" style="padding:24px 12px;">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="width:560px;max-width:100%;background:#ffffff;border:1px solid ${LINHA};border-radius:8px;">
-<tr><td style="padding:28px 32px 0;border-top:4px solid ${VERMELHO};border-radius:8px 8px 0 0;"><img src="${LOGO}" width="120" alt="Cruz Vermelha Brasileira — Rio de Janeiro" style="height:auto;display:block;border:0;"></td></tr>
+<tr><td style="padding:28px 32px 0;border-top:4px solid ${VERMELHO};border-radius:8px 8px 0 0;"><img src="${LOGO}" width="120" alt="Cruz Vermelha Brasileira — Petrópolis" style="height:auto;display:block;border:0;"></td></tr>
 <tr><td style="padding:24px 32px 8px;font-family:Arial,Helvetica,sans-serif;color:${TINTA};font-size:16px;line-height:1.6;">
 <h1 style="margin:0 0 16px;font-size:20px;line-height:1.3;color:${TINTA};">${escapar(opcoes.titulo)}</h1>
 ${miolo}
 </td></tr>
 <tr><td style="padding:20px 32px 28px;border-top:1px solid ${LINHA};font-family:Arial,Helvetica,sans-serif;color:${SUAVE};font-size:12px;line-height:1.6;">
-${opcoes.rodape ? `${escapar(opcoes.rodape.texto)} <a href="${escapar(opcoes.rodape.url)}" style="color:${SUAVE};text-decoration:underline;">${escapar(opcoes.rodape.rotulo)}</a><br><br>` : ''}Mensagem automática do Palácio Virtual — sistema interno da Cruz Vermelha Brasileira, filial do Rio de Janeiro. A equipe nunca pede sua senha nem o código do app autenticador, por e-mail ou por telefone.
+${opcoes.rodape ? `${escapar(opcoes.rodape.texto)} <a href="${escapar(opcoes.rodape.url)}" style="color:${SUAVE};text-decoration:underline;">${escapar(opcoes.rodape.rotulo)}</a><br><br>` : ''}Mensagem automática do Palácio Virtual — sistema interno da Cruz Vermelha Brasileira, filial de Petrópolis. A equipe nunca pede sua senha nem o código do app autenticador, por e-mail ou por telefone.
 </td></tr></table></td></tr></table></body></html>`
 
   const texto = [
@@ -90,7 +90,7 @@ ${opcoes.rodape ? `${escapar(opcoes.rodape.texto)} <a href="${escapar(opcoes.rod
       : [b.texto, '']),
     '—',
     ...(opcoes.rodape ? [`${opcoes.rodape.texto} ${opcoes.rodape.rotulo}: ${opcoes.rodape.url}`, ''] : []),
-    'Mensagem automática do Palácio Virtual — Cruz Vermelha Brasileira, filial do Rio de Janeiro.',
+    'Mensagem automática do Palácio Virtual — Cruz Vermelha Brasileira, filial de Petrópolis.',
     'A equipe nunca pede sua senha nem o código do app autenticador.',
   ].join('\n')
 
@@ -103,11 +103,11 @@ const SE_NAO_FOI_VOCE = 'Se não foi você, redefina sua senha pela tela de logi
 
 export function emailDeConvite(p: { nome: string; usuario: string; url: string; horas: number; convidadoPor: string }): EmailPronto {
   return montar({
-    assunto: 'Seu acesso ao Palácio Virtual da Cruz Vermelha RJ',
+    assunto: 'Seu acesso ao Palácio Virtual da Cruz Vermelha Petrópolis',
     preheader: 'Defina sua senha para começar a usar o Palácio Virtual.',
     titulo: `Boas-vindas ao Palácio Virtual, ${primeiroNome(p.nome)}`,
     blocos: [
-      { tipo: 'p', texto: `${p.convidadoPor} criou o seu acesso ao Palácio Virtual, o sistema de comunicação da Cruz Vermelha Brasileira no Rio de Janeiro. Seu usuário para entrar é:` },
+      { tipo: 'p', texto: `${p.convidadoPor} criou o seu acesso ao Palácio Virtual, o sistema de comunicação da Cruz Vermelha Brasileira em Petrópolis. Seu usuário para entrar é:` },
       { tipo: 'destaque', texto: p.usuario },
       { tipo: 'p', texto: 'Para começar, escolha a sua senha:' },
       { tipo: 'botao', rotulo: 'Definir minha senha', url: p.url },

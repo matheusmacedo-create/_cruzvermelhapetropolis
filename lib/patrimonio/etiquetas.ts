@@ -40,7 +40,7 @@ function caber(texto: string, largura: number, medir: (s: string) => number): st
 /** Troca o que a fonte padrão do PDF não desenha (fora do Windows-1252). */
 const seguro = (s: string) => s.normalize('NFC').replace(/[^\x20-\x7E -ÿ–—‘’“”…•]/g, '?')
 
-export async function folhaDeEtiquetas(bens: { plaqueta: string; nome: string; url: string }[], organizacao = 'CRUZ VERMELHA RJ'): Promise<Uint8Array> {
+export async function folhaDeEtiquetas(bens: { plaqueta: string; nome: string; url: string }[], organizacao = 'CRUZ VERMELHA PETRÓPOLIS'): Promise<Uint8Array> {
   const pdf = await PDFDocument.create()
   pdf.setTitle('Etiquetas de patrimônio')
   const normal = await pdf.embedFont(StandardFonts.Helvetica)

@@ -65,7 +65,7 @@ const primeiro = (nome: string) => nome.trim().split(/\s+/)[0] ?? ''
 
 export function textoDoConviteDaFicha(p: { nome: string; url: string; documentos: boolean; lembrete?: boolean }): string {
   return [
-    p.lembrete ? `${primeiro(p.nome) ? `${primeiro(p.nome)}, f` : 'F'}alta completar a sua ficha na Cruz Vermelha RJ.` : `Olá${primeiro(p.nome) ? `, ${primeiro(p.nome)}` : ''}! O RH da Cruz Vermelha RJ pede que você complete a sua ficha.`,
+    p.lembrete ? `${primeiro(p.nome) ? `${primeiro(p.nome)}, f` : 'F'}alta completar a sua ficha na Cruz Vermelha Petrópolis.` : `Olá${primeiro(p.nome) ? `, ${primeiro(p.nome)}` : ''}! O RH da Cruz Vermelha Petrópolis pede que você complete a sua ficha.`,
     `Leva poucos minutos: dados pessoais, endereço e contato de emergência${p.documentos ? ', e os números dos seus documentos' : ''}.`,
     `Seu link (pessoal, vale uma vez e por ${DIAS_DO_CONVITE} dias): ${p.url}`,
     '_Não repasse este link. A Cruz Vermelha nunca pede senha nem dados de banco por link._',

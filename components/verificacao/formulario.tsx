@@ -79,7 +79,7 @@ export function FormularioDaVerificacao({ token, dados, hoje }: { token: string;
         }}>
           <Secao titulo="Termo de verificação e tratamento de dados" className={cartao}>
             <div className="max-h-72 overflow-y-auto rounded-lg border border-border bg-background p-3 text-sm leading-relaxed [&_p]:mb-2">
-              <p><strong>Para quê.</strong> A Cruz Vermelha Brasileira – Filial do Rio de Janeiro confere a identidade, os antecedentes e as referências de quem se candidata ao voluntariado, antes de aprovar a inscrição e a cada 6 meses enquanto a pessoa atuar. É o que a Lei 14.811/2024 (art. 59-A do Estatuto da Criança e do Adolescente) exige de instituições que atendem crianças e adolescentes, e o que a política de proteção da Federação Internacional da Cruz Vermelha pede.</p>
+              <p><strong>Para quê.</strong> A Cruz Vermelha Brasileira – Filial de Petrópolis confere a identidade, os antecedentes e as referências de quem se candidata ao voluntariado, antes de aprovar a inscrição e a cada 6 meses enquanto a pessoa atuar. É o que a Lei 14.811/2024 (art. 59-A do Estatuto da Criança e do Adolescente) exige de instituições que atendem crianças e adolescentes, e o que a política de proteção da Federação Internacional da Cruz Vermelha pede.</p>
               <p><strong>O que você envia.</strong> Foto do seu documento de identificação com foto (RG, CNH ou RNE), o atestado de antecedentes criminais (gratuito, emitido por você no site da Polícia Civil do RJ), o contato de duas pessoas fora da sua família que possam falar de você e, se tiver, o seu registro em conselho profissional. O CPF informado abaixo fica guardado cifrado no seu cadastro.</p>
               <p><strong>Leitura automatizada e transferência internacional.</strong> A imagem do documento é lida por um sistema de inteligência artificial (Claude, da Anthropic, com servidores nos Estados Unidos) só para transcrever o que está impresso e comparar com o seu cadastro; o arquivo não é usado para treinar modelos. A decisão sobre a sua inscrição é sempre de uma pessoa da coordenação (LGPD, art. 20). Não fazemos reconhecimento facial.</p>
               <p><strong>Consultas públicas.</strong> Com o seu CPF, consultamos as bases públicas da Controladoria-Geral da União (sanções e pessoas expostas politicamente) pelo Portal da Transparência. A coordenação pode ainda conferir o código do atestado no site da Polícia Civil e o seu registro no site do conselho.</p>
@@ -92,7 +92,7 @@ export function FormularioDaVerificacao({ token, dados, hoje }: { token: string;
             </label>
             <label className="flex items-start gap-3 text-sm">
               <input type="checkbox" name="aceito" value="sim" required className="mt-1 size-4 shrink-0 accent-primary" />
-              <span>Li o termo e autorizo a Cruz Vermelha RJ a fazer esta verificação, inclusive a leitura automatizada do meu documento e as consultas públicas.</span>
+              <span>Li o termo e autorizo a Cruz Vermelha Petrópolis a fazer esta verificação, inclusive a leitura automatizada do meu documento e as consultas públicas.</span>
             </label>
           </Secao>
           {erro && <Recado tipo="erro">{erro}</Recado>}

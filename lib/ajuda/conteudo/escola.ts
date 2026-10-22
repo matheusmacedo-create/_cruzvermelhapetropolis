@@ -176,7 +176,7 @@ export const guias: GuiaDaArea[] = [CURSOS,
   // ------------------------------------------------------------ Visão geral
   {
     href: '/escola',
-    paraQueServe: 'A porta de entrada da Escola de Educação e Saúde, uma empresa da Cruz Vermelha RJ com receita e gestão próprias. Junta num lugar só as vendas do mês, o financeiro, o marketing, os advertoriais e o que pede atenção, e cada bloco leva à área dele. Alunos, turmas e secretaria continuam no sistema da escola.',
+    paraQueServe: 'A porta de entrada da Escola de Educação e Saúde, uma empresa da Cruz Vermelha Petrópolis com receita e gestão próprias. Junta num lugar só as vendas do mês, o financeiro, o marketing, os advertoriais e o que pede atenção, e cada bloco leva à área dele. Alunos, turmas e secretaria continuam no sistema da escola.',
     quemUsa: 'Abre para quem tem acesso às vendas ou ao marketing da escola. Vendas: administradores, a equipe da escola, quem é da coordenação ou do setor Educação e Saúde e quem tem acesso aos livros da Escola no Financeiro. Marketing e advertoriais: essas mesmas pessoas, mais editores e a Comunicação Social. Cada bloco só aparece para quem pode abrir a área dele.',
     naPratica: {
       titulo: 'A manhã da coordenação da Escola',
@@ -248,7 +248,7 @@ export const guias: GuiaDaArea[] = [CURSOS,
       {
         id: 'o-que-e-a-escola',
         pergunta: 'O que é a Escola no Palácio Virtual?',
-        resposta: 'A Escola de Educação e Saúde é uma empresa da Cruz Vermelha RJ com receita e gestão próprias. No Palácio Virtual fica a administração dela: vendas, financeiro, marketing e advertoriais. Alunos, turmas e secretaria ficam no sistema da escola.',
+        resposta: 'A Escola de Educação e Saúde é uma empresa da Cruz Vermelha Petrópolis com receita e gestão próprias. No Palácio Virtual fica a administração dela: vendas, financeiro, marketing e advertoriais. Alunos, turmas e secretaria ficam no sistema da escola.',
         termos: ['escola de educação e saúde', 'empresa', 'cursos', 'punção venosa'],
       },
       {

@@ -214,7 +214,7 @@ export const limpo = (texto: string, max: number) =>
 
 export const primeiroNome = (nome: string | null | undefined) => String(nome ?? '').trim().split(/\s+/)[0] || ''
 
-export const RODAPE = '_Palácio Virtual · Cruz Vermelha Brasileira – RJ. Responda *menu* para ver as opções._'
+export const RODAPE = '_Palácio Virtual · Cruz Vermelha Brasileira – Petrópolis. Responda *menu* para ver as opções._'
 
 /** O texto de um aviso de notificar(), no formato do WhatsApp. */
 export function textoDoAviso(p: { urlBase: string; titulo: string; mensagem: string; link: string | null; citacao?: string | null }): string {
@@ -696,7 +696,7 @@ export function textoDoComandoFila(p: { rodada: RodadaDaFila; fila: EsperaNaFila
 export function textoDoConviteDoPalacio(p: { nome: string; usuario: string; url: string; horas: number; convidadoPor: string; urlDaFicha?: string | null }): string {
   const nome = primeiroNome(p.nome)
   return [
-    `${nome ? `Olá, ${limpo(nome, 60)}!` : 'Olá!'} ${limpo(p.convidadoPor, 80)} criou o seu acesso ao *Palácio Virtual*, o sistema interno da Cruz Vermelha Brasileira – RJ.`,
+    `${nome ? `Olá, ${limpo(nome, 60)}!` : 'Olá!'} ${limpo(p.convidadoPor, 80)} criou o seu acesso ao *Palácio Virtual*, o sistema interno da Cruz Vermelha Brasileira – Petrópolis.`,
     `Seu usuário: *${limpo(p.usuario, 40)}*`,
     `${p.urlDaFicha ? '*1.* ' : ''}Crie a sua senha (o link vale por ${p.horas} horas e funciona uma vez só):\n${p.url}`,
     p.urlDaFicha ? `*2.* Complete a sua ficha no RH (dados pessoais, endereço e contato de emergência):\n${p.urlDaFicha}` : null,
@@ -721,7 +721,7 @@ export function textoDeSeguranca(p: { titulo: string; texto: string; naoFuiEu?: 
     `*${limpo(p.titulo, 200)}*`,
     limpo(p.texto, 900),
     p.naoFuiEu ? `_${LINHA_DO_NAO_FUI_EU}_` : null,
-    '_Palácio Virtual · Cruz Vermelha Brasileira – RJ. A equipe nunca pede sua senha nem códigos, por aqui ou por telefone._',
+    '_Palácio Virtual · Cruz Vermelha Brasileira – Petrópolis. A equipe nunca pede sua senha nem códigos, por aqui ou por telefone._',
   ].filter(Boolean).join('\n\n')
 }
 
@@ -1546,7 +1546,7 @@ export function textoDoMenu(p: { nome: string | null; pausado: boolean; urlBase:
   const ola = p.nome ? `Olá, ${primeiroNome(p.nome)}!` : 'Olá!'
   const montar = (areas: string[]) => [
     p.naoEntendi ? TEXTO_NAO_ENTENDI : null,
-    `${ola} Aqui é o WhatsApp do *Palácio Virtual*, da Cruz Vermelha Brasileira – RJ.`,
+    `${ola} Aqui é o WhatsApp do *Palácio Virtual*, da Cruz Vermelha Petrópolis.`,
     p.pausado ? '_Os avisos por aqui estão pausados._' : null,
     ['Responda com o número:', ...opcoesDoMenu(p.pausado, p.atende).map(linhaDoMenu)].join('\n'),
     ['Ou escreva:', '*chamado:* e o problema, para abrir um chamado', '*ajuda* e a sua dúvida (ex.: _ajuda como trocar a senha_)',
@@ -1618,7 +1618,7 @@ export const TEXTO_VOLTOU = 'Pronto: os avisos do Palácio Virtual voltam a cheg
 
 export function textoDaApresentacao(p: { urlBase: string; site: string }): string {
   return [
-    'Olá! Este é o WhatsApp de avisos do *Palácio Virtual*, o sistema interno da Cruz Vermelha Brasileira – Rio de Janeiro. As mensagens daqui não são lidas por uma pessoa.',
+    'Olá! Este é o WhatsApp de avisos do *Palácio Virtual*, o sistema interno da Cruz Vermelha Brasileira – Petrópolis. As mensagens daqui não são lidas por uma pessoa.',
     `Se você é da equipe, cadastre este número em Meu perfil → WhatsApp: ${p.urlBase}/perfil#whatsapp`,
     `Se você é voluntário, confirme este número na Área do Voluntário para receber as oportunidades: ${p.urlBase}/membro/perfil#whatsapp`,
     `Para falar com a Cruz Vermelha, use os canais oficiais: ${p.site}`,

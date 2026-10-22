@@ -114,7 +114,7 @@ ${miolo}
 ${acao}
 </td></tr>
 <tr><td style="padding-top:20px;border-top:1px solid ${LINHA};font-family:Arial,Helvetica,sans-serif;color:${SUAVE};font-size:12px;line-height:1.6;">
-<p style="margin:0 0 6px;">Assessoria de Comunicação — Cruz Vermelha Brasileira, Filial do Estado do Rio de Janeiro</p>
+<p style="margin:0 0 6px;">Assessoria de Comunicação — Cruz Vermelha Brasileira, Filial do Município de Petrópolis</p>
 <p style="margin:0;">Não quer mais receber nossos comunicados? <a href="${escapar(dados.urlDeSaida)}" style="color:${SUAVE};">Sair da lista</a>.</p>
 </td></tr>
 </table>
@@ -127,7 +127,7 @@ ${acao}
     ...(link ? [`${rotulo}: ${link}`] : []),
     '',
     '--',
-    'Assessoria de Comunicação — Cruz Vermelha Brasileira, Filial do Estado do Rio de Janeiro',
+    'Assessoria de Comunicação — Cruz Vermelha Brasileira, Filial do Município de Petrópolis',
     `Não quer mais receber nossos comunicados? ${dados.urlDeSaida}`,
   ].join('\n\n').replace(/\n{3,}/g, '\n\n')
 

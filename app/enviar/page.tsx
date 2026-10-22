@@ -4,8 +4,8 @@ import { PaginaDeEnvio } from '@/components/enviar/pagina'
 // Página pública, sem login: o link (e o QR code) que a equipe usa para mandar
 // o que aconteceu numa ação. Fica fora do Google (noindex): é da equipe.
 export const metadata: Metadata = {
-  title: 'Mandar uma ação — Cruz Vermelha RJ',
-  description: 'Mande fotos, vídeos, áudios e o relato de uma ação para a comunicação da Cruz Vermelha Brasileira – Filial RJ.',
+  title: 'Mandar uma ação — Cruz Vermelha Petrópolis',
+  description: 'Mande fotos, vídeos, áudios e o relato de uma ação para a comunicação da Cruz Vermelha Brasileira – Filial Petrópolis.',
   robots: { index: false, follow: false },
 }
 

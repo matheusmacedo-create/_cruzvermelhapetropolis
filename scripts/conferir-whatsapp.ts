@@ -1251,12 +1251,12 @@ contem(textoDoStatus({ ...statusBase, escola: [{ ...contaEmDia, sincronizadaEm: 
 // ---------------------------------------------------------------- modelos por situação (lib/whatsapp/modelos.ts)
 // O catálogo é o que o Palácio cadastrou na Meta: o corpo de cada modelo, letra por letra.
 igual(Object.fromEntries(Object.values(CATALOGO_DOS_MODELOS).flat().map((m) => [m.nome, m.corpo])), {
-  portaria_visita_foto_v2: 'Chegou uma visita para você na recepção da Cruz Vermelha RJ.\n\nQuem é: {{1}}\nAssunto: {{2}}\nHorário: {{3}}\n\nToque em uma das opções para responder à portaria.',
-  portaria_visita_foto: 'Visita na portaria da Cruz Vermelha RJ para você.\n\nVisitante: {{1}}\nMotivo: {{2}}\nChegada: {{3}}\n\nResponda pelos botões abaixo.',
-  portaria_visita_v2: 'Chegou uma visita para você na recepção da Cruz Vermelha RJ.\n\nQuem é: {{1}}\nAssunto: {{2}}\nHorário: {{3}}\n\nToque em uma das opções para responder à portaria.',
-  portaria_visita: 'Visita na portaria da Cruz Vermelha RJ para você.\n\nVisitante: {{1}}\nMotivo: {{2}}\nChegada: {{3}}\n\nResponda pelos botões abaixo.',
-  portaria_resposta_visitante_v2: 'Recepção da Cruz Vermelha RJ: atualização sobre a sua visita a {{1}}.\n\nSituação: {{2}}\n\nEm caso de dúvida, procure a recepção.',
-  portaria_resposta_visitante: 'Portaria da Cruz Vermelha RJ: sua visita para {{1}}.\n\nResposta: {{2}}\n\nQualquer dúvida, fale com a recepção.',
+  portaria_visita_foto_v2: 'Chegou uma visita para você na recepção da Cruz Vermelha Petrópolis.\n\nQuem é: {{1}}\nAssunto: {{2}}\nHorário: {{3}}\n\nToque em uma das opções para responder à portaria.',
+  portaria_visita_foto: 'Visita na portaria da Cruz Vermelha Petrópolis para você.\n\nVisitante: {{1}}\nMotivo: {{2}}\nChegada: {{3}}\n\nResponda pelos botões abaixo.',
+  portaria_visita_v2: 'Chegou uma visita para você na recepção da Cruz Vermelha Petrópolis.\n\nQuem é: {{1}}\nAssunto: {{2}}\nHorário: {{3}}\n\nToque em uma das opções para responder à portaria.',
+  portaria_visita: 'Visita na portaria da Cruz Vermelha Petrópolis para você.\n\nVisitante: {{1}}\nMotivo: {{2}}\nChegada: {{3}}\n\nResponda pelos botões abaixo.',
+  portaria_resposta_visitante_v2: 'Recepção da Cruz Vermelha Petrópolis: atualização sobre a sua visita a {{1}}.\n\nSituação: {{2}}\n\nEm caso de dúvida, procure a recepção.',
+  portaria_resposta_visitante: 'Portaria da Cruz Vermelha Petrópolis: sua visita para {{1}}.\n\nResposta: {{2}}\n\nQualquer dúvida, fale com a recepção.',
 }, 'catálogo: os corpos exatamente como cadastrados na Meta, na ordem de preferência')
 igual(Object.values(CATALOGO_DOS_MODELOS).flat().every((m) => (m.corpo.match(/\{\{\d+\}\}/g) ?? []).length === m.parametros), true, 'catálogo: o número de variáveis bate com o corpo')
 igual(CATALOGO_DOS_MODELOS.visita.map((m) => [m.nome, m.cabecalho]), [['portaria_visita_foto_v2', 'IMAGE'], ['portaria_visita_foto', 'IMAGE'], ['portaria_visita_v2', null], ['portaria_visita', null]], 'catálogo: a visita, com os de foto antes')
@@ -1331,7 +1331,7 @@ igual(fichaPorModelo, {
     { type: 'button', sub_type: 'quick_reply', index: '2', parameters: [{ type: 'payload', payload: 'r3' }] },
   ],
 } satisfies ObjetoDoModelo, 'montagem: a ficha por modelo, com o corpo e o payload de cada botão')
-igual(corpoPreenchido(visitaV2, ['João', 'reunião', '14:32']), 'Chegou uma visita para você na recepção da Cruz Vermelha RJ.\n\nQuem é: João\nAssunto: reunião\nHorário: 14:32\n\nToque em uma das opções para responder à portaria.', 'montagem: o corpo como chega ao celular')
+igual(corpoPreenchido(visitaV2, ['João', 'reunião', '14:32']), 'Chegou uma visita para você na recepção da Cruz Vermelha Petrópolis.\n\nQuem é: João\nAssunto: reunião\nHorário: 14:32\n\nToque em uma das opções para responder à portaria.', 'montagem: o corpo como chega ao celular')
 igual(montarModelo(visitaV2, { parametros: ['João', 'reunião'] }), null, 'montagem: variáveis a menos, não monta')
 igual(montarModelo(visitaV2, { parametros: ['a', 'b', 'c', 'd'] }), null, 'montagem: variáveis a mais, não monta')
 igual(montarModelo(visitaV2, { parametros: ['a', 'b', 'c'] })?.components.length, 1, 'montagem: sem respostas, os botões voltam com o texto (sem componente de botão)')

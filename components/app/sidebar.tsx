@@ -20,17 +20,17 @@ export type Contadores = Partial<Record<Contador, number>>
 function Marca({ recolhida }: { recolhida: boolean }) {
   if (recolhida) {
     return (
-      <Link href="/dashboard" aria-label="Início — Palácio Virtual da Cruz Vermelha Brasileira Rio de Janeiro" className="flex size-9 items-center justify-center rounded-lg hover:bg-black/[0.04]">
+      <Link href="/dashboard" aria-label="Início — Palácio Virtual da Cruz Vermelha Brasileira Petrópolis" className="flex size-9 items-center justify-center rounded-lg hover:bg-black/[0.04]">
         <SeloDoPalacio tamanho={30} priority />
       </Link>
     )
   }
   return (
-    <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5 rounded-lg px-1 py-1 hover:bg-black/[0.03]" aria-label="Início — Palácio Virtual da Cruz Vermelha Brasileira Rio de Janeiro">
+    <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5 rounded-lg px-1 py-1 hover:bg-black/[0.03]" aria-label="Início — Palácio Virtual da Cruz Vermelha Brasileira Petrópolis">
       <SeloDoPalacio tamanho={44} priority />
       <span className="min-w-0 leading-tight">
         <span className="block truncate text-[15px] font-bold tracking-tight text-foreground">Palácio Virtual</span>
-        <span className="block truncate text-[11px] font-medium text-muted-foreground">Cruz Vermelha Brasileira · RJ</span>
+        <span className="block truncate text-[11px] font-medium text-muted-foreground">Cruz Vermelha Brasileira · Petrópolis</span>
       </span>
     </Link>
   )

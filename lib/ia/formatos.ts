@@ -54,7 +54,7 @@ export const FORMATOS_DE_TEXTO: FormatoDeTexto[] = [
     rotulo: 'Institucional',
     explica: 'Assessor sênior: o comunicado completo, com a missão no centro.',
     persona:
-      'Você é o assessor de comunicação sênior da Cruz Vermelha Brasileira — Rio de Janeiro, quem escreve os comunicados oficiais da Casa. Seu texto é sóbrio e completo: registra o ato, situa-o na missão humanitária e diz o que vem a seguir.',
+      'Você é o assessor de comunicação sênior da Cruz Vermelha Brasileira — Petrópolis, quem escreve os comunicados oficiais da Casa. Seu texto é sóbrio e completo: registra o ato, situa-o na missão humanitária e diz o que vem a seguir.',
     instrucao: [
       'Abra com o que a instituição fez ou firmou, e com quem.',
       'Desenvolva em seções: o significado do ato para a missão da filial; o papel de cada instituição envolvida; o que a parceria ou ação permite fazer pela população.',
@@ -85,7 +85,7 @@ export const FORMATOS_DE_TEXTO: FormatoDeTexto[] = [
     rotulo: 'Próximo do leitor',
     explica: 'Cronista da comunidade: a história completa, contada de perto.',
     persona:
-      'Você é um cronista que escreve para quem vive o Rio de Janeiro — o morador, a voluntária, quem um dia precisou de ajuda. Você conta a história inteira de um jeito que aproxima, sem jamais trocar exatidão por emoção.',
+      'Você é um cronista que escreve para quem vive Petrópolis — o morador, a voluntária, quem um dia precisou de ajuda. Você conta a história inteira de um jeito que aproxima, sem jamais trocar exatidão por emoção.',
     instrucao: [
       'Pode abrir por uma cena, uma pergunta ou pelo significado do fato — antes dos detalhes.',
       'Conte a história completa: o que aconteceu, quem estava lá, o que isso muda na vida de quem é atendido pela instituição.',
@@ -148,7 +148,7 @@ export function montarPedidoDeMelhoria(dados: {
     '',
     formato.persona,
     '',
-    'Você escreve para o site da Cruz Vermelha Brasileira — Rio de Janeiro, em português do Brasil.',
+    'Você escreve para o site da Cruz Vermelha Brasileira — Petrópolis, em português do Brasil.',
     '',
     'O ENTREGÁVEL É A MATÉRIA COMPLETA DE UMA PÁGINA, não uma revisão do rascunho. O texto recebido é a apuração: desenvolva-o em matéria inteira, com contexto, explicação e estrutura. Quando o assunto sustentar, a página fica entre 350 e 700 palavras — e sempre visivelmente mais desenvolvida que o rascunho. Nunca encha linguiça: cada parágrafo novo precisa informar.',
     '',

@@ -370,9 +370,7 @@ export function paginaDaTransparencia(p: { documentos: DocumentoNoPortal[]; parc
         ${grupos.map((g) => g.html).join('')}
         <section class="pt-grupo" id="financiamento" aria-labelledby="pt-financiamento">
           <h2 id="pt-financiamento">Como a filial se financia</h2>
-          <p>A Filial é uma associação sem fins lucrativos. A O-CVB Filial Rio de Janeiro Ensino Ltda, CNPJ 67.733.551/0001-35,
-          é a empresa ligada à Filial que vende os cursos pagos. Seus sistemas são independentes. O resultado da escola é destinado
-          à manutenção do Palácio da Cruz Vermelha e às atividades da Filial.</p>
+          <p>A Filial é uma associação sem fins lucrativos.</p>
           <p><a href="/quem-somos/#como-nos-financiamos">Conheça as fontes de financiamento e a relação com a escola</a>.
           Para solicitar demonstrações contábeis ou outros documentos que não estejam publicados aqui, faça um
           <a href="/pedido-de-documentos/">pedido de documentos</a>.</p>
@@ -414,7 +412,7 @@ export function paginaDaTransparencia(p: { documentos: DocumentoNoPortal[]; parc
 
   return montarPaginaDoSite({
     titulo: 'Transparência',
-    descricao: 'Os documentos oficiais da Cruz Vermelha Brasileira — Filial do Rio de Janeiro, cada um com impressão digital e código de verificação.',
+    descricao: 'Os documentos oficiais da Cruz Vermelha Brasileira — Filial de Petrópolis, cada um com impressão digital e código de verificação.',
     caminho: '/transparencia/',
     corpo,
     cssExtra: CSS_DO_PORTAL + CSS_DA_TRANSPARENCIA,
@@ -435,7 +433,7 @@ export function paginaDosCanais(p: {
   const corpo = `<main class="pagina-simples">
       <h1>Canais oficiais</h1>
       <p class="atualizada">Versão ${p.versao}, publicada em ${diaPorExtenso(new Date(p.publicadoEm))}.</p>
-      <p>Estes são os únicos endereços, telefones e perfis da Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro.
+      <p>Estes são os únicos endereços, telefones e perfis da Cruz Vermelha Brasileira — Filial do Município de Petrópolis.
       Se alguém falar em nome da Filial por outro canal, pedir dinheiro, dados ou pagamento fora desta lista, desconfie e
       confirme por um dos canais abaixo.</p>
       <ul class="canais">${linhas}
@@ -450,7 +448,7 @@ export function paginaDosCanais(p: {
     </main>`
   return montarPaginaDoSite({
     titulo: 'Canais oficiais',
-    descricao: 'Os endereços, telefones e perfis oficiais da Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro. Desconfie de outros.',
+    descricao: 'Os endereços, telefones e perfis oficiais da Cruz Vermelha Brasileira — Filial do Município de Petrópolis. Desconfie de outros.',
     caminho: '/canais-oficiais/',
     corpo,
     cssExtra: CSS_DO_PORTAL,

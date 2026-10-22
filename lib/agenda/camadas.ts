@@ -16,7 +16,7 @@ export const CAMADAS = {
   institucional: { nome: 'Parcerias', descricao: 'Fim de vigência e prestação de contas das parcerias', cor: 'bg-cyan-600', chip: 'border-cyan-600 bg-cyan-50 text-cyan-950 dark:bg-cyan-950/40 dark:text-cyan-100', ics: true },
   aniversarios: { nome: 'Aniversários', descricao: 'Aniversários da equipe', cor: 'bg-fuchsia-500', chip: 'border-fuchsia-500 bg-fuchsia-50 text-fuchsia-950 dark:bg-fuchsia-950/40 dark:text-fuchsia-100', ics: false },
   datas: { nome: 'Datas comemorativas', descricao: 'Cruz Vermelha, ONU e calendário da saúde', cor: 'bg-rose-400', chip: 'border-rose-400 bg-rose-50 text-rose-950 dark:bg-rose-950/40 dark:text-rose-100', ics: true },
-  feriados: { nome: 'Feriados', descricao: 'Nacionais e do Rio de Janeiro', cor: 'bg-gray-400', chip: 'border-gray-400 bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100', ics: true },
+  feriados: { nome: 'Feriados', descricao: 'Nacionais, do estado do RJ e de Petrópolis', cor: 'bg-gray-400', chip: 'border-gray-400 bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100', ics: true },
 } as const
 
 export type Camada = keyof typeof CAMADAS

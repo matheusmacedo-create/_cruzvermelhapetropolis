@@ -1,7 +1,7 @@
 import { Recado } from '@/components/newsletter/recado'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Sair da lista — Cruz Vermelha RJ' }
+export const metadata = { title: 'Sair da lista — Cruz Vermelha Petrópolis' }
 
 /**
  * A página do link de saída visível no rodapé das mensagens.
@@ -52,7 +52,7 @@ export default async function Sair({
         </form>
       }
     >
-      <p>Você deixa de receber a newsletter da Cruz Vermelha do Rio de Janeiro.</p>
+      <p>Você deixa de receber a newsletter da Cruz Vermelha de Petrópolis.</p>
       <p>Se preferir continuar recebendo, é só fechar esta página — nada muda.</p>
     </Recado>
   )
