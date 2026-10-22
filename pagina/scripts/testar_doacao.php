@@ -14,7 +14,7 @@ $configGeral = tempnam(sys_get_temp_dir(), 'mcp-config-');
 file_put_contents($configGeral, "<?php return [
     'SITE_URL' => 'https://exemplo.org', 'TAXA_PIX_PCT' => 5.0, 'TAXA_PIX_FIXA' => 0,
     'TAXA_CARTAO_PCT' => 5.0, 'TAXA_CARTAO_FIXA' => 0, 'EMAIL_CONTATO' => 'contato@exemplo.org',
-    'EMAIL_REMETENTE' => 'Cruz Vermelha RJ <matricula@exemplo.org>',
+    'EMAIL_REMETENTE' => 'Cruz Vermelha Petrópolis <matricula@exemplo.org>',
 ];");
 $configDoe = tempnam(sys_get_temp_dir(), 'doe-config-');
 file_put_contents($configDoe, "<?php return [
@@ -75,7 +75,7 @@ verificar('rótulo cartão', mcp_doacao_metodo_rotulo(['metodo' => 'cartao', 'ba
 verificar('rótulo cartão sem bandeira', mcp_doacao_metodo_rotulo(['metodo' => 'cartao', 'bandeira' => '', 'ultimos4' => '']), 'Cartão');
 
 // Remetente: nome curto da configuração geral vira o nome completo da filial.
-verificar('remetente com nome completo', mcp_doacao_remetente(), 'Cruz Vermelha Brasileira Rio de Janeiro <matricula@exemplo.org>');
+verificar('remetente com nome completo', mcp_doacao_remetente(), 'Cruz Vermelha Brasileira Petrópolis <matricula@exemplo.org>');
 verificar('aviso interno vai para EMAIL_DOACOES', mcp_doacao_email_equipe_endereco(), 'doacoes@exemplo.org');
 
 // ----------------------------------------------------------------- visão pública
@@ -104,7 +104,7 @@ verificar('público sem telefone', str_contains($json, '21999998888'), false);
 // ----------------------------------------------------------------- e-mails
 $pix = mcp_doacao_montar_email_pix($doacao);
 verificar('e-mail do PIX vai para quem doou', $pix['para'], 'maria@exemplo.org');
-verificar('assunto do PIX', $pix['assunto'], 'Seu PIX de R$ 105,00 para a Cruz Vermelha Brasileira Rio de Janeiro');
+verificar('assunto do PIX', $pix['assunto'], 'Seu PIX de R$ 105,00 para a Cruz Vermelha Brasileira Petrópolis');
 contem('e-mail do PIX traz o código', '00020126BR', $pix['html']);
 contem('e-mail do PIX traz o link de volta', 'https://exemplo.org/doe/obrigado/?t=', $pix['html']);
 contem('e-mail do PIX em texto puro', '00020126BR', $pix['texto']);
@@ -116,12 +116,12 @@ contem('selo com o valor doado', 'Doação confirmada', $ok['html']);
 contem('impacto da faixa de R$ 100', 'Voluntariado preparado', $ok['html']);
 contem('reconhece quem cobriu os custos', 'chegam inteiros à filial', $ok['html']);
 contem('convida para o voluntariado', 'cruzvermelhariodejaneiro.org/voluntariado/cadastro/', $ok['html']);
-contem('assina como equipe', 'Equipe da Cruz Vermelha Brasileira Rio de Janeiro', $ok['html']);
+contem('assina como equipe', 'Equipe da Cruz Vermelha Brasileira Petrópolis', $ok['html']);
 verificar('impacto muda com o valor', mcp_doacao_impacto(3000)[0] . '|' . mcp_doacao_impacto(8000)[0] . '|' . mcp_doacao_impacto(15000)[0] . '|' . mcp_doacao_impacto(50000)[0], 'Material de primeiros socorros|Educação preventiva|Voluntariado preparado|Ação comunitária');
 verificar('doação sem custos cobertos não fala neles', str_contains(mcp_doacao_montar_email_confirmada(['taxa_centavos' => 0, 'total_centavos' => 10000] + $doacao)['html'], 'chegam inteiros'), false);
 contem('doação anônima é reconhecida', 'anônima', mcp_doacao_montar_email_confirmada(['anonimo' => 1] + $doacao)['html']);
 contem('confirmação agradece pelo primeiro nome', 'Maria', $ok['html']);
-contem('confirmação traz o CNPJ', '08.560.973/0001-97', $ok['html']);
+contem('confirmação traz o CNPJ', '09.198.238/0001-48', $ok['html']);
 contem('confirmação separa os custos', 'Custos de processamento', $ok['html']);
 verificar('confirmação sem CPF', str_contains($ok['html'], '52998224725'), false);
 

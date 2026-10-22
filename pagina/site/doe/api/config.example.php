@@ -32,7 +32,7 @@ return [
 
     // Remetente dos e-mails de doação. Vazio: usa EMAIL_REMETENTE da configuração geral (que é o
     // da matrícula, e confunde quem doou). Use um endereço do subdomínio verificado na Resend,
-    // por exemplo 'Cruz Vermelha Brasileira Rio de Janeiro <doacao@info.cruzvermelhariodejaneiro.org>'.
+    // por exemplo 'Cruz Vermelha Brasileira Petrópolis <doacao@info.cruzvermelhariodejaneiro.org>'.
     // A resposta continua indo para contato@ (caixa do Google Workspace), via EMAIL_RESPOSTA.
     'EMAIL_REMETENTE_DOACAO' => '',
 ];

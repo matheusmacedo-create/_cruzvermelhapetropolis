@@ -9,10 +9,10 @@
   },
   "menu_noticias": "News",
   "noticias": {
-    "titulo": "News | Brazilian Red Cross Rio de Janeiro",
-    "descricao": "News from the Brazilian Red Cross Rio de Janeiro branch: humanitarian work, public-interest guidance and guides to the in-person courses, in English.",
+    "titulo": "News | Brazilian Red Cross Petrópolis",
+    "descricao": "News from the Brazilian Red Cross Petrópolis branch: humanitarian work, public-interest guidance and guides to the in-person courses, in English.",
     "sobrancelha": "News",
-    "h1": "News from the Brazilian Red Cross — Rio de Janeiro Branch",
+    "h1": "News from the Brazilian Red Cross — Petrópolis Branch",
     "linha": "What the branch does, public-interest guidance for Rio de Janeiro, and plain-language guides to the courses taught at our headquarters.",
     "aviso": "Every article here was first published in Portuguese, and each one links to the original. New articles appear in Portuguese first.",
     "grupos": {
@@ -32,7 +32,7 @@
       "noticia": "News",
       "curso": "Course guide"
     },
-    "por": "By Brazilian Red Cross — Rio de Janeiro Branch",
+    "por": "By Brazilian Red Cross — Petrópolis Branch",
     "leitura": "min read",
     "compartilhe": "Share",
     "compartilhar_em": "Share on",
@@ -53,22 +53,22 @@
     "breadcrumb": "News"
   },
   "campanha": {
-    "titulo": "Winter Clothing Drive | Brazilian Red Cross Rio de Janeiro",
-    "descricao": "Donate coats, blankets and shoes to the Brazilian Red Cross Rio de Janeiro Winter Clothing Drive and help families face the cold. Here is how to take part.",
+    "titulo": "Winter Clothing Drive | Brazilian Red Cross Petrópolis",
+    "descricao": "Donate coats, blankets and shoes to the Brazilian Red Cross Petrópolis Winter Clothing Drive and help families face the cold. Here is how to take part.",
     "sobrancelha": "Campaign",
     "h1": "Winter Clothing Drive",
-    "linha": "Every year, the cold arrives before the care does. Families in vulnerable situations face cold nights without a blanket, a coat or closed shoes. The Brazilian Red Cross — Rio de Janeiro Branch is mobilised to bring warmth, dignity and hope to those who need it most.",
+    "linha": "Every year, the cold arrives before the care does. Families in vulnerable situations face cold nights without a blanket, a coat or closed shoes. The Brazilian Red Cross — Petrópolis Branch is mobilised to bring warmth, dignity and hope to those who need it most.",
     "fotos": [
       [
         "agasalho-hero-rua",
         "640x429",
-        "A Brazilian Red Cross Rio de Janeiro volunteer hands a blanket to a person living on the street in Rio de Janeiro.",
+        "A Brazilian Red Cross Petrópolis volunteer hands a blanket to a person living on the street in Rio de Janeiro.",
         "Families in vulnerable situations need warm clothing, blankets and care when it is cold."
       ],
       [
         "agasalho-hero-favela",
         "640x429",
-        "A Brazilian Red Cross Rio de Janeiro volunteer at a winter clothing distribution in a low-income neighbourhood of Rio de Janeiro.",
+        "A Brazilian Red Cross Petrópolis volunteer at a winter clothing distribution in a low-income neighbourhood of Rio de Janeiro.",
         "Every item donated helps someone get through the winter with more dignity."
       ]
     ],
@@ -83,11 +83,11 @@
       ],
       [
         "Where",
-        "Praça da Cruz Vermelha, 10 — Centro"
+        "Rua Carlos Gomes, 6 — Centro"
       ],
       [
         "Contact",
-        "contato@cruzvermelhariodejaneiro.org"
+        "cvbpetropolis@gmail.com"
       ]
     ],
     "caso_titulo": "When the cold comes, people without shelter suffer first",
@@ -95,7 +95,7 @@
       "In the coldest seasons of the year, the basic needs of people living on the street or in vulnerable situations become more acute: warmth, protection, hygiene and reliable information. The Winter Clothing Drive exists to channel people's generosity and turn donations into well-organised humanitarian aid."
     ],
     "caso_destaque": "<b>Giving quickly matters. Giving the right way is essential.</b> Donated items must be clean, sorted and in line with the campaign team's guidance.",
-    "cartaz_alt": "Official poster of the Brazilian Red Cross Rio de Janeiro Winter Clothing Drive, in Portuguese.",
+    "cartaz_alt": "Official poster of the Brazilian Red Cross Petrópolis Winter Clothing Drive, in Portuguese.",
     "itens_titulo": "What we are receiving",
     "itens_linha": "Sorting avoids waste and gets help to people faster. These are the items that can be dropped off at the headquarters.",
     "itens": [
@@ -117,11 +117,11 @@
       ]
     ],
     "como_titulo": "How to take part",
-    "como_linha": "Drop off items at the headquarters of the Brazilian Red Cross — Rio de Janeiro Branch. To support the branch with money, donations are made by PIX or card on the donation page (Donate, in the menu).",
+    "como_linha": "Drop off items at the headquarters of the Brazilian Red Cross — Petrópolis Branch. To support the branch with money, donations are made by PIX or card on the donation page (Donate, in the menu).",
     "como": [
       [
         "Drop off in person",
-        "Monday to Friday, 10am to 5pm, at Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro. Coats, blankets and closed shoes in good condition: see the list above.",
+        "Monday to Friday, 10am to 5pm, at Rua Carlos Gomes, 6 — Centro, Petrópolis. Coats, blankets and closed shoes in good condition: see the list above.",
         "What we are receiving",
         "#itens"
       ],
@@ -129,7 +129,7 @@
         "Large or specific donations",
         "Companies, schools, groups, or anyone with a large quantity or with items not on the list: write to the team first to arrange the delivery.",
         "Write to the team",
-        "mailto:contato@cruzvermelhariodejaneiro.org?subject=Winter%20Clothing%20Drive%20donation"
+        "mailto:cvbpetropolis@gmail.com?subject=Winter%20Clothing%20Drive%20donation"
       ]
     ],
     "agradecimento_titulo": "Thank you to our donors",
@@ -137,7 +137,7 @@
       "Thank you to everyone who donates items and to the volunteers who collect, sort and distribute them. Every coat, blanket and pair of shoes goes directly to someone who needs it."
     ],
     "agradecimento_nota": "",
-    "fila_alt": "A community receiving winter clothing donations from the Brazilian Red Cross Rio de Janeiro.",
+    "fila_alt": "A community receiving winter clothing donations from the Brazilian Red Cross Petrópolis.",
     "principios_titulo": "Humanitarian aid needs clear criteria, care and transparency",
     "principios_linha": "The Red Cross acts according to the principles of humanity, impartiality, neutrality and independence. The campaign organises resources so that help arrives more safely and effectively.",
     "principios": [
@@ -161,7 +161,7 @@
     "portugues": "This page in Portuguese"
   },
   "erro": {
-    "titulo": "Page not found | Brazilian Red Cross Rio de Janeiro",
+    "titulo": "Page not found | Brazilian Red Cross Petrópolis",
     "sobrancelha": "Error 404",
     "h1": "This page does not exist.",
     "texto": "The address may have changed or been mistyped. These are the pages people look for most:",

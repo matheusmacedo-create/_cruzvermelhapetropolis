@@ -28,7 +28,7 @@
  */
 declare(strict_types=1);
 
-const MCP_PONTO_SEDE_PADRAO = [-22.91132, -43.18779];  // Praça da Cruz Vermelha, 10 (OpenStreetMap)
+const MCP_PONTO_SEDE_PADRAO = [-22.91132, -43.18779];  // Rua Carlos Gomes, 6 (OpenStreetMap)
 const MCP_PONTO_RAIO_PADRAO = 150;
 /** Localização com precisão pior que isso (em metros) não serve para confirmar que a pessoa está na sede. */
 const MCP_PONTO_PRECISAO_MAXIMA = 1000;
@@ -966,7 +966,7 @@ function mcp_ponto_declaracao_conteudo(array $d, ?string $agoraUtc = null): arra
             ['Dias com registro', (string) (int) $d['dias']],
             ['Total de horas', mcp_ponto_horas_texto((int) $d['minutos'])],
             $termo !== null ? ['Termo de adesão', "assinado em $termo"] : null,
-            ['Local', 'Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ'],
+            ['Local', 'Rua Carlos Gomes, 6, Centro, Petrópolis/RJ'],
         ])),
         'local_data' => 'Rio de Janeiro, ' . mcp_data_extenso(mcp_data_brt((string) $d['emitida_em'], 'Y-m-d')) . '.',
         'assinatura' => ['Secretaria', MCP_NOME_FILIAL],
@@ -985,7 +985,7 @@ function mcp_ponto_declaracao_arquivo(array $d): string
 
 // ----------------------------------------------------------------------------- termo de adesão (Lei 9.608/1998)
 /** A entidade como aparece nos documentos com valor jurídico (a mesma da Política de Privacidade). */
-const MCP_PONTO_ENTIDADE = 'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro, CNPJ 08.560.973/0001-97, com sede na Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ, CEP 20230-130';
+const MCP_PONTO_ENTIDADE = 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis, CNPJ 09.198.238/0001-48, com sede na Rua Carlos Gomes, 6, Centro, Petrópolis/RJ, CEP 25680-120';
 
 /**
  * Conteúdo do termo de adesão ao serviço voluntário, preenchido com os dados do cadastro (sem desenho:

@@ -834,7 +834,7 @@ function mcp_voluntario_pdf_desenhar(array $f, int $total): array
     $pdf->imagemPng(MCP_COMPROVANTE_LOGO, $esq - 0.0257 * $logoL, 44 - 0.0427 * $logoA, $logoL, $logoA);
     $pdf->linha($esq, 158, $dir, 158, MCP_CP_FIO, 0.8);
     $pdf->texto($esq, 186, $titulo, 'negrito', 17, MCP_CP_TEXTO, 0.4);
-    $pdf->texto($esq, 204, 'Programa de voluntariado · Cruz Vermelha Brasileira · Filial do Estado do Rio de Janeiro', 'normal', 11, MCP_CP_CINZA);
+    $pdf->texto($esq, 204, 'Programa de voluntariado · Cruz Vermelha Brasileira · Filial do Município de Petrópolis', 'normal', 11, MCP_CP_CINZA);
 
     // Caixa com a faixa vermelha: nome, protocolo, situação e quando chegou.
     $topo = 220.0;
@@ -1035,7 +1035,7 @@ function mcp_montar_email_voluntario_confirmacao(array $f): array
             'As novas entradas no voluntariado abrem em ' . MCP_VOL_PROXIMAS_ENTRADAS . '. A sua ficha fica guardada, e a equipe escreve para todos os cadastrados nessa época: até lá, não é preciso esperar resposta nem enviar a ficha de novo. O contato vem por e-mail, para <strong>' . mcp_escapar($email) . '</strong>, com o protocolo <strong>' . mcp_escapar($protocolo) . '</strong> no assunto. O remetente é <strong>'
             . mcp_escapar($remetente) . '</strong>; se não achar, olhe o spam.'],
         ['Entrevista e ficha de entrevista',
-            'Uma conversa com a coordenação do voluntariado, na sede (Praça da Cruz Vermelha, 10, Centro) ou por vídeo, para conhecer você, alinhar expectativas e preencher a ficha de entrevista.'],
+            'Uma conversa com a coordenação do voluntariado, na sede (Rua Carlos Gomes, 6, Centro) ou por vídeo, para conhecer você, alinhar expectativas e preencher a ficha de entrevista.'],
         ['Curso Básico de Formação Institucional (CBFI)',
             'Acontece quatro vezes por ano. Apresenta o Movimento Internacional da Cruz Vermelha, os Princípios Fundamentais e o funcionamento da filial. Todo voluntário passa por ele antes de começar.'],
         ['Termo de adesão ao serviço voluntário',
@@ -1050,7 +1050,7 @@ function mcp_montar_email_voluntario_confirmacao(array $f): array
     if ($quando !== '') {
         $linhas['Enviada em'] = $quando . ' (Brasília)';
     }
-    $corpo = mcp_p('Oi, ' . mcp_escapar($nome) . '. Obrigado por querer ser voluntário(a) da Cruz Vermelha Brasileira no Rio de Janeiro. Sua ficha chegou e já está com a equipe de voluntariado. '
+    $corpo = mcp_p('Oi, ' . mcp_escapar($nome) . '. Obrigado por querer ser voluntário(a) da Cruz Vermelha Brasileira em Petrópolis. Sua ficha chegou e já está com a equipe de voluntariado. '
             . 'Guarde o protocolo <strong>' . mcp_escapar($protocolo) . '</strong>: ele identifica o seu cadastro.')
         . ($menor ? '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#fff7f7" style="margin:0 0 14px;background:#fff7f7;border:1px solid #f5c2c7;border-radius:12px"><tr><td style="padding:12px 16px;font-size:15px;line-height:1.5;color:#1a202c">'
             . '<strong>Você tem menos de 18 anos.</strong> Pode participar, sim: o termo de adesão é assinado também pelo seu responsável legal, que autoriza a sua participação nas atividades. Combine isso com a equipe na entrevista.</td></tr></table>' : '')
@@ -1059,7 +1059,7 @@ function mcp_montar_email_voluntario_confirmacao(array $f): array
         . mcp_nota('Seus dados são usados só para o processo de seleção e acompanhamento do voluntariado, conforme a <a href="' . mcp_escapar($privacidade) . '" style="color:#cc0000">Política de Privacidade</a> (revisão '
             . mcp_escapar((string) ($f['politica_versao'] ?? '')) . '), com a qual você concordou ao enviar a ficha. Para corrigir algo ou pedir a exclusão, responda este e-mail ou escreva para ' . mcp_escapar($contato) . '.')
         . mcp_nota('Não foi você quem enviou esta ficha? Ignore este e-mail.');
-    $texto = "Oi, $nome. Obrigado por querer ser voluntário(a) da Cruz Vermelha Brasileira no Rio de Janeiro. Sua ficha chegou e já está com a equipe de voluntariado. Protocolo: $protocolo.\n\n"
+    $texto = "Oi, $nome. Obrigado por querer ser voluntário(a) da Cruz Vermelha Brasileira em Petrópolis. Sua ficha chegou e já está com a equipe de voluntariado. Protocolo: $protocolo.\n\n"
         . ($menor ? "Você tem menos de 18 anos. Pode participar, sim: o termo de adesão é assinado também pelo seu responsável legal. Combine isso com a equipe na entrevista.\n\n" : '')
         . "Próximos passos:\n";
     foreach ($passos as $i => [$titulo, $detalhe]) {

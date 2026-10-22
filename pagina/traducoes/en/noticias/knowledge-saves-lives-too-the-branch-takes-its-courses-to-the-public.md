@@ -44,7 +44,7 @@ People who would rather volunteer should fill in the official volunteer registra
 ## How to sign up
 
 - Courses, in English: [cruzvermelhariodejaneiro.org/en/courses](/en/courses/)
-- E-mail: [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org)
+- E-mail: [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com)
 - Instagram: [@cruzvermelhabrasileirarj](https://www.instagram.com/cruzvermelhabrasileirarj/)
 - Headquarters: Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro
 

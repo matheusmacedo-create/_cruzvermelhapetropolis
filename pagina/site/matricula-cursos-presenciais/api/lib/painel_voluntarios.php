@@ -219,7 +219,7 @@ function pv_ficha(string $usuario, int $id, string $aviso = '', string $classe =
     $idade = mcp_voluntario_idade((string) $f['data_nascimento']);
     $cpfParcial = mcp_voluntario_cpf_parcial($f['cpf'] ?? null);
     $email = (string) $f['email'];
-    $mailto = 'mailto:' . $email . '?subject=' . rawurlencode("Cruz Vermelha RJ · voluntariado · protocolo $protocolo");
+    $mailto = 'mailto:' . $email . '?subject=' . rawurlencode("Cruz Vermelha Petrópolis · voluntariado · protocolo $protocolo");
 
     // Dados, em grupos.
     $pessoais = pv_dl([

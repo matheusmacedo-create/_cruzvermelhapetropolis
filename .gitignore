@@ -45,6 +45,12 @@ pagina/site/assets/*
 pagina/site/assets/otim/*
 # A imagem principal do celular acompanha a home e a publicação.
 !pagina/site/assets/otim/hero-turma-cbfi-640.webp
+# Logos de Petrópolis: ainda não estão no servidor, então vão no repositório.
+!pagina/site/assets/logo-cvb-petropolis.png
+!pagina/site/assets/logo-oficial-cruz-vermelha-petropolis.webp
+!pagina/site/assets/otim/logo-cvb-petropolis-520.webp
+!pagina/site/assets/otim/logo-cvb-petropolis-480.png
+!pagina/site/assets/otim/logo-petropolis-240.webp
 
 # Vocabulário do Schema.org baixado por scripts/validar_jsonld.py (1,5 MB, refaz sozinho)
 pagina/scripts/.cache-schemaorg.jsonld

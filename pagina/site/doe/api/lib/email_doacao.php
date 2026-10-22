@@ -10,7 +10,7 @@
 declare(strict_types=1);
 
 const MCP_DOACAO_FORMULARIO_VOLUNTARIO = 'https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/'; // formulário próprio (16/10/2026)
-const MCP_DOACAO_AGRADECIMENTO = 'Como agradecimento, quem doa pelo site recebe acesso futuro a cursos gravados gratuitos da Cruz Vermelha Brasileira Rio de Janeiro.';
+const MCP_DOACAO_AGRADECIMENTO = 'Como agradecimento, quem doa pelo site recebe acesso futuro a cursos gravados gratuitos da Cruz Vermelha Brasileira Petrópolis.';
 
 function mcp_doacao_remetente(): string
 {
@@ -114,9 +114,9 @@ function mcp_doacao_montar_email_pix(array $d): array
         . mcp_nota(mcp_escapar(MCP_DOACAO_AGRADECIMENTO));
     return [
         'para' => (string) $d['email'],
-        'assunto' => "Seu PIX de $total para a Cruz Vermelha Brasileira Rio de Janeiro",
+        'assunto' => "Seu PIX de $total para a Cruz Vermelha Brasileira Petrópolis",
         'html' => mcp_moldura('Falta só o pagamento do PIX', $corpo, [
-            'eyebrow' => 'Doação · Cruz Vermelha Brasileira Rio de Janeiro',
+            'eyebrow' => 'Doação · Cruz Vermelha Brasileira Petrópolis',
             'preheader' => "Código PIX de $total pronto para pagar. Vale por 24 horas.",
             'motivo' => 'Você recebeu este e-mail porque gerou um PIX de doação em cruzvermelhariodejaneiro.org/doe.',
         ]),
@@ -149,7 +149,7 @@ function mcp_doacao_montar_email_confirmada(array $d): array
     $anonima = (int) ($d['anonimo'] ?? 0) === 1;
 
     // Abertura: agradece pelo nome e diz onde o dinheiro já está. Nada de "prezado(a)".
-    $corpo = mcp_p('Sua doação acabou de chegar na Cruz Vermelha Brasileira Rio de Janeiro. Ela vira preparo, presença e resposta para quem precisa no estado do Rio.')
+    $corpo = mcp_p('Sua doação acabou de chegar na Cruz Vermelha Brasileira Petrópolis. Ela vira preparo, presença e resposta para quem precisa no estado do Rio.')
         . mcp_doacao_selo($total, $quando)
         . mcp_doacao_bloco_impacto($valor);
 
@@ -168,15 +168,15 @@ function mcp_doacao_montar_email_confirmada(array $d): array
     $corpo .= mcp_subtitulo('Seu comprovante')
         . mcp_caixa(mcp_doacao_linhas($d), ['Total' => $total])
         . mcp_nota('Guarde este e-mail: ele é o comprovante da sua doação, com o protocolo <strong>' . mcp_escapar($protocolo)
-            . '</strong> e o CNPJ ' . MCP_EMAIL_CNPJ . ' da Cruz Vermelha Brasileira · Filial do Estado do Rio de Janeiro.')
+            . '</strong> e o CNPJ ' . MCP_EMAIL_CNPJ . ' da Cruz Vermelha Brasileira · Filial do Município de Petrópolis.')
         . mcp_subtitulo('Continue por perto')
         . mcp_p('Quem doa costuma querer ver o resultado. As ações da filial, as turmas formadas e as campanhas em andamento ficam nas notícias do site e no Instagram.')
         . mcp_botao($site . '/noticias/', 'Ver as ações da filial')
         . mcp_p('E se você quiser ir além da doação: a filial forma os próprios voluntários, com turmas na sede, no Centro do Rio. <a href="' . MCP_DOACAO_FORMULARIO_VOLUNTARIO . '" style="color:#cc0000;font-weight:700">Cadastre-se como voluntário</a> ou acompanhe pelo <a href="https://www.instagram.com/cruzvermelhabrasileirarj/" style="color:#cc0000;font-weight:700">Instagram @cruzvermelhabrasileirarj</a>.')
         . mcp_nota(mcp_escapar(MCP_DOACAO_AGRADECIMENTO))
-        . '<p style="margin:26px 0 0;font-size:15px;line-height:1.5;color:#1a202c">Com gratidão,<br><strong>Equipe da Cruz Vermelha Brasileira Rio de Janeiro</strong></p>';
+        . '<p style="margin:26px 0 0;font-size:15px;line-height:1.5;color:#1a202c">Com gratidão,<br><strong>Equipe da Cruz Vermelha Brasileira Petrópolis</strong></p>';
 
-    $texto = "Obrigado, $nome.\n\nSua doação acabou de chegar na Cruz Vermelha Brasileira Rio de Janeiro. Ela vira preparo, presença e resposta para quem precisa no estado do Rio.\n\n"
+    $texto = "Obrigado, $nome.\n\nSua doação acabou de chegar na Cruz Vermelha Brasileira Petrópolis. Ela vira preparo, presença e resposta para quem precisa no estado do Rio.\n\n"
         . "Doação confirmada: $total" . ($quando !== '' ? " em $quando" : '') . "\n"
         . "Protocolo: $protocolo\n"
         . 'Forma de pagamento: ' . mcp_doacao_metodo_rotulo($d) . "\n"
@@ -186,13 +186,13 @@ function mcp_doacao_montar_email_confirmada(array $d): array
         . "\nAções da filial: $site/noticias/\n"
         . 'Seja voluntário: ' . MCP_DOACAO_FORMULARIO_VOLUNTARIO . "\n\n"
         . MCP_DOACAO_AGRADECIMENTO . "\n\n"
-        . 'Com gratidão,\nEquipe da Cruz Vermelha Brasileira Rio de Janeiro\nCNPJ ' . MCP_EMAIL_CNPJ . "\n";
+        . 'Com gratidão,\nEquipe da Cruz Vermelha Brasileira Petrópolis\nCNPJ ' . MCP_EMAIL_CNPJ . "\n";
 
     return [
         'para' => (string) $d['email'],
         'assunto' => "Obrigado, $nome! Sua doação de $total foi confirmada",
         'html' => mcp_moldura('Obrigado, ' . $nome . '.', $corpo, [
-            'eyebrow' => 'Doação · Cruz Vermelha Brasileira Rio de Janeiro',
+            'eyebrow' => 'Doação · Cruz Vermelha Brasileira Petrópolis',
             'preheader' => "Recebemos sua doação de $total. Aqui está o comprovante e o que ela sustenta.",
             'motivo' => 'Você recebeu este e-mail porque doou em cruzvermelhariodejaneiro.org/doe.',
         ]),

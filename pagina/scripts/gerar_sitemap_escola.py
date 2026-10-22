@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera o sitemap da Escola de Educação e Saúde CVB-RJ a partir do catálogo público.
+"""Gera o sitemap da Escola de Educação e Saúde CVB Petrópolis a partir do catálogo público.
 
 Lê https://escola.cursoscruzvermelha.org/cursos, descobre os cursos publicados
 (/cursos/<uuid>) e grava dois arquivos idênticos:

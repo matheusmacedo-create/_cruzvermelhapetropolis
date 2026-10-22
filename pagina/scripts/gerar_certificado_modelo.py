@@ -69,10 +69,10 @@ def pagina_html(curso: dict, fundo_b64: str) -> str:
   .modelo {{ position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) rotate(-16deg); font-family: Arimo, Arial, sans-serif; font-weight: 700; font-size: {px(118)}; letter-spacing: {px(12)}; color: rgba(204, 0, 0, .085); white-space: nowrap; pointer-events: none; }}
 </style></head><body><div class="c">
   <div class="nome">Seu nome aqui</div>
-  <div class="texto">Portador(a) do <b>CPF 000.000.000-00</b>, concluiu o <b>Curso Livre de {curso_txt}</b>, ministrado pela Cruz Vermelha Brasileira – Filial Rio de Janeiro com carga horária de {carga} na data de __/__/____.</div>
+  <div class="texto">Portador(a) do <b>CPF 000.000.000-00</b>, concluiu o <b>Curso Livre de {curso_txt}</b>, ministrado pela Cruz Vermelha Brasileira – Filial Petrópolis com carga horária de {carga} na data de __/__/____.</div>
   <div class="data">Rio de Janeiro, ___ de ____________ de 20___.</div>
   <div class="linha"></div>
-  <div class="cargo">Coordenadora de Cursos Livres<small>Cruz Vermelha Brasileira - Rio de Janeiro</small></div>
+  <div class="cargo">Coordenadora de Cursos Livres<small>Cruz Vermelha Brasileira - Petrópolis</small></div>
   <div class="modelo">MODELO</div>
 </div></body></html>"""
 

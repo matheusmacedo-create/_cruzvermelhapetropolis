@@ -329,7 +329,7 @@ function mcp_montar_aviso_vespera(array $colaborador, string $dataIso, int $avis
         $porque = 'Assim suas horas voluntárias ficam registradas para a declaração, quando você quiser pedir.';
         $nota = 'Se não puder vir, tudo bem: o voluntariado é no seu ritmo e este lembrete não precisa de resposta. ';
         $motivo = 'Você recebeu este lembrete porque há dias de lembrete cadastrados para você na sede da ' . MCP_NOME_FILIAL . '. Mude ou pare quando quiser pelo link acima.';
-        $whatsapp = "Olá, $primeiro! Lembrete da secretaria da Cruz Vermelha Brasileira RJ: se vier à sede amanhã, $dia, registre a *chegada* e a *saída* "
+        $whatsapp = "Olá, $primeiro! Lembrete da secretaria da Cruz Vermelha Brasileira Petrópolis: se vier à sede amanhã, $dia, registre a *chegada* e a *saída* "
             . "para suas horas voluntárias contarem (CPF no tablet da recepção ou QR code no celular).\n\nSe não puder vir, tudo bem.\nMudar os dias ou parar: $prefs";
         $modelo = 'cvb_ponto_vespera';
     } else {
@@ -439,7 +439,7 @@ function mcp_montar_aviso_aula(string $nome, string $dataIso, array $aulas, int 
         ]),
         'texto' => "Oi, $primeiro. Lembrete: amanhã, $dia, você tem aula na sede:\n$lista\n\nAo chegar, confirme a presença no ponto da recepção com o seu CPF. No fim da aula, o comprovante de comparecimento chega neste e-mail.\n\n"
             . MCP_PRESENCA_LOCAL . "\nComo chegar: $mapa\nNão quero receber estes lembretes: $sair",
-        'whatsapp' => "Olá, $primeiro! Lembrete da Escola de Educação e Saúde da Cruz Vermelha Brasileira RJ: amanhã, $dia, tem aula de $resumoAulas, na Praça da Cruz Vermelha, 10 (Centro). "
+        'whatsapp' => "Olá, $primeiro! Lembrete da Escola de Educação e Saúde da Cruz Vermelha Brasileira Petrópolis: amanhã, $dia, tem aula de $resumoAulas, na Rua Carlos Gomes, 6 (Centro). "
             . "Ao chegar, confirme a presença no ponto da recepção com o seu CPF.\n\nNão quero receber estes lembretes: $sair",
         'modelo' => ['nome' => 'cvb_aula_amanha', 'parametros' => [$primeiro, $dia, $cursos, $horarios], 'botao' => mcp_avisos_sufixo_clique($avisoId, 'sair')],
     ];
@@ -467,7 +467,7 @@ function mcp_montar_aviso_link(array $colaborador, int $avisoId): array
         ]),
         'texto' => "Oi, $primeiro. A secretaria mandou este link para você escolher como quer ser lembrado de registrar a chegada e a saída na sede: $link\n\nO link é pessoal e vale por "
             . MCP_AVISOS_LINK_DIAS['lembretes'] . ' dias.',
-        'whatsapp' => "Olá, $primeiro! Escolha aqui como quer receber os lembretes do ponto da sede da Cruz Vermelha Brasileira RJ (dias da semana, e-mail ou WhatsApp): $link",
+        'whatsapp' => "Olá, $primeiro! Escolha aqui como quer receber os lembretes do ponto da sede da Cruz Vermelha Brasileira Petrópolis (dias da semana, e-mail ou WhatsApp): $link",
         'modelo' => null,
     ];
 }
@@ -868,10 +868,10 @@ function mcp_campanhas_modelos(string $lancamentoIso): array
             'agendada_para' => $em(mcp_avisos_dia_mais($lancamentoIso, -5), '10:00'), 'aviso_dias' => 5,
             'assunto' => 'Novidade na sede: o ponto de chegada e saída começa em {data_curta}',
             'titulo' => 'Novidade na sede, {primeiro_nome}',
-            'mensagem' => "A partir de *{data_lancamento}*, a sede da Cruz Vermelha Brasileira Rio de Janeiro passa a ter um registro de chegada e saída, o ponto da sede, para voluntários, diretoria e equipe.\n\n"
+            'mensagem' => "A partir de *{data_lancamento}*, a sede da Cruz Vermelha Brasileira Petrópolis passa a ter um registro de chegada e saída, o ponto da sede, para voluntários, diretoria e equipe.\n\n"
                 . "{vinculo_frase}\n\nComo funciona, em 10 segundos:\n1. Ao chegar, digite seu CPF no tablet da recepção ou leia com o celular o QR code do cartaz.\n2. Toque em *Registrar entrada*.\n"
                 . "3. Ao ir embora, faça o mesmo e toque em *Registrar saída*.\n\nQuer um lembrete na véspera dos dias em que você vem? É opcional: no botão abaixo, você escolhe os dias e se prefere receber por e-mail ou WhatsApp.",
-            'whatsapp' => "Olá, {primeiro_nome}! Aqui é a secretaria da Cruz Vermelha Brasileira RJ. A partir de *{data_lancamento}*, a sede terá um registro de chegada e saída: ao chegar e ao ir embora, "
+            'whatsapp' => "Olá, {primeiro_nome}! Aqui é a secretaria da Cruz Vermelha Brasileira Petrópolis. A partir de *{data_lancamento}*, a sede terá um registro de chegada e saída: ao chegar e ao ir embora, "
                 . "digite seu CPF no tablet da recepção ou leia o QR code com o celular. Leva 10 segundos.\n\n{vinculo_frase_curta}\n\nQuer lembrete na véspera dos dias em que vem? É opcional, escolha aqui: {link}",
             'aviso_ponto' => null,
         ],
@@ -885,7 +885,7 @@ function mcp_campanhas_modelos(string $lancamentoIso): array
                 . "- Marque *Lembrar de mim neste celular*: da próxima vez, é um toque.\n- Adicione o ponto à tela inicial do celular, como um aplicativo.\n"
                 . "- Esqueceu de registrar a saída? Da próxima vez que usar o tablet da recepção, ele pergunta a que horas você saiu.\n\n"
                 . "Teve algum problema? Responda este e-mail ou fale com a secretaria. Nas próximas duas semanas, vamos acompanhar o funcionamento do registro para ajustar o que for preciso.",
-            'whatsapp' => "Olá, {primeiro_nome}! O ponto da sede da Cruz Vermelha Brasileira RJ começa hoje. Ao chegar, registre a *entrada*; ao ir embora, a *saída* "
+            'whatsapp' => "Olá, {primeiro_nome}! O ponto da sede da Cruz Vermelha Brasileira Petrópolis começa hoje. Ao chegar, registre a *entrada*; ao ir embora, a *saída* "
                 . "(CPF no tablet da recepção ou QR code no celular).\n\nDica: no celular, marque “Lembrar de mim” e da próxima vez é um toque. Algum problema? Fale com a secretaria.\n\nPonto: {link}",
             'aviso_ponto' => 'Dica: no celular, marque “Lembrar de mim” e adicione esta página à tela inicial. Da próxima vez, é um toque.',
         ],
@@ -895,8 +895,8 @@ function mcp_campanhas_modelos(string $lancamentoIso): array
             'assunto' => 'Duas semanas de ponto: como está sendo para você?',
             'titulo' => 'Como está sendo, {primeiro_nome}?',
             'mensagem' => "Faz duas semanas que o ponto da sede começou. {resumo}\n\nQueremos saber como está sendo para você: são 5 perguntas rápidas, leva 1 minuto. O que não estiver funcionando, a gente ajusta.\n\n"
-                . 'Obrigado por fazer parte da Cruz Vermelha Brasileira Rio de Janeiro.',
-            'whatsapp' => "Olá, {primeiro_nome}! Faz duas semanas que o ponto da sede da Cruz Vermelha Brasileira RJ começou. {resumo}\n\nConte como está sendo para você: 5 perguntas, 1 minuto. {link}",
+                . 'Obrigado por fazer parte da Cruz Vermelha Brasileira Petrópolis.',
+            'whatsapp' => "Olá, {primeiro_nome}! Faz duas semanas que o ponto da sede da Cruz Vermelha Brasileira Petrópolis começou. {resumo}\n\nConte como está sendo para você: 5 perguntas, 1 minuto. {link}",
             'aviso_ponto' => 'Conte como está sendo o ponto: 5 perguntas, 1 minuto.',
         ],
         [

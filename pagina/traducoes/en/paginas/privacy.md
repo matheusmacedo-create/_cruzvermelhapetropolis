@@ -1,19 +1,19 @@
 ---
 pagina: privacy
-titulo: Privacy Policy | Brazilian Red Cross Rio de Janeiro
-descricao: What the Brazilian Red Cross Rio de Janeiro website collects at enrolment, in donations, in the chat and in the newsletter, why, and your rights under Brazil's LGPD.
+titulo: Privacy Policy | Brazilian Red Cross Petrópolis
+descricao: What the Brazilian Red Cross Petrópolis website collects at enrolment, in donations, in the chat and in the newsletter, why, and your rights under Brazil's LGPD.
 h1: Privacy Policy
 atualizado: Last updated on 24 September 2026.
 aviso: This is a courtesy translation. The binding version is the Portuguese one, at [cruzvermelhariodejaneiro.org/privacidade](/privacidade/).
 ---
 This policy explains, in plain language, which personal data this website processes, what it is used for, who it is shared with and how you exercise your rights. It applies to **cruzvermelhariodejaneiro.org** and its pages, and follows Brazil's General Data Protection Law (Law 13,709/2018 — LGPD).
 
-The data controller is the branch below. For any privacy matter, write to [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org).
+The data controller is the branch below. For any privacy matter, write to [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com).
 
-> **Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro** (Brazilian Red Cross — Rio de Janeiro State Branch)
-> CNPJ 08.560.973/0001-97
+> **Cruz Vermelha Brasileira — Filial do Município de Petrópolis** (Brazilian Red Cross — Rio de Janeiro State Branch)
+> CNPJ 09.198.238/0001-48
 > Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro/RJ, Brazil, postcode 20230-130
-> E-mail: [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org) · Phone: +55 (21) 99992-2864
+> E-mail: [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com) · Phone: +55 (24) 2243-4758
 
 ## What we collect, and why
 
@@ -79,7 +79,7 @@ The chat stores the progress of the conversation, and the enrolment and donation
 
 ## Your rights (article 18 of the LGPD)
 
-You may ask at any time for: confirmation that we process your data; access to it; correction of incomplete, inaccurate or out-of-date data; anonymisation, blocking or deletion of unnecessary or excessive data; portability; information about who we share your data with; and withdrawal of consent, with deletion of the data processed on that basis. Just write to [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org) — we reply through the same channel. Data linked to payments may have to be kept to meet legal obligations even after a deletion request. You may also lodge a complaint with Brazil's National Data Protection Authority (ANPD).
+You may ask at any time for: confirmation that we process your data; access to it; correction of incomplete, inaccurate or out-of-date data; anonymisation, blocking or deletion of unnecessary or excessive data; portability; information about who we share your data with; and withdrawal of consent, with deletion of the data processed on that basis. Just write to [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com) — we reply through the same channel. Data linked to payments may have to be kept to meet legal obligations even after a deletion request. You may also lodge a complaint with Brazil's National Data Protection Authority (ANPD).
 
 ## Retention and security
 

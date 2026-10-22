@@ -59,20 +59,20 @@ MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "a
 DATA_LONGA = f"{DATA_ACAO.day} de {MESES[DATA_ACAO.month - 1]}"   # 13 de outubro
 DATA_CURTA = f"{DATA_ACAO:%d/%m}"                                 # 13/10
 # Entrega dos brinquedos: na sede, no horário de recebimento de doações (o mesmo da Campanha do Agasalho).
-SEDE = {"endereco": "Praça da Cruz Vermelha, 10", "bairro": "Centro", "cidade": "Rio de Janeiro", "uf": "RJ", "cep": "20230-130"}
+SEDE = {"endereco": "Rua Carlos Gomes, 6", "bairro": "Centro", "cidade": "Rio de Janeiro", "uf": "RJ", "cep": "25680-120"}
 ENDERECO_SEDE = f'{SEDE["endereco"]}, {SEDE["bairro"]}, {SEDE["cidade"]} - {SEDE["uf"]}, CEP {SEDE["cep"]}'
 HORARIO_ENTREGA = "de segunda a sexta, das 10h às 17h"
 # O mesmo endereço de mapa do rodapé da home.
 URL_MAPA = "https://www.google.com/maps/search/?api=1&query=" + quote(f'{SEDE["endereco"]}, {SEDE["bairro"]}, {SEDE["cidade"]}, {SEDE["cep"]}')
 
 if ENCERRADA:
-    TITULO = "Dia das Crianças 2026: obrigado a quem doou brinquedos – Cruz Vermelha RJ"
-    DESCRICAO = ("A campanha de brinquedos para o Dia das Crianças da Cruz Vermelha RJ terminou: a ação com as crianças "
+    TITULO = "Dia das Crianças 2026: obrigado a quem doou brinquedos – Cruz Vermelha Petrópolis"
+    DESCRICAO = ("A campanha de brinquedos para o Dia das Crianças da Cruz Vermelha Petrópolis terminou: a ação com as crianças "
                  "aconteceu em 13 de outubro de 2026. Obrigado a quem doou.")
     ROBOTS = "noindex, follow"
 else:
-    TITULO = "Doe brinquedos para o Dia das Crianças – Cruz Vermelha RJ"
-    DESCRICAO = ("A Cruz Vermelha RJ está recebendo brinquedos novos ou em bom estado para as crianças da sua ação de "
+    TITULO = "Doe brinquedos para o Dia das Crianças – Cruz Vermelha Petrópolis"
+    DESCRICAO = ("A Cruz Vermelha Petrópolis está recebendo brinquedos novos ou em bom estado para as crianças da sua ação de "
                  "Dia das Crianças. Entregue na sede, no Centro do Rio.")
     ROBOTS = "index, follow, max-image-preview:large"
 IMAGEM_OG = f"{ORIGEM}/assets/otim/og-dia-das-criancas.jpg"
@@ -89,7 +89,7 @@ SETORES = [
 
 # Fotos (site/assets/otim/, de scripts/otimizar_imagens.py): base, versões (largura, altura), alt e legenda.
 HERO = ("dia-criancas-juventude", [(480, 419), (720, 629), (960, 838), (1080, 943)],
-        "Coordenadora de Juventude da Cruz Vermelha Brasileira Rio de Janeiro sorrindo com crianças do projeto Impacto das Cores")
+        "Coordenadora de Juventude da Cruz Vermelha Brasileira Petrópolis sorrindo com crianças do projeto Impacto das Cores")
 GALERIA = [
     ("dia-criancas-brincadeira-arcos", [(480, 459), (932, 891)],
      "Voluntária da Cruz Vermelha conduz uma brincadeira de pular nos arcos com crianças numa quadra",
@@ -124,7 +124,7 @@ def srcset(base: str, versoes: list, ext: str) -> str:
 
 
 def url_whatsapp() -> str:
-    texto = (f"A Cruz Vermelha RJ está recebendo doações de brinquedos para as crianças da sua ação de Dia das Crianças ({DATA_CURTA}). "
+    texto = (f"A Cruz Vermelha Petrópolis está recebendo doações de brinquedos para as crianças da sua ação de Dia das Crianças ({DATA_CURTA}). "
              f"Brinquedos novos ou em bom estado, entregues na sede: {SEDE['endereco']}, {SEDE['bairro']}, {HORARIO_ENTREGA}. "
              f"Saiba como doar: {URL_PAGINA}?utm_source=whatsapp&utm_medium=compartilhamento&utm_campaign=dia-das-criancas")
     return "https://api.whatsapp.com/send?" + urlencode({"text": texto})
@@ -447,7 +447,7 @@ def main() -> int:
         {hero}
           <p class="dc-selo" aria-hidden="true"><b>{DATA_CURTA}</b><span>Dia das Crianças</span></p>
         </figure>
-        <p class="lead">A Cruz Vermelha Brasileira Rio de Janeiro recebeu brinquedos novos e em bom estado para as crianças da sua ação de Dia das Crianças, realizada em {DATA_LONGA}. A campanha está encerrada; os brinquedos doados foram entregues às crianças participantes.</p>
+        <p class="lead">A Cruz Vermelha Brasileira Petrópolis recebeu brinquedos novos e em bom estado para as crianças da sua ação de Dia das Crianças, realizada em {DATA_LONGA}. A campanha está encerrada; os brinquedos doados foram entregues às crianças participantes.</p>
         <ul class="dc-fatos">
           {fatos}
         </ul>
@@ -465,7 +465,7 @@ def main() -> int:
         {hero}
           <p class="dc-selo" aria-hidden="true"><b>{DATA_CURTA}</b><span>Dia das Crianças</span></p>
         </figure>
-        <p class="lead">A Cruz Vermelha Brasileira Rio de Janeiro está recebendo brinquedos para as crianças que vão participar da sua ação de Dia das Crianças, no dia {DATA_LONGA}. Entregue na sede, no Centro do Rio.</p>
+        <p class="lead">A Cruz Vermelha Brasileira Petrópolis está recebendo brinquedos para as crianças que vão participar da sua ação de Dia das Crianças, no dia {DATA_LONGA}. Entregue na sede, no Centro do Rio.</p>
         <ul class="dc-fatos">
           {fatos}
         </ul>
@@ -536,7 +536,7 @@ def main() -> int:
   <meta name="robots" content="{ROBOTS}">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="{esc(TITULO)}">
   <meta property="og:description" content="{esc(DESCRICAO)}">
   <meta property="og:url" content="{URL_PAGINA}">
@@ -572,7 +572,7 @@ def main() -> int:
       <div class="wrap">
         <p class="eyebrow">{"Para quem foram os brinquedos" if ENCERRADA else "Para quem vai a sua doação"}</p>
         <h2 id="dc-setores-titulo">Um dia especial para as crianças</h2>
-        <p class="lead">No dia {DATA_LONGA}, as crianças da nossa ação {"passaram" if ENCERRADA else "passam"} o dia com três setores da Cruz Vermelha Brasileira Rio de Janeiro. Os brinquedos doados {"foram" if ENCERRADA else "vão"} para elas.</p>
+        <p class="lead">No dia {DATA_LONGA}, as crianças da nossa ação {"passaram" if ENCERRADA else "passam"} o dia com três setores da Cruz Vermelha Brasileira Petrópolis. Os brinquedos doados {"foram" if ENCERRADA else "vão"} para elas.</p>
         <div class="dc-cartoes">
         {cartoes}
         </div>
@@ -583,7 +583,7 @@ def main() -> int:
     <section class="dc-fotos" data-dc-secao="fotos" aria-labelledby="dc-fotos-titulo">
       <div class="wrap">
         <p class="eyebrow">Como são as nossas ações</p>
-        <h2 id="dc-fotos-titulo">A Cruz Vermelha RJ com as crianças</h2>
+        <h2 id="dc-fotos-titulo">A Cruz Vermelha Petrópolis com as crianças</h2>
         <p class="lead">Fotos de ações anteriores dos nossos voluntários com crianças, publicadas com a autorização dos responsáveis.</p>
         <div class="dc-galeria">
         {galeria}
@@ -593,10 +593,10 @@ def main() -> int:
 
 {secao_doacoes}
 {secao_compartilhe}
-    <section class="dc-noticias" data-dc-secao="noticias" aria-label="Notícias da Cruz Vermelha Brasileira Rio de Janeiro">
+    <section class="dc-noticias" data-dc-secao="noticias" aria-label="Notícias da Cruz Vermelha Brasileira Petrópolis">
       <div class="wrap">
-        <p class="dc-noticias-titulo">Acompanhe as ações da Cruz Vermelha RJ</p>
-        <p>Campanhas, ações nas ruas e atendimentos da Cruz Vermelha Brasileira Rio de Janeiro, contados nas nossas notícias.</p>
+        <p class="dc-noticias-titulo">Acompanhe as ações da Cruz Vermelha Petrópolis</p>
+        <p>Campanhas, ações nas ruas e atendimentos da Cruz Vermelha Brasileira Petrópolis, contados nas nossas notícias.</p>
         <a class="btn btn-white" href="{URL_NOTICIAS}" data-dc="noticias"><i class="fa-solid fa-newspaper" aria-hidden="true"></i>Ver as notícias</a>
       </div>
     </section>

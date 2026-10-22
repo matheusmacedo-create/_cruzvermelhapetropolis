@@ -120,7 +120,7 @@ function pn_pagina(string $titulo, string $corpo, ?string $usuario, bool $comLis
         . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         . '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">'
         . '<style>' . pn_css() . '</style></head><body><div class="faixa"></div>'
-        . '<header class="topo"><div class="wrap linha"><a href="' . ($usuario !== null ? 'painel.php' : pn_e(mcp_site_url()) . '/') . '"><img src="' . $logo . '" width="120" height="36" alt="Cruz Vermelha Brasileira · Rio de Janeiro"></a>'
+        . '<header class="topo"><div class="wrap linha"><a href="' . ($usuario !== null ? 'painel.php' : pn_e(mcp_site_url()) . '/') . '"><img src="' . $logo . '" width="120" height="36" alt="Cruz Vermelha Brasileira · Petrópolis"></a>'
         . '<div><b>Portal da secretaria</b><small>Matrícula cursos presenciais</small></div>' . $topoDireita . '</div>'
         . ($usuario !== null ? pn_menu($aba) : '') . '</header>'
         . '<main class="wrap">' . $corpo . '</main>'
@@ -317,7 +317,7 @@ function pn_login(string $aviso = '', string $classe = 'erro'): never
         . '<p>Digite o e-mail da equipe. Enviamos um link de acesso que vale ' . MCP_PAINEL_LINK_ENTRADA_MINUTOS . ' minutos.</p>'
         . ($aviso !== '' ? '<div class="aviso ' . pn_e($classe) . '">' . pn_e($aviso) . '</div>' : '')
         . '<form method="post" action="painel.php"><input type="hidden" name="acao" value="entrar">'
-        . '<label for="email">E-mail da equipe</label><input id="email" type="email" name="email" required autocomplete="email" placeholder="contato@cruzvermelhariodejaneiro.org">'
+        . '<label for="email">E-mail da equipe</label><input id="email" type="email" name="email" required autocomplete="email" placeholder="cvbpetropolis@gmail.com">'
         . '<div class="acoes"><button class="btn btn-red" type="submit">Receber link de acesso</button></div></form>'
         . '<p class="nota">O aviso de cada mensagem nova já traz o botão "Responder no painel", que abre o contato direto, sem esta tela.</p>'
         . '</div></div>';

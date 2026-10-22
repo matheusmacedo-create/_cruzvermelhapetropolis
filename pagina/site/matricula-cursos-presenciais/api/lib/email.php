@@ -23,8 +23,8 @@ declare(strict_types=1);
 
 const MCP_EMAIL_FONTE = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
 const MCP_EMAIL_PRAZO = '3 dias úteis';
-const MCP_EMAIL_CNPJ = '08.560.973/0001-97';
-const MCP_NOME_FILIAL = 'Cruz Vermelha Brasileira Rio de Janeiro';
+const MCP_EMAIL_CNPJ = '09.198.238/0001-48';
+const MCP_NOME_FILIAL = 'Cruz Vermelha Brasileira Petrópolis';
 /** Nomes curtos que aparecem em configurações antigas (EMAIL_REMETENTE): o remetente sai sempre com o nome completo. */
 const MCP_NOMES_CURTOS = ['cruz vermelha', 'cruz vermelha rj', 'cruz vermelha brasileira', 'cruz vermelha brasileira rj', 'cruz vermelha brasileira - rj', 'cruz vermelha brasileira – rj', 'cvb-rj', 'cvb rj', 'cvb'];
 const MCP_TEXTO_ESTORNO = 'Você pode desistir em até 7 dias depois do pagamento e recebe de volta tudo o que pagou, inclusive a matrícula e os juros do parcelamento. Depois disso, o valor também é devolvido se não houver turma com horário compatível ou se você desistir antes da confirmação da turma. O prazo para o dinheiro aparecer depende de PIX ou cartão.';
@@ -36,7 +36,7 @@ const MCP_TEXTO_ESTORNO_SEM_TURMA = 'Nos cursos comprados sem turma aberta, tamb
 /** Endereço que recebe o chat do site e responde os e-mails ao aluno. */
 function mcp_email_contato_endereco(): string
 {
-    return (string) mcp_cfg('EMAIL_CONTATO', 'contato@cruzvermelhariodejaneiro.org');
+    return (string) mcp_cfg('EMAIL_CONTATO', 'cvbpetropolis@gmail.com');
 }
 
 /** Remetente das respostas do painel ao cliente (EMAIL_REMETENTE_CONTATO ou o remetente geral). */
@@ -68,7 +68,7 @@ function mcp_email_nome_oficial(string $remetente): string
 /** Logo em PNG (WebP não abre no Outlook), 480 px para ficar nítido em tela retina a 180 px. */
 function mcp_email_logo(): string
 {
-    return mcp_site_url() . '/assets/otim/logo-cvb-rj-480.png';
+    return mcp_site_url() . '/assets/otim/logo-cvb-petropolis-480.png';
 }
 
 /** Data/hora UTC do banco em horário de Brasília. Devolve '' se o valor for inválido. */
@@ -95,13 +95,13 @@ function mcp_data_brt(?string $utc, string $formato = 'd/m \à\s H\hi'): string
 function mcp_moldura(string $titulo, string $corpo, array $opcoes = []): string
 {
     $t = mcp_escapar($titulo);
-    $eyebrow = mcp_escapar((string) ($opcoes['eyebrow'] ?? 'Cruz Vermelha Brasileira · Rio de Janeiro'));
+    $eyebrow = mcp_escapar((string) ($opcoes['eyebrow'] ?? 'Cruz Vermelha Brasileira · Petrópolis'));
     $preheader = (string) ($opcoes['preheader'] ?? '');
     $motivo = (string) ($opcoes['motivo'] ?? '');
     $fornecedor = '';
     if (!empty($opcoes['fornecedor'])) {
         $recebedor = mcp_email_recebedor();
-        $fornecedor = mcp_escapar($recebedor['nome']) . ' · CNPJ ' . mcp_escapar($recebedor['cnpj']) . ' · Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ';
+        $fornecedor = mcp_escapar($recebedor['nome']) . ' · CNPJ ' . mcp_escapar($recebedor['cnpj']) . ' · Rua Carlos Gomes, 6, Centro, Petrópolis/RJ';
     }
     $contato = mcp_escapar(mcp_email_contato_endereco());
     $site = mcp_escapar(mcp_site_url());
@@ -119,16 +119,16 @@ function mcp_moldura(string $titulo, string $corpo, array $opcoes = []): string
         . "<table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\" bgcolor=\"#f7f8fa\" style=\"background:#f7f8fa\"><tr><td class=\"mcp-wrap\" align=\"center\" style=\"padding:28px 12px\">"
         . "<table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"600\" bgcolor=\"#ffffff\" style=\"width:100%;max-width:600px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;font-family:$f;color:#1a202c\">"
         . "<tr><td bgcolor=\"#cc0000\" style=\"height:6px;line-height:6px;font-size:6px;background:#cc0000\">&nbsp;</td></tr>"
-        . "<tr><td class=\"mcp-pad\" style=\"padding:26px 32px 0\"><a href=\"$site/\" style=\"text-decoration:none\"><img src=\"$logo\" width=\"180\" height=\"54\" alt=\"Cruz Vermelha Brasileira · Rio de Janeiro\" style=\"display:block;width:180px;height:54px;border:0\"></a></td></tr>"
+        . "<tr><td class=\"mcp-pad\" style=\"padding:26px 32px 0\"><a href=\"$site/\" style=\"text-decoration:none\"><img src=\"$logo\" width=\"180\" height=\"54\" alt=\"Cruz Vermelha Brasileira · Petrópolis\" style=\"display:block;width:180px;height:54px;border:0\"></a></td></tr>"
         . "<tr><td class=\"mcp-pad\" style=\"padding:26px 32px 6px\"><p style=\"margin:0 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#cc0000;font-weight:800\">$eyebrow</p>"
         . "<h1 class=\"mcp-h1\" style=\"margin:0;font-size:27px;line-height:1.15;letter-spacing:-.02em;color:#0f1318;font-weight:800\">$t</h1></td></tr>"
         . "<tr><td class=\"mcp-pad\" style=\"padding:10px 32px 30px;font-size:16px;line-height:1.55;color:#1a202c\">$corpo</td></tr>"
         . "<tr><td class=\"mcp-pad\" bgcolor=\"#f7f8fa\" style=\"padding:20px 32px;background:#f7f8fa;border-top:1px solid #e2e8f0;font-size:13px;line-height:1.55;color:#718096\">"
         . "<p style=\"margin:0 0 8px;color:#1a202c\"><strong>Dúvidas?</strong> Responda este e-mail ou escreva para <a href=\"mailto:$contato\" style=\"color:#cc0000;font-weight:700;text-decoration:none\">$contato</a>. Se preferir, use o chat em <a href=\"$site/#chat\" style=\"color:#cc0000;text-decoration:none\">$siteVisivel</a>.</p>"
         . ($fornecedor !== ''
-            ? "<p style=\"margin:0 0 4px\">Cruz Vermelha Brasileira · Filial do Estado do Rio de Janeiro</p><p style=\"margin:0\">$fornecedor</p></td></tr>"
-            : "<p style=\"margin:0 0 4px\">Cruz Vermelha Brasileira · Filial do Estado do Rio de Janeiro · CNPJ " . MCP_EMAIL_CNPJ . "</p>"
-              . "<p style=\"margin:0\">Praça da Cruz Vermelha, 10 · Centro · Rio de Janeiro · RJ · CEP 20230-130</p></td></tr>")
+            ? "<p style=\"margin:0 0 4px\">Cruz Vermelha Brasileira · Filial do Município de Petrópolis</p><p style=\"margin:0\">$fornecedor</p></td></tr>"
+            : "<p style=\"margin:0 0 4px\">Cruz Vermelha Brasileira · Filial do Município de Petrópolis · CNPJ " . MCP_EMAIL_CNPJ . "</p>"
+              . "<p style=\"margin:0\">Rua Carlos Gomes, 6 · Centro · Petrópolis · RJ · CEP 25680-120</p></td></tr>")
         . "</table>"
         . ($motivo !== '' ? "<p style=\"margin:14px auto 0;max-width:600px;font-family:$f;font-size:12px;line-height:1.5;color:#a0aec0;text-align:center\">" . mcp_escapar($motivo) . "</p>" : '')
         . "</td></tr></table></body></html>";
@@ -336,7 +336,7 @@ const MCP_EMAIL_MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'jun
 const MCP_EMAIL_SEMANA = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
 /** Passo 03 da escola (spec 1.9), literal. */
 const MCP_EMAIL_PASSO_03 = 'Antes da primeira aula, você recebe por e-mail e na sua conta as orientações da turma: data, horário, local e o que vestir. A entrada na aula é liberada com a matrícula paga.';
-const MCP_EMAIL_LOCAL = 'Praça da Cruz Vermelha, 10 · Centro';
+const MCP_EMAIL_LOCAL = 'Rua Carlos Gomes, 6 · Centro';
 const MCP_EMAIL_NAO_INSCREVA = 'Na área do aluno, o curso só aparece quando a turma abrir. Não pague de novo e não se inscreva pela Escola: você entra sozinho na turma.';
 /** Motivos da devolução na espera (spec 10.8), como a secretaria e a pessoa leem. */
 const MCP_EMAIL_DEVOLVER_MOTIVOS = [
@@ -758,7 +758,7 @@ function mcp_email_resumo_condicoes(array $i): string
     if (mcp_email_sem_turma($i) && (($i['espera_status'] ?? '') !== 'turma')) {
         $limite = mcp_email_data_limite($i);
         $ateLimite = $limite !== '' ? "até $limite" : 'em até ' . mcp_email_prazo_dias() . ' dias da inscrição';
-        return "Inclui: $aulas na primeira turma deste curso que tiver vaga, na Praça da Cruz Vermelha, 10, e o certificado para quem cumprir os requisitos do curso.$homologacao"
+        return "Inclui: $aulas na primeira turma deste curso que tiver vaga, na Rua Carlos Gomes, 6, e o certificado para quem cumprir os requisitos do curso.$homologacao"
             . ' Ainda não há turma marcada. Quando a Escola marcar uma, você entra nela, por ordem de pagamento, e recebe por e-mail a data, o horário e o local, pelo menos 10 dias antes da primeira aula.'
             . ' Se a data ou o horário não servirem, avise em até 7 dias depois desse e-mail e você recebe tudo de volta.'
             . ' Se você desistir antes de a turma ser confirmada (você recebe um e-mail quando ela for), também recebe tudo de volta.'
@@ -771,7 +771,7 @@ function mcp_email_resumo_condicoes(array $i): string
     }
     $turma = mcp_email_turma_da_inscricao($i, true);
     $naTurma = $turma['data'] !== '' ? 'na turma de ' . $turma['data'] . ($turma['horario'] !== '' ? ', ' . mcp_email_das($turma['horario']) : '') : 'na turma escolhida';
-    return "Inclui: $aulas $naTurma, na Praça da Cruz Vermelha, 10, e o certificado para quem cumprir os requisitos do curso.$homologacao"
+    return "Inclui: $aulas $naTurma, na Rua Carlos Gomes, 6, e o certificado para quem cumprir os requisitos do curso.$homologacao"
         . ' A turma precisa de um número mínimo de alunos; se não for formada ou for adiada, você escolhe outra data ou recebe tudo de volta. '
         . $desistencia;
 }
@@ -946,7 +946,7 @@ function mcp_email_pague_ate(array $i): string
 /** O certificado, último passo de todos os e-mails do PIX. */
 function mcp_email_passo_certificado(): array
 {
-    return ['Você conclui e recebe o certificado', 'O certificado da Cruz Vermelha Brasileira Rio de Janeiro, com o seu nome, o curso e a carga horária.'];
+    return ['Você conclui e recebe o certificado', 'O certificado da Cruz Vermelha Brasileira Petrópolis, com o seu nome, o curso e a carga horária.'];
 }
 
 /**
@@ -1367,7 +1367,7 @@ function mcp_montar_email_aluno_pago_taxa(array $i, bool $comComprovante): array
             mcp_email_b_subtitulo('Próximos passos'),
             mcp_email_b_passos([
                 ['Taxa de inscrição paga', 'Feito. Não se inscreva de novo pela área do aluno: sua taxa já está paga.'],
-                ['A secretaria confirma turma e horário', 'A Escola de Educação e Saúde CVB-RJ entra em contato <strong>por e-mail em até ' . MCP_EMAIL_PRAZO . '</strong> para confirmar turma, data e horário. Fique de olho na caixa de entrada e no spam.'],
+                ['A secretaria confirma turma e horário', 'A Escola de Educação e Saúde CVB Petrópolis entra em contato <strong>por e-mail em até ' . MCP_EMAIL_PRAZO . '</strong> para confirmar turma, data e horário. Fique de olho na caixa de entrada e no spam.'],
                 ['Depois, a matrícula', mcp_escapar($matriculaAVista) . ', antes da aula. A secretaria da Escola escreve para você com o jeito de pagar.'],
             ]),
             mcp_email_b_botao($linkParabens, 'Ver minha inscrição', true),
@@ -1438,7 +1438,7 @@ function mcp_montar_email_aluno_pago_taxa(array $i, bool $comComprovante): array
         mcp_email_b_passos([
             ['Taxa de inscrição paga', 'Feito. ' . ($data !== '' ? 'Sua vaga na turma de ' . $data . ' está reservada.' : 'Sua vaga está reservada.')],
             ['Pagamento da matrícula', mcp_escapar($matriculaAVista) . ', antes da aula. A secretaria da Escola escreve para você com o jeito de pagar.'],
-            ['Venha para a aula', ($data !== '' ? $data . ', na Praça da Cruz Vermelha, 10. O horário está na sua área do aluno.' : 'Na Praça da Cruz Vermelha, 10. A data e o horário estão na sua área do aluno.')],
+            ['Venha para a aula', ($data !== '' ? $data . ', na Rua Carlos Gomes, 6. O horário está na sua área do aluno.' : 'Na Rua Carlos Gomes, 6. A data e o horário estão na sua área do aluno.')],
         ]),
         mcp_email_b_nota(mcp_escapar(mcp_email_texto_estorno($i))),
     ]);
@@ -1689,7 +1689,7 @@ function mcp_montar_email_turma_aberta(array $i, ?int $agora = null): array
     $pagoEm = mcp_data_brt((string) ($i['pago_em'] ?? ''), 'd/m/Y');
     $data = $turma['data'] !== '' ? $turma['data'] : 'a data informada pela secretaria';
     $ctx = mcp_email_contexto_pago($i, false);
-    $local = 'Praça da Cruz Vermelha, 10';
+    $local = 'Rua Carlos Gomes, 6';
     $itens = [
         'Até ' . $prazo . ', se a data ou o horário não servirem: tudo de volta.',
     ];
@@ -2190,7 +2190,7 @@ function mcp_montar_email_contato_confirmacao(array $c): array
             $itens[] = 'Matrícula à vista: <strong>' . mcp_brl((int) $dadosCurso['valor_curso_centavos']) . '</strong> · Taxa de inscrição: <strong>' . $inscricao . '</strong> · Total à vista: <strong>'
                 . mcp_brl((int) $dadosCurso['valor_curso_centavos'] + mcp_inscricao_centavos()) . '</strong>';
         }
-        $itens[] = 'Certificado da Cruz Vermelha Brasileira Rio de Janeiro';
+        $itens[] = 'Certificado da Cruz Vermelha Brasileira Petrópolis';
         $ficha = mcp_subtitulo('Sobre o ' . (string) $c['curso_nome']) . mcp_lista($itens);
     }
 
@@ -2254,10 +2254,10 @@ function mcp_montar_email_resposta_contato(array $c, string $resposta, string $a
     $protocolo = (string) ($c['protocolo'] ?? '');
     $comCurso = mcp_contato_com_curso((string) $c['assunto']);
     $corpo = '<div style="font-size:16px;line-height:1.6;color:#1a202c">' . nl2br(mcp_escapar($resposta)) . '</div>'
-        . '<p style="margin:22px 0 0;font-size:15px;line-height:1.5;color:#1a202c"><strong>' . mcp_escapar($assinatura) . '</strong><br><span style="color:#718096">Equipe Cruz Vermelha Brasileira Rio de Janeiro · Atendimento por e-mail</span></p>'
+        . '<p style="margin:22px 0 0;font-size:15px;line-height:1.5;color:#1a202c"><strong>' . mcp_escapar($assinatura) . '</strong><br><span style="color:#718096">Equipe Cruz Vermelha Brasileira Petrópolis · Atendimento por e-mail</span></p>'
         . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#fff7f7" style="margin:22px 0 0;background:#fff7f7;border:1px solid #f5c2c7;border-radius:12px"><tr><td style="padding:12px 16px;font-size:14px;line-height:1.5;color:#1a202c">'
         . 'Ficou alguma dúvida? <strong>Responda este e-mail</strong> e a conversa continua por aqui, sempre com o protocolo <strong>' . mcp_escapar($protocolo) . '</strong>.</td></tr></table>';
-    $texto = "$resposta\n\n$assinatura\nEquipe Cruz Vermelha Brasileira Rio de Janeiro · Atendimento por e-mail\n\nFicou alguma dúvida? Responda este e-mail (protocolo $protocolo).\n";
+    $texto = "$resposta\n\n$assinatura\nEquipe Cruz Vermelha Brasileira Petrópolis · Atendimento por e-mail\n\nFicou alguma dúvida? Responda este e-mail (protocolo $protocolo).\n";
     if ($comCurso && !empty($c['curso_slug'])) {
         $link = mcp_site_url() . '/matricula-cursos-presenciais/checkout/?curso=' . rawurlencode((string) $c['curso_slug']);
         $corpo .= mcp_botao($link, 'Inscrever-se em ' . (string) $c['curso_nome'], true);
@@ -2267,7 +2267,7 @@ function mcp_montar_email_resposta_contato(array $c, string $resposta, string $a
         . mcp_citacao((string) $c['mensagem']);
     $texto .= "\nSua mensagem:\n{$c['mensagem']}\n";
     return [
-        'assunto' => "Resposta da Cruz Vermelha Brasileira Rio de Janeiro · $protocolo",
+        'assunto' => "Resposta da Cruz Vermelha Brasileira Petrópolis · $protocolo",
         'html' => mcp_moldura("Respondemos sua mensagem, $nome.", $corpo, [
             'eyebrow' => 'Atendimento por e-mail · ' . $assunto,
             'preheader' => mb_substr(preg_replace('/\s+/u', ' ', $resposta) ?? '', 0, 140),

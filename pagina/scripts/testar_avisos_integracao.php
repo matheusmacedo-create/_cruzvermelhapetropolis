@@ -36,7 +36,7 @@ $falso = sys_get_temp_dir() . '/mcp-avisos-falso-' . bin2hex(random_bytes(4));
 mkdir($falso);
 $base0 = [
     'EMAIL_SECRETARIA' => '', 'PAINEL_EMAILS' => 'avisos@exemplo.org', 'SITE_URL' => "http://127.0.0.1:$portaSite", 'RESEND_API_KEY' => 're_teste', 'RESEND_API_URL' => "http://127.0.0.1:$portaFalso/emails",
-    'EMAIL_REMETENTE' => 'Cruz Vermelha Brasileira Rio de Janeiro <ponto@info.exemplo.org>', 'EMAIL_CONTATO' => 'contato@exemplo.org',
+    'EMAIL_REMETENTE' => 'Cruz Vermelha Brasileira Petrópolis <ponto@info.exemplo.org>', 'EMAIL_CONTATO' => 'contato@exemplo.org',
     'ESCOLA_API_URL' => "http://127.0.0.1:$portaFalso/rest/v1/rpc/matricula_rapida", 'ESCOLA_API_TOKEN' => 'chave-falsa',
     // O teste usa as datas de verdade (hoje, amanhã): sem os feriados embutidos, o resultado não depende do dia.
     'AVISOS_FERIADOS' => '0',
@@ -427,7 +427,7 @@ try {
     verificar('envio: às 18h sai o e-mail', mcp_avisos_enviar_pendentes(em($hoje, '18:00')), [1, 0]);
     $email = falso('emails')[$antesEmails] ?? [];
     verificar('e-mail da véspera: destinatário, assunto, remetente e responder-para', [$email['to'] ?? null, str_starts_with($email['subject'] ?? '', 'Se vier amanhã ('), $email['from'] ?? null, $email['reply_to'] ?? null],
-        [["vera-$sufixo@avisos-teste.example"], true, 'Cruz Vermelha Brasileira Rio de Janeiro <ponto@info.exemplo.org>', 'contato@exemplo.org']);
+        [["vera-$sufixo@avisos-teste.example"], true, 'Cruz Vermelha Brasileira Petrópolis <ponto@info.exemplo.org>', 'contato@exemplo.org']);
     verificar('e-mail da véspera: descadastro de um clique (List-Unsubscribe) apontando para o site', [
         (bool) preg_match('~^<http://127\.0\.0\.1:\d+/matricula-cursos-presenciais/api/avisos\.php\?u=\d+\.[a-f0-9]{16}>$~', (string) ($email['headers']['List-Unsubscribe'] ?? '')),
         $email['headers']['List-Unsubscribe-Post'] ?? null], [true, 'List-Unsubscribe=One-Click']);

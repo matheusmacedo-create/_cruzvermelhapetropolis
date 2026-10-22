@@ -66,7 +66,7 @@ def aplicar(html: str) -> str:
 # filial. A FAQ que a escola publica diz "emitido pela Cruz Vermelha Brasileira"; no chat, a resposta
 # nomeia a escola, como a FAQ da home e as páginas institucionais.
 ESCOLA = "a escola, a O-CVB Filial Rio de Janeiro Ensino Ltda"
-EMISSOR = re.compile(r"emitido pela Cruz Vermelha Brasileira(?: – Filial do Estado do Rio de Janeiro| Rio de Janeiro)?")
+EMISSOR = re.compile(r"emitido pela Cruz Vermelha Brasileira(?: – Filial do Município de Petrópolis| Petrópolis| Rio de Janeiro)?")
 
 
 def certificado_da_escola(resposta: str) -> str:
@@ -75,7 +75,7 @@ def certificado_da_escola(resposta: str) -> str:
     novo = EMISSOR.sub("emitido pela escola, " + nome, resposta)
     novo = re.sub(re.escape(nome) + r"(?= [a-zà-ú])", nome + ",", novo)
     return novo.replace(nome + ", instituição reconhecida",
-                        nome + ", empresa ligada à Cruz Vermelha Brasileira Rio de Janeiro, instituição reconhecida")
+                        nome + ", empresa ligada à Cruz Vermelha Brasileira Petrópolis, instituição reconhecida")
 
 
 def atualizar_cursos(cursos: list[dict]) -> bool:

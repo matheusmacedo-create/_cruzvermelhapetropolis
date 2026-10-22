@@ -11,9 +11,9 @@
       "inicio": "Início",
       "traducao": "",
       "filial": [
-        "Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro",
-        "CNPJ 08.560.973/0001-97",
-        "Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro/RJ, CEP 20230-130",
+        "Cruz Vermelha Brasileira — Filial do Município de Petrópolis",
+        "CNPJ 09.198.238/0001-48",
+        "Rua Carlos Gomes, 6 — Centro, Petrópolis/RJ, CEP 25680-120",
         "E-mail: {email}"
       ],
       "estado": {
@@ -43,9 +43,9 @@
       "inicio": "Home",
       "traducao": "This translation is provided for convenience. The official version is the Portuguese one.",
       "filial": [
-        "Brazilian Red Cross — Rio de Janeiro State Branch (Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro)",
-        "CNPJ (Brazilian company number) 08.560.973/0001-97",
-        "Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro, RJ, 20230-130, Brazil",
+        "Brazilian Red Cross — Rio de Janeiro State Branch (Cruz Vermelha Brasileira — Filial do Município de Petrópolis)",
+        "CNPJ (Brazilian company number) 09.198.238/0001-48",
+        "Rua Carlos Gomes, 6 — Centro, Petrópolis, RJ, 25680-120, Brazil",
         "E-mail: {email}"
       ],
       "estado": {
@@ -75,9 +75,9 @@
       "inicio": "Inicio",
       "traducao": "Esta traducción se ofrece para su comodidad. La versión oficial es la portuguesa.",
       "filial": [
-        "Cruz Roja Brasileña — Filial del Estado de Río de Janeiro (Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro)",
-        "CNPJ (registro de personas jurídicas de Brasil) 08.560.973/0001-97",
-        "Praça da Cruz Vermelha, 10 — Centro, Río de Janeiro, RJ, 20230-130, Brasil",
+        "Cruz Roja Brasileña — Filial del Municipio de Petrópolis (Cruz Vermelha Brasileira — Filial do Município de Petrópolis)",
+        "CNPJ (registro de personas jurídicas de Brasil) 09.198.238/0001-48",
+        "Rua Carlos Gomes, 6 — Centro, Petrópolis, RJ, 25680-120, Brasil",
         "Correo: {email}"
       ],
       "estado": {
@@ -102,12 +102,12 @@
   "paginas": {
     "privacidade": {
       "pt": {
-        "titulo_aba": "Privacidade | Cruz Vermelha Brasileira Rio de Janeiro",
-        "descricao": "O que o site da Cruz Vermelha Brasileira Rio de Janeiro coleta na matrícula, no chat, na newsletter e no cadastro de voluntários, para quê, com quem compartilha e seus direitos pela LGPD.",
+        "titulo_aba": "Privacidade | Cruz Vermelha Brasileira Petrópolis",
+        "descricao": "O que o site da Cruz Vermelha Brasileira Petrópolis coleta na matrícula, no chat, na newsletter e no cadastro de voluntários, para quê, com quem compartilha e seus direitos pela LGPD.",
         "sobrancelha": "Proteção de dados",
         "h1": "Política de Privacidade",
         "intro": [
-          "Esta política explica, em linguagem direta, quais dados pessoais o site da Cruz Vermelha Brasileira Rio de Janeiro trata, para que servem, com quem são compartilhados, por quanto tempo ficam guardados e como você exerce os seus direitos. Ela segue a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018, a LGPD).",
+          "Esta política explica, em linguagem direta, quais dados pessoais o site da Cruz Vermelha Brasileira Petrópolis trata, para que servem, com quem são compartilhados, por quanto tempo ficam guardados e como você exerce os seus direitos. Ela segue a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018, a LGPD).",
           "Vale para cruzvermelhariodejaneiro.org e todas as suas páginas, inclusive notícias, acervo e as versões em inglês e espanhol, e para a página do projeto Impacto das Cores (projetocores.cruzvermelhariodejaneiro.org). O curso de Punção Venosa tem site e [política de privacidade próprios]({puncao})."
         ],
         "secoes": [
@@ -365,12 +365,12 @@
         ]
       },
       "en": {
-        "titulo_aba": "Privacy Policy | Brazilian Red Cross Rio de Janeiro",
-        "descricao": "What the Brazilian Red Cross Rio de Janeiro website collects through enrolment, the chat, the newsletter and the volunteer registration, why, who receives it, and your rights under the LGPD.",
+        "titulo_aba": "Privacy Policy | Brazilian Red Cross Petrópolis",
+        "descricao": "What the Brazilian Red Cross Petrópolis website collects through enrolment, the chat, the newsletter and the volunteer registration, why, who receives it, and your rights under the LGPD.",
         "sobrancelha": "Data protection",
         "h1": "Privacy Policy",
         "intro": [
-          "This policy explains, in plain language, which personal data the Brazilian Red Cross Rio de Janeiro website processes, what it is used for, who receives it, how long it is kept and how you exercise your rights. It follows Brazil's General Personal Data Protection Law (Law No. 13,709/2018, the LGPD).",
+          "This policy explains, in plain language, which personal data the Brazilian Red Cross Petrópolis website processes, what it is used for, who receives it, how long it is kept and how you exercise your rights. It follows Brazil's General Personal Data Protection Law (Law No. 13,709/2018, the LGPD).",
           "It covers cruzvermelhariodejaneiro.org and all its pages, including news, the archive and the English and Spanish versions, and the Impacto das Cores project page (projetocores.cruzvermelhariodejaneiro.org). The Venipuncture course has its own website and [privacy policy]({puncao}), in Portuguese."
         ],
         "secoes": [
@@ -628,12 +628,12 @@
         ]
       },
       "es": {
-        "titulo_aba": "Privacidad | Cruz Roja Brasileña Río de Janeiro",
-        "descricao": "Qué recoge el sitio de la Cruz Roja Brasileña Río de Janeiro en la matrícula, el chat, el boletín y el registro de voluntarios, para qué, con quién se comparte y sus derechos según la LGPD.",
+        "titulo_aba": "Privacidad | Cruz Roja Brasileña Petrópolis",
+        "descricao": "Qué recoge el sitio de la Cruz Roja Brasileña Petrópolis en la matrícula, el chat, el boletín y el registro de voluntarios, para qué, con quién se comparte y sus derechos según la LGPD.",
         "sobrancelha": "Protección de datos",
         "h1": "Política de Privacidad",
         "intro": [
-          "Esta política explica, en lenguaje directo, qué datos personales trata el sitio de la Cruz Roja Brasileña Río de Janeiro, para qué sirven, con quién se comparten, cuánto tiempo se guardan y cómo ejercer sus derechos. Sigue la Ley General de Protección de Datos Personales de Brasil (Ley n.º 13.709/2018, la LGPD).",
+          "Esta política explica, en lenguaje directo, qué datos personales trata el sitio de la Cruz Roja Brasileña Petrópolis, para qué sirven, con quién se comparten, cuánto tiempo se guardan y cómo ejercer sus derechos. Sigue la Ley General de Protección de Datos Personales de Brasil (Ley n.º 13.709/2018, la LGPD).",
           "Se aplica a cruzvermelhariodejaneiro.org y a todas sus páginas, incluidas las noticias, el acervo y las versiones en inglés y español, y a la página del proyecto Impacto das Cores (projetocores.cruzvermelhariodejaneiro.org). El curso de Punción Venosa tiene sitio y [política de privacidad propios]({puncao}), en portugués."
         ],
         "secoes": [
@@ -894,8 +894,8 @@
     "cookies": {
       "revisao": "2026-10-02",
       "pt": {
-        "titulo_aba": "Cookies | Cruz Vermelha Brasileira Rio de Janeiro",
-        "descricao": "Quais cookies o site da Cruz Vermelha Brasileira Rio de Janeiro usa, para quê e por quanto tempo, e como aceitar, recusar ou mudar a sua escolha.",
+        "titulo_aba": "Cookies | Cruz Vermelha Brasileira Petrópolis",
+        "descricao": "Quais cookies o site da Cruz Vermelha Brasileira Petrópolis usa, para quê e por quanto tempo, e como aceitar, recusar ou mudar a sua escolha.",
         "sobrancelha": "Proteção de dados",
         "h1": "Política de Cookies",
         "intro": [
@@ -1073,8 +1073,8 @@
         ]
       },
       "en": {
-        "titulo_aba": "Cookie Policy | Brazilian Red Cross Rio de Janeiro",
-        "descricao": "Which cookies the Brazilian Red Cross Rio de Janeiro website uses, what for and for how long, and how to accept, refuse or change your choice.",
+        "titulo_aba": "Cookie Policy | Brazilian Red Cross Petrópolis",
+        "descricao": "Which cookies the Brazilian Red Cross Petrópolis website uses, what for and for how long, and how to accept, refuse or change your choice.",
         "sobrancelha": "Data protection",
         "h1": "Cookie Policy",
         "intro": [
@@ -1252,8 +1252,8 @@
         ]
       },
       "es": {
-        "titulo_aba": "Cookies | Cruz Roja Brasileña Río de Janeiro",
-        "descricao": "Qué cookies usa el sitio de la Cruz Roja Brasileña Río de Janeiro, para qué y por cuánto tiempo, y cómo aceptar, rechazar o cambiar su elección.",
+        "titulo_aba": "Cookies | Cruz Roja Brasileña Petrópolis",
+        "descricao": "Qué cookies usa el sitio de la Cruz Roja Brasileña Petrópolis, para qué y por cuánto tiempo, y cómo aceptar, rechazar o cambiar su elección.",
         "sobrancelha": "Protección de datos",
         "h1": "Política de Cookies",
         "intro": [
@@ -1434,12 +1434,12 @@
     "termos": {
       "revisao": "2026-10-19",
       "pt": {
-        "titulo_aba": "Termos de Uso | Cruz Vermelha Brasileira Rio de Janeiro",
-        "descricao": "Regras de uso do site da Cruz Vermelha Brasileira Rio de Janeiro: conteúdo, emblema da cruz vermelha, matrícula em cursos, doações, responsabilidade e foro.",
+        "titulo_aba": "Termos de Uso | Cruz Vermelha Brasileira Petrópolis",
+        "descricao": "Regras de uso do site da Cruz Vermelha Brasileira Petrópolis: conteúdo, emblema da cruz vermelha, matrícula em cursos, doações, responsabilidade e foro.",
         "sobrancelha": "Regras do site",
         "h1": "Termos de Uso",
         "intro": [
-          "Este site é mantido pela Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro para informar sobre o seu trabalho humanitário, os cursos e as campanhas. Ao usá-lo, você concorda com estes termos."
+          "Este site é mantido pela Cruz Vermelha Brasileira — Filial do Município de Petrópolis para informar sobre o seu trabalho humanitário, os cursos e as campanhas. Ao usá-lo, você concorda com estes termos."
         ],
         "secoes": [
           {
@@ -1541,8 +1541,8 @@
         ]
       },
       "en": {
-        "titulo_aba": "Terms of Use | Brazilian Red Cross Rio de Janeiro",
-        "descricao": "Rules for using the Brazilian Red Cross Rio de Janeiro website: content, the red cross emblem, course enrolment, donations, liability and jurisdiction.",
+        "titulo_aba": "Terms of Use | Brazilian Red Cross Petrópolis",
+        "descricao": "Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, course enrolment, donations, liability and jurisdiction.",
         "sobrancelha": "Site rules",
         "h1": "Terms of Use",
         "intro": [
@@ -1648,12 +1648,12 @@
         ]
       },
       "es": {
-        "titulo_aba": "Términos de Uso | Cruz Roja Brasileña Río de Janeiro",
-        "descricao": "Reglas de uso del sitio de la Cruz Roja Brasileña Río de Janeiro: contenido, emblema, matrícula en cursos, donaciones, responsabilidad y jurisdicción.",
+        "titulo_aba": "Términos de Uso | Cruz Roja Brasileña Petrópolis",
+        "descricao": "Reglas de uso del sitio de la Cruz Roja Brasileña Petrópolis: contenido, emblema, matrícula en cursos, donaciones, responsabilidad y jurisdicción.",
         "sobrancelha": "Reglas del sitio",
         "h1": "Términos de Uso",
         "intro": [
-          "Este sitio lo mantiene la Cruz Roja Brasileña — Filial del Estado de Río de Janeiro para informar sobre su trabajo humanitario, sus cursos y sus campañas. Al usarlo, usted acepta estos términos."
+          "Este sitio lo mantiene la Cruz Roja Brasileña — Filial del Municipio de Petrópolis para informar sobre su trabajo humanitario, sus cursos y sus campañas. Al usarlo, usted acepta estos términos."
         ],
         "secoes": [
           {
@@ -1758,8 +1758,8 @@
     "reembolso": {
       "revisao": "2026-10-13",
       "pt": {
-        "titulo_aba": "Cancelamento e reembolso | Cruz Vermelha Brasileira Rio de Janeiro",
-        "descricao": "Como desistir da inscrição em curso da Cruz Vermelha Brasileira Rio de Janeiro: direito de arrependimento de 7 dias, quando o valor volta e como pedir.",
+        "titulo_aba": "Cancelamento e reembolso | Cruz Vermelha Brasileira Petrópolis",
+        "descricao": "Como desistir da inscrição em curso da Cruz Vermelha Brasileira Petrópolis: direito de arrependimento de 7 dias, quando o valor volta e como pedir.",
         "sobrancelha": "Matrícula em cursos",
         "h1": "Cancelamento e reembolso",
         "intro": [
@@ -1863,8 +1863,8 @@
         ]
       },
       "en": {
-        "titulo_aba": "Cancellation and refunds | Brazilian Red Cross Rio de Janeiro",
-        "descricao": "How to withdraw from a course enrolment with the Brazilian Red Cross Rio de Janeiro: the 7-day right of withdrawal, when the money is returned and how to ask.",
+        "titulo_aba": "Cancellation and refunds | Brazilian Red Cross Petrópolis",
+        "descricao": "How to withdraw from a course enrolment with the Brazilian Red Cross Petrópolis: the 7-day right of withdrawal, when the money is returned and how to ask.",
         "sobrancelha": "Course enrolment",
         "h1": "Cancellation and refunds",
         "intro": [
@@ -1968,8 +1968,8 @@
         ]
       },
       "es": {
-        "titulo_aba": "Cancelación y reembolso | Cruz Roja Brasileña Río de Janeiro",
-        "descricao": "Cómo desistir de la inscripción en un curso de la Cruz Roja Brasileña Río de Janeiro: arrepentimiento de 7 días, cuándo vuelve el dinero y cómo pedirlo.",
+        "titulo_aba": "Cancelación y reembolso | Cruz Roja Brasileña Petrópolis",
+        "descricao": "Cómo desistir de la inscripción en un curso de la Cruz Roja Brasileña Petrópolis: arrepentimiento de 7 días, cuándo vuelve el dinero y cómo pedirlo.",
         "sobrancelha": "Matrícula en cursos",
         "h1": "Cancelación y reembolso",
         "intro": [

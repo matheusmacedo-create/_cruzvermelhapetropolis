@@ -84,7 +84,7 @@ FOTOS = {
 AVIF = {"forca-tarefa-el-nino-banner.png", "dia-criancas-juventude.jpg"}
 # Logos com transparência: uma largura só.
 LOGOS = {
-    "logo-cvb-rj.png": 520,
+    "logo-cvb-petropolis.png": 520,
     "logo-rj.png": 240,
     "parceiros/avon.png": 400,
     "parceiros/carrefour.png": 400,

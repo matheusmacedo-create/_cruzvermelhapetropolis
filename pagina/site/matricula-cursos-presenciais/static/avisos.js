@@ -97,7 +97,7 @@
       + '<fieldset class="av-grupo"><legend>Como prefere receber?</legend>'
       + '<label class="pt-check"><input type="checkbox" name="email"' + (p.email && d.email ? ' checked' : '') + (d.email ? '' : ' disabled') + '> E-mail'
       + (d.email ? ' <span class="av-mascara">' + esc(d.email) + '</span>' : ' <span class="av-mascara">(sem e-mail cadastrado: peça à secretaria)</span>') + '</label>'
-      + '<label class="pt-check"><input type="checkbox" name="whatsapp"' + (p.whatsapp ? ' checked' : '') + '> Também pelo WhatsApp da Cruz Vermelha Brasileira RJ'
+      + '<label class="pt-check"><input type="checkbox" name="whatsapp"' + (p.whatsapp ? ' checked' : '') + '> Também pelo WhatsApp da Cruz Vermelha Brasileira Petrópolis'
       + (d.whatsapp ? ' <span class="av-mascara">' + esc(d.whatsapp) + '</span>' : '') + '</label>'
       + '<p class="av-ajuda">É opcional: sem ele, tudo vai por e-mail, e você pode desligar quando quiser.'
       + (d.whatsapp ? ' Para trocar o número, fale com a secretaria.' : '') + '</p>'

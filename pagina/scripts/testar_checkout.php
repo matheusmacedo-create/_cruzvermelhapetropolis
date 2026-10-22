@@ -156,9 +156,9 @@ verificar('protocolo', mcp_contato_protocolo(12, '2026-09-19 02:30:00'), 'CV-260
 // E-mail: moldura no padrão da instituição (logo, contato, CNPJ), botão e componentes escapam o que recebem.
 verificar('botão escapa', str_contains(mcp_botao('https://x/?a=1&b=2', '<Ir>'), 'a=1&amp;b=2') && str_contains(mcp_botao('https://x', '<Ir>'), '&lt;Ir&gt;'), true);
 $moldura = mcp_moldura('Título <x>', '<p>corpo</p>', ['eyebrow' => 'Chapéu', 'preheader' => 'Prévia da caixa', 'motivo' => 'Porque sim']);
-verificar('moldura logo', str_contains($moldura, 'https://exemplo.org/assets/otim/logo-cvb-rj-480.png'), true);
+verificar('moldura logo', str_contains($moldura, 'https://exemplo.org/assets/otim/logo-cvb-petropolis-480.png'), true);
 verificar('moldura contato', str_contains($moldura, 'mailto:contato@exemplo.org'), true);
-verificar('moldura cnpj', str_contains($moldura, '08.560.973/0001-97'), true);
+verificar('moldura cnpj', str_contains($moldura, '09.198.238/0001-48'), true);
 verificar('moldura chapéu, prévia e motivo', str_contains($moldura, 'Chapéu') && str_contains($moldura, 'Prévia da caixa') && str_contains($moldura, 'Porque sim'), true);
 verificar('moldura escapa título', str_contains($moldura, 'Título &lt;x&gt;') && !str_contains($moldura, 'Título <x>'), true);
 verificar('moldura sem whatsapp', stripos($moldura, 'whatsapp'), false);
@@ -292,7 +292,7 @@ verificar('confirmação telefone opcional', str_contains($cf['html'], 'também 
 
 // Resposta do painel e link de entrada.
 $resp = mcp_montar_email_resposta_contato($contato, "Oi, João!\n\nTemos turma à noite às terças <b>e</b> quintas.\n\nAbraço", 'Ana, da equipe de cursos');
-verificar('resposta assunto', $resp['assunto'], 'Resposta da Cruz Vermelha Brasileira Rio de Janeiro · CV-260919-0007');
+verificar('resposta assunto', $resp['assunto'], 'Resposta da Cruz Vermelha Brasileira Petrópolis · CV-260919-0007');
 verificar('resposta título', str_contains($resp['html'], 'Respondemos sua mensagem, João.'), true);
 verificar('resposta corpo escapado com quebras', str_contains($resp['html'], "às terças &lt;b&gt;e&lt;/b&gt; quintas.<br />"), true);
 verificar('resposta assinatura', str_contains($resp['html'], 'Ana, da equipe de cursos') && str_contains($resp['texto'], 'Ana, da equipe de cursos'), true);
@@ -303,13 +303,13 @@ verificar('link de entrada no e-mail', str_contains($entrada['html'], 'painel.ph
 verificar('link de entrada: portal da secretaria no assunto e no topo', [$entrada['assunto'], str_contains($entrada['html'], 'Portal da secretaria'), str_contains($entrada['texto'], 'Entrar no portal da secretaria')],
     ['Acesso ao portal da secretaria', true, true]);
 verificar('telefone bonito', mcp_telefone_bonito('21999990000') . ' ' . mcp_telefone_bonito('2133334444') . ' ' . mcp_telefone_bonito('123'), '(21) 99999-0000 (21) 3333-4444 123');
-verificar('remetente endereço', mcp_email_endereco('Cruz Vermelha RJ <x@exemplo.org>') . '|' . mcp_email_endereco('y@exemplo.org'), 'x@exemplo.org|y@exemplo.org');
-verificar('remetente nome curto vira nome completo', mcp_email_nome_oficial('Cruz Vermelha RJ <matricula@info.exemplo.org>'), 'Cruz Vermelha Brasileira Rio de Janeiro <matricula@info.exemplo.org>');
-verificar('remetente nacional vira nome completo', mcp_email_nome_oficial('"Cruz Vermelha Brasileira" <x@exemplo.org>'), 'Cruz Vermelha Brasileira Rio de Janeiro <x@exemplo.org>');
-verificar('remetente só endereço ganha nome', mcp_email_nome_oficial('x@exemplo.org'), 'Cruz Vermelha Brasileira Rio de Janeiro <x@exemplo.org>');
+verificar('remetente endereço', mcp_email_endereco('Cruz Vermelha Petrópolis <x@exemplo.org>') . '|' . mcp_email_endereco('y@exemplo.org'), 'x@exemplo.org|y@exemplo.org');
+verificar('remetente nome curto vira nome completo', mcp_email_nome_oficial('Cruz Vermelha Petrópolis <matricula@info.exemplo.org>'), 'Cruz Vermelha Brasileira Petrópolis <matricula@info.exemplo.org>');
+verificar('remetente nacional vira nome completo', mcp_email_nome_oficial('"Cruz Vermelha Brasileira" <x@exemplo.org>'), 'Cruz Vermelha Brasileira Petrópolis <x@exemplo.org>');
+verificar('remetente só endereço ganha nome', mcp_email_nome_oficial('x@exemplo.org'), 'Cruz Vermelha Brasileira Petrópolis <x@exemplo.org>');
 verificar('remetente com nome próprio é mantido', mcp_email_nome_oficial('Secretaria de Cursos <x@exemplo.org>'), 'Secretaria de Cursos <x@exemplo.org>');
 verificar('remetente inválido é devolvido como veio', mcp_email_nome_oficial('lixo'), 'lixo');
-verificar('remetente do contato normalizado', str_starts_with(mcp_email_remetente_contato(), 'Cruz Vermelha Brasileira Rio de Janeiro <') ? 'ok' : mcp_email_remetente_contato(), 'ok');
+verificar('remetente do contato normalizado', str_starts_with(mcp_email_remetente_contato(), 'Cruz Vermelha Brasileira Petrópolis <') ? 'ok' : mcp_email_remetente_contato(), 'ok');
 verificar('painel e-mails permitidos', mcp_painel_emails_permitidos(), ['contato@exemplo.org']);
 verificar('painel url', mcp_painel_url(), 'https://exemplo.org/matricula-cursos-presenciais/api/painel.php');
 
@@ -702,7 +702,7 @@ $presencaTeste = ['id' => 1, 'token' => str_repeat('b', 40), 'codigo' => 'K7QM4X
 $conteudo = mcp_presenca_conteudo($presencaTeste, '2026-10-23 01:07:00');
 verificar('comprovante de comparecimento: texto declara a aula, o horário e o local', $conteudo['texto'],
     'Declaramos, para os devidos fins, que Maria das Graças dos Santos, CPF 529.982.247-25, compareceu à aula presencial do curso Bombeiro Civil, da Escola de Educação e Saúde da '
-    . 'Cruz Vermelha Brasileira Rio de Janeiro, no dia 22 de outubro de 2026 (quinta-feira), das 18:00 às 22:00, na sede da instituição, na Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ.');
+    . 'Cruz Vermelha Brasileira Petrópolis, no dia 22 de outubro de 2026 (quinta-feira), das 18:00 às 22:00, na sede da instituição, na Rua Carlos Gomes, 6, Centro, Petrópolis/RJ.');
 verificar('comprovante de comparecimento: dados, código e rodapé', [$conteudo['linhas'][3], $conteudo['codigo'], $conteudo['local_data'], str_contains($conteudo['rodape'], 'emitido eletronicamente em 22/10/2026 às 22h07'),
     str_contains($conteudo['rodape'], 'exemplo.org/conferir com o código K7QM-4XPA')], [['Chegada registrada', '17:52, pelo celular, na sede'], 'K7QM-4XPA', 'Rio de Janeiro, 22 de outubro de 2026.', true, true]);
 verificar('comprovante de comparecimento: público antes e depois do fim da aula', [
@@ -721,7 +721,7 @@ $declaracaoTeste = ['codigo' => 'P3RN8WQZ', 'nome' => 'joão pedro da silva', 'c
     'minutos' => 1350, 'dias' => 9, 'emitida_em' => '2026-10-01 13:00:00'];
 $conteudoHoras = mcp_ponto_declaracao_conteudo($declaracaoTeste);
 verificar('declaração de horas: texto, período e código', [$conteudoHoras['texto'], $conteudoHoras['linhas'][0], $conteudoHoras['linhas'][3], $conteudoHoras['local_data'], $conteudoHoras['codigo']], [
-    'Declaramos, para os devidos fins, que João Pedro da Silva, CPF 111.444.777-35, prestou serviço voluntário na Cruz Vermelha Brasileira Rio de Janeiro, na função de Socorrista voluntário, '
+    'Declaramos, para os devidos fins, que João Pedro da Silva, CPF 111.444.777-35, prestou serviço voluntário na Cruz Vermelha Brasileira Petrópolis, na função de Socorrista voluntário, '
     . 'somando 22 horas e 30 minutos de atividades na sede da instituição entre 01/09/2026 e 30/09/2026, conforme os registros de entrada e saída do ponto da sede.',
     ['Período', '01/09/2026 a 30/09/2026'], ['Total de horas', '22h30'], 'Rio de Janeiro, 1º de outubro de 2026.', 'P3RN-8WQZ']);
 verificar('declaração de horas: um dia só e sem função', [mcp_ponto_declaracao_conteudo(['de' => '2026-09-15', 'ate' => '2026-09-15', 'funcao' => null] + $declaracaoTeste)['linhas'][0],
@@ -752,7 +752,7 @@ $voluntarioTeste = ['id' => 7, 'nome' => 'JOÃO PEDRO DA SILVA', 'cpf' => '11144
 $termo = mcp_ponto_termo_conteudo($voluntarioTeste, '2026-09-30 13:00:00');
 $textoTermo = implode(' ', array_map(static fn(array $c): string => $c[1], $termo['clausulas']));
 verificar('termo: partes com a entidade (CNPJ) e o voluntário (CPF e contatos)', [$termo['partes'][0][1], $termo['partes'][1][1]], [
-    'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro, CNPJ 08.560.973/0001-97, com sede na Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ, CEP 20230-130, representada na forma do seu estatuto.',
+    'Cruz Vermelha Brasileira — Filial do Município de Petrópolis, CNPJ 09.198.238/0001-48, com sede na Rua Carlos Gomes, 6, Centro, Petrópolis/RJ, CEP 25680-120, representada na forma do seu estatuto.',
     'João Pedro da Silva, CPF 111.444.777-35, e-mail joao@exemplo.org, telefone (21) 98888-7777.']);
 verificar('termo: objeto com a função e cláusulas da Lei 9.608/1998', [
     str_contains($termo['clausulas'][0][1], 'na função de Socorrista voluntário,'),
@@ -1133,7 +1133,7 @@ verificar('página: um <h1>, modo curso no <head>, ganchos do chat, das turmas, 
 // Revisões de 09/10: o <title> do ar (1.1), sem PreOrder no JSON-LD antes do passo 5b, a ficha sem turma com o bloco de
 // turmas da venda (sem "Ver outros cursos" na variante de venda) e o pedido de turma fora do Investimento.
 verificar('página: <title> do ar, sem PreOrder antes do 5b, bloco de turmas da venda, grupo fora do Investimento', [
-    str_contains($paginaMatricula, '<title>Cursos presenciais | Cruz Vermelha Brasileira Rio de Janeiro</title>'),
+    str_contains($paginaMatricula, '<title>Cursos presenciais | Cruz Vermelha Brasileira Petrópolis</title>'),
     str_contains($paginaMatricula, 'schema.org/PreOrder'),
     str_contains($paginaMatricula, 'Quando a Escola marcar uma turma deste curso, quem já pagou tudo entra na primeira que tiver vaga, por ordem de pagamento, e recebe a data e o horário por e-mail.'),
     str_contains($recorte($paginaMatricula, '<aside class="v-inv" id="inv-primeiros-socorros-basico"', '</aside>'), 'Peça uma turma'),

@@ -139,7 +139,7 @@ PAGINA_PT = """<!DOCTYPE html>
   <link rel="canonical" href="@@URL@@">
 @@ALTERNATIVAS@@
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="@@URL@@">
   <meta property="og:title" content="@@TITULO@@">

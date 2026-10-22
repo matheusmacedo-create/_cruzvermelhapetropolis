@@ -28,7 +28,7 @@ const MCP_DOC_LIMITE_EMAIL = [3, 3600];
 function mcp_doc_documentos(): array
 {
     return [
-        'estatuto' => 'Estatuto da Cruz Vermelha Brasileira do Rio de Janeiro (24/10/2016)',
+        'estatuto' => 'Estatuto da Cruz Vermelha Brasileira de Petrópolis (24/10/2016)',
         'ata-notarial-2026-02-02' => 'Escritura pública de ata notarial (02/02/2026)',
         'outro' => 'Outro documento da filial',
     ];

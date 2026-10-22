@@ -30,7 +30,7 @@ declare(strict_types=1);
 const MCP_COMPROVANTE_LOGO = __DIR__ . '/comprovante-logo.png';
 /**
  * Quem vende e recebe os pagamentos da matrícula: a empresa de ensino da filial, com CNPJ próprio — não é o
- * CNPJ da filial (08.560.973/0001-97), que é o das doações. O nome é o da decisão 6 do dono (08/10/2026), o mesmo
+ * CNPJ da filial (09.198.238/0001-48), que é o das doações. O nome é o da decisão 6 do dono (08/10/2026), o mesmo
  * da página, do checkout, de /reembolso/ e dos e-mails: vem de mcp_recebedor() (config.php); estas constantes só
  * valem se ele não existir. RECEBEDOR_NOME e RECEBEDOR_CNPJ no config.php sobrepõem.
  */

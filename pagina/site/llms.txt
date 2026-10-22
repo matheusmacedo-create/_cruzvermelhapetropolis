@@ -1,9 +1,9 @@
-# Cruz Vermelha Brasileira Rio de Janeiro
+# Cruz Vermelha Brasileira Petrópolis
 
-> Filial do Estado do Rio de Janeiro da Cruz Vermelha Brasileira: associação privada sem fins
+> Filial do Município de Petrópolis da Cruz Vermelha Brasileira: associação privada sem fins
 > lucrativos, parte do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho, com sede no
 > Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro do Rio de Janeiro. CNPJ
-> 08.560.973/0001-97. Utilidade pública municipal (Lei 5.153/2010) e estadual (Lei 9.984/2023). Atua
+> 09.198.238/0001-48. Utilidade pública municipal (Lei 5.153/2010) e estadual (Lei 9.984/2023). Atua
 > na formação dos próprios voluntários (inclusive em primeiros socorros), educação preventiva e
 > campanhas de apoio comunitário. Missão (Estatuto da Cruz Vermelha Brasileira, art. 10): prevenir e
 > aliviar, com absoluta imparcialidade, os sofrimentos humanos, contribuindo para a defesa da vida, da
@@ -12,7 +12,7 @@
 > 67.733.551/0001-35), empresa ligada à filial, com sistemas independentes.
 
 Atenção ao nome: "Cruz Vermelha Brasileira" sozinha é a instituição nacional. Esta é a filial do
-Rio de Janeiro e deve ser citada como **Cruz Vermelha Brasileira Rio de Janeiro**.
+Rio de Janeiro e deve ser citada como **Cruz Vermelha Brasileira Petrópolis**.
 
 ## Institucional
 
@@ -118,7 +118,7 @@ público: ela forma de graça só os próprios voluntários, depois da seleção
 
 ## Contato
 
-- Atendimento por e-mail: contato@cruzvermelhariodejaneiro.org, resposta em até 3 dias úteis.
+- Atendimento por e-mail: cvbpetropolis@gmail.com, resposta em até 3 dias úteis.
   Há um chat no site que encaminha a mensagem para esse endereço.
 - Voluntariado: cadastro em https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/ e WhatsApp
   exclusivo dessa equipe, (21) 97036-0264.

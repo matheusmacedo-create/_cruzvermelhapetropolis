@@ -37,8 +37,8 @@ SAIDA = PASTA / "index.html"
 ORIGEM = "https://cruzvermelhariodejaneiro.org"
 URL_PAGINA = f"{ORIGEM}/gestao/"
 URL_INDICE = f"{ORIGEM}/verificar/lotes/indice.json"
-TITULO = "Como funciona a nossa gestão – Cruz Vermelha Brasileira Rio de Janeiro"
-DESCRICAO = ("Como a Cruz Vermelha Brasileira Rio de Janeiro registra seus documentos oficiais de um jeito que qualquer "
+TITULO = "Como funciona a nossa gestão – Cruz Vermelha Brasileira Petrópolis"
+DESCRICAO = ("Como a Cruz Vermelha Brasileira Petrópolis registra seus documentos oficiais de um jeito que qualquer "
              "pessoa confere: impressão digital, selo diário no Bitcoin e o papel da inteligência artificial.")
 IMAGEM_OG = f"{ORIGEM}/assets/otim/og-home.jpg"
 ESTATUTO_SHA = "1ad2bd0bdafbba622fa0b6b553053444d4bdcc2c9ee69b4fd08bf4d92d88b601"
@@ -334,7 +334,7 @@ def main() -> int:
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="{esc(TITULO)}">
   <meta property="og:description" content="{esc(DESCRICAO)}">
   <meta property="og:url" content="{URL_PAGINA}">
@@ -360,7 +360,7 @@ def main() -> int:
         <div>
           <p class="eyebrow">Gestão e transparência</p>
           <h1 id="gs-titulo">Como funciona a nossa gestão</h1>
-          <p class="lead">O que a Cruz Vermelha Brasileira Rio de Janeiro publica como oficial fica registrado de um jeito que qualquer pessoa confere, sem precisar acreditar na nossa palavra. Aqui explicamos, sem tecnicês, como isso funciona e como a criptografia e a inteligência artificial tornaram possível fazer isso numa filial com equipe pequena.</p>
+          <p class="lead">O que a Cruz Vermelha Brasileira Petrópolis publica como oficial fica registrado de um jeito que qualquer pessoa confere, sem precisar acreditar na nossa palavra. Aqui explicamos, sem tecnicês, como isso funciona e como a criptografia e a inteligência artificial tornaram possível fazer isso numa filial com equipe pequena.</p>
           <ul class="gs-numeros" aria-label="A trilha pública em números">
             <li><b data-gs="seguidos">{dias_seguidos}</b><span>dias seguidos com o registro do dia selado</span></li>
             <li><b data-gs="ultimo">{int(ultimo["dia"][8:])}/{ultimo["dia"][5:7]}</b><span data-gs="bloco">último dia selado</span></li>
@@ -397,7 +397,7 @@ def main() -> int:
         <div class="gs-demo">
           <div class="gs-demo-caixa">
             <label for="gs-texto">Seu texto</label>
-            <textarea id="gs-texto" spellcheck="false">Cruz Vermelha Brasileira, filial do Rio de Janeiro.</textarea>
+            <textarea id="gs-texto" spellcheck="false">Cruz Vermelha Brasileira, filial de Petrópolis.</textarea>
             <p class="gs-nota">O cálculo é feito no seu navegador: o que você digita não sai do seu aparelho.</p>
             <div class="gs-demo-botoes">
               <button type="button" class="btn btn-outline" id="gs-virgula">Tirar (ou pôr) uma vírgula</button>

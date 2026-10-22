@@ -64,8 +64,24 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
       internos (`cvrj_*`, `@usuarios.cvrj.local`) ficam como estão.
 - [ ] Modelos de WhatsApp: os textos mudaram ("Cruz Vermelha Petrópolis") e
       precisam ser cadastrados assim na conta da Meta de Petrópolis.
-- [ ] Equipe, história, notícias, fotos e textos institucionais da `pagina/site/`.
-- [ ] Traduções (`pagina/traducoes/`, `pagina/site/en`, `pagina/site/es`).
+- [x] **Página (22/10/2026), identidade:** logo de Petrópolis em
+      `pagina/site/assets/` (mesmos tamanhos das do RJ, versionadas até irem
+      para o servidor), nome da filial em pt/en/es, endereço da sede, CEP,
+      CNPJ, telefone, e-mail de contato e dados estruturados (JSON-LD) — nas
+      páginas e nos geradores (`pagina/scripts/`), para não voltar ao regerar.
+- [ ] **Página, conteúdo que ainda é do RJ** (precisa de texto de Petrópolis):
+      o Palácio da Cruz Vermelha (1908/1919–1923) na home, em "Quem somos",
+      na FAQ e no chat; `historia/` e `en/history/`; as notícias em inglês
+      (`en/news/`, autoria do RJ, ficaram intactas — tirar do site);
+      equipe e gestão (pessoas e e-mails do RJ); a escola e a matrícula
+      (O-CVB Filial Rio de Janeiro Ensino Ltda, cursos, horários);
+      Dia das Crianças, Campanha do Agasalho, Projeto Cores e base legal.
+- [ ] Contatos sem equivalente ainda: WhatsApp do voluntariado
+      (21) 97036-0264, Instagram `cruzvermelhabrasileirarj` e a página do
+      Facebook do RJ.
+- [ ] Os geradores de `pagina/scripts/` não reproduzem byte a byte as páginas
+      que estão no repositório (ex.: o 404 perde o chat). Regerar uma página
+      só depois de conferir o diff.
 
 ## 4. Canais e integrações de terceiros
 

@@ -4,7 +4,7 @@
 O conteúdo fica no JSON (título da seção, grupos e perguntas com resposta e links); este script gera o
 HTML entre os marcadores <!-- faq:inicio --> e <!-- faq:fim --> e o bloco FAQPage de dados
 estruturados (script id="faq-ld"), para a FAQ ranquear em buscas orgânicas. Regras de texto: nome
-completo "Cruz Vermelha Brasileira Rio de Janeiro", respostas de 45 a 110 palavras, links só internos, dos
+completo "Cruz Vermelha Brasileira Petrópolis", respostas de 45 a 110 palavras, links só internos, dos
 canais oficiais ou do verbete da filial na Wikipédia (lista PERMITIDOS).
 
 Campo opcional "home": false numa pergunta: ela continua no JSON (e no chat, se tiver "chat", que é o que o
@@ -29,7 +29,7 @@ ORIGEM = "https://cruzvermelhariodejaneiro.org"
 MARCA_INI = "<!-- faq:inicio -->"
 MARCA_FIM = "<!-- faq:fim -->"
 PERMITIDOS = re.compile(r"^(/[a-z0-9\-./#?=&]*|https://escola\.cursoscruzvermelha\.org(/.*)?|https://www\.youtube\.com/@cruzvermelhariodejaneiro-org|https://pt\.wikipedia\.org/wiki/Cruz_Vermelha_Brasileira_-_Rio_de_Janeiro)$")
-NACIONAL_SOZINHA = re.compile(r"Cruz Vermelha Brasileira(?!\s*(?:[–\-—·,])?\s*(?:Filial|Rio de Janeiro|do Rio|no Rio|RJ\b|Rio\b))")
+NACIONAL_SOZINHA = re.compile(r"Cruz Vermelha Brasileira(?!\s*(?:[–\-—·,])?\s*(?:Filial|Petrópolis|de Petrópolis|em Petrópolis|Rio de Janeiro|do Rio|no Rio|RJ\b|Rio\b))")
 
 
 def esc(s: str) -> str:

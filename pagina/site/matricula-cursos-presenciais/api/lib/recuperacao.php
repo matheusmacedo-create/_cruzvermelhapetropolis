@@ -48,7 +48,7 @@ function mcp_email_bloco_certificado(string $slug, string $curso): string
         return '';
     }
     return '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:18px 0"><tr><td align="center" style="padding:0">'
-        . '<img src="' . mcp_escapar($url) . '" width="520" alt="Modelo do certificado de ' . mcp_escapar($curso) . ' da Cruz Vermelha Brasileira Rio de Janeiro" '
+        . '<img src="' . mcp_escapar($url) . '" width="520" alt="Modelo do certificado de ' . mcp_escapar($curso) . ' da Cruz Vermelha Brasileira Petrópolis" '
         . 'style="display:block;width:100%;max-width:520px;height:auto;border:1px solid #e2e8f0;border-radius:8px">'
         . '</td></tr><tr><td style="padding:10px 4px 0;font-size:14px;line-height:1.5;color:#4a5568;text-align:center">'
         . '<strong style="color:#0f1318">Ao concluir, você recebe o certificado da Cruz Vermelha</strong>, com o seu nome, o curso e a carga horária. '
@@ -63,7 +63,7 @@ function mcp_email_bloco_certificado(string $slug, string $curso): string
 function mcp_email_passo_escola(array $i = []): array
 {
     if (!mcp_escola_configurada()) {
-        return ['A secretaria confirma turma e horário', 'A Escola de Educação e Saúde CVB-RJ entra em contato por e-mail em até ' . MCP_EMAIL_PRAZO . '. Você não precisa se inscrever de novo.'];
+        return ['A secretaria confirma turma e horário', 'A Escola de Educação e Saúde CVB Petrópolis entra em contato por e-mail em até ' . MCP_EMAIL_PRAZO . '. Você não precisa se inscrever de novo.'];
     }
     $slug = (string) ($i['curso_slug'] ?? '');
     if ($i && empty($i['turma_id']) && $slug !== '' && mcp_email_ligada('PLANO_COMPLETO_SEM_TURMA')

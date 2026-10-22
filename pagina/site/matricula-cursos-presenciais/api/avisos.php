@@ -58,7 +58,7 @@ function av_pagina_descadastro(string $estado): void
         . '<meta name="robots" content="noindex, nofollow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#cc0000">'
         . '<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><title>Avisos por e-mail | ' . mcp_escapar(MCP_NOME_FILIAL) . '</title>'
         . '<link rel="stylesheet" href="' . $css . '"></head><body><div class="pt-faixa"></div>'
-        . '<header class="pt-topo"><a href="/"><img src="/assets/otim/logo-cvb-rj-480.png" alt="Cruz Vermelha Brasileira · Rio de Janeiro" width="160" height="48"></a>'
+        . '<header class="pt-topo"><a href="/"><img src="/assets/otim/logo-cvb-petropolis-480.png" alt="Cruz Vermelha Brasileira · Petrópolis" width="160" height="48"></a>'
         . '<div class="pt-titulo"><b>Escola de Educação e Saúde</b><small>Avisos por e-mail e WhatsApp</small></div></header>'
         . '<main class="pt-main"><section class="pt-card">' . $corpo . '</section></main>'
         . '<footer class="pt-rodape"><p>Os e-mails da matrícula e o comprovante de comparecimento continuam chegando. <a href="/privacidade/">Privacidade</a></p></footer>'

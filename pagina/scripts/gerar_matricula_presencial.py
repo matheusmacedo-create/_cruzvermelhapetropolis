@@ -98,16 +98,16 @@ RECEBEDOR_NOME = "O-CVB Filial Rio de Janeiro Ensino Ltda"
 RECEBEDOR_CNPJ = "67.733.551/0001-35"
 
 # Spec 1.1: o <title> fica como está no ar (busca). A descrição nova fica (exceção registrada no README).
-TITULO = "Cursos presenciais | Cruz Vermelha Brasileira Rio de Janeiro"
-TITULO_CURSO = "{curso} | Cursos presenciais | Cruz Vermelha Brasileira Rio de Janeiro"
+TITULO = "Cursos presenciais | Cruz Vermelha Brasileira Petrópolis"
+TITULO_CURSO = "{curso} | Cursos presenciais | Cruz Vermelha Brasileira Petrópolis"
 OG_TITULO = "Cursos presenciais da Cruz Vermelha no Rio de Janeiro"
 # og-matricula.jpg conferida em 08/10/2026 (D13): foto de turma no salão, sem preço. Pode continuar.
 IMAGEM_OG = f"{ORIGEM}/assets/otim/og-matricula.jpg"
 IMAGEM_OG_TAMANHO = (1200, 630)
-ENDERECO = {"@type": "PostalAddress", "streetAddress": "Praça da Cruz Vermelha, 10", "addressLocality": "Rio de Janeiro",
-            "addressRegion": "RJ", "postalCode": "20230-130", "addressCountry": "BR"}
+ENDERECO = {"@type": "PostalAddress", "streetAddress": "Rua Carlos Gomes, 6", "addressLocality": "Petrópolis",
+            "addressRegion": "RJ", "postalCode": "25680-120", "addressCountry": "BR"}
 LOCAL = {"@type": "Place", "name": "Palácio da Cruz Vermelha", "address": ENDERECO}
-EMAIL_CONTATO = "contato@cruzvermelhariodejaneiro.org"
+EMAIL_CONTATO = "cvbpetropolis@gmail.com"
 UTM_ESCOLA = "utm_source=cruzvermelhariodejaneiro&utm_medium=matricula&utm_content={local}"
 
 # Texto literal de /reembolso/ (seção "Direito de arrependimento: 7 dias", spec 5.2), a partir de "Você pode desistir…".
@@ -153,7 +153,7 @@ COPY_CURSO = {
         "promessa": "Em 8 horas, com prática supervisionada, você aprende RCP, o uso do desfibrilador e o que fazer em engasgos, desmaios e hemorragias.",
         "objecao": ("Não sou da área da saúde e nunca fiz nada parecido. Posso fazer o curso?",
                     "Pode. O curso foi desenvolvido para qualquer pessoa interessada em aprender primeiros socorros, e a escolaridade "
-                    "mínima é o Ensino Fundamental. As aulas são presenciais, na Praça da Cruz Vermelha, 10, no Centro do Rio, com "
+                    "mínima é o Ensino Fundamental. As aulas são presenciais, na Rua Carlos Gomes, 6, no Centro de Petrópolis, com "
                     "atividades demonstrativas e práticas supervisionadas: RCP, desengasgo e controle de hemorragias são praticados com "
                     "manequim e instrutor ao lado. O curso prepara para o atendimento inicial até a chegada do serviço especializado e não habilita para o "
                     "exercício profissional."),
@@ -163,7 +163,7 @@ COPY_CURSO = {
         "promessa": "Aprenda a reconhecer uma emergência, fazer RCP e usar o desfibrilador até a chegada do socorro especializado, com teoria e prática.",
         "objecao": ("Nunca fiz nada na área da saúde. Posso fazer este curso?",
                     "Pode. O curso é aberto tanto a profissionais quanto a pessoas sem experiência prévia, e pede apenas Ensino "
-                    "Fundamental. As 4 horas são presenciais, na Praça da Cruz Vermelha, 10, no Centro do Rio, e combinam teoria e "
+                    "Fundamental. As 4 horas são presenciais, na Rua Carlos Gomes, 6, no Centro de Petrópolis, e combinam teoria e "
                     "treinamento prático para desenvolver segurança durante os atendimentos: RCP, desengasgo e controle de hemorragias "
                     "pedem prática com manequim e instrutor ao lado. O curso prepara para o atendimento inicial até a chegada do socorro especializado e não "
                     "substitui habilitação profissional regulamentada."),
@@ -176,7 +176,7 @@ COPY_CURSO = {
                     "recreação infantil a capacitar professores e funcionários em noções básicas de primeiros socorros. Para atender a "
                     "essa exigência, a Escola de Educação e Saúde oferece este curso. Não é preciso ser da saúde: os cursos "
                     "de primeiros socorros são abertos a qualquer pessoa, e a escolaridade mínima é o Ensino Fundamental. São 8 horas "
-                    "presenciais na Praça da Cruz Vermelha, 10, no Centro. É curso livre: "
+                    "presenciais na Rua Carlos Gomes, 6, no Centro. É curso livre: "
                     "prepara para o atendimento inicial até a chegada do socorro especializado e não substitui habilitação profissional "
                     "regulamentada. A escola que quer treinar a equipe inteira pode pedir uma turma fechada, de 15 a 30 pessoas, em "
                     "“Solicitar uma turma”, nesta página."),
@@ -185,7 +185,7 @@ COPY_CURSO = {
         "titulo": "Punção Venosa na Cruz Vermelha: 8 horas com prática supervisionada",
         "promessa": "Acesso venoso com segurança e precisão: anatomia, materiais, preparo do paciente e prevenção de complicações.",
         "objecao": ("Em 8 horas dá para praticar de verdade, ou é só teoria?",
-                    "Grande parte do aprendizado acontece em atividades práticas supervisionadas, na sede da Praça da Cruz Vermelha, 10, "
+                    "Grande parte do aprendizado acontece em atividades práticas supervisionadas, na sede da Rua Carlos Gomes, 6, "
                     "no Centro do Rio. Além da técnica de punção venosa, o curso aborda biossegurança, prevenção de complicações, escolha "
                     "de dispositivos e boas práticas assistenciais."),
     },
@@ -238,11 +238,11 @@ CERT_DESTAQUE = "primeiros-socorros-basico"  # o certificado de exemplo da seç�
 # O mesmo conteúdo de /quem-somos/#como-nos-financiamos (site/institucional.json), sem número novo: a política do Ad
 # Grants aceita venda limitada se a página disser como a receita sustenta a ONG. Vai perto do topo (modo geral), junto
 # do Investimento de cada curso, no "Quem somos" da escola e no rodapé. Sem as palavras da trava (PALAVRAS_PROIBIDAS).
-SUSTENTA_TITULO = "Como esta escola sustenta a Cruz Vermelha RJ"
+SUSTENTA_TITULO = "Como esta escola sustenta a Cruz Vermelha Petrópolis"
 SUSTENTA_URL = "/quem-somos/#como-nos-financiamos"
 SUSTENTA_TEXTO = ("Os cursos são vendidos pela Escola de Educação e Saúde, a O-CVB Filial Rio de Janeiro Ensino Ltda (CNPJ "
-                  "67.733.551/0001-35), empresa ligada à Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro "
-                  "(CNPJ 08.560.973/0001-97), associação sem fins lucrativos. O resultado da escola é destinado à manutenção "
+                  "67.733.551/0001-35), empresa ligada à Cruz Vermelha Brasileira – Filial do Município de Petrópolis "
+                  "(CNPJ 09.198.238/0001-48), associação sem fins lucrativos. O resultado da escola é destinado à manutenção "
                   "do Palácio da Cruz Vermelha e às atividades da filial: é uma das fontes de financiamento da instituição.")
 SUSTENTA_ESTATUTO = ("O Estatuto diz que o patrimônio da Cruz Vermelha Brasileira, incluído o das filiais, é “totalmente "
                      "destinado às ações humanitárias, filantrópicas e para sua subsistência” (art. 75).")
@@ -255,7 +255,7 @@ FOTO_TOPO = {"base": "aula-dea-sala", "larguras": [480, 591], "largura": 591, "a
 # Acima de 650 px o topo usa a foto em paisagem do salão (1440 px): o retrato acima só tem 591 px e ficava ampliado de
 # 2 a 3 vezes, borrado, no computador (revisão visual de 08/10). O alt do <picture> serve às duas fotos.
 FOTO_TOPO_PC = {"base": "aula-salao-cruz", "larguras": [960, 1440], "largura": 1440, "altura": 810}
-FOTO_TOPO_ALT = "Aula na sede da Cruz Vermelha Brasileira no Rio de Janeiro, com instrutor e alunos"
+FOTO_TOPO_ALT = "Aula na sede da Cruz Vermelha Brasileira em Petrópolis, com instrutor e alunos"
 FOTOS_AULAS = [
     {"base": "aula-engasgo-bebe", "larguras": [480, 589], "largura": 480, "altura": 1043, "pos": "center 58%",
      "alt": "Alunos ajoelhados praticando a manobra de desengasgo em manequins de bebê durante a aula",
@@ -283,11 +283,11 @@ FOTO_FACHADA = {"src": "/assets/otim/historia-fachada-noturna-767.webp", "largur
                 "alt": "Fachada iluminada do Palácio da Cruz Vermelha, à noite"}
 MAPA_ESTATICO = {"src": "/assets/otim/mapa-sede-960.webp",
                  "srcset": "/assets/otim/mapa-sede-480.webp 480w, /assets/otim/mapa-sede-960.webp 960w",
-                 "alt": "Mapa do Centro do Rio com a sede da Cruz Vermelha marcada na Praça da Cruz Vermelha, 10, perto da Avenida Mem de Sá",
+                 "alt": "Mapa do Centro do Rio com a sede da Cruz Vermelha marcada na Rua Carlos Gomes, 6, perto da Avenida Mem de Sá",
                  "credito": "Mapa © colaboradores do OpenStreetMap"}
-MAPA_ROTA = "https://www.google.com/maps/dir/?api=1&amp;destination=Pra%C3%A7a+da+Cruz+Vermelha%2C+10%2C+Centro%2C+Rio+de+Janeiro+-+RJ%2C+20230-130"
+MAPA_ROTA = "https://www.google.com/maps/dir/?api=1&amp;destination=Rua+Carlos+Gomes%2C+6%2C+Centro%2C+Petr%C3%B3polis+-+RJ%2C+25680-120"
 MAPA_EMBED = "https://www.google.com/maps?q=Pra%C3%A7a+da+Cruz+Vermelha%2C+10%2C+Centro%2C+Rio+de+Janeiro+-+RJ&amp;output=embed"
-LOGO = {"src": "/assets/otim/logo-cvb-rj-520.webp", "largura": 520, "altura": 156, "alt": "Cruz Vermelha Brasileira — Rio de Janeiro"}
+LOGO = {"src": "/assets/otim/logo-cvb-petropolis-520.webp", "largura": 520, "altura": 156, "alt": "Cruz Vermelha Brasileira — Petrópolis"}
 
 DIAS = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
 MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro",
@@ -1333,14 +1333,14 @@ JS_PAGINA = """
         if (!mapa || !mapaBotao || mapa.querySelector('iframe')) return;
         var f = document.createElement('iframe');
         f.src = mapaBotao.getAttribute('data-src');
-        f.title = 'Mapa: Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro';
+        f.title = 'Mapa: Rua Carlos Gomes, 6, Centro, Petrópolis';
         f.loading = 'lazy';
         f.referrerPolicy = 'no-referrer-when-downgrade';
         f.allowFullscreen = true;
         mapa.innerHTML = '';
         mapa.appendChild(f);
         var legenda = document.createElement('figcaption');
-        legenda.textContent = 'Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro · mapa do Google';
+        legenda.textContent = 'Rua Carlos Gomes, 6 — Centro, Petrópolis · mapa do Google';
         mapa.appendChild(legenda);
         if (origem === 'mapa') { try { f.focus(); } catch (e) {} }
         ga('mapa_aberto', { origem: origem });
@@ -1686,11 +1686,11 @@ def foto_topo() -> str:
 
 # "Cruz Vermelha Brasileira" sozinha é a instituição nacional. Nos textos da filial (inclusive os que vêm
 # do catálogo da escola) o nome é sempre o completo, para não confundir as duas (decisão de 19/09/2026).
-NACIONAL_SOZINHA = re.compile(r"Cruz Vermelha Brasileira(?!\s*(?:[–\-—·,]|<br>)?\s*(?:Filial|Rio de Janeiro|do Rio|no Rio|RJ\b|Rio\b))")
+NACIONAL_SOZINHA = re.compile(r"Cruz Vermelha Brasileira(?!\s*(?:[–\-—·,]|<br>)?\s*(?:Filial|Petrópolis|de Petrópolis|em Petrópolis|Rio de Janeiro|do Rio|no Rio|RJ\b|Rio\b))")
 
 
 def nome_filial(texto: str) -> str:
-    return NACIONAL_SOZINHA.sub("Cruz Vermelha Brasileira Rio de Janeiro", texto or "")
+    return NACIONAL_SOZINHA.sub("Cruz Vermelha Brasileira Petrópolis", texto or "")
 
 
 def brl(centavos: int | None) -> str:
@@ -1811,7 +1811,7 @@ def link_escola(local: str, caminho: str = "/login") -> str:
 
 
 # --- turmas (oferta.json, spec 2.5) ----------------------------------------------------------------------------------
-LOCAL_TURMA = "Praça da Cruz Vermelha, 10 · Centro"
+LOCAL_TURMA = "Rua Carlos Gomes, 6 · Centro"
 
 
 @dataclass
@@ -1998,7 +1998,7 @@ def main() -> int:
             return ""
         cls = f' class="{classe}"' if classe else ""
         return (f'<img{cls} src="img/{img}-960.webp" srcset="img/{img}-480.webp 480w, img/{img}-960.webp 960w" sizes="{sizes}" '
-                f'alt="{esc(cursos[s]["nome"])} na Cruz Vermelha Brasileira Rio de Janeiro" loading="{loading}" decoding="async" width="960" height="720">')
+                f'alt="{esc(cursos[s]["nome"])} na Cruz Vermelha Brasileira Petrópolis" loading="{loading}" decoding="async" width="960" height="720">')
 
     def tem_cert(s: str) -> bool:
         return (PASTA_IMG / f"certificado-{s}-640.webp").exists()
@@ -2104,7 +2104,7 @@ def main() -> int:
         FAQ_GERAL.append(("Posso parcelar?", faq4, esc(faq4) + f' <span class="v-inv-exemplo" data-exemplo="{exemplo}"></span>'))
     FAQ_GERAL += [
         item_faq("Onde acontecem as aulas?",
-                 "Na sede da Cruz Vermelha Brasileira do Rio de Janeiro: Praça da Cruz Vermelha, 10, Centro. As orientações da turma "
+                 "Na sede da Cruz Vermelha Brasileira de Petrópolis: Rua Carlos Gomes, 6, Centro. As orientações da turma "
                  "chegam por e-mail antes da primeira aula."),
         item_faq("Preciso criar conta?",
                  "Não. Você preenche nome, CPF, e-mail e telefone celular e paga. Se você ainda não tem conta na área do aluno, no site "
@@ -2161,7 +2161,7 @@ def main() -> int:
     # 1–2. faixa vermelha, cabeçalho fixo e menu do celular (3.2.1, 3.2.2)
     # ============================================================================================================
     marca = (f'<img src="{LOGO["src"]}" width="{LOGO["largura"]}" height="{LOGO["altura"]}" alt="{esc(LOGO["alt"])}">'
-             f'<span class="v-marca-escola"><b>Escola de Educação</b><span>e Saúde CVB-RJ</span></span>')
+             f'<span class="v-marca-escola"><b>Escola de Educação</b><span>e Saúde CVB Petrópolis</span></span>')
     nav_itens = [("cursos|inv", "Cursos", "Turma e valores"), ("como-funciona|sobre", "Como funciona", "Sobre o curso"),
                  ("escola|duvidas", "Quem somos", "Dúvidas"), ("duvidas|cursos", "Dúvidas", "Outros cursos")]
 
@@ -2173,12 +2173,12 @@ def main() -> int:
     nav = "".join(f'<li><a href="#{a.split("|")[0]}" data-alvo="{a}">{rotulos(g, c)}</a></li>' for a, g, c in nav_itens)
     menu_itens = "".join(f'<li><a href="#{a.split("|")[0]}" data-alvo="{a}"><small>0{i}</small>{rotulos(g, c)}</a></li>'
                          for i, (a, g, c) in enumerate(nav_itens, 1))
-    menu_itens += '<li><a href="/"><small>05</small>Site da Cruz Vermelha RJ</a></li>'
+    menu_itens += '<li><a href="/"><small>05</small>Site da Cruz Vermelha Petrópolis</a></li>'
     faixa_topo = f'''
   <div class="v-faixa-topo">
     <div class="v-wrap">
-      <a href="/"><span class="v-faixa-longa">Cruz Vermelha Brasileira · Filial do Estado do Rio de Janeiro</span><span class="v-faixa-curta">Cruz Vermelha Brasileira · Rio de Janeiro</span><span class="v-faixa-mini">Cruz Vermelha RJ</span>{SVG["externo"]}</a>
-      <p>Praça da Cruz Vermelha, 10 · Centro · Rio de Janeiro</p>
+      <a href="/"><span class="v-faixa-longa">Cruz Vermelha Brasileira · Filial do Município de Petrópolis</span><span class="v-faixa-curta">Cruz Vermelha Brasileira · Petrópolis</span><span class="v-faixa-mini">Cruz Vermelha Petrópolis</span>{SVG["externo"]}</a>
+      <p>Rua Carlos Gomes, 6 · Centro · Petrópolis</p>
     </div>
   </div>'''
     cabecalho = f'''
@@ -2198,7 +2198,7 @@ def main() -> int:
         <nav aria-label="Menu do celular"><ol>{menu_itens}</ol></nav>
         <div class="v-menu-aluno"><span>Área do aluno</span><a class="v-btn v-btn-contorno" href="{link_escola("menu")}" target="_blank" rel="noopener" data-saida="area_aluno" data-origem="menu">Entrar {SVG["externo"]}</a></div>
         <a class="v-menu-chat" href="#chat" data-abrir-chat data-assunto="matricula" data-local="menu">{SVG["chat"]}<span>Dúvidas? Fale com a gente<small>Abre o chat desta página</small></span></a>
-        <p class="v-menu-endereco">{SVG["pino"]}<span>Praça da Cruz Vermelha, 10 · Centro</span></p>
+        <p class="v-menu-endereco">{SVG["pino"]}<span>Rua Carlos Gomes, 6 · Centro</span></p>
       </div>
     </div>
   </header>'''
@@ -2232,7 +2232,7 @@ def main() -> int:
         <div class="v-hero-texto">
           <p class="v-olho">Formação presencial no Rio de Janeiro</p>
           <h1 class="v-hero-h1" id="v-titulo" tabindex="-1">Capacitação que prepara para&nbsp;<em class="v-vermelho">agir.</em></h1>
-          <p class="v-hero-lead">Cursos presenciais da Escola de Educação e Saúde, empresa ligada à Cruz Vermelha Brasileira do Rio de Janeiro. Formação prática, responsabilidade e conhecimento para situações que exigem preparo.</p>
+          <p class="v-hero-lead">Cursos presenciais da Escola de Educação e Saúde, empresa ligada à Cruz Vermelha Brasileira de Petrópolis. Formação prática, responsabilidade e conhecimento para situações que exigem preparo.</p>
           <div class="v-hero-acoes">
             <a class="v-btn v-btn-vermelho v-btn-grande" href="#cursos">Ver cursos disponíveis {SVG["seta"]}</a>
             <a class="v-btn v-btn-contorno-branco v-btn-grande" href="#escola">Conheça a Escola</a>
@@ -2249,7 +2249,7 @@ def main() -> int:
     <section class="v-destaques v-so-geral" aria-label="Destaques da Escola" data-secao="destaques">
       <div class="v-wrap">
         <ul>
-          <li><h2>{SVG["predio"]}Formação presencial</h2><p>Aulas práticas na sede da Cruz Vermelha Brasileira do Rio de Janeiro.</p></li>
+          <li><h2>{SVG["predio"]}Formação presencial</h2><p>Aulas práticas na sede da Cruz Vermelha Brasileira de Petrópolis.</p></li>
           <li><h2>{SVG["medalha"]}Certificação</h2><p>Certificado da Escola de Educação e Saúde ao concluir os requisitos do curso.</p></li>
           <li><h2>{SVG["calendario"]}Turmas e datas</h2><p>Veja as turmas abertas e as datas antes de fazer sua inscrição.</p></li>
           <li><h2>{SVG["chat"]}Atendimento humano</h2><p>A secretaria orienta pelo <a href="#chat" data-abrir-chat data-assunto="matricula" data-local="destaques">chat</a> e por e-mail, do primeiro contato à aula.</p></li>
@@ -2438,7 +2438,7 @@ def main() -> int:
           <div class="v-cartao v-flutuante">{cartao(s)}
           </div>
           <ul class="v-prova" aria-label="Por que a Cruz Vermelha" data-secao="prova">
-            <li>{SVG["historia"]}Escola ligada à Cruz Vermelha Brasileira RJ</li>
+            <li>{SVG["historia"]}Escola ligada à Cruz Vermelha Brasileira Petrópolis</li>
             <li>{SVG["predio"]}Aulas práticas no Palácio da Cruz Vermelha</li>
             <li>{SVG["medalha"]}Certificado com o seu nome</li>
           </ul>
@@ -2472,9 +2472,9 @@ def main() -> int:
           <a class="v-chegar-img" href="{MAPA_ROTA}" target="_blank" rel="noopener" aria-label="Abrir a rota no Google Maps (abre em nova aba)"><img src="{MAPA_ESTATICO["src"]}" srcset="{MAPA_ESTATICO["srcset"]}" sizes="(min-width: 860px) 50vw, 100vw" width="960" height="720" alt="{esc(MAPA_ESTATICO["alt"])}" loading="lazy" decoding="async"></a>
           <div class="v-chegar-curso-texto">
             <p class="v-kicker">Como chegar</p>
-            <h2 id="chegar-curso-titulo">Praça da Cruz Vermelha, 10</h2>
+            <h2 id="chegar-curso-titulo">Rua Carlos Gomes, 6</h2>
             <p>Centro · Rio de Janeiro – RJ</p>
-            <p>As aulas acontecem aqui, na sede da Cruz Vermelha Brasileira Rio de Janeiro.</p>
+            <p>As aulas acontecem aqui, na sede da Cruz Vermelha Brasileira Petrópolis.</p>
             <div class="v-chegar-acoes"><a class="v-btn v-btn-vermelho" href="{MAPA_ROTA}" target="_blank" rel="noopener">Abrir no Google Maps {SVG["externo"]}</a></div>
             <small>{esc(MAPA_ESTATICO["credito"])}</small>
           </div>
@@ -2611,19 +2611,19 @@ def main() -> int:
         <div class="v-escola-grade">
           <figure class="v-sede">
             <img src="{FOTO_FACHADA["src"]}" width="{FOTO_FACHADA["largura"]}" height="{FOTO_FACHADA["altura"]}" alt="{esc(FOTO_FACHADA["alt"])}" loading="lazy" decoding="async">
-            <figcaption><span>Nossa sede</span><b>Praça da Cruz Vermelha, 10 · Centro do Rio.</b></figcaption>
+            <figcaption><span>Nossa sede</span><b>Rua Carlos Gomes, 6 · Centro de Petrópolis.</b></figcaption>
           </figure>
           <div class="v-painel v-escuro-fundo">
             <p class="v-kicker">Quem somos</p>
             <h2 id="escola-titulo">Uma escola dentro de uma instituição humanitária.</h2>
             <div class="v-painel-prosa">
-              <p>A Escola de Educação e Saúde é a O-CVB Filial Rio de Janeiro Ensino Ltda, empresa ligada à Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro, com aulas na sede da filial.</p>
+              <p>A Escola de Educação e Saúde é a O-CVB Filial Rio de Janeiro Ensino Ltda, empresa ligada à Cruz Vermelha Brasileira – Filial do Município de Petrópolis, com aulas na sede da filial.</p>
               <p>As turmas são presenciais e práticas, com instrutores qualificados. Ao concluir, o aluno recebe o certificado emitido pela escola.</p>
               <p>{esc(SUSTENTA_CURTO)} <a href="{SUSTENTA_URL}">Veja como a filial se financia →</a></p>
               <p><a href="/historia/">Conheça a história da Cruz Vermelha no Rio →</a></p>
             </div>
             <dl>
-              <div><dt>Local</dt><dd>Praça da Cruz Vermelha, 10 · Centro</dd></div>
+              <div><dt>Local</dt><dd>Rua Carlos Gomes, 6 · Centro</dd></div>
               <div><dt>Modalidade</dt><dd>Presencial</dd></div>
               <div><dt>Pagamento</dt><dd>{parc("PIX ou cartão, à vista ou parcelado", "PIX ou cartão, à vista")}</dd></div>
               <div><dt>Atendimento</dt><dd>Chat “Fale com a gente” e {EMAIL_CONTATO}</dd></div>
@@ -2634,15 +2634,15 @@ def main() -> int:
         <ul class="v-fotos" tabindex="0" aria-label="Fotos das aulas">{fotos_aulas}</ul>
         <div class="v-chegar">
           <figure class="v-mapa" id="mr-mapa">
-            <button type="button" class="v-mapa-abrir" data-mapa-abrir aria-label="Abrir o mapa interativo da Praça da Cruz Vermelha, 10">
+            <button type="button" class="v-mapa-abrir" data-mapa-abrir aria-label="Abrir o mapa interativo da Rua Carlos Gomes, 6">
               <img src="{MAPA_ESTATICO["src"]}" srcset="{MAPA_ESTATICO["srcset"]}" sizes="100vw" width="960" height="720" alt="{esc(MAPA_ESTATICO["alt"])}" loading="lazy" decoding="async">
             </button>
           </figure>
           <div class="v-chegar-cartao v-flutuante">
             <p class="v-kicker">Como chegar</p>
-            <h3>Praça da Cruz Vermelha, 10</h3>
+            <h3>Rua Carlos Gomes, 6</h3>
             <p class="v-chegar-end">Centro · Rio de Janeiro – RJ</p>
-            <p class="v-chegar-texto">As aulas acontecem aqui, na sede da Cruz Vermelha Brasileira Rio de Janeiro.</p>
+            <p class="v-chegar-texto">As aulas acontecem aqui, na sede da Cruz Vermelha Brasileira Petrópolis.</p>
             <div class="v-chegar-acoes">
               <a class="v-btn v-btn-vermelho" href="{MAPA_ROTA}" target="_blank" rel="noopener">Abrir no Google Maps {SVG["externo"]}</a>
               <button class="v-btn v-btn-contorno" type="button" id="mr-mapa-carregar" data-src="{MAPA_EMBED}">Ver mapa interativo</button>
@@ -2714,7 +2714,7 @@ def main() -> int:
       <div class="v-rodape-marca">
         <a class="v-marca" href="/matricula-cursos-presenciais/" data-voltar="">{marca}</a>
         <p>Capacitação presencial para quem quer cuidar, prevenir e agir com responsabilidade.</p>
-        <a class="v-selo-link" href="/"><span class="v-cruz">{SVG["cruz"]}</span>Site da Cruz Vermelha RJ {SVG["externo"]}</a>
+        <a class="v-selo-link" href="/"><span class="v-cruz">{SVG["cruz"]}</span>Site da Cruz Vermelha Petrópolis {SVG["externo"]}</a>
       </div>
       <nav aria-label="Rodapé">
         <p class="v-rodape-titulo">Navegação</p>
@@ -2726,8 +2726,8 @@ def main() -> int:
           <li><a href="{link_escola("rodape")}" target="_blank" rel="noopener" data-saida="area_aluno" data-origem="rodape">Área do aluno {SVG["externo"]}</a><small>para quem já se inscreveu</small></li>
         </ul>
       </nav>
-      <nav aria-label="Cruz Vermelha Brasileira Rio de Janeiro">
-        <p class="v-rodape-titulo">Cruz Vermelha RJ</p>
+      <nav aria-label="Cruz Vermelha Brasileira Petrópolis">
+        <p class="v-rodape-titulo">Cruz Vermelha Petrópolis</p>
         <ul class="v-rodape-lista">
           <li><a href="/">Site da filial</a></li>
           <li><a href="{SUSTENTA_URL}">Como a escola sustenta a filial</a></li>
@@ -2738,7 +2738,7 @@ def main() -> int:
       <div>
         <p class="v-rodape-titulo">Contato</p>
         <ul class="v-rodape-contato">
-          <li>{SVG["pino"]}<span>Praça da Cruz Vermelha, 10<br>Centro · Rio de Janeiro – RJ</span></li>
+          <li>{SVG["pino"]}<span>Rua Carlos Gomes, 6<br>Centro · Rio de Janeiro – RJ</span></li>
           <li>{SVG["email"]}<a href="mailto:{EMAIL_CONTATO}">{EMAIL_CONTATO}</a></li>
           <li>{SVG["chat"]}<a href="#chat" data-abrir-chat data-assunto="matricula" data-local="rodape">Chat “Fale com a gente”</a></li>
         </ul>
@@ -2746,7 +2746,7 @@ def main() -> int:
     </div>
     <div class="v-rodape-faixa">
       <div class="v-wrap">
-        <p>© 2026 Escola de Educação e Saúde, empresa ligada à Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro · CNPJ da filial <span style="white-space:nowrap">08.560.973/0001-97</span> · Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro – RJ</p>
+        <p>© 2026 Escola de Educação e Saúde, empresa ligada à Cruz Vermelha Brasileira – Filial do Município de Petrópolis · CNPJ da filial <span style="white-space:nowrap">09.198.238/0001-48</span> · Rua Carlos Gomes, 6, Centro, Petrópolis – RJ</p>
         <p>Quem vende os cursos: {RECEBEDOR_NOME} · CNPJ <span style="white-space:nowrap">{RECEBEDOR_CNPJ}</span></p>
         <p class="v-rodape-legal">
           <a href="/privacidade/">Política de Privacidade</a>
@@ -2769,7 +2769,7 @@ def main() -> int:
     # A escola é outra pessoa jurídica (a Ltda), não uma parte da ONG: sem parentOrganization apontando para
     # #organizacao, e a Ltda como quem vende (seller) e certifica (achado K4 do Ad Grants, 19/10/2026).
     provedor = {"@type": "EducationalOrganization", "@id": f"{ESCOLA}/#escola",
-                "name": "Escola de Educação e Saúde CVB-RJ", "legalName": RECEBEDOR_NOME, "taxID": RECEBEDOR_CNPJ,
+                "name": "Escola de Educação e Saúde CVB Petrópolis", "legalName": RECEBEDOR_NOME, "taxID": RECEBEDOR_CNPJ,
                 "url": f"{ESCOLA}/", "address": ENDERECO}
     itens_ld = []
     for i, s in enumerate(ordem, 1):
@@ -2905,7 +2905,7 @@ def main() -> int:
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#d9081f">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:title" content="{esc(OG_TITULO)}">
   <meta property="og:description" content="{esc(descricao)}">
@@ -2913,7 +2913,7 @@ def main() -> int:
   <meta property="og:image" content="{IMAGEM_OG}">
   <meta property="og:image:width" content="{IMAGEM_OG_TAMANHO[0]}">
   <meta property="og:image:height" content="{IMAGEM_OG_TAMANHO[1]}">
-  <meta property="og:image:alt" content="Turma da Cruz Vermelha Brasileira Rio de Janeiro no salão da sede">
+  <meta property="og:image:alt" content="Turma da Cruz Vermelha Brasileira Petrópolis no salão da sede">
   <meta name="twitter:card" content="summary_large_image">
   <script>{modo_js}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3034,7 +3034,7 @@ def turma_dialog(opcoes_turma: str) -> str:
               <fieldset class="mr-tf-campo mr-tf-largo" id="tf-bloco-local" hidden>
                 <legend>Onde seriam as aulas?</legend>
                 <div class="mr-tf-opcoes">
-                  <label><input type="radio" name="local" value="sede" checked> Na sede, Praça da Cruz Vermelha, 10</label>
+                  <label><input type="radio" name="local" value="sede" checked> Na sede, Rua Carlos Gomes, 6</label>
                   <label><input type="radio" name="local" value="outro"> Em outro local (sujeito a aprovação)</label>
                 </div>
               </fieldset>
@@ -3072,7 +3072,7 @@ def turma_dialog(opcoes_turma: str) -> str:
                 <p class="mr-tf-erro" id="tf-erro-observacoes" hidden></p>
               </div>
               <div class="mr-tf-campo mr-tf-largo">
-                <label class="mr-tf-check"><input type="checkbox" name="consentimento" required> Autorizo a secretaria da Cruz Vermelha Brasileira Rio de Janeiro a falar comigo por e-mail e telefone sobre esta turma.</label>
+                <label class="mr-tf-check"><input type="checkbox" name="consentimento" required> Autorizo a secretaria da Cruz Vermelha Brasileira Petrópolis a falar comigo por e-mail e telefone sobre esta turma.</label>
                 <p class="mr-tf-erro" id="tf-erro-consentimento" hidden></p>
               </div>
             </div>

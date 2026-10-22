@@ -16,7 +16,7 @@ Este script prepara esse PNG uma vez, a partir do logo original (1730x520, o mes
 Saída: site/matricula-cursos-presenciais/api/lib/comprovante-logo.png (PNG normal, dá para abrir).
 
 Uso:  python3 scripts/gerar_logo_comprovante.py [caminho-do-logo.png]
-Sem argumento, baixa o original de https://cruzvermelhariodejaneiro.org/assets/logo-cvb-rj.png.
+Sem argumento, baixa o original de https://cruzvermelhariodejaneiro.org/assets/logo-cvb-petropolis.png.
 """
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ from PIL import Image
 
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "site" / "matricula-cursos-presenciais" / "api" / "lib" / "comprovante-logo.png"
-ORIGEM = "https://cruzvermelhariodejaneiro.org/assets/logo-cvb-rj.png"
+ORIGEM = "https://cruzvermelhariodejaneiro.org/assets/logo-cvb-petropolis.png"
 LARGURA = 1325
 CORES = 32
 

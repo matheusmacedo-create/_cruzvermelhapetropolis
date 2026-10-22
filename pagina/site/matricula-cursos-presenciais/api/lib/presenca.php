@@ -20,7 +20,7 @@ const MCP_PRESENCA_ANTES_MINUTOS = 180;
 /** A rotina manda comprovantes de aulas dos últimos 30 dias (se ficou parada, recupera). */
 const MCP_PRESENCA_ENVIO_DIAS = 30;
 const MCP_PRESENCA_ENVIO_TENTATIVAS = 5;
-const MCP_PRESENCA_LOCAL = 'Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ';
+const MCP_PRESENCA_LOCAL = 'Rua Carlos Gomes, 6, Centro, Petrópolis/RJ';
 
 // ----------------------------------------------------------------------------- escola
 /** URL de outra função do banco da escola, no mesmo endereço da matricula_rapida. */

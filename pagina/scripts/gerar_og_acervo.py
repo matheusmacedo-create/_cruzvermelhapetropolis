@@ -19,7 +19,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = Path(__file__).resolve().parent.parent
-LOGO = RAIZ / "site" / "assets" / "otim" / "logo-cvb-rj-480.png"
+LOGO = RAIZ / "site" / "assets" / "otim" / "logo-cvb-petropolis-480.png"
 SAIDA = RAIZ / "site" / "assets" / "otim" / "og-acervo.jpg"
 # Um Safari antigo recebe a fonte em TrueType (WOFF), que o Pillow lê; navegador novo recebe WOFF2.
 AGENTE = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.59.10 (KHTML, like Gecko) Version/5.1.9 Safari/534.59.10"

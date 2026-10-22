@@ -21,7 +21,7 @@ PAGINA = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <title>Doação online suspensa | Cruz Vermelha Brasileira Rio de Janeiro</title>
+  <title>Doação online suspensa | Cruz Vermelha Brasileira Petrópolis</title>
   <meta name="robots" content="noindex, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,15 +48,15 @@ PAGINA = """<!DOCTYPE html>
       <div class="wrap">
         <p class="eyebrow">Doação online</p>
         <h1>A doação online está suspensa no momento.</h1>
-        <p class="lead">A página de doação da Cruz Vermelha Brasileira Rio de Janeiro está fora do ar e nenhuma cobrança nova é gerada por aqui. Quem já doou continua recebendo o comprovante por e-mail. Dúvidas: contato@cruzvermelhariodejaneiro.org.</p>
+        <p class="lead">A página de doação da Cruz Vermelha Brasileira Petrópolis está fora do ar e nenhuma cobrança nova é gerada por aqui. Quem já doou continua recebendo o comprovante por e-mail. Dúvidas: cvbpetropolis@gmail.com.</p>
         <div class="e404-links">
           <a href="/campanha-agasalho.html"><i class="fa-solid fa-hand" aria-hidden="true"></i> Campanha do Agasalho</a>
           <a href="/#contato"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Fale com a gente</a>
           <a href="/"><i class="fa-solid fa-house" aria-hidden="true"></i> Página inicial</a>
         </div>
         <div class="e404-idiomas">
-          <p lang="en">Online donations are suspended for now. Questions: contato@cruzvermelhariodejaneiro.org.</p>
-          <p lang="es">Las donaciones en línea están suspendidas por ahora. Consultas: contato@cruzvermelhariodejaneiro.org.</p>
+          <p lang="en">Online donations are suspended for now. Questions: cvbpetropolis@gmail.com.</p>
+          <p lang="es">Las donaciones en línea están suspendidas por ahora. Consultas: cvbpetropolis@gmail.com.</p>
         </div>
       </div>
     </section>

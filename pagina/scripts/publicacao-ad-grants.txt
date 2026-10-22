@@ -1,6 +1,6 @@
 # Ad Grants (15/10/2026): correções para a política de site do Google Ad Grants, depois da recusa genérica de
 # 15/10 ("o site da organização não atende aos padrões"). O cadastro no Google para ONGs já está verificado
-# (Cruz Vermelha Brasileira filial Rio de Janeiro, código 08.560.973/0001-97); o problema é só o site.
+# (Cruz Vermelha Brasileira filial Rio de Janeiro, código 09.198.238/0001-48); o problema é só o site.
 # O que muda: home sem a faixa de venda no topo e com a missão (art. 10 do Estatuto) na primeira dobra, seções
 # institucionais antes das de curso, FAQ com instituição e voluntariado primeiro, cartão do Dia das Crianças
 # fora; /quem-somos/ com a missão citada e a seção "Como a filial se financia"; llms.txt; /dia-das-criancas/

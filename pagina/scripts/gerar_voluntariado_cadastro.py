@@ -38,9 +38,9 @@ API = "/matricula-cursos-presenciais/api/voluntarios.php"
 # A mesma imagem de compartilhamento das páginas institucionais (gerar_institucional.py).
 IMAGEM_OG = f"{ORIGEM}/assets/otim/og-home.jpg"
 
-TITULO = "Cadastro de voluntário – Cruz Vermelha RJ"
+TITULO = "Cadastro de voluntário – Cruz Vermelha Petrópolis"
 H1 = "Quero ser voluntário da Cruz Vermelha no Rio"
-DESCRICAO = ("Cadastre-se para ser voluntário da Cruz Vermelha Brasileira Rio de Janeiro: depois do cadastro vêm a "
+DESCRICAO = ("Cadastre-se para ser voluntário da Cruz Vermelha Brasileira Petrópolis: depois do cadastro vêm a "
              "entrevista, o curso básico de formação (gratuito) e o termo de adesão. A partir de 16 anos.")
 
 # --- valores dos campos (os mesmos da API) --------------------------------------------------------------------------
@@ -340,12 +340,12 @@ def formulario() -> str:
              dica="Onde você já atuou, por quanto tempo e o que fazia."),
         area("habilidades", "Habilidades que você quer colocar à disposição", atributos='maxlength="1000"',
              dica="Idiomas, fotografia, informática, direção, organização de eventos, o que vier à cabeça."),
-        selecao("como_conheceu", "Como você conheceu a Cruz Vermelha RJ?", COMO_CONHECEU),
+        selecao("como_conheceu", "Como você conheceu a Cruz Vermelha Petrópolis?", COMO_CONHECEU),
     ]) + "</div>")
     consentimentos = cartao("vc-consentimentos", "Consentimentos", "", '<div class="vc-grade">' + "".join([
         caixa_unica("consentimento",
                     'Li e aceito a <a href="/privacidade/#voluntariado" target="_blank" rel="noopener">Política de Privacidade<span class="vc-sr"> (abre em nova aba)</span></a>, '
-                    "que explica como a Cruz Vermelha RJ usa os dados deste cadastro.", obrigatorio=True),
+                    "que explica como a Cruz Vermelha Petrópolis usa os dados deste cadastro.", obrigatorio=True),
         caixa_unica("aceita_contato", "Aceito receber contato por e-mail e telefone sobre o meu cadastro.", obrigatorio=False),
         caixa_unica("veracidade", "Declaro que as informações são verdadeiras.", obrigatorio=True),
     ]) + "</div>")
@@ -411,7 +411,7 @@ def main() -> int:
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="{esc(TITULO)}">
   <meta property="og:description" content="{esc(DESCRICAO)}">
   <meta property="og:url" content="{URL_PAGINA}">
@@ -454,7 +454,7 @@ def main() -> int:
 
     <div class="vc-corpo">
       <div class="wrap">
-    <p class="vc-intro-form" id="vc-intro-form">Campos com <span class="vc-obrig" aria-hidden="true">*</span><span class="vc-sr">asterisco</span> são obrigatórios. Os dados são usados só para o seu cadastro no voluntariado da Cruz Vermelha Brasileira Rio de Janeiro.</p>
+    <p class="vc-intro-form" id="vc-intro-form">Campos com <span class="vc-obrig" aria-hidden="true">*</span><span class="vc-sr">asterisco</span> são obrigatórios. Os dados são usados só para o seu cadastro no voluntariado da Cruz Vermelha Brasileira Petrópolis.</p>
     <noscript><p class="vc-noscript">Sem JavaScript o formulário funciona do mesmo jeito: ao enviar, você volta para esta página e a confirmação com o protocolo chega no e-mail informado. Se algum campo não for aceito, confira os campos e envie de novo.</p></noscript>
     <div class="vc-aviso" id="vc-aviso" role="alert" tabindex="-1" hidden></div>
 {formulario()}
@@ -464,7 +464,7 @@ def main() -> int:
 
     <section class="vc-rodape-pagina" aria-label="Mais sobre o voluntariado">
       <div class="wrap">
-        <p>Ainda em dúvida? <a href="/voluntariado/">Conheça o programa de voluntariado</a> e veja como a Cruz Vermelha RJ trata os seus dados na <a href="/privacidade/">Política de Privacidade</a>.</p>
+        <p>Ainda em dúvida? <a href="/voluntariado/">Conheça o programa de voluntariado</a> e veja como a Cruz Vermelha Petrópolis trata os seus dados na <a href="/privacidade/">Política de Privacidade</a>.</p>
       </div>
     </section>
   </main>
@@ -482,7 +482,7 @@ def main() -> int:
     assert "whatsapp" not in baixo, "a página de cadastro não cita WhatsApp"
     assert "cruzvermelharj.org.br" not in baixo, "domínio antigo na página de cadastro"
     assert "spotform" not in baixo, "formulário antigo na página de cadastro"
-    assert baixo.count("contato@cruzvermelhariodejaneiro.org") == 1, "o e-mail de contato só aparece no rodapé"
+    assert baixo.count("cvbpetropolis@gmail.com") == 1, "o e-mail de contato só aparece no rodapé"
     PASTA.mkdir(parents=True, exist_ok=True)
     SAIDA.write_text(pagina, encoding="utf-8")
     print(f"gravado {SAIDA.relative_to(RAIZ)} ({len(pagina.encode('utf-8'))} bytes; cadastro.js?v={versao_js})")

@@ -21,7 +21,7 @@ if (!is_dir($pasta) && !mkdir($pasta, 0777, true)) {
 }
 $configTeste = tempnam(sys_get_temp_dir(), 'mcp-config-');
 file_put_contents($configTeste, "<?php return [
-    'SITE_URL' => 'https://cruzvermelhariodejaneiro.org', 'EMAIL_CONTATO' => 'contato@cruzvermelhariodejaneiro.org',
+    'SITE_URL' => 'https://cruzvermelhariodejaneiro.org', 'EMAIL_CONTATO' => 'cvbpetropolis@gmail.com',
     'ESCOLA_API_URL' => '', 'ESCOLA_URL' => 'https://escola.cursoscruzvermelha.org',
 ];");
 putenv("MCP_CONFIG_ARQUIVO=$configTeste");

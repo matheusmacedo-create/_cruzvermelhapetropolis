@@ -38,9 +38,9 @@ ORIGEM = "https://cruzvermelhariodejaneiro.org"
 # O verbete da Wikipédia saiu do rodapé e do sameAs em 19/10/2026 (achado K3: criado pela conta da própria filial). Perfis oficiais iguais aos da home.
 PERFIS = ["https://www.instagram.com/cruzvermelhabrasileirarj/", "https://www.facebook.com/profile.php?id=61591390052128", "https://www.youtube.com/@cruzvermelhariodejaneiro-org"]
 ESCOLA = "https://escola.cursoscruzvermelha.org"
-EMAIL = "contato@cruzvermelhariodejaneiro.org"
-NOME_OFICIAL = "Cruz Vermelha Brasileira - Filial do Estado do Rio de Janeiro"  # o "name" do NGO na home em português
-ENDERECO = "Praça da Cruz Vermelha, 10 · Centro · Rio de Janeiro · RJ · 20230-130"
+EMAIL = "cvbpetropolis@gmail.com"
+NOME_OFICIAL = "Cruz Vermelha Brasileira - Filial do Município de Petrópolis"  # o "name" do NGO na home em português
+ENDERECO = "Rua Carlos Gomes, 6 · Centro · Petrópolis · RJ · 25680-120"
 VOLUNTARIO = "/voluntariado/cadastro/"  # formulário próprio (scripts/gerar_voluntariado_cadastro.py), em português
 # A doação online ficou suspensa de 25/09 a 19/10/2026: sem "Donate/Donar" no menu, sem a porta de
 # doação na home e sem gerar /en/donate/ e /es/donar/ (que respondiam 503 pelos .htaccess). Religada
@@ -215,7 +215,7 @@ def cabecalho(idioma: dict, pagina: str) -> str:
     return f"""  <header class="main-header">
     <div class="header-container">
       <a href="/{pasta}/" class="logo-area" style="text-decoration:none;color:inherit;">
-        <img alt="{esc(idioma['instituicao'])}" class="logo-img" src="/assets/otim/logo-cvb-rj-520.webp" width="520" height="156">
+        <img alt="{esc(idioma['instituicao'])}" class="logo-img" src="/assets/otim/logo-cvb-petropolis-520.webp" width="520" height="156">
       </a>
       <button class="nav-toggle" type="button" aria-label="{esc(m['abrir'])}" aria-expanded="false" aria-controls="menu-painel">
         <i class="fa-solid fa-bars"><svg class="ico ico-bars" aria-hidden="true" focusable="false"><use href="#i-bars"/></svg><svg class="ico ico-xmark" aria-hidden="true" focusable="false"><use href="#i-xmark"/></svg></i>
@@ -269,7 +269,7 @@ def rodape(idioma: dict) -> str:
     return f"""  <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <img class="footer-logo" alt="{esc(idioma['instituicao'])}" src="/assets/otim/logo-cvb-rj-520.webp" width="520" height="156" loading="lazy" decoding="async">
+        <img class="footer-logo" alt="{esc(idioma['instituicao'])}" src="/assets/otim/logo-cvb-petropolis-520.webp" width="520" height="156" loading="lazy" decoding="async">
         <p>{esc(r['principios'])}</p>
       </div>
       <div class="footer-col">
@@ -283,7 +283,7 @@ def rodape(idioma: dict) -> str:
         <h4>{esc(r['contato'])}</h4>
         <p>{esc(ENDERECO)}</p>
         <p><a href="mailto:{EMAIL}">{EMAIL}</a></p>
-        <p>CNPJ 08.560.973/0001-97</p>
+        <p>CNPJ 09.198.238/0001-48</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -454,10 +454,10 @@ def pagina_home(idioma: dict, partes: dict) -> str:
            "name": NOME_OFICIAL, "alternateName": idioma["instituicao"], "url": f"{ORIGEM}/",
            # inLanguage é de CreativeWork, não de Organization: no NGO o validador recusa.
            "parentOrganization": {"@type": "NGO", "name": idioma["nacional"]},
-           "taxID": "08.560.973/0001-97", "email": EMAIL,
-           "address": {"@type": "PostalAddress", "streetAddress": "Praça da Cruz Vermelha, 10",
-                       "addressLocality": "Rio de Janeiro", "addressRegion": "RJ",
-                       "postalCode": "20230-130", "addressCountry": "BR"},
+           "taxID": "09.198.238/0001-48", "email": EMAIL,
+           "address": {"@type": "PostalAddress", "streetAddress": "Rua Carlos Gomes, 6",
+                       "addressLocality": "Petrópolis", "addressRegion": "RJ",
+                       "postalCode": "25680-120", "addressCountry": "BR"},
            "sameAs": PERFIS},
           {"@context": "https://schema.org", "@type": "WebPage",
            "url": f"{ORIGEM}{PAGINAS['home'][idioma['codigo']]}", "name": idioma["home"]["titulo"],

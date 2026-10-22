@@ -1,4 +1,4 @@
-/* Cadastro de voluntário da Cruz Vermelha Brasileira Rio de Janeiro (site/voluntariado/cadastro/), sem dependências.
+/* Cadastro de voluntário da Cruz Vermelha Brasileira Petrópolis (site/voluntariado/cadastro/), sem dependências.
 
    Sem JavaScript o <form> faz um POST comum (application/x-www-form-urlencoded) para a API, que responde com um
    redirect para /voluntariado/cadastro/?protocolo=VOL-... ou ?erro=<campo>. Com JavaScript, este arquivo:
@@ -14,7 +14,7 @@
   var form = document.getElementById('ficha');
   if (!form) return;
   var API = form.getAttribute('action') || '/matricula-cursos-presenciais/api/voluntarios.php';
-  var EMAIL_CONTATO = 'contato@cruzvermelhariodejaneiro.org';
+  var EMAIL_CONTATO = 'cvbpetropolis@gmail.com';
   var FORM_ID = 'voluntariado-cadastro';
   var aviso = document.getElementById('vc-aviso');
   var sucesso = document.getElementById('vc-sucesso');

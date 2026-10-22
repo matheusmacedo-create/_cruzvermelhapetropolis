@@ -22,9 +22,9 @@ PRAZO = int(os.environ.get("ESPERA_PRAZO_DIAS") or 90)
 VENDA_SEM_TURMA = os.environ.get("VENDA_SEM_TURMA_HTML") == "1"
 PARCELADO = os.environ.get("PARCELADO_HTML") == "1"
 
-P1 = "Como me matricular em um curso da Cruz Vermelha Brasileira Rio de Janeiro?"
-P2 = "Quanto custa fazer um curso na Cruz Vermelha Brasileira Rio de Janeiro?"
-P3 = "A Cruz Vermelha Brasileira Rio de Janeiro tem cursos gratuitos?"
+P1 = "Como me matricular em um curso da Cruz Vermelha Brasileira Petrópolis?"
+P2 = "Quanto custa fazer um curso na Cruz Vermelha Brasileira Petrópolis?"
+P3 = "A Cruz Vermelha Brasileira Petrópolis tem cursos gratuitos?"
 
 R1_SO_TAXA = ("só a taxa de inscrição (com turma aberta, ela reserva a vaga; sem turma, você entra na lista de interesse)"
               if VENDA_SEM_TURMA else "só a taxa de inscrição, que reserva a vaga")

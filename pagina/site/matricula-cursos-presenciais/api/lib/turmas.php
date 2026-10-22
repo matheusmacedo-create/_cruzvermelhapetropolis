@@ -421,7 +421,7 @@ function mcp_turma_linhas(array $p): array
         'Curso' => (string) $p['curso_nome'],
         'Idioma das aulas' => MCP_TURMA_IDIOMAS[$p['idioma']] ?? (string) $p['idioma'],
         'Alunos' => mcp_turma_alunos((int) $p['pessoas']) . ((int) $p['pessoas'] > MCP_TURMA_MAXIMO ? ' (' . mcp_turma_quantas((int) $p['pessoas']) . ' turmas de até ' . MCP_TURMA_MAXIMO . ')' : ''),
-        'Local' => $p['local'] === 'outro' ? 'Outro local, sujeito a aprovação: ' . $p['local_endereco'] : 'Sede, Praça da Cruz Vermelha, 10, Centro',
+        'Local' => $p['local'] === 'outro' ? 'Outro local, sujeito a aprovação: ' . $p['local_endereco'] : 'Sede, Rua Carlos Gomes, 6, Centro',
     ];
     if (!empty($p['organizacao'])) {
         $linhas['Instituição'] = (string) $p['organizacao'];

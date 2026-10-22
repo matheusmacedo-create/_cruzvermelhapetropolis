@@ -22,7 +22,7 @@ OTIM = SITE / "assets" / "otim"
 # Largura renderizada (desktop 1366 px, celular 390 px) de cada <img>, na ordem em que aparece na
 # página, medida ao vivo em 19/09/2026 com Playwright. 0 = escondida (slide inativo).
 MEDIDAS = {
-    "index.html": [("logo-cvb-rj.png", 173, 186), ("impacto-cores-banner.jpg", 1366, 390), ("agasalho-banner.jpg", 0, 0),
+    "index.html": [("logo-cvb-petropolis.png", 173, 186), ("impacto-cores-banner.jpg", 1366, 390), ("agasalho-banner.jpg", 0, 0),
                    ("presidente-luiz-carlos-dos-santos.jpg", 430, 362), ("presidente-e-vice-gabinete.jpg", 275, 268), ("impacto-cores-banner.jpg", 349, 360),
                    ("agasalho-hero-rua.jpg", 349, 360), ("curso-primeiros-socorros-novo.jpg", 576, 360), ("curso-puncao-venosa.jpg", 0, 0),
                    ("curso-cuidador-idosos.jpg", 0, 0), ("curso-bombeiro-civil.jpg", 351, 360), ("curso-lei-lucas.jpg", 351, 360),
@@ -32,12 +32,12 @@ MEDIDAS = {
                     ("auditorio-voluntarios.jpg", 580, 362), ("equipe-corredor.jpg", 580, 362), ("logo-rj.png", 58, 58)],
     "campanha-agasalho.html": [("logo-rj.png", 54, 54), ("agasalho-hero-rua.jpg", 415, 360), ("agasalho-hero-favela.jpg", 281, 360),
                                ("agasalho-cartaz.jpg", 533, 360), ("agasalho-fila-comunidade.jpg", 589, 360), ("logo-rj.png", 54, 54)],
-    "equipe.html": [("logo-cvb-rj.png", 173, 186), ("logo-cvb-rj.png", 310, 342)],
+    "equipe.html": [("logo-cvb-petropolis.png", 173, 186), ("logo-cvb-petropolis.png", 310, 342)],
 }
 # Imagens da primeira dobra (não levam lazy) e a principal de cada página (fetchpriority=high).
-PRIMEIRA_DOBRA = {"index.html": {"logo-cvb-rj.png", "impacto-cores-banner.jpg", "agasalho-banner.jpg"},
+PRIMEIRA_DOBRA = {"index.html": {"logo-cvb-petropolis.png", "impacto-cores-banner.jpg", "agasalho-banner.jpg"},
                   "doacao.html": {"logo-rj.png"}, "campanha-agasalho.html": {"logo-rj.png", "agasalho-hero-rua.jpg", "agasalho-hero-favela.jpg"},
-                  "equipe.html": {"logo-cvb-rj.png"}}
+                  "equipe.html": {"logo-cvb-petropolis.png"}}
 PRINCIPAL = {"index.html": "impacto-cores-banner.jpg", "campanha-agasalho.html": "agasalho-hero-rua.jpg"}
 TAG = re.compile(r"<img\b[^>]*>")
 

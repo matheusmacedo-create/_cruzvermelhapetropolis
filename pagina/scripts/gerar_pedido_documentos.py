@@ -29,8 +29,8 @@ LIB_PHP = RAIZ / "site" / "matricula-cursos-presenciais" / "api" / "lib" / "docu
 ORIGEM = "https://cruzvermelhariodejaneiro.org"
 URL_PAGINA = f"{ORIGEM}/pedido-de-documentos/"
 API = "/matricula-cursos-presenciais/api/documentos.php"
-TITULO = "Pedido de documentos – Cruz Vermelha Brasileira Rio de Janeiro"
-DESCRICAO = ("Como pedir a íntegra de um documento da Cruz Vermelha Brasileira Rio de Janeiro: quem pode receber, "
+TITULO = "Pedido de documentos – Cruz Vermelha Brasileira Petrópolis"
+DESCRICAO = ("Como pedir a íntegra de um documento da Cruz Vermelha Brasileira Petrópolis: quem pode receber, "
              "o que comprovar e como enviar o pedido. Resposta por e-mail.")
 PRAZO = "20 dias"
 ARQUIVOS_MAX = 4
@@ -38,7 +38,7 @@ ARQUIVO_MB = 8
 TOTAL_MB = 16
 
 DOCUMENTOS = [
-    ("estatuto", "Estatuto da Cruz Vermelha Brasileira do Rio de Janeiro (24/10/2016)"),
+    ("estatuto", "Estatuto da Cruz Vermelha Brasileira de Petrópolis (24/10/2016)"),
     ("ata-notarial-2026-02-02", "Escritura pública de ata notarial (02/02/2026)"),
     ("outro", "Outro documento da filial"),
 ]
@@ -269,7 +269,7 @@ def main() -> int:
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="{esc(TITULO)}">
   <meta property="og:description" content="{esc(DESCRICAO)}">
   <meta property="og:url" content="{URL_PAGINA}">
@@ -286,7 +286,7 @@ def main() -> int:
       <div class="wrap">
         <p class="eyebrow">Transparência</p>
         <h1 id="pd-titulo">Pedido de documentos da filial</h1>
-        <p class="lead">Os documentos públicos da Cruz Vermelha Brasileira Rio de Janeiro ficam no <a href="/transparencia/">portal da transparência</a>, para baixar e conferir. Esta página é para pedir a íntegra de um documento, com dados pessoais, ou um documento que não está publicado. A equipe analisa cada pedido e responde por e-mail.</p>
+        <p class="lead">Os documentos públicos da Cruz Vermelha Brasileira Petrópolis ficam no <a href="/transparencia/">portal da transparência</a>, para baixar e conferir. Esta página é para pedir a íntegra de um documento, com dados pessoais, ou um documento que não está publicado. A equipe analisa cada pedido e responde por e-mail.</p>
         <ul class="pd-fatos">
           <li><i class="fa-solid fa-envelope" aria-hidden="true"></i><div><b>Tudo por e-mail</b><span>Resposta em até {PRAZO}, com número de protocolo.</span></div></li>
           <li><i class="fa-solid fa-fingerprint" aria-hidden="true"></i><div><b>Comprove quem você é</b><span>Documento com foto e o motivo do pedido. Procuração ou ofício, se for o caso.</span></div></li>
@@ -381,7 +381,7 @@ def main() -> int:
             <div class="pd-caminho">
               <h3><i class="fa-solid fa-lock" aria-hidden="true"></i>Como cuidamos dos seus documentos</h3>
               <p>Os comprovantes são usados só para conferir quem você é e analisar este pedido. Eles vão direto para o e-mail da equipe que analisa e não ficam guardados no site nem no banco de dados do site, onde fica só o registro do pedido.</p>
-              <p>A equipe guarda os comprovantes só pelo tempo necessário para analisar o pedido e registrar a resposta. Você pode pedir a exclusão a qualquer momento pelo e-mail <a href="mailto:contato@cruzvermelhariodejaneiro.org">contato@cruzvermelhariodejaneiro.org</a>.</p>
+              <p>A equipe guarda os comprovantes só pelo tempo necessário para analisar o pedido e registrar a resposta. Você pode pedir a exclusão a qualquer momento pelo e-mail <a href="mailto:cvbpetropolis@gmail.com">cvbpetropolis@gmail.com</a>.</p>
             </div>
             <div class="pd-caminho">
               <h3><i class="fa-solid fa-clock" aria-hidden="true"></i>Prazo e resposta</h3>
@@ -394,7 +394,7 @@ def main() -> int:
     <section class="fim-acao" aria-labelledby="fim-acao-titulo">
       <div class="wrap">
         <div class="fim-acao-caixa">
-          <h2 id="fim-acao-titulo">Ajude a Cruz Vermelha Brasileira Rio de Janeiro</h2>
+          <h2 id="fim-acao-titulo">Ajude a Cruz Vermelha Brasileira Petrópolis</h2>
           <p>Doe para manter a formação de voluntários e as ações da filial, cadastre-se no voluntariado ou fale com a equipe, que responde pelo e-mail institucional.</p>
           <div class="cta-row">
             <a class="btn btn-red" href="/doe/">Doe agora</a>

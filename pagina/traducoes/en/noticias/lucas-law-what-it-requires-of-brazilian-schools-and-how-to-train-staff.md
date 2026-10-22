@@ -69,7 +69,7 @@ The branch's Escola de Educação e Saúde CVB-RJ (School of Education and Healt
 
 The [Basic First Aid](/en/news/basic-first-aid-course-what-to-do-in-the-first-minutes/) course also meets the Lucas Law, with general content not focused only on children.
 
-The school also runs closed groups for the staff of a single institution. To arrange one, write to [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org).
+The school also runs closed groups for the staff of a single institution. To arrange one, write to [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com).
 
 [See hours, entry requirements and how enrolment works](/en/courses/) · [Course page on the school platform (in Portuguese)](https://escola.cursoscruzvermelha.org/cursos/f8373fef-2523-42e4-ab3f-cc1059b10379)
 

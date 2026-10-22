@@ -84,7 +84,7 @@ function mcp_doacao_pix_aberto(array $doador, int $total): ?array
 
 function mcp_doacao_montar_cobranca(array $doador, string $token, int $valor, int $taxa): array
 {
-    $cart = [['hash' => 'doacao', 'title' => 'Doação · Cruz Vermelha Brasileira Rio de Janeiro', 'price' => $valor, 'quantity' => 1]];
+    $cart = [['hash' => 'doacao', 'title' => 'Doação · Cruz Vermelha Brasileira Petrópolis', 'price' => $valor, 'quantity' => 1]];
     if ($taxa > 0) {
         $cart[] = ['hash' => 'custos-processamento', 'title' => 'Custos de processamento (opcional)', 'price' => $taxa, 'quantity' => 1];
     }

@@ -35,9 +35,9 @@ ORIGEM = "https://cruzvermelhariodejaneiro.org"
 DOACAO_NO_AR = True
 URL_PAGINA = f"{ORIGEM}/doe/"
 
-TITULO = "Doar para a Cruz Vermelha Brasileira Rio de Janeiro"
-H1 = "Doe para a Cruz Vermelha Brasileira Rio de Janeiro"
-DESCRICAO = ("Doe para a Cruz Vermelha Brasileira Rio de Janeiro por PIX ou cartão, em menos de um minuto. "
+TITULO = "Doar para a Cruz Vermelha Brasileira Petrópolis"
+H1 = "Doe para a Cruz Vermelha Brasileira Petrópolis"
+DESCRICAO = ("Doe para a Cruz Vermelha Brasileira Petrópolis por PIX ou cartão, em menos de um minuto. "
              "Sua doação mantém a formação de voluntários e as ações no estado.")
 
 # Referências de impacto: valores sugeridos com o que cada um sustenta. Não são pacotes fechados,
@@ -50,10 +50,10 @@ IMPACTO = [
 ]
 
 DADOS = [
-    ("Razão social", "Cruz Vermelha Brasileira<br>Filial do Estado do Rio de Janeiro", ""),
-    ("CNPJ", "08.560.973/0001-97", "É o CNPJ do comprovante que enviamos por e-mail."),
+    ("Razão social", "Cruz Vermelha Brasileira<br>Filial do Município de Petrópolis", ""),
+    ("CNPJ", "09.198.238/0001-48", "É o CNPJ do comprovante que enviamos por e-mail."),
     ("Utilidade pública", "Municipal e estadual", "Lei municipal 5.153/2010 e lei estadual 9.984/2023."),
-    ("Sede", "Praça da Cruz Vermelha, 10", "Palácio da Cruz Vermelha, Centro do Rio de Janeiro."),
+    ("Sede", "Rua Carlos Gomes, 6", "Palácio da Cruz Vermelha, Centro do Rio de Janeiro."),
 ]
 
 PASSOS = [
@@ -64,7 +64,7 @@ PASSOS = [
 
 FAQ = [
     ("Para onde vai o dinheiro da minha doação?",
-     "Sua doação fica na Cruz Vermelha Brasileira Rio de Janeiro, a filial do Estado do Rio de Janeiro, e sustenta a "
+     "Sua doação fica na Cruz Vermelha Brasileira Petrópolis, a filial do Município de Petrópolis, e sustenta a "
      "formação de voluntários, a capacitação em primeiros socorros, a educação preventiva, as campanhas de apoio "
      "comunitário e a estrutura que mantém tudo isso de pé, na sede do Centro do Rio. Os valores sugeridos na página "
      "são referências de impacto, não pacotes fechados: a filial aplica os recursos onde a necessidade é maior a cada mês.",
@@ -94,7 +94,7 @@ FAQ = [
      [("chat do site", "/#chat")]),
     ("Quero doar roupas e cobertores. Como faço?",
      "Doações de roupas de frio, cobertores e calçados são recebidas na sede da Cruz Vermelha Brasileira Rio de "
-     "Janeiro, na Praça da Cruz Vermelha, 10, Centro, pela Campanha do Agasalho, de segunda a sexta, das 10h às 17h. "
+     "Janeiro, na Rua Carlos Gomes, 6, Centro, pela Campanha do Agasalho, de segunda a sexta, das 10h às 17h. "
      "Leve as peças limpas e em bom estado. Para outros itens, confirme antes com a equipe pelo chat do site.",
      [("Campanha do Agasalho", "/campanha-agasalho.html"), ("chat do site", "/#chat")]),
     ("Posso doar sem que meu nome apareça?",
@@ -103,10 +103,10 @@ FAQ = [
      "porque o meio de pagamento exige esses dados para emitir a cobrança e para enviar o seu comprovante, mas eles "
      "ficam restritos à equipe que cuida das doações.",
      []),
-    ("Minha empresa quer apoiar a Cruz Vermelha Brasileira Rio de Janeiro.",
+    ("Minha empresa quer apoiar a Cruz Vermelha Brasileira Petrópolis.",
      "Empresas apoiam a filial com doações institucionais, patrocínio de campanhas e treinamentos corporativos de NR "
      "e de primeiros socorros pela Lei Lucas. Fale com a gente pelo chat do site ou pelo e-mail "
-     "contato@cruzvermelhariodejaneiro.org para receber uma proposta.",
+     "cvbpetropolis@gmail.com para receber uma proposta.",
      [("chat do site", "/#chat")]),
 ]
 
@@ -126,7 +126,7 @@ PAGINA = """<!DOCTYPE html>
   <link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/donar/">
   <link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/doe/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="@@URL@@">
   <meta property="og:title" content="@@TITULO@@">
@@ -185,7 +185,7 @@ PAGINA = """<!DOCTYPE html>
       <div class="wrap">
         <p class="eyebrow">Transparência</p>
         <h2>Você sabe exatamente quem está apoiando.</h2>
-        <p class="lead">A Cruz Vermelha Brasileira Rio de Janeiro é a filial do Estado do Rio de Janeiro da sociedade nacional da Cruz Vermelha, com sede própria no Centro do Rio. A história da filial e do edifício está em <a href="/historia/">Nossa história</a>, e quem dirige a filial, em <a href="/quem-somos/">Quem somos</a>.</p>
+        <p class="lead">A Cruz Vermelha Brasileira Petrópolis é a filial do Município de Petrópolis da sociedade nacional da Cruz Vermelha, com sede própria no Centro do Rio. A história da filial e do edifício está em <a href="/historia/">Nossa história</a>, e quem dirige a filial, em <a href="/quem-somos/">Quem somos</a>.</p>
         <div class="doe-dados">
 @@DADOS@@
         </div>
@@ -301,12 +301,12 @@ CARTAO = """        <aside class="doe-card" id="doe-card">
           </form>
           <div id="doe-pix" hidden></div>
           <div id="doe-obrigado" hidden></div>
-          <noscript><p class="doe-aviso">Esta página precisa de JavaScript para gerar o pagamento. Ative o JavaScript ou escreva para contato@cruzvermelhariodejaneiro.org.</p></noscript>
+          <noscript><p class="doe-aviso">Esta página precisa de JavaScript para gerar o pagamento. Ative o JavaScript ou escreva para cvbpetropolis@gmail.com.</p></noscript>
         </aside>"""
 
 CONFIANCA = [
     ("scale-balanced", "<b>Utilidade pública municipal e estadual</b>: lei municipal 5.153/2010 e lei estadual 9.984/2023."),
-    ("certificate", "<b>CNPJ 08.560.973/0001-97</b>, Cruz Vermelha Brasileira · Filial do Estado do Rio de Janeiro."),
+    ("certificate", "<b>CNPJ 09.198.238/0001-48</b>, Cruz Vermelha Brasileira · Filial do Município de Petrópolis."),
     ("lock", "<b>Pagamento em ambiente seguro</b>, com comprovante por e-mail logo após a confirmação."),
     ("hand-holding-heart", "<b>Conheça o destino da sua contribuição</b>: <a href=\"/quem-somos/#como-nos-financiamos\">como a filial se financia</a> e <a href=\"/transparencia/\">documentos publicados</a>."),
 ]
@@ -373,7 +373,7 @@ OBRIGADO = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <title>Sua doação · Cruz Vermelha Brasileira Rio de Janeiro</title>
+  <title>Sua doação · Cruz Vermelha Brasileira Petrópolis</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -401,7 +401,7 @@ OBRIGADO = """<!DOCTYPE html>
           <div id="doe-obrigado" hidden></div>
           <noscript><p class="doe-aviso">Esta página precisa de JavaScript para mostrar sua doação. Confira seu e-mail: o comprovante e o código PIX foram enviados para lá.</p></noscript>
         </aside>
-        <p class="doe-aviso" style="margin-top:20px">Dúvidas sobre sua doação? Escreva para <a href="mailto:contato@cruzvermelhariodejaneiro.org">contato@cruzvermelhariodejaneiro.org</a> ou use o chat no canto da página.</p>
+        <p class="doe-aviso" style="margin-top:20px">Dúvidas sobre sua doação? Escreva para <a href="mailto:cvbpetropolis@gmail.com">cvbpetropolis@gmail.com</a> ou use o chat no canto da página.</p>
       </div>
     </section>
   </main>

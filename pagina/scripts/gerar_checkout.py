@@ -94,7 +94,7 @@ PAGINA = """<!DOCTYPE html>
     </section>
     <section class="ck-secao">
       <div class="wrap"@@WRAP_EXTRA@@>
-        <noscript><p class="ck-noscript">@@NOSCRIPT@@ Ative o JavaScript ou escreva para contato@cruzvermelhariodejaneiro.org.</p></noscript>
+        <noscript><p class="ck-noscript">@@NOSCRIPT@@ Ative o JavaScript ou escreva para cvbpetropolis@gmail.com.</p></noscript>
 @@CORPO@@
       </div>
     </section>
@@ -225,7 +225,7 @@ CORPO_CHECKOUT = """        <div class="ck-grid">
                 <ul class="ck-curso-meta" id="ck-curso-meta" hidden>
                   <li><i class="fa-regular fa-clock" aria-hidden="true"></i> <span id="ck-m-carga"></span></li>
                   <li><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> <span id="ck-m-escolaridade"></span></li>
-                  <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Praça da Cruz Vermelha, 10 · Centro</li>
+                  <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Rua Carlos Gomes, 6 · Centro</li>
                 </ul>
               </section>
               <section class="ck-bloco-form" aria-labelledby="ck-t2">
@@ -291,11 +291,11 @@ CORPO_CHECKOUT = """        <div class="ck-grid">
                 </ul>
                 <div id="ck-legal-hoje"@@LEGAL_HOJE_OCULTO@@>
                   <p class="ck-nota ck-legal" style="margin:14px 0 0">Ao pagar, você concorda com os <a href="/termos/">Termos de Uso</a> e com as regras de <a href="/reembolso/">cancelamento e reembolso</a>: dá para desistir em até 7 dias depois do pagamento e receber o valor de volta (art. 49 do Código de Defesa do Consumidor). Seus dados são usados para a matrícula, a cobrança e os avisos sobre as suas aulas, como explica a <a href="/privacidade/">Política de Privacidade</a>.</p>
-                  <p class="ck-nota ck-legal" style="margin:8px 0 0">Venda e recebimento: @@RECEBEDOR_NOME@@, CNPJ <span class="ck-nowrap">@@RECEBEDOR_CNPJ@@</span> · Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ · contato@cruzvermelhariodejaneiro.org.</p>
+                  <p class="ck-nota ck-legal" style="margin:8px 0 0">Venda e recebimento: @@RECEBEDOR_NOME@@, CNPJ <span class="ck-nowrap">@@RECEBEDOR_CNPJ@@</span> · Rua Carlos Gomes, 6, Centro, Petrópolis/RJ · cvbpetropolis@gmail.com.</p>
                 </div>
                 <div id="ck-legal-novo"@@LEGAL_NOVO_OCULTO@@>
                   <p class="ck-nota ck-legal" style="margin:14px 0 0">Ao pagar, você concorda com os <a href="/termos/">Termos de Uso</a> e com as regras de <a href="/reembolso/">cancelamento e reembolso</a>: dá para desistir em até 7 dias depois do pagamento e receber de volta tudo o que pagou, inclusive a matrícula e os juros do parcelamento (art. 49 do Código de Defesa do Consumidor). Seus dados são usados para a inscrição, o acesso à área do aluno, a cobrança e os avisos sobre as suas aulas, como explica a <a href="/privacidade/">Política de Privacidade</a>.</p>
-                  <p class="ck-nota ck-legal" id="ck-fornecedor" style="margin:8px 0 0">Venda e recebimento: @@RECEBEDOR_NOME@@, CNPJ <span class="ck-nowrap">@@RECEBEDOR_CNPJ@@</span> · Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ · contato@cruzvermelhariodejaneiro.org.</p>
+                  <p class="ck-nota ck-legal" id="ck-fornecedor" style="margin:8px 0 0">Venda e recebimento: @@RECEBEDOR_NOME@@, CNPJ <span class="ck-nowrap">@@RECEBEDOR_CNPJ@@</span> · Rua Carlos Gomes, 6, Centro, Petrópolis/RJ · cvbpetropolis@gmail.com.</p>
                 </div>
               </section>
             </form>
@@ -345,9 +345,9 @@ PAGINA_PONTO = """<!DOCTYPE html>
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <link rel="manifest" href="/matricula-cursos-presenciais/ponto/manifest.json">
   <link rel="apple-touch-icon" href="/matricula-cursos-presenciais/ponto/icone-192.png">
-  <meta name="apple-mobile-web-app-title" content="Ponto CVB-RJ">
+  <meta name="apple-mobile-web-app-title" content="Ponto CVB Petrópolis">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>Ponto da sede | Cruz Vermelha Brasileira Rio de Janeiro</title>
+  <title>Ponto da sede | Cruz Vermelha Brasileira Petrópolis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
@@ -357,7 +357,7 @@ PAGINA_PONTO = """<!DOCTYPE html>
 <body>
   <div class="pt-faixa"></div>
   <header class="pt-topo">
-    <img src="/assets/otim/logo-cvb-rj-480.png" alt="Cruz Vermelha Brasileira · Rio de Janeiro" width="160" height="48">
+    <img src="/assets/otim/logo-cvb-petropolis-480.png" alt="Cruz Vermelha Brasileira · Petrópolis" width="160" height="48">
     <div class="pt-titulo"><b>Ponto da sede</b><small id="pt-modo">Colaboradores e alunos</small></div>
     <div class="pt-relogio"><b id="pt-hora">--:--</b><small id="pt-data"></small></div>
   </header>
@@ -384,7 +384,7 @@ PAGINA_AVISO = """<!DOCTYPE html>
   <meta name="theme-color" content="#cc0000">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <title>@@TITULO@@ | Cruz Vermelha Brasileira Rio de Janeiro</title>
+  <title>@@TITULO@@ | Cruz Vermelha Brasileira Petrópolis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
@@ -394,7 +394,7 @@ PAGINA_AVISO = """<!DOCTYPE html>
 <body data-pagina="@@PAGINA@@">
   <div class="pt-faixa"></div>
   <header class="pt-topo">
-    <a href="/"><img src="/assets/otim/logo-cvb-rj-480.png" alt="Cruz Vermelha Brasileira · Rio de Janeiro" width="160" height="48"></a>
+    <a href="/"><img src="/assets/otim/logo-cvb-petropolis-480.png" alt="Cruz Vermelha Brasileira · Petrópolis" width="160" height="48"></a>
     <div class="pt-titulo"><b>@@CABECALHO@@</b><small>@@SUBTITULO@@</small></div>
   </header>
   <main class="pt-main">
@@ -419,9 +419,9 @@ AVISOS_PAGINAS = {
 }
 # Instalar o ponto no celular como um aplicativo (tela inicial). O ícone é o do site (cruz vermelha em fundo branco).
 MANIFESTO_PONTO = {
-    "name": "Ponto da sede · Cruz Vermelha Brasileira RJ",
-    "short_name": "Ponto CVB-RJ",
-    "description": "Registre a chegada e a saída na sede da Cruz Vermelha Brasileira Rio de Janeiro.",
+    "name": "Ponto da sede · Cruz Vermelha Brasileira Petrópolis",
+    "short_name": "Ponto CVB Petrópolis",
+    "description": "Registre a chegada e a saída na sede da Cruz Vermelha Brasileira Petrópolis.",
     "start_url": "/matricula-cursos-presenciais/ponto/?origem=app",
     "scope": "/matricula-cursos-presenciais/ponto/",
     "display": "standalone",
@@ -463,7 +463,7 @@ PAGINA_CARTAZ = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <title>Cartaz do ponto da sede | Cruz Vermelha Brasileira Rio de Janeiro</title>
+  <title>Cartaz do ponto da sede | Cruz Vermelha Brasileira Petrópolis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap">
@@ -497,7 +497,7 @@ PAGINA_CARTAZ = """<!DOCTYPE html>
 <body>
   <div class="acoes"><button type="button" onclick="window.print()">Imprimir cartaz</button><span>Imprima em A4, em cores, e cole perto da entrada ou da recepção.</span></div>
   <article class="cartaz">
-    <img class="logo" src="/assets/otim/logo-cvb-rj-480.png" alt="Cruz Vermelha Brasileira · Rio de Janeiro">
+    <img class="logo" src="/assets/otim/logo-cvb-petropolis-480.png" alt="Cruz Vermelha Brasileira · Petrópolis">
     <h1>Ponto da sede</h1>
     <p class="lead">Registre a chegada e a saída pelo celular</p>
     <div id="qr" role="img" aria-label="QR code que abre o ponto da sede: @@URL@@"></div>
@@ -755,33 +755,33 @@ def main() -> int:
     paginas = {
         # Spec 1.12: o H1 vira o nome do curso e o lead, a turma ("09:00 - 17:00 · início 21/10/2026") ou "Ainda não há
         # turma aberta." quando o curso está escolhido (checkout.js). Sem curso, fica o da escola.
-        "checkout": montar(partes, "Inscrição | Cruz Vermelha Brasileira Rio de Janeiro", "checkout",
+        "checkout": montar(partes, "Inscrição | Cruz Vermelha Brasileira Petrópolis", "checkout",
                            "Inscrição", "Escolha o curso e veja as turmas abertas, os horários e os valores.",
                            corpo_checkout, qrcode=True, passo=2, etapas=etapas),
         # Spec 1.13: textos literais da tela de processamento da escola. O checkout.js troca o H1 nos casos de recusa,
         # PIX vencido e estorno.
-        "pendente": montar(partes, "Processando… | Cruz Vermelha Brasileira Rio de Janeiro", "pendente",
+        "pendente": montar(partes, "Processando… | Cruz Vermelha Brasileira Petrópolis", "pendente",
                            "Processando…",
                            "Seu pagamento está sendo processado. Assim que o banco confirmar, sua inscrição é atualizada aqui.",
                            CORPO_PENDENTE, qrcode=True, wrap_extra=' style="max-width:820px"', passo=2, etapas=etapas),
         # O checkout.js troca o H1 pelo resultado (Matrícula confirmada, Taxa de inscrição confirmada…, 1.13 e 10.5).
-        "parabens": montar(partes, "Inscrição confirmada | Cruz Vermelha Brasileira Rio de Janeiro", "parabens",
+        "parabens": montar(partes, "Inscrição confirmada | Cruz Vermelha Brasileira Petrópolis", "parabens",
                            "Pagamento confirmado",
                            "Guarde este link: ele mostra sua inscrição e o próximo passo.",
                            CORPO_PARABENS, qrcode=False, wrap_extra=' style="max-width:820px"', passo=3, etapas=etapas),
         # Questionário de dias e horários (29/09/2026): link pessoal, abre só com a inscrição paga.
-        "horarios": montar(partes, "Seus horários | Cruz Vermelha Brasileira Rio de Janeiro", "horarios",
+        "horarios": montar(partes, "Seus horários | Cruz Vermelha Brasileira Petrópolis", "horarios",
                            "Quando você pode fazer as aulas?",
                            "Toque nos dias e horários em que você consegue vir. Leva 30 segundos e ajuda a secretaria a encaixar você na turma certa.",
                            CORPO_HORARIOS, qrcode=False, wrap_extra=' style="max-width:820px"', passo=3, eyebrow="Cursos presenciais"),
         # Ponto da sede (29/09/2026): comprovante de comparecimento pelo link pessoal e conferência do código.
-        "comparecimento": montar(partes, "Comprovante de comparecimento | Cruz Vermelha Brasileira Rio de Janeiro", "comparecimento",
+        "comparecimento": montar(partes, "Comprovante de comparecimento | Cruz Vermelha Brasileira Petrópolis", "comparecimento",
                                  "Comprovante de comparecimento",
                                  "O comprovante da sua aula presencial. Ele fica disponível quando a aula termina e também chega no seu e-mail.",
                                  CORPO_COMPARECIMENTO, qrcode=False, wrap_extra=' style="max-width:820px"', passo=0, eyebrow="Escola de Educação e Saúde"),
-        "conferir": montar(partes, "Conferir documento | Cruz Vermelha Brasileira Rio de Janeiro", "conferir",
+        "conferir": montar(partes, "Conferir documento | Cruz Vermelha Brasileira Petrópolis", "conferir",
                            "Conferir um comprovante ou declaração",
-                           "Digite o código de verificação impresso no documento para confirmar que ele foi emitido pela Cruz Vermelha Brasileira Rio de Janeiro.",
+                           "Digite o código de verificação impresso no documento para confirmar que ele foi emitido pela Cruz Vermelha Brasileira Petrópolis.",
                            CORPO_CONFERIR, qrcode=False, wrap_extra=' style="max-width:820px"', passo=0, eyebrow="Conferência de documentos"),
     }
     # Ícones que o checkout.js desenha depois (sprite): o selo de pago, as etapas e os avisos.

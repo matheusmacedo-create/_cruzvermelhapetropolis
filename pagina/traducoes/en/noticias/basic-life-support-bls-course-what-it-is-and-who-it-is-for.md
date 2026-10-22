@@ -76,7 +76,7 @@ The branch's Escola de Educação e Saúde CVB-RJ (School of Education and Healt
 
 **What is the chain of survival?** It is the sequence of steps that improves the chances of someone in cardiac arrest. In the American Heart Association's 2025 guidelines there are six: recognising the arrest and calling for help, starting CPR, early defibrillation, advanced support, post-arrest care and recovery. BLS covers the first three.
 
-**Can my company book a group for its team?** Yes. The compact, 4-hour format suits training whole teams with little impact on the working routine. To arrange one, write to [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org).
+**Can my company book a group for its team?** Yes. The compact, 4-hour format suits training whole teams with little impact on the working routine. To arrange one, write to [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com).
 
 **Does this course meet the Lucas Law for schools?** To comply with the Lucas Law, the recommended courses are [First Aid under the Lucas Law](/en/news/lucas-law-what-it-requires-of-brazilian-schools-and-how-to-train-staff/), focused on emergencies with children, and [Basic First Aid](/en/news/basic-first-aid-course-what-to-do-in-the-first-minutes/), with general content. Both meet the law.
 

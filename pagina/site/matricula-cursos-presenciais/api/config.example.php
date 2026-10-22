@@ -70,13 +70,13 @@ return [
     // E-mail: Resend. O remetente precisa estar num domínio verificado na conta (em 18/09/2026:
     // info., noticias. e parceria.cruzvermelhariodejaneiro.org). Sem chave, cai no mail() da Hostinger.
     'RESEND_API_KEY'   => '',
-    'EMAIL_REMETENTE'  => 'Cruz Vermelha Brasileira Rio de Janeiro <matricula@info.cruzvermelhariodejaneiro.org>',
+    'EMAIL_REMETENTE'  => 'Cruz Vermelha Brasileira Petrópolis <matricula@info.cruzvermelhariodejaneiro.org>',
     // Contato por e-mail (19/09/2026, no lugar do WhatsApp da secretaria): destino das mensagens do
     // chat do site (api/contato.php) e endereço citado no rodapé de todos os e-mails. Precisa ser uma
     // caixa que receba de fato: em 19/09/2026 o MX do domínio ainda apontava para a Hostinger sem
     // serviço de e-mail contratado, então contato@ só passa a receber quando o MX for para o Google
     // Workspace. Até lá, coloque aqui um e-mail que funcione.
-    'EMAIL_CONTATO'    => 'contato@cruzvermelhariodejaneiro.org',
+    'EMAIL_CONTATO'    => 'cvbpetropolis@gmail.com',
     // Responder-para dos e-mails ao aluno. Vazio = EMAIL_CONTATO.
     'EMAIL_RESPOSTA'   => '',
     // Aviso interno de inscrição paga (responder-para = o aluno). Vazio = desligado.
@@ -111,7 +111,7 @@ return [
     'ESCOLA_API_AULAS_URL' => '',
 
     // Ponto da sede (/ponto/): no celular, o registro só vale a até PONTO_RAIO_METROS da sede. Vazio =
-    // Praça da Cruz Vermelha, 10 (-22.91132, -43.18779, pelo OpenStreetMap) e 150 m.
+    // Rua Carlos Gomes, 6 (-22.91132, -43.18779, pelo OpenStreetMap) e 150 m.
     'PONTO_SEDE_LAT'    => '',
     'PONTO_SEDE_LNG'    => '',
     'PONTO_RAIO_METROS' => '',
@@ -178,7 +178,7 @@ return [
     //                       'private_key' => "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
     //                       'client_email' => 'site-drive@....iam.gserviceaccount.com', 'client_id' => '...',
     //                       'token_uri' => 'https://oauth2.googleapis.com/token'],
-    //       // Id da pasta raiz (o Drive compartilhado "Cruz Vermelha RJ – Site"): o trecho final da URL no navegador.
+    //       // Id da pasta raiz (o Drive compartilhado "Cruz Vermelha Petrópolis – Site"): o trecho final da URL no navegador.
     //       'GOOGLE_DRIVE_RAIZ_ID' => '',
     //       // Id da planilha "Fichas de voluntários" (entre /d/ e /edit na URL). Vazio = só o PDF, sem linha na planilha.
     //       'GOOGLE_SHEET_FICHAS_ID' => '',

@@ -1,7 +1,7 @@
 {
-  "name": "Ponto da sede · Cruz Vermelha Brasileira RJ",
-  "short_name": "Ponto CVB-RJ",
-  "description": "Registre a chegada e a saída na sede da Cruz Vermelha Brasileira Rio de Janeiro.",
+  "name": "Ponto da sede · Cruz Vermelha Brasileira Petrópolis",
+  "short_name": "Ponto CVB Petrópolis",
+  "description": "Registre a chegada e a saída na sede da Cruz Vermelha Brasileira Petrópolis.",
   "start_url": "/matricula-cursos-presenciais/ponto/?origem=app",
   "scope": "/matricula-cursos-presenciais/ponto/",
   "display": "standalone",

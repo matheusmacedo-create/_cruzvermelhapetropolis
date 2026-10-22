@@ -49,11 +49,11 @@ HTACCESS = PASTA / ".htaccess"
 # API de verificação da Redação. Fixa: a página não aceita outra fora do teste local.
 API = "https://redacao.cruzvermelhariodejaneiro.org"
 
-TITULO = "Verificação | Cruz Vermelha Brasileira Rio de Janeiro"
-TITULO_404 = "Não encontrado | Cruz Vermelha Brasileira Rio de Janeiro"
+TITULO = "Verificação | Cruz Vermelha Brasileira Petrópolis"
+TITULO_404 = "Não encontrado | Cruz Vermelha Brasileira Petrópolis"
 DESCRICAO = ("Confira se um documento, certificado ou publicação foi registrado pela Cruz Vermelha Brasileira "
              "Rio de Janeiro e se continua valendo.")
-DESCRICAO_404 = "Arquivo de prova não encontrado na verificação de documentos da Cruz Vermelha Brasileira Rio de Janeiro."
+DESCRICAO_404 = "Arquivo de prova não encontrado na verificação de documentos da Cruz Vermelha Brasileira Petrópolis."
 
 # Nada disto pode aparecer na página: rastreamento, fontes e scripts de terceiros, o chat.
 PROIBIDO = ["googletagmanager", "gtag(", "fbq(", "connect.facebook.net", "facebook.com/tr", "fonts.googleapis",
@@ -90,7 +90,7 @@ PAGINA = HEAD + """<body class="vf">
       <div class="vf-coluna">
         <p class="eyebrow">Verificação de documentos</p>
         <h1 id="vf-titulo">Confira se um documento é autêntico</h1>
-        <p class="lead">Digite o código impresso no documento, no certificado ou na publicação, ou escolha o arquivo que você recebeu. A consulta mostra se ele foi registrado pela Cruz Vermelha Brasileira Rio de Janeiro e se continua valendo.</p>
+        <p class="lead">Digite o código impresso no documento, no certificado ou na publicação, ou escolha o arquivo que você recebeu. A consulta mostra se ele foi registrado pela Cruz Vermelha Brasileira Petrópolis e se continua valendo.</p>
 
         <div class="vf-cartao">
           <form id="vf-form" novalidate>
@@ -131,7 +131,7 @@ PAGINA = HEAD + """<body class="vf">
       <div class="vf-coluna">
         <p class="eyebrow">Sobre a verificação</p>
         <h2 id="vf-sobre-titulo">O que é esta página</h2>
-        <p>Esta página confere documentos e publicações que a Cruz Vermelha Brasileira Rio de Janeiro registrou numa trilha pública de auditoria: ofícios, certificados de curso, comunicados à imprensa, matérias do site, documentos do portal de transparência, parcerias e a página de canais oficiais.</p>
+        <p>Esta página confere documentos e publicações que a Cruz Vermelha Brasileira Petrópolis registrou numa trilha pública de auditoria: ofícios, certificados de curso, comunicados à imprensa, matérias do site, documentos do portal de transparência, parcerias e a página de canais oficiais.</p>
         <p>Cada registro guarda a impressão digital (SHA-256) do conteúdo e entra num registro encadeado por hash: cada item carrega a impressão digital do anterior, então alterar ou apagar qualquer um quebra a sequência. Uma vez por dia, os registros do dia fecham um lote, que recebe um carimbo de tempo RFC 3161 de uma autoridade independente, é ancorado no Bitcoin pelo OpenTimestamps e entra num manifesto assinado pela filial.</p>
         <p>A consulta mostra que aquele conteúdo, exatamente como está, foi registrado pela filial naquela data, e qual é a situação dele hoje: vigente, substituído, revogado ou retirado do ar. Ela prova registro e integridade; não substitui a assinatura de quem emitiu o documento nem lhe acrescenta validade jurídica.</p>
         <p>Esta página não usa ferramentas de análise nem carrega nada de terceiros. O código digitado vai só para o servidor de registro da filial, e o arquivo escolhido não sai do seu aparelho.</p>
@@ -195,7 +195,7 @@ ots verify -d IMPRESSAO-DIGITAL CODIGO.ots</code></pre>
     <section class="fim-acao" aria-labelledby="fim-acao-titulo">
       <div class="wrap">
         <div class="fim-acao-caixa">
-          <h2 id="fim-acao-titulo">Ajude a Cruz Vermelha Brasileira Rio de Janeiro</h2>
+          <h2 id="fim-acao-titulo">Ajude a Cruz Vermelha Brasileira Petrópolis</h2>
           <p>Doe para manter a formação de voluntários e as ações da filial, cadastre-se no voluntariado ou fale com a equipe, que responde pelo e-mail institucional.</p>
           <div class="cta-row">
             <a class="btn btn-red" href="/doe/">Doe agora</a>
@@ -393,8 +393,8 @@ JS = r"""(function () {
   var LIMITE_ARQUIVO = 100 * 1024 * 1024;   // acima disso, sha256sum no computador (texto na página)
   var ESPERA_MAXIMA = 20000;                // ms sem resposta da API = indisponível
   var FUSO = 'America/Sao_Paulo';
-  var FILIAL = 'Cruz Vermelha Brasileira Rio de Janeiro';
-  var CONTATO = 'contato@cruzvermelhariodejaneiro.org';
+  var FILIAL = 'Cruz Vermelha Brasileira Petrópolis';
+  var CONTATO = 'cvbpetropolis@gmail.com';
   var SVG = 'http://www.w3.org/2000/svg';
   var NAO_PROVA_FALSO = 'Isso não prova que o documento seja falso. Confira se o código foi digitado corretamente ou se o arquivo é exatamente o recebido, sem reimpressão, compressão ou conversão.';
 

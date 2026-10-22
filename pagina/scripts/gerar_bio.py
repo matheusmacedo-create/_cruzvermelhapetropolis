@@ -33,8 +33,8 @@ SAIDA = PASTA / "index.html"
 ORIGEM = "https://cruzvermelhariodejaneiro.org"
 URL_PAGINA = f"{ORIGEM}/bio/"
 
-TITULO = "Cruz Vermelha Brasileira Rio de Janeiro | Links oficiais"
-DESCRICAO = ("Links oficiais da Cruz Vermelha Brasileira Rio de Janeiro: cadastro de voluntário, doação, WhatsApp do "
+TITULO = "Cruz Vermelha Brasileira Petrópolis | Links oficiais"
+DESCRICAO = ("Links oficiais da Cruz Vermelha Brasileira Petrópolis: cadastro de voluntário, doação, WhatsApp do "
              "voluntariado, canal no YouTube e os cursos da escola ligada à filial.")
 URL_MATRICULA = f"{ORIGEM}/matricula-cursos-presenciais/"
 URL_GRATUITOS = f"{ORIGEM}/cursos-gratuitos/"
@@ -49,7 +49,7 @@ FAQ = [
      f"{PROXIMAS_ENTRADAS}: só nessa época a equipe do voluntariado entra em contato por e-mail com todos os cadastrados, "
      "para a ficha de entrevista. Dúvidas antes de se cadastrar podem ser tiradas no WhatsApp do voluntariado ou no chat "
      "deste site.", []),
-    ("Quais cursos a Cruz Vermelha Brasileira Rio de Janeiro oferece?",
+    ("Quais cursos a Cruz Vermelha Brasileira Petrópolis oferece?",
      "Há dois caminhos. A filial forma de graça os próprios voluntários, depois da seleção (veja a formação de "
      "voluntários); não há curso gratuito aberto ao público. E a Escola de Educação e Saúde, a O-CVB Filial Rio de Janeiro Ensino Ltda, empresa ligada à filial, vende "
      "e certifica os cursos pagos: primeiros socorros (básico e Lei Lucas), suporte básico de vida, punção venosa, bombeiro "
@@ -57,7 +57,7 @@ FAQ = [
      "valores completos estão na plataforma da escola; a inscrição é feita na página de "
      "matrícula em cursos presenciais.",
      [("formação de voluntários", "URL_GRATUITOS"), ("página de matrícula em cursos presenciais", "URL_MATRICULA")]),
-    ("Como falar com o voluntariado da Cruz Vermelha Brasileira Rio de Janeiro?",
+    ("Como falar com o voluntariado da Cruz Vermelha Brasileira Petrópolis?",
      "Pelo WhatsApp do voluntariado, no botão acima: é o número exclusivo dessa equipe, diferente da secretaria de cursos. "
      "Para cursos, matrícula, campanhas e parcerias, use o chat de contato deste site: a equipe responde por e-mail em até "
      "3 dias úteis.", []),
@@ -67,10 +67,10 @@ FAQ = [
      "que queiram propor uma parceria podem usar o chat de contato deste site.",
      [("página de doação", "URL_DOE"), ("Campanha do Agasalho", "URL_AGASALHO")]),
     ("Onde fica a Cruz Vermelha no Rio de Janeiro?",
-     "Na Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro, CEP 20230-130. É na sede que acontecem os cursos presenciais e "
+     "Na Rua Carlos Gomes, 6, Centro, Petrópolis, CEP 25680-120. É na sede que acontecem os cursos presenciais e "
      "a formação de voluntários.", []),
 ]
-NOME = "Cruz Vermelha Brasileira – Filial Rio de Janeiro"
+NOME = "Cruz Vermelha Brasileira – Filial Petrópolis"
 CHAMADA = "Maior rede de ajuda humanitária do mundo.<br>Seja voluntário e ajude a salvar vidas!"
 IMAGEM_OG = f"{URL_PAGINA}img/og-bio.jpg"
 
@@ -78,10 +78,10 @@ IMAGEM_OG = f"{URL_PAGINA}img/og-bio.jpg"
 # Ficaram de fora, por decisão dele: desfile de 7 de Setembro, SOS Venezuela, e-mail do RFL, endereço e Instagram.
 # Desde 19/10/2026 (M14) a missão vem primeiro: voluntariado, doação, WhatsApp, YouTube e, por último, a escola.
 BLOCOS = [
-    {"tipo": "cartao", "imagem": "voluntario", "alt": "Seja voluntário: junte-se à equipe de voluntários da Cruz Vermelha Brasileira Rio de Janeiro",
-     "titulo": "Quero ser voluntário da Cruz Vermelha Brasileira Rio de Janeiro", "descricao": "Cadastro rápido no formulário do voluntariado.",
+    {"tipo": "cartao", "imagem": "voluntario", "alt": "Seja voluntário: junte-se à equipe de voluntários da Cruz Vermelha Brasileira Petrópolis",
+     "titulo": "Quero ser voluntário da Cruz Vermelha Brasileira Petrópolis", "descricao": "Cadastro rápido no formulário do voluntariado.",
      "link": "/voluntariado/cadastro/", "id": "voluntario"},
-    {"tipo": "botao", "icone": "fa-solid fa-hand-holding-heart", "titulo": "Doar para a Cruz Vermelha Brasileira Rio de Janeiro",
+    {"tipo": "botao", "icone": "fa-solid fa-hand-holding-heart", "titulo": "Doar para a Cruz Vermelha Brasileira Petrópolis",
      "link": "/doe/?utm_source=ig&utm_medium=social&utm_content=link_in_bio", "id": "doe"},
     {"tipo": "titulo", "texto": "WhatsApp do voluntariado"},
     {"tipo": "botao", "estilo": "claro whatsapp", "icone": "fa-brands fa-whatsapp", "titulo": "Falar com o voluntariado no WhatsApp",
@@ -91,7 +91,7 @@ BLOCOS = [
     {"tipo": "botao", "estilo": "claro", "icone": "fa-brands fa-youtube", "titulo": "Assistir ao canal da filial no YouTube",
      "link": "https://www.youtube.com/@cruzvermelhariodejaneiro-org", "id": "youtube"},
     {"tipo": "titulo", "texto": "Escola de Educação e Saúde"},
-    {"tipo": "cartao", "imagem": "cursos", "alt": "Cursos da Escola de Educação e Saúde, ligada à Cruz Vermelha Brasileira Rio de Janeiro",
+    {"tipo": "cartao", "imagem": "cursos", "alt": "Cursos da Escola de Educação e Saúde, ligada à Cruz Vermelha Brasileira Petrópolis",
      "titulo": "Saiba mais sobre os cursos da escola", "descricao": "Turmas, valores e inscrição na plataforma da escola, a O-CVB Filial Rio de Janeiro Ensino Ltda.",
      "link": "https://escola.cruzvermelhariodejaneiro.org", "id": "escola"},
 ]
@@ -283,14 +283,14 @@ def main() -> int:
   <meta name="robots" content="noindex, follow">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="{esc(TITULO)}">
   <meta property="og:description" content="{esc(DESCRICAO)}">
   <meta property="og:url" content="{URL_PAGINA}">
   <meta property="og:image" content="{IMAGEM_OG}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Faça a diferença ou construa seu futuro: seja voluntário ou faça cursos na Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:image:alt" content="Faça a diferença ou construa seu futuro: seja voluntário ou faça cursos na Cruz Vermelha Brasileira Petrópolis">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{esc(TITULO)}">
   <meta name="twitter:description" content="{esc(DESCRICAO)}">
@@ -313,7 +313,7 @@ def main() -> int:
   <main id="bio">
     <section class="bio-topo" aria-labelledby="bio-titulo">
       <div class="wrap">
-        <img class="bio-avatar" src="img/avatar-256.webp" srcset="img/avatar-256.webp 256w, img/avatar-512.webp 512w" sizes="128px" alt="Cruz Vermelha Brasileira – Rio de Janeiro" width="256" height="256" fetchpriority="high">
+        <img class="bio-avatar" src="img/avatar-256.webp" srcset="img/avatar-256.webp 256w, img/avatar-512.webp 512w" sizes="128px" alt="Cruz Vermelha Brasileira – Petrópolis" width="256" height="256" fetchpriority="high">
         <p class="eyebrow">Instagram · links oficiais</p>
         <h1 id="bio-titulo">{esc(NOME)}</h1>
         <p class="lead">{CHAMADA}</p>
@@ -329,7 +329,7 @@ def main() -> int:
     <section class="bio-faq" aria-labelledby="bio-faq-titulo">
       <div class="wrap">
         <p class="eyebrow">Perguntas frequentes</p>
-        <h2 id="bio-faq-titulo">Voluntariado, doação, cursos e contato da Cruz Vermelha Brasileira Rio de Janeiro</h2>
+        <h2 id="bio-faq-titulo">Voluntariado, doação, cursos e contato da Cruz Vermelha Brasileira Petrópolis</h2>
         {faq}
       </div>
     </section>

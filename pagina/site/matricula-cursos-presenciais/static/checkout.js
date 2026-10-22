@@ -18,8 +18,8 @@
   var INTERVALO_STATUS = 5000;
   var NOTA_ESTORNO = 'Você pode desistir em até 7 dias depois do pagamento e recebe de volta tudo o que pagou. <a href="/reembolso/">Regras de cancelamento e reembolso</a>.';
   var PASSO_03 = 'Antes da primeira aula, você recebe por e-mail e na sua conta as orientações da turma: data, horário, local e o que vestir. A entrada na aula é liberada com a matrícula paga.';
-  var ENDERECO = 'Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro/RJ';
-  var CONTATO = 'contato@cruzvermelhariodejaneiro.org';
+  var ENDERECO = 'Rua Carlos Gomes, 6, Centro, Petrópolis/RJ';
+  var CONTATO = 'cvbpetropolis@gmail.com';
   // Quem vende (decisão 6 do dono). O info.php manda o do config do servidor; este é só o padrão até ele chegar.
   var RECEBEDOR_PADRAO = { nome: 'O-CVB Filial Rio de Janeiro Ensino Ltda', cnpj: '67.733.551/0001-35' };
   // Etapas do topo (spec 1.12 e 10.4): os rótulos da escola, com "Curso escolhido" no lugar de "Contrato".
@@ -164,8 +164,8 @@
     var slug = d.curso && d.curso.slug;
     if (!slug || !/^[a-z0-9-]+$/.test(slug)) return '';
     return '<div class="ck-cert"><img src="/matricula-cursos-presenciais/img/certificado-' + slug + '-640.webp" alt="Modelo do certificado de '
-      + esc(d.curso.nome || '') + ' da Cruz Vermelha Brasileira Rio de Janeiro" width="640" height="452" loading="lazy" onerror="this.parentNode.hidden=true">'
-      + '<p><b>Ao concluir, você recebe o certificado da Escola de Educação e Saúde</b>, empresa ligada à Cruz Vermelha Brasileira Rio de Janeiro, com o seu nome, o curso e a carga horária. <span>Imagem de modelo.</span></p></div>';
+      + esc(d.curso.nome || '') + ' da Cruz Vermelha Brasileira Petrópolis" width="640" height="452" loading="lazy" onerror="this.parentNode.hidden=true">'
+      + '<p><b>Ao concluir, você recebe o certificado da Escola de Educação e Saúde</b>, empresa ligada à Cruz Vermelha Brasileira Petrópolis, com o seu nome, o curso e a carga horária. <span>Imagem de modelo.</span></p></div>';
   }
 
   /* Etapas do PIX (spec 1.13): QR Code gerado (Pronto), Aguardando pagamento, Banco confirma a transação, e o último
@@ -424,7 +424,7 @@
       if (semTurma) {
         var limite = dataLimite();
         var ate = limite ? 'até ' + limite : 'em até ' + ((info && info.espera_prazo_dias) || 90) + ' dias da inscrição';
-        return 'Inclui: aulas presenciais' + carga + ' na primeira turma deste curso que tiver vaga, na Praça da Cruz Vermelha, 10, e o certificado para quem cumprir os requisitos do curso.' + homologacao
+        return 'Inclui: aulas presenciais' + carga + ' na primeira turma deste curso que tiver vaga, na Rua Carlos Gomes, 6, e o certificado para quem cumprir os requisitos do curso.' + homologacao
           + ' Ainda não há turma marcada. Quando a Escola marcar uma, você entra nela, por ordem de pagamento, e recebe por e-mail a data, o horário e o local, pelo menos 10 dias antes da primeira aula.'
           + ' Se a data ou o horário não servirem, avise em até 7 dias depois desse e-mail e você recebe tudo de volta.'
           + ' Se você desistir antes de a turma ser confirmada (você recebe um e-mail quando ela for), também recebe tudo de volta.'
@@ -435,7 +435,7 @@
           + ' No PIX, a devolução feita mais de 90 dias depois do pagamento é uma transferência para uma conta no seu nome. ' + desistencia;
       }
       var naTurma = turma ? 'na turma de ' + turma.data + (turma.horario ? ', das ' + turma.horario.replace(' - ', ' às ') : '') : 'na turma escolhida';
-      return 'Inclui: aulas presenciais' + carga + ' ' + naTurma + ', na Praça da Cruz Vermelha, 10, e o certificado para quem cumprir os requisitos do curso.' + homologacao
+      return 'Inclui: aulas presenciais' + carga + ' ' + naTurma + ', na Rua Carlos Gomes, 6, e o certificado para quem cumprir os requisitos do curso.' + homologacao
         + ' A turma precisa de um número mínimo de alunos; se não for formada ou for adiada, você escolhe outra data ou recebe tudo de volta. ' + desistencia;
     }
 
@@ -858,7 +858,7 @@
     }
     function linhaTurma(t) {
       if (!t || !t.data_longa) return '';
-      return '<p class="ck-turma-linha">Início em ' + esc(t.data_longa) + (t.horario ? ' · ' + esc(t.horario) : '') + ' · Praça da Cruz Vermelha, 10 · Centro</p>';
+      return '<p class="ck-turma-linha">Início em ' + esc(t.data_longa) + (t.horario ? ' · ' + esc(t.horario) : '') + ' · Rua Carlos Gomes, 6 · Centro</p>';
     }
     function matriculaAVista(d) { return d.matricula_preco_centavos ? brl(d.matricula_preco_centavos) + ' à vista' : 'à vista'; }
     /* Quanto da taxa paga em dobro volta, com os juros proporcionais: taxa × total cobrado ÷ amount (spec 2.6). */
@@ -1217,7 +1217,7 @@
         + '<div class="ck-nota">' + esc(d.nome) + ' · chegada registrada às ' + esc(d.chegada) + '</div></div>';
       if (d.status !== 'valida') {
         card.innerHTML = '<h2>Presença cancelada</h2>' + aula
-          + '<p>A secretaria cancelou esta presença, e o comprovante não vale mais. Se foi engano, escreva para contato@cruzvermelhariodejaneiro.org.</p>';
+          + '<p>A secretaria cancelou esta presença, e o comprovante não vale mais. Se foi engano, escreva para cvbpetropolis@gmail.com.</p>';
         return;
       }
       if (!d.disponivel) {
@@ -1260,7 +1260,7 @@
           + '<h2>' + esc(d.tipo) + '</h2>'
           + '<p><b>' + esc(d.nome) + '</b><br><span class="ck-nota">CPF ' + esc(d.cpf) + ' · código ' + esc(d.codigo) + '</span></p>'
           + d.linhas.map(function (l) { return '<div class="ck-linha"><span>' + esc(l[0]) + '</span><b>' + esc(l[1]) + '</b></div>'; }).join('')
-          + '<p class="ck-nota">Estes são os dados que a Cruz Vermelha Brasileira Rio de Janeiro registrou. Confira se batem com o documento que você recebeu.</p>'
+          + '<p class="ck-nota">Estes são os dados que a Cruz Vermelha Brasileira Petrópolis registrou. Confira se batem com o documento que você recebeu.</p>'
           + '<div class="cta-row"><button class="btn btn-outline" type="button" id="cf-outro">Conferir outro código</button></div>';
         q('#cf-outro').addEventListener('click', function () {
           try { history.replaceState(null, '', location.pathname); } catch (e) { /* segue */ }

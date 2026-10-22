@@ -269,7 +269,7 @@ def json_ld(p: dict, paginas: dict) -> str:
 ACAO = """    <section class="inst-acao" aria-labelledby="inst-acao-titulo">
       <div class="wrap">
         <div class="inst-acao-caixa">
-          <h2 id="inst-acao-titulo">Ajude a Cruz Vermelha Brasileira Rio de Janeiro</h2>
+          <h2 id="inst-acao-titulo">Ajude a Cruz Vermelha Brasileira Petrópolis</h2>
           <p>Doe para manter a formação de voluntários e as ações da filial, cadastre-se no voluntariado ou fale com a equipe, que responde pelo e-mail institucional.</p>
           <div class="cta-row">
             <a class="btn btn-red" href="/doe/">Doe agora</a>
@@ -346,7 +346,7 @@ def gerar(p: dict, paginas: dict, partes: dict) -> str:
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:site_name" content="Cruz Vermelha Brasileira Rio de Janeiro">
+  <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="{esc(titulo)}">
   <meta property="og:description" content="{esc(p['descricao_seo'])}">
   <meta property="og:url" content="{url}">

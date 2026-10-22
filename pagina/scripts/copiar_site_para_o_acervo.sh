@@ -52,7 +52,7 @@ fi
 
 echo "Copiando $SITE…"
 ( cd "$tmp" && wget --mirror --page-requisites --no-parent --restrict-file-names=nocontrol --no-verbose \
-    --wait=0.2 --random-wait --user-agent='AcervoCVB-RJ/1.0 (copia do proprio site)' \
+    --wait=0.2 --random-wait --user-agent='AcervoCVB Petrópolis/1.0 (copia do proprio site)' \
     --domains="$dominio,www.$dominio" -e robots=off "$SITE" 2> "$tmp/wget.log" ) || {
   # wget sai com 8 quando algum link dá erro no servidor; a cópia segue com o que respondeu.
   [ $? -eq 8 ] || { tail -5 "$tmp/wget.log" >&2; exit 1; }

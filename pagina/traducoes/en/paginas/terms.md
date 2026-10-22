@@ -1,17 +1,17 @@
 ---
 pagina: terms
-titulo: Terms of Use | Brazilian Red Cross Rio de Janeiro
-descricao: Rules for using the Brazilian Red Cross Rio de Janeiro website: content, the red cross emblem, donations, courses and liability.
+titulo: Terms of Use | Brazilian Red Cross Petrópolis
+descricao: Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, donations, courses and liability.
 h1: Terms of Use
 atualizado: Last updated on 24 September 2026.
 aviso: This is a courtesy translation. The binding version is the Portuguese one, at [cruzvermelhariodejaneiro.org/termos](/termos/).
 ---
 This website is maintained by the Rio de Janeiro State branch of the Brazilian Red Cross to provide information about its humanitarian work, courses and campaigns. By using it, you agree to what is set out here.
 
-> **Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro** (Brazilian Red Cross — Rio de Janeiro State Branch)
-> CNPJ 08.560.973/0001-97
+> **Cruz Vermelha Brasileira — Filial do Município de Petrópolis** (Brazilian Red Cross — Rio de Janeiro State Branch)
+> CNPJ 09.198.238/0001-48
 > Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro/RJ, Brazil, postcode 20230-130
-> E-mail: [contato@cruzvermelhariodejaneiro.org](mailto:contato@cruzvermelhariodejaneiro.org) · Phone: +55 (21) 99992-2864
+> E-mail: [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com) · Phone: +55 (24) 2243-4758
 
 ## Use of content
 

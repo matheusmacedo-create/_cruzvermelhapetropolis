@@ -500,7 +500,7 @@ function mcp_drive_data_brt(string $utc, string $formato = 'd/m/Y H:i'): string
 function mcp_drive_ficha_pdf_simples(array $ficha, string $protocolo): string
 {
     $pdf = new McpPdf();
-    $pdf->metadados('Ficha de cadastro de voluntário — ' . $protocolo, 'Cruz Vermelha Brasileira — Rio de Janeiro', 'Ficha de cadastro de voluntário');
+    $pdf->metadados('Ficha de cadastro de voluntário — ' . $protocolo, 'Cruz Vermelha Brasileira — Petrópolis', 'Ficha de cadastro de voluntário');
     $margem = 56.0;
     $largura = McpPdf::LARGURA - 2 * $margem;
     $y = 80.0;
