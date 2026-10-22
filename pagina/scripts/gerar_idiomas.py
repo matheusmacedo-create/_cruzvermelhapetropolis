@@ -34,7 +34,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 SITE = RAIZ / "site"
 DADOS = SITE / "idiomas.json"
 HOME = SITE / "index.html"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 # O verbete da Wikipédia saiu do rodapé e do sameAs em 19/10/2026 (achado K3: criado pela conta da própria filial). Perfis oficiais iguais aos da home.
 PERFIS = ["https://www.instagram.com/cruzvermelhabrasileirarj/", "https://www.facebook.com/profile.php?id=61591390052128", "https://www.youtube.com/@cruzvermelhariodejaneiro-org"]
 ESCOLA = "https://escola.cursoscruzvermelha.org"

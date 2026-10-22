@@ -65,7 +65,7 @@ DADOS = RAIZ / "site" / "matricula-cursos-presenciais" / "cursos.json"
 SAIDA = Path(os.environ.get("SAIDA_ARQUIVO") or RAIZ / "site" / "matricula-cursos-presenciais" / "index.html")
 PASTA_IMG = RAIZ / "site" / "matricula-cursos-presenciais" / "img"
 
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 URL_PAGINA = f"{ORIGEM}/matricula-cursos-presenciais/"
 ESCOLA = "https://escola.cursoscruzvermelha.org"
 ESCOLA_LOGIN = f"{ESCOLA}/login"

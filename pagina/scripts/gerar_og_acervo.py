@@ -56,7 +56,7 @@ def main() -> int:
     d.text((74, 205), "Acervo", font=titulo, fill="#0f1318")
     for k, linha in enumerate(["Documentos, fotos, vídeos e", "a história da filial"]):
         d.text((80, 395 + k * 50), linha, font=texto, fill="#3d4550")
-    d.text((80, 525), "cruzvermelhariodejaneiro.org/acervo", font=endereco, fill="#cc0000")
+    d.text((80, 525), "cruzvermelhapetropolis.org/acervo", font=endereco, fill="#cc0000")
     d.rectangle([0, altura - 14, largura, altura], fill="#cc0000")
     SAIDA.parent.mkdir(parents=True, exist_ok=True)
     img.save(SAIDA, "JPEG", quality=86, optimize=True, progressive=True)

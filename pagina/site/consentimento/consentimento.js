@@ -7,7 +7,7 @@
  * Segundo nível ("Personalizar"): as categorias, com estatística e marketing desligados até a pessoa ligar,
  * e o detalhe de cada uma (o que vai à Meta pelo servidor está na categoria Marketing). Camadas, como admite
  * o Guia de Cookies da ANPD; o texto completo também está na Política de Cookies.
- * A escolha fica no cookie cvrj_consentimento (necessário), em todo *.cruzvermelhariodejaneiro.org,
+ * A escolha fica no cookie cvrj_consentimento (necessário), em todo *.cruzvermelhapetropolis.org,
  * por 12 meses: quem escolheu no site principal não é perguntado de novo nos subdomínios.
  *
  * Quem baixa o Google Analytics e o Pixel da Meta é o bloco de medição do <head>
@@ -31,9 +31,9 @@
   // porque os outros sites (Punção, Redação, Escola) leem v=1 e ignoram o r.
   var REVISAO = 2;
   var VALIDADE_S = 365 * 24 * 60 * 60;
-  var DOMINIO = /(^|\.)cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '.cruzvermelhariodejaneiro.org' : '';
+  var DOMINIO = /(^|\.)cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '.cruzvermelhapetropolis.org' : '';
   // As políticas moram no site principal: num subdomínio (Impacto das Cores), o link leva o endereço completo.
-  var ORIGEM = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) || !DOMINIO ? '' : 'https://cruzvermelhariodejaneiro.org';
+  var ORIGEM = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) || !DOMINIO ? '' : 'https://cruzvermelhapetropolis.org';
 
   var TEXTOS = {
     pt: {

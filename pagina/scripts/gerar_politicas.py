@@ -144,7 +144,7 @@ PAGINA_PT = """<!DOCTYPE html>
   <meta property="og:url" content="@@URL@@">
   <meta property="og:title" content="@@TITULO@@">
   <meta property="og:description" content="@@DESCRICAO@@">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">

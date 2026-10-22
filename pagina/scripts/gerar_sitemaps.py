@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera os sitemaps do domínio cruzvermelhariodejaneiro.org para o Google Search Console.
+"""Gera os sitemaps do domínio cruzvermelhapetropolis.org para o Google Search Console.
 
 Saídas (em site/, publicadas na raiz do public_html):
 
@@ -44,8 +44,8 @@ import gerar_idiomas as idiomas
 
 RAIZ = Path(__file__).resolve().parent.parent
 SITE = RAIZ / "site"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
-AGENTE = "cvb-rj-sitemap/2.0 (+https://cruzvermelhariodejaneiro.org/)"
+ORIGEM = "https://cruzvermelhapetropolis.org"
+AGENTE = "cvb-rj-sitemap/2.0 (+https://cruzvermelhapetropolis.org/)"
 
 # Páginas fixas do domínio principal: (caminho, arquivo local com as imagens ou None, changefreq, priority, nota)
 # Desde 05/10/2026 /verificar/, /transparencia/ e /canais-oficiais/ são públicas (abertura da trilha). As duas
@@ -349,13 +349,13 @@ def gerar_subdominios() -> tuple[str, int]:
         imagens = conferir_imagens(imagens_de(corpo, url))
         entradas.append(entrada(url, lastmod, changefreq, priority, imagens))
         print(f"  lastmod {lastmod or '(sem fonte)'} · {len(imagens)} imagens")
-    return urlset("Landing pages nos subdomínios de cruzvermelhariodejaneiro.org (propriedade de domínio no Search Console).", entradas), len(entradas)
+    return urlset("Landing pages nos subdomínios de cruzvermelhapetropolis.org (propriedade de domínio no Search Console).", entradas), len(entradas)
 
 
 def gerar_indice(gerados: list[str]) -> str:
     linhas = ['<?xml version="1.0" encoding="UTF-8"?>',
               "<!-- Índice de sitemaps da Cruz Vermelha Brasileira, filial Rio de Janeiro. Envie este endereço no Google\n"
-              f"     Search Console (propriedade de domínio cruzvermelhariodejaneiro.org). Gerado por scripts/gerar_sitemaps.py em {agora_w3c()}.\n"
+              f"     Search Console (propriedade de domínio cruzvermelhapetropolis.org). Gerado por scripts/gerar_sitemaps.py em {agora_w3c()}.\n"
               "     sitemap.xml é mantido pela Redação (regenerado a cada notícia); os outros dois vêm deste repositório. -->",
               f'<sitemapindex xmlns="{NS_SITEMAP}">']
     for nome in gerados:

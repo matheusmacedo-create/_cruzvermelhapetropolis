@@ -30,7 +30,7 @@ PAGINAS_MANUAIS = ["site/equipe.html", "site/campanha-agasalho.html", "site/doac
 # Páginas servidas em outro host (subdomínio com pasta dentro de public_html): a tag do aviso vai
 # com o endereço completo do site principal, porque /consentimento/ não existe nesse host.
 PAGINAS_OUTRO_HOST = ["site/projetocores/index.html"]
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 TAG = re.compile(r'<script src="/consentimento/consentimento\.js\?v=[0-9a-f]{10}" defer></script>')
 
 

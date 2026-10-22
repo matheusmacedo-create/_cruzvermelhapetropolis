@@ -27,7 +27,7 @@ from gerar_matricula_presencial import HOME, RAIZ, esc, partes_da_home
 PASTA = RAIZ / "site" / "doe"
 STATIC = PASTA / "static"
 STATIC_URL = "/doe/static/"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 # A doação online ficou suspensa de 25/09 a 19/10/2026 (/doe/ respondia 503 pelos .htaccess das três pastas).
 # Religada em 19/10/2026 (decisão do Matheus, segunda recusa do Ad Grants): True aqui e em gerar_idiomas.py,
 # sem os .htaccess. Com False, este script só regenera as páginas (/doe/obrigado/ fica no ar para quem já doou)
@@ -121,10 +121,10 @@ PAGINA = """<!DOCTYPE html>
   <meta name="description" content="@@DESCRICAO@@">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="@@URL@@">
-  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/doe/">
-  <link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/donate/">
-  <link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/donar/">
-  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/doe/">
+  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhapetropolis.org/doe/">
+  <link rel="alternate" hreflang="en" href="https://cruzvermelhapetropolis.org/en/donate/">
+  <link rel="alternate" hreflang="es" href="https://cruzvermelhapetropolis.org/es/donar/">
+  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhapetropolis.org/doe/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:locale" content="pt_BR">

@@ -268,7 +268,7 @@ function mcp_doc_montar_email_equipe(array $c, array $d, array $arquivos): array
         'html' => mcp_moldura("Pedido de documento de " . mcp_primeiro_nome($nome), $corpo, [
             'eyebrow' => "Pedido de documento · $protocolo",
             'preheader' => mb_substr("$documento — " . $d['finalidade'], 0, 140),
-            'motivo' => 'Aviso automático da página de pedido de documentos de cruzvermelhariodejaneiro.org para ' . mcp_email_contato_endereco() . '.',
+            'motivo' => 'Aviso automático da página de pedido de documentos de cruzvermelhapetropolis.org para ' . mcp_email_contato_endereco() . '.',
         ]),
         'texto' => $texto,
     ];
@@ -305,7 +305,7 @@ function mcp_doc_montar_email_confirmacao(array $c, array $d, array $arquivos): 
         'html' => mcp_moldura("Recebemos seu pedido, $nome.", $corpo, [
             'eyebrow' => 'Pedido de documento',
             'preheader' => "Protocolo $protocolo. A resposta chega por e-mail em até " . MCP_DOC_PRAZO . '.',
-            'motivo' => 'Você recebeu este e-mail porque fez um pedido de documento em cruzvermelhariodejaneiro.org.',
+            'motivo' => 'Você recebeu este e-mail porque fez um pedido de documento em cruzvermelhapetropolis.org.',
         ]),
         'texto' => $texto,
     ];

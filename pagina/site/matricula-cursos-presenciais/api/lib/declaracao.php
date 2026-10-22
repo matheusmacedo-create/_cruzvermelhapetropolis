@@ -56,7 +56,7 @@ function mcp_conferir_url(string $codigo): string
     return mcp_site_url() . '/conferir/?c=' . rawurlencode($codigo);
 }
 
-/** Endereço curto, para imprimir: "cruzvermelhariodejaneiro.org/conferir". */
+/** Endereço curto, para imprimir: "cruzvermelhapetropolis.org/conferir". */
 function mcp_conferir_url_curta(): string
 {
     return preg_replace('#^https?://#', '', mcp_site_url()) . '/conferir';

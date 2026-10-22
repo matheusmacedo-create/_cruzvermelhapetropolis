@@ -1035,7 +1035,7 @@ function mcp_ponto_termo_conteudo(array $colaborador, ?string $agoraUtc = null):
                 . 'para realizá-las e emitir, a pedido, a declaração das horas registradas.'],
             ['8. Dados pessoais', 'A ENTIDADE trata os dados do(a) VOLUNTÁRIO(A) (nome, CPF, contatos, função e os horários registrados no ponto da sede) '
                 . 'para executar este Termo, cumprir obrigações legais e contábeis e garantir a segurança da sede, na forma da Lei nº 13.709/2018 (LGPD) e '
-                . 'da Política de Privacidade publicada em cruzvermelhariodejaneiro.org/privacidade. Os registros são guardados enquanto durar o voluntariado '
+                . 'da Política de Privacidade publicada em cruzvermelhapetropolis.org/privacidade. Os registros são guardados enquanto durar o voluntariado '
                 . 'e por até 5 anos depois do seu fim.'],
             ['9. Vigência e desligamento', 'Este Termo vale por prazo indeterminado, a partir da assinatura, e pode ser encerrado por qualquer das partes a '
                 . 'qualquer tempo, por simples comunicação, sem ônus para nenhuma delas.'],

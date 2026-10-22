@@ -10,7 +10,7 @@ Ad Grants, 19/10/2026): a home é institucional. Elas continuam em /noticias/. A
 data-fora do bloco, para o script da home, que refaz a lista no navegador a partir do mesmo índice (assim a
 home acompanha a Redação sem esperar a próxima publicação de site/index.html).
 
-Uso:  python3 scripts/gerar_noticias_home.py                 (lê https://cruzvermelhariodejaneiro.org/noticias/)
+Uso:  python3 scripts/gerar_noticias_home.py                 (lê https://cruzvermelhapetropolis.org/noticias/)
       python3 scripts/gerar_noticias_home.py caminho.html    (lê um índice salvo)
 Depois: publicar site/index.html. Na ordem de geração do README, roda junto com gerar_faq_home.py.
 """
@@ -25,8 +25,8 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 HOME = RAIZ / "site" / "index.html"
-INDICE = "https://cruzvermelhariodejaneiro.org/noticias/"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+INDICE = "https://cruzvermelhapetropolis.org/noticias/"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 MARCA_INI = "<!-- noticias:inicio -->"
 MARCA_FIM = "<!-- noticias:fim -->"
 QUANTAS = 3

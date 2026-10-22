@@ -7,22 +7,22 @@
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <title>Cruz Vermelha Brasileira Petrópolis | Links oficiais</title>
   <meta name="description" content="Links oficiais da Cruz Vermelha Brasileira Petrópolis: cadastro de voluntário, doação, WhatsApp do voluntariado, canal no YouTube e os cursos da escola ligada à filial.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/bio/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/bio/">
   <meta name="robots" content="noindex, follow">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="Cruz Vermelha Brasileira Petrópolis | Links oficiais">
   <meta property="og:description" content="Links oficiais da Cruz Vermelha Brasileira Petrópolis: cadastro de voluntário, doação, WhatsApp do voluntariado, canal no YouTube e os cursos da escola ligada à filial.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/bio/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/bio/img/og-bio.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/bio/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/bio/img/og-bio.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Faça a diferença ou construa seu futuro: seja voluntário ou faça cursos na Cruz Vermelha Brasileira Petrópolis">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cruz Vermelha Brasileira Petrópolis | Links oficiais">
   <meta name="twitter:description" content="Links oficiais da Cruz Vermelha Brasileira Petrópolis: cadastro de voluntário, doação, WhatsApp do voluntariado, canal no YouTube e os cursos da escola ligada à filial.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/bio/img/og-bio.jpg">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/bio/img/og-bio.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -120,12 +120,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -135,13 +137,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -191,7 +193,7 @@
       aplicar();
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
 
   <script type="application/ld+json">
@@ -203,13 +205,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Início",
-      "item": "https://cruzvermelhariodejaneiro.org/"
+      "item": "https://cruzvermelhapetropolis.org/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Links",
-      "item": "https://cruzvermelhariodejaneiro.org/bio/"
+      "item": "https://cruzvermelhapetropolis.org/bio/"
     }
   ]
 }
@@ -218,20 +220,20 @@
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "@id": "https://cruzvermelhariodejaneiro.org/bio/#pagina",
-  "url": "https://cruzvermelhariodejaneiro.org/bio/",
+  "@id": "https://cruzvermelhapetropolis.org/bio/#pagina",
+  "url": "https://cruzvermelhapetropolis.org/bio/",
   "name": "Cruz Vermelha Brasileira Petrópolis | Links oficiais",
   "description": "Links oficiais da Cruz Vermelha Brasileira Petrópolis: cadastro de voluntário, doação, WhatsApp do voluntariado, canal no YouTube e os cursos da escola ligada à filial.",
   "inLanguage": "pt-BR",
   "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#site"
+    "@id": "https://cruzvermelhapetropolis.org/#site"
   },
   "about": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+    "@id": "https://cruzvermelhapetropolis.org/#organizacao"
   },
   "primaryImageOfPage": {
     "@type": "ImageObject",
-    "url": "https://cruzvermelhariodejaneiro.org/bio/img/og-bio.jpg",
+    "url": "https://cruzvermelhapetropolis.org/bio/img/og-bio.jpg",
     "width": 1200,
     "height": 630
   },
@@ -371,7 +373,7 @@
       <div class="wrap">
         <p class="eyebrow">Perguntas frequentes</p>
         <h2 id="bio-faq-titulo">Voluntariado, doação, cursos e contato da Cruz Vermelha Brasileira Petrópolis</h2>
-        <details><summary>Como ser voluntário da Cruz Vermelha no Rio de Janeiro?</summary><p>Preencha o cadastro no formulário oficial do voluntariado, no botão acima. As novas entradas abrem em janeiro de 2027: só nessa época a equipe do voluntariado entra em contato por e-mail com todos os cadastrados, para a ficha de entrevista. Dúvidas antes de se cadastrar podem ser tiradas no WhatsApp do voluntariado ou no chat deste site.</p></details><details><summary>Quais cursos a Cruz Vermelha Brasileira Petrópolis oferece?</summary><p>Há dois caminhos. A filial forma de graça os próprios voluntários, depois da seleção (veja a <a href="https://cruzvermelhariodejaneiro.org/cursos-gratuitos/">formação de voluntários</a>); não há curso gratuito aberto ao público. E a Escola de Educação e Saúde, a O-CVB Filial Rio de Janeiro Ensino Ltda, empresa ligada à filial, vende e certifica os cursos pagos: primeiros socorros (básico e Lei Lucas), suporte básico de vida, punção venosa, bombeiro civil e cuidador de idosos, todos presenciais na sede, no Centro do Rio. As turmas e os valores completos estão na plataforma da escola; a inscrição é feita na página de matrícula em cursos presenciais.</p></details><details><summary>Como falar com o voluntariado da Cruz Vermelha Brasileira Petrópolis?</summary><p>Pelo WhatsApp do voluntariado, no botão acima: é o número exclusivo dessa equipe, diferente da secretaria de cursos. Para cursos, matrícula, campanhas e parcerias, use o chat de contato deste site: a equipe responde por e-mail em até 3 dias úteis.</p></details><details><summary>Como ajudar a Cruz Vermelha no Rio de Janeiro?</summary><p>Sendo voluntário, com o cadastro no formulário oficial, no botão acima; doando pela <a href="https://cruzvermelhariodejaneiro.org/doe/">página de doação</a>, por PIX ou cartão; ou entregando roupas de frio, cobertores e calçados na sede, pela <a href="https://cruzvermelhariodejaneiro.org/campanha-agasalho.html">Campanha do Agasalho</a>. Empresas e escolas que queiram propor uma parceria podem usar o chat de contato deste site.</p></details><details><summary>Onde fica a Cruz Vermelha no Rio de Janeiro?</summary><p>Na Rua Carlos Gomes, 6, Centro, Petrópolis, CEP 25680-120. É na sede que acontecem os cursos presenciais e a formação de voluntários.</p></details>
+        <details><summary>Como ser voluntário da Cruz Vermelha no Rio de Janeiro?</summary><p>Preencha o cadastro no formulário oficial do voluntariado, no botão acima. As novas entradas abrem em janeiro de 2027: só nessa época a equipe do voluntariado entra em contato por e-mail com todos os cadastrados, para a ficha de entrevista. Dúvidas antes de se cadastrar podem ser tiradas no WhatsApp do voluntariado ou no chat deste site.</p></details><details><summary>Quais cursos a Cruz Vermelha Brasileira Petrópolis oferece?</summary><p>Há dois caminhos. A filial forma de graça os próprios voluntários, depois da seleção (veja a <a href="https://cruzvermelhapetropolis.org/cursos-gratuitos/">formação de voluntários</a>); não há curso gratuito aberto ao público. E a Escola de Educação e Saúde, a O-CVB Filial Rio de Janeiro Ensino Ltda, empresa ligada à filial, vende e certifica os cursos pagos: primeiros socorros (básico e Lei Lucas), suporte básico de vida, punção venosa, bombeiro civil e cuidador de idosos, todos presenciais na sede, no Centro do Rio. As turmas e os valores completos estão na plataforma da escola; a inscrição é feita na página de matrícula em cursos presenciais.</p></details><details><summary>Como falar com o voluntariado da Cruz Vermelha Brasileira Petrópolis?</summary><p>Pelo WhatsApp do voluntariado, no botão acima: é o número exclusivo dessa equipe, diferente da secretaria de cursos. Para cursos, matrícula, campanhas e parcerias, use o chat de contato deste site: a equipe responde por e-mail em até 3 dias úteis.</p></details><details><summary>Como ajudar a Cruz Vermelha no Rio de Janeiro?</summary><p>Sendo voluntário, com o cadastro no formulário oficial, no botão acima; doando pela <a href="https://cruzvermelhapetropolis.org/doe/">página de doação</a>, por PIX ou cartão; ou entregando roupas de frio, cobertores e calçados na sede, pela <a href="https://cruzvermelhapetropolis.org/campanha-agasalho.html">Campanha do Agasalho</a>. Empresas e escolas que queiram propor uma parceria podem usar o chat de contato deste site.</p></details><details><summary>Onde fica a Cruz Vermelha no Rio de Janeiro?</summary><p>Na Rua Carlos Gomes, 6, Centro, Petrópolis, CEP 25680-120. É na sede que acontecem os cursos presenciais e a formação de voluntários.</p></details>
       </div>
     </section>
   </main>

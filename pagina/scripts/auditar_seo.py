@@ -23,23 +23,23 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
 
 PADRAO = [
-    "https://cruzvermelhariodejaneiro.org/",
-    "https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/",
-    "https://cruzvermelhariodejaneiro.org/doe/",
-    "https://cruzvermelhariodejaneiro.org/campanha-agasalho.html",
-    "https://cruzvermelhariodejaneiro.org/equipe.html",
-    "https://cruzvermelhariodejaneiro.org/historia/",
-    "https://cruzvermelhariodejaneiro.org/noticias/",
-    "https://cruzvermelhariodejaneiro.org/noticias/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida/",
-    "https://cruzvermelhariodejaneiro.org/termos/",
-    "https://cruzvermelhariodejaneiro.org/privacidade/",
-    "https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/checkout/",
+    "https://cruzvermelhapetropolis.org/",
+    "https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/",
+    "https://cruzvermelhapetropolis.org/doe/",
+    "https://cruzvermelhapetropolis.org/campanha-agasalho.html",
+    "https://cruzvermelhapetropolis.org/equipe.html",
+    "https://cruzvermelhapetropolis.org/historia/",
+    "https://cruzvermelhapetropolis.org/noticias/",
+    "https://cruzvermelhapetropolis.org/noticias/setembro-amarelo-cruz-vermelha-rj-e-a-valorizacao-da-vida/",
+    "https://cruzvermelhapetropolis.org/termos/",
+    "https://cruzvermelhapetropolis.org/privacidade/",
+    "https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/checkout/",
     "https://projetocores.cruzvermelhariodejaneiro.org/",
     "https://puncaovenosav1.cruzvermelhariodejaneiro.org/",
     "https://escola.cursoscruzvermelha.org/",
     "https://escola.cursoscruzvermelha.org/cursos",
 ]
-AGENTE = "Mozilla/5.0 (compatible; cvb-rj-seo-audit/1.0; +https://cruzvermelhariodejaneiro.org/)"
+AGENTE = "Mozilla/5.0 (compatible; cvb-rj-seo-audit/1.0; +https://cruzvermelhapetropolis.org/)"
 
 
 class Coletor(HTMLParser):

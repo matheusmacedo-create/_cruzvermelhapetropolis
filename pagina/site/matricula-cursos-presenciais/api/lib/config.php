@@ -64,7 +64,7 @@ function mcp_cfg(string $chave, mixed $padrao = null): mixed
 
 function mcp_site_url(): string
 {
-    return rtrim((string) mcp_cfg('SITE_URL', 'https://cruzvermelhariodejaneiro.org'), '/');
+    return rtrim((string) mcp_cfg('SITE_URL', 'https://cruzvermelhapetropolis.org'), '/');
 }
 
 function mcp_url_pagina(string $pagina, string $token = ''): string

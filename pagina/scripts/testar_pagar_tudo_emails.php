@@ -14,7 +14,7 @@ $raiz = dirname(__DIR__);
 $tmp = sys_get_temp_dir();
 $config = tempnam($tmp, 'mcp-config-');
 file_put_contents($config, "<?php return [
-    'SITE_URL' => 'https://cruzvermelhariodejaneiro.org', 'INSCRICAO_CENTAVOS' => '', 'PRECO_TESTE_CENTAVOS' => '',
+    'SITE_URL' => 'https://cruzvermelhapetropolis.org', 'INSCRICAO_CENTAVOS' => '', 'PRECO_TESTE_CENTAVOS' => '',
     'TAXA_PIX_PCT' => 5.0, 'TAXA_PIX_FIXA' => 0, 'TAXA_CARTAO_PCT' => 5.0, 'TAXA_CARTAO_FIXA' => 0,
     'ESCOLA_API_URL' => 'https://escola.exemplo.invalid/rest/v1/rpc/matricula_rapida', 'ESCOLA_URL' => 'https://escola.cursoscruzvermelha.org', 'EMAIL_CONTATO' => 'cvbpetropolis@gmail.com',
 ];");

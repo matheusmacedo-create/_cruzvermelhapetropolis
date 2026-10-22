@@ -151,7 +151,7 @@ $portaSite = porta_livre();
 $falso = proc_open(['python3', "$dir/falso.py", (string) $portaFalso, $dir], [1 => ['file', '/dev/null', 'w'], 2 => ['file', "$dir/falso.err", 'w']], $p1);
 $falsoUrl = "https://127.0.0.1:$portaFalso";
 $configBase = [
-    'SITE_URL' => 'https://cruzvermelhariodejaneiro.org',
+    'SITE_URL' => 'https://cruzvermelhapetropolis.org',
     'DB_HOST' => '127.0.0.1', 'DB_PORT' => (int) (getenv('MCP_TESTE_DB_PORTA') ?: 3306), 'DB_NAME' => $banco, 'DB_USER' => $usuario, 'DB_SENHA' => $senha,
     'UNICO_API_KEY' => 'chave-falsa', 'UNICO_BASE_URL' => $falsoUrl,
     'RESEND_API_KEY' => 'chave-falsa', 'RESEND_API_URL' => "$falsoUrl/emails",
@@ -193,7 +193,7 @@ function pedir(string $metodo, string $caminho, ?array $corpo = null, array $coo
 {
     global $portaSite;
     $ch = curl_init("http://127.0.0.1:$portaSite/matricula-cursos-presenciais/api/$caminho");
-    $padrao = ['Origin' => 'Origin: https://cruzvermelhariodejaneiro.org', 'User-Agent' => 'User-Agent: Mozilla/5.0 (Teste de integração)', 'Accept' => 'Accept: application/json'];
+    $padrao = ['Origin' => 'Origin: https://cruzvermelhapetropolis.org', 'User-Agent' => 'User-Agent: Mozilla/5.0 (Teste de integração)', 'Accept' => 'Accept: application/json'];
     foreach ($extras as $extra) {
         unset($padrao[strstr($extra, ':', true)]); // o extra substitui o padrão ("Origin:" vazio = sem Origin, como um servidor)
     }
@@ -324,7 +324,7 @@ verificar('banco: colunas novas da inscrição (meta_fbc com 600 para o fbclid i
     ['meta_fbc' => 'varchar(600)', 'meta_fbp' => 'varchar(255)', 'meta_ip' => 'varchar(45)', 'meta_marketing' => 'tinyint(1)', 'meta_revisao' => 'tinyint unsigned', 'meta_ua' => 'varchar(512)']);
 
 // ----------------------------------------------------------------------------- repasse das páginas
-$pv = ['evento' => 'PageView', 'id' => 'pv.mgb2k1.a8f3k2l1', 'url' => 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/parabens/?t=' . str_repeat('a', 40) . '&utm_source=ig&fbclid=IwAR0abc'];
+$pv = ['evento' => 'PageView', 'id' => 'pv.mgb2k1.a8f3k2l1', 'url' => 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/parabens/?t=' . str_repeat('a', 40) . '&utm_source=ig&fbclid=IwAR0abc'];
 $r = pedir('POST', 'medicao.php', $pv);
 verificar('repasse sem escolha: 204 e nada à Meta', [$r['http'], count(eventos_meta($marca))], [204, 0]);
 pedir('POST', 'medicao.php', $pv, $NAO);
@@ -344,18 +344,18 @@ $e = eventos_meta($marca);
 verificar('repasse do PageView com "sim"', [$r['http'], count($e), $e[0]['event_name'] ?? null, $e[0]['event_id'] ?? null, $e[0]['action_source'] ?? null], [204, 1, 'PageView', 'pv.mgb2k1.a8f3k2l1', 'website']);
 verificar('repasse: endereço sem o t=, token no corpo e não na URL, versão e pixel no caminho', [
     $e[0]['event_source_url'] ?? null, $e[0]['_token'] ?? null, $e[0]['_consulta'] ?? null, (bool) preg_match('#^/v\d+\.\d/2224500131617302/events$#', $e[0]['_caminho'] ?? ''),
-], ['https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/parabens/?utm_source=ig&fbclid=IwAR0abc', 'token-de-teste', '', true]);
+], ['https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/parabens/?utm_source=ig&fbclid=IwAR0abc', 'token-de-teste', '', true]);
 verificar('repasse: anônimo, com IP, navegador, _fbp e fbc do fbclid', [array_keys($e[0]['user_data'] ?? []), $e[0]['user_data']['client_ip_address'] ?? null,
     $e[0]['user_data']['client_user_agent'] ?? null, $e[0]['user_data']['fbp'] ?? null, (bool) preg_match('/^fb\.1\.\d{13}\.IwAR0abc$/', $e[0]['user_data']['fbc'] ?? '')],
     [['client_ip_address', 'client_user_agent', 'fbp', 'fbc'], '127.0.0.1', 'Mozilla/5.0 (Teste de integração)', 'fb.1.1790940000123.1234567890', true]);
-pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.a8f3k2l1', 'url' => 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/', 'curso' => 'puncao-venosa'], $SIM);
+pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.a8f3k2l1', 'url' => 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/', 'curso' => 'puncao-venosa'], $SIM);
 pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.zzzzzzzz', 'curso' => 'curso-que-nao-existe'], $SIM);
 $e = eventos_meta($marca);
 verificar('repasse do ViewContent com os dados do catálogo (curso inexistente não vai)', [count($e), $e[0]['custom_data']['content_ids'] ?? null, $e[0]['custom_data']['value'] ?? null, $e[0]['custom_data']['currency'] ?? null],
     [1, ['puncao-venosa'], 99, 'BRL']);
 // Página do Dia das Crianças: ViewContent e Schedule ("salvar na agenda") com a chave da página; os dados saem do
 // servidor. Schedule sem a chave, chave desconhecida ou em lista, e evento que não é da página não vão.
-$urlCriancas = 'https://cruzvermelhariodejaneiro.org/dia-das-criancas/?utm_source=whatsapp';
+$urlCriancas = 'https://cruzvermelhapetropolis.org/dia-das-criancas/?utm_source=whatsapp';
 pedir('POST', 'medicao.php', ['evento' => 'ViewContent', 'id' => 'vc.mgb2k1.criancas', 'url' => $urlCriancas, 'conteudo' => 'dia-das-criancas-2026'], $SIM);
 pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.criancas', 'url' => $urlCriancas, 'conteudo' => 'dia-das-criancas-2026'], $SIM);
 pedir('POST', 'medicao.php', ['evento' => 'Schedule', 'id' => 'sc.mgb2k1.semchave'], $SIM);
@@ -373,7 +373,7 @@ verificar('Dia das Crianças: ViewContent e Schedule com os dados do servidor; o
 // ----------------------------------------------------------------------------- cobrança, postback e Purchase
 $aluno = ['curso' => 'puncao-venosa', 'nome' => 'Maria da Silva Teste', 'cpf' => cpf_ficticio('900000001'), 'email' => 'Maria.Teste@Exemplo.org', 'telefone' => '(21) 99999-8888',
     'metodo' => 'pix', 'cobre_taxa' => false, 'requisitos' => true, 'site' => '', 'origem' => ['utm_source' => 'ig', 'fbclid' => 'IwAR0abc'], 'evento_id' => 'lead.mgb2k1.a8f3k2l1'];
-$r = pedir('POST', 'pagamentos.php', $aluno, $SIM, ['Referer: https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/checkout/?curso=puncao-venosa&t=x']);
+$r = pedir('POST', 'pagamentos.php', $aluno, $SIM, ['Referer: https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/checkout/?curso=puncao-venosa&t=x']);
 $token = (string) ($r['corpo']['token'] ?? '');
 $e = eventos_meta($marca);
 $nomes = array_column($e, 'event_name');
@@ -384,7 +384,7 @@ verificar('cobrança: dados da pessoa em hash (e-mail, telefone com 55, nome, to
     $u['em'] ?? null, $u['ph'] ?? null, $u['fn'] ?? null, $u['ln'] ?? null, $u['external_id'] ?? null, $u['country'] ?? null,
     $u['client_ip_address'] ?? null, $u['fbp'] ?? null, $e[0]['event_source_url'] ?? null,
 ], [hash('sha256', 'maria.teste@exemplo.org'), hash('sha256', '5521999998888'), hash('sha256', 'maria'), hash('sha256', 'da silva teste'), hash('sha256', $token),
-    hash('sha256', 'br'), '127.0.0.1', 'fb.1.1790940000123.1234567890', 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/checkout/?curso=puncao-venosa']);
+    hash('sha256', 'br'), '127.0.0.1', 'fb.1.1790940000123.1234567890', 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/checkout/?curso=puncao-venosa']);
 verificar('cobrança: o CPF não vai à Meta, nem em hash', str_contains(json_encode($e), hash('sha256', cpf_ficticio('900000001'))) || str_contains(json_encode($e), cpf_ficticio('900000001')), false);
 $linha = $pdo->query("SELECT * FROM mcp_inscricoes WHERE token = " . $pdo->quote($token))->fetch() ?: [];
 verificar('inscrição guarda a escolha, a revisão do texto, a data dela e os sinais do navegador (com o IP) para o Purchase', [$linha['meta_marketing'] ?? null, $linha['meta_revisao'] ?? null, !empty($linha['meta_marketing_em']),
@@ -479,7 +479,7 @@ $r = pedir('POST', 'contato.php', $contato, $SIM);
 $e = eventos_meta($marca);
 verificar('chat com "sim": Contact com o id do chat, e-mail em hash e página limpa', [$r['http'], array_column($e, 'event_name'), $e[0]['event_id'] ?? null,
     $e[0]['user_data']['em'] ?? null, isset($e[0]['user_data']['ph']), $e[0]['event_source_url'] ?? null],
-    [201, ['Contact'], 'ct.mgb2k1.a8f3k2l1', hash('sha256', 'ana@exemplo.org'), false, 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/?utm_source=ig']);
+    [201, ['Contact'], 'ct.mgb2k1.a8f3k2l1', hash('sha256', 'ana@exemplo.org'), false, 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/?utm_source=ig']);
 
 // Formulário de doação de brinquedos da página do Dia das Crianças: o mesmo contato.php, com assunto próprio.
 $doacao = ['nome' => 'Beatriz Souza', 'email' => 'bia@exemplo.org', 'telefone' => '(21) 98765-4321', 'assunto' => 'brinquedos', 'curso' => 'puncao-venosa',

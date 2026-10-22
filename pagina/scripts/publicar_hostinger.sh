@@ -2,7 +2,7 @@
 # Publica arquivos de site/ no public_html do site principal (Hostinger) via TUS.
 #
 # Antes, gere as credenciais temporárias na API da Hostinger ("Generate upload URL" do
-# website cruzvermelhariodejaneiro.org, conta u448697994; valem algumas horas) e exporte:
+# website cruzvermelhapetropolis.org, conta u448697994; valem algumas horas) e exporte:
 #   export HOSTINGER_TUS_URL="https://srvNNN-files.hstgr.io/rest/<id>/api/tus/public_html"
 #   export HOSTINGER_TUS_AUTH="<auth_key>"
 #   export HOSTINGER_TUS_AUTH_REST="<rest_auth_key>"

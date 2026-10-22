@@ -7,21 +7,21 @@
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <title>Os 7 Princípios Fundamentais – Cruz Vermelha Petrópolis</title>
   <meta name="description" content="Humanidade, imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade: o texto oficial e como a filial do Rio os aplica.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/principios-fundamentais/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/principios-fundamentais/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="Os 7 Princípios Fundamentais – Cruz Vermelha Petrópolis">
   <meta property="og:description" content="Humanidade, imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade: o texto oficial e como a filial do Rio os aplica.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/principios-fundamentais/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/principios-fundamentais/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Os 7 Princípios Fundamentais – Cruz Vermelha Petrópolis">
   <meta name="twitter:description" content="Humanidade, imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade: o texto oficial e como a filial do Rio os aplica.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -146,12 +146,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -161,13 +163,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -217,7 +219,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
   <script type="application/ld+json">
 {
@@ -225,19 +227,19 @@
  "@graph": [
   {
    "@type": "WebPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#pagina",
-   "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/",
+   "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#pagina",
+   "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/",
    "name": "Os 7 Princípios Fundamentais da Cruz Vermelha",
    "description": "Humanidade, imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade: o texto oficial e como a filial do Rio os aplica.",
    "inLanguage": "pt-BR",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#site"
+    "@id": "https://cruzvermelhapetropolis.org/#site"
    },
    "publisher": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+    "@id": "https://cruzvermelhapetropolis.org/#organizacao"
    },
    "breadcrumb": {
-    "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#trilha"
+    "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#trilha"
    },
    "dateModified": "2026-10-15",
    "citation": [
@@ -251,22 +253,22 @@
     "https://alerjln1.alerj.rj.gov.br/contlei.nsf/c8aa0900025feef6032564ec0060dfff/592ba21d1eb9875a03258987006dbb6e?OpenDocument"
    ],
    "image": [
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/jean-pictet-1937-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/desenhos/principios-icones.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-primeiros-socorros-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-acao-1-th.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/bandeira-suica.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cruz-vermelha.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-profilaxia-inauguracao-th.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/equipe-corredor-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cruz-roja-chilena-rcp-2012-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/crescente-vermelho-tunisino-2021-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cartaz-cruz-vermelha-brasileira-1914-1918-619.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-holanda-th.webp"
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/jean-pictet-1937-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/desenhos/principios-icones.svg",
+    "https://cruzvermelhapetropolis.org/assets/otim/dia-criancas-primeiros-socorros-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-ac-acao-1-th.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-distribuicao-donativos-550.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/bandeira-suica.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cruz-vermelha.svg",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-ac-profilaxia-inauguracao-th.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/equipe-corredor-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/cruz-roja-chilena-rcp-2012-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/crescente-vermelho-tunisino-2021-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/cartaz-cruz-vermelha-brasileira-1914-1918-619.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-ac-holanda-th.webp"
    ],
    "mainEntity": {
-    "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+    "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
    },
    "isBasedOn": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/decreto/d8885.htm",
    "about": {
@@ -277,111 +279,111 @@
   },
   {
    "@type": "BreadcrumbList",
-   "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#trilha",
+   "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#trilha",
    "itemListElement": [
     {
      "@type": "ListItem",
      "position": 1,
      "name": "Início",
-     "item": "https://cruzvermelhariodejaneiro.org/"
+     "item": "https://cruzvermelhapetropolis.org/"
     },
     {
      "@type": "ListItem",
      "position": 2,
      "name": "Quem somos",
-     "item": "https://cruzvermelhariodejaneiro.org/quem-somos/"
+     "item": "https://cruzvermelhapetropolis.org/quem-somos/"
     },
     {
      "@type": "ListItem",
      "position": 3,
      "name": "Princípios Fundamentais",
-     "item": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/"
+     "item": "https://cruzvermelhapetropolis.org/principios-fundamentais/"
     }
    ]
   },
   {
    "@type": "DefinedTermSet",
-   "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios",
+   "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios",
    "name": "Princípios Fundamentais do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho",
    "inLanguage": "pt-BR",
    "hasDefinedTerm": [
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#humanidade",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#humanidade",
      "name": "Humanidade",
      "description": "O Movimento Internacional da Cruz Vermelha e do Crescente Vermelho, nascido da preocupação de prestar socorro, indistintamente a todos os feridos nos campos de batalha, esforça-se no âmbito internacional e nacional, em prevenir e atenuar, em todas as circunstâncias, o sofrimento humano. Pretende proteger a vida e a saúde, assim como, promover o respeito pela pessoa humana. Favorece a compreensão mútua, a amizade, a cooperação e a paz duradoura entre todos os povos.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#humanidade",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#humanidade",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     },
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#imparcialidade",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#imparcialidade",
      "name": "Imparcialidade",
      "description": "Não faz nenhuma distinção de nacionalidade, raça, gênero, religião, condição social, ou opinião política. Dedica-se apenas a socorrer os indivíduos de acordo com o grau de sofrimento, remediando suas necessidades e dando prioridade às mais urgentes.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#imparcialidade",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#imparcialidade",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     },
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#neutralidade",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#neutralidade",
      "name": "Neutralidade",
      "description": "A fim de merecer e conservar a confiança de todos, o Movimento abstém-se de tomar partido em hostilidades ou participar, em qualquer tempo, de controvérsias de ordem política, racial, religiosa ou ideológica.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#neutralidade",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#neutralidade",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     },
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#independencia",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#independencia",
      "name": "Independência",
      "description": "O Movimento é independente. As Sociedades Nacionais, auxiliares dos poderes públicos em sua atividade humanitária, estão sujeitas às leis que regem seus respectivos países, contudo, devem manter um grau de autonomia que lhes permita agir sempre de acordo com os Princípios Fundamentais do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#independencia",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#independencia",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     },
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#voluntariado",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#voluntariado",
      "name": "Voluntariado",
      "description": "É um Movimento de socorro voluntário, de caráter desinteressado e sem finalidade lucrativa.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#voluntariado",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#voluntariado",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     },
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#unidade",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#unidade",
      "name": "Unidade",
      "description": "Só pode existir uma única Sociedade da Cruz Vermelha ou do Crescente Vermelho em cada país, que deve ser acessível a todos e exercer sua ação humanitária em todo o território nacional.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#unidade",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#unidade",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     },
     {
      "@type": "DefinedTerm",
-     "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#universalidade",
+     "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#universalidade",
      "name": "Universalidade",
      "description": "O Movimento Internacional da Cruz Vermelha e do Crescente Vermelho é universal, no qual todas as Sociedades Nacionais têm iguais direitos e dividem responsabilidades e deveres, ajudando-se mutuamente.",
-     "url": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#universalidade",
+     "url": "https://cruzvermelhapetropolis.org/principios-fundamentais/#universalidade",
      "inDefinedTermSet": {
-      "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#principios"
+      "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#principios"
      }
     }
    ]
   },
   {
    "@type": "FAQPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#perguntas",
+   "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#perguntas",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/principios-fundamentais/#pagina"
+    "@id": "https://cruzvermelhapetropolis.org/principios-fundamentais/#pagina"
    },
    "mainEntity": [
     {

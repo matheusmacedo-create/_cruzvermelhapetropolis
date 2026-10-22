@@ -7,21 +7,21 @@
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <title>Direito Internacional Humanitário (DIH) – Cruz Vermelha Petrópolis</title>
   <meta name="description" content="O que é o Direito Internacional Humanitário, as Convenções de Genebra e seus Protocolos, os decretos que os promulgaram no Brasil e o papel da filial.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/direito-internacional-humanitario/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="Direito Internacional Humanitário (DIH) – Cruz Vermelha Petrópolis">
   <meta property="og:description" content="O que é o Direito Internacional Humanitário, as Convenções de Genebra e seus Protocolos, os decretos que os promulgaram no Brasil e o papel da filial.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/direito-internacional-humanitario/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Direito Internacional Humanitário (DIH) – Cruz Vermelha Petrópolis">
   <meta name="twitter:description" content="O que é o Direito Internacional Humanitário, as Convenções de Genebra e seus Protocolos, os decretos que os promulgaram no Brasil e o papel da filial.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -146,12 +146,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -161,13 +163,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -217,7 +219,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
   <script type="application/ld+json">
 {
@@ -225,19 +227,19 @@
  "@graph": [
   {
    "@type": "WebPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/#pagina",
-   "url": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/",
+   "@id": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/#pagina",
+   "url": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/",
    "name": "Direito Internacional Humanitário e Convenções de Genebra",
    "description": "O que é o Direito Internacional Humanitário, as Convenções de Genebra e seus Protocolos, os decretos que os promulgaram no Brasil e o papel da filial.",
    "inLanguage": "pt-BR",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#site"
+    "@id": "https://cruzvermelhapetropolis.org/#site"
    },
    "publisher": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+    "@id": "https://cruzvermelhapetropolis.org/#organizacao"
    },
    "breadcrumb": {
-    "@id": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/#trilha"
+    "@id": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/#trilha"
    },
    "dateModified": "2026-10-15",
    "citation": [
@@ -250,51 +252,51 @@
     "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/decreto/d8885.htm"
    ],
    "image": [
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/haia-1899-conferencia-da-paz-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/campo-prisioneiros-stalag-xb-1940-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/genebra-1949-assinatura-convencoes-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/encomenda-prisioneiros-cruz-vermelha-canadense-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/encomenda-prisioneiros-cruz-vermelha-britanica-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/convencao-genebra-1864-documento-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cruz-vermelha.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/crescente-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/protecao-civil-sinal-veiculo-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/desenhos/linha-do-tempo-dih.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-itamaraty-brasilia-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/voluntario-microfone-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/hero-equipe-grupo-960.webp"
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/haia-1899-conferencia-da-paz-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/campo-prisioneiros-stalag-xb-1940-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/genebra-1949-assinatura-convencoes-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/encomenda-prisioneiros-cruz-vermelha-canadense-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/encomenda-prisioneiros-cruz-vermelha-britanica-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/convencao-genebra-1864-documento-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cruz-vermelha.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/crescente-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/protecao-civil-sinal-veiculo-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/desenhos/linha-do-tempo-dih.svg",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/palacio-itamaraty-brasilia-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/voluntario-microfone-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/hero-equipe-grupo-960.webp"
    ]
   },
   {
    "@type": "BreadcrumbList",
-   "@id": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/#trilha",
+   "@id": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/#trilha",
    "itemListElement": [
     {
      "@type": "ListItem",
      "position": 1,
      "name": "Início",
-     "item": "https://cruzvermelhariodejaneiro.org/"
+     "item": "https://cruzvermelhapetropolis.org/"
     },
     {
      "@type": "ListItem",
      "position": 2,
      "name": "Quem somos",
-     "item": "https://cruzvermelhariodejaneiro.org/quem-somos/"
+     "item": "https://cruzvermelhapetropolis.org/quem-somos/"
     },
     {
      "@type": "ListItem",
      "position": 3,
      "name": "Direito Internacional Humanitário",
-     "item": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/"
+     "item": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/"
     }
    ]
   },
   {
    "@type": "FAQPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/#perguntas",
+   "@id": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/#perguntas",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/#pagina"
+    "@id": "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/#pagina"
    },
    "mainEntity": [
     {

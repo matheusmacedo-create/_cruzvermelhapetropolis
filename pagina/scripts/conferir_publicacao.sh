@@ -4,11 +4,11 @@
 #  - os endereços da API respondem o que respondem quando estão bons (um 503 seria o banco ou a migração);
 #  - configuração, módulos e rotinas continuam bloqueados (403);
 #  - o ponto pode pedir a localização (Permissions-Policy com geolocation=(self)) e o resto da matrícula não.
-# Uso: scripts/conferir_publicacao.sh scripts/publicacao-comunicacao.txt [https://cruzvermelhariodejaneiro.org]
+# Uso: scripts/conferir_publicacao.sh scripts/publicacao-comunicacao.txt [https://cruzvermelhapetropolis.org]
 # Rode depois de limpar o cache. Sai com 1 se algo falhar.
 set -uo pipefail
 lista="${1:?informe a lista de arquivos publicados}"
-base="${2:-https://cruzvermelhariodejaneiro.org}"
+base="${2:-https://cruzvermelhapetropolis.org}"
 m="$base/matricula-cursos-presenciais"
 tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT

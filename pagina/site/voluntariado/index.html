@@ -7,21 +7,21 @@
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <title>Seja voluntário no Rio de Janeiro – Cruz Vermelha Petrópolis</title>
   <meta name="description" content="Como ser voluntário da Cruz Vermelha no Rio: o que o voluntário faz, cadastro, ficha de entrevista, CBFI, termo de adesão e o que diz a Lei 9.608/1998.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/voluntariado/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/voluntariado/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="Seja voluntário no Rio de Janeiro – Cruz Vermelha Petrópolis">
   <meta property="og:description" content="Como ser voluntário da Cruz Vermelha no Rio: o que o voluntário faz, cadastro, ficha de entrevista, CBFI, termo de adesão e o que diz a Lei 9.608/1998.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/voluntariado/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/voluntariado/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Seja voluntário no Rio de Janeiro – Cruz Vermelha Petrópolis">
   <meta name="twitter:description" content="Como ser voluntário da Cruz Vermelha no Rio: o que o voluntário faz, cadastro, ficha de entrevista, CBFI, termo de adesão e o que diz a Lei 9.608/1998.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -146,12 +146,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -161,13 +163,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -217,7 +219,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
   <script type="application/ld+json">
 {
@@ -225,19 +227,19 @@
  "@graph": [
   {
    "@type": "WebPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/voluntariado/#pagina",
-   "url": "https://cruzvermelhariodejaneiro.org/voluntariado/",
+   "@id": "https://cruzvermelhapetropolis.org/voluntariado/#pagina",
+   "url": "https://cruzvermelhapetropolis.org/voluntariado/",
    "name": "Seja voluntário da Cruz Vermelha no Rio de Janeiro",
    "description": "Como ser voluntário da Cruz Vermelha no Rio: o que o voluntário faz, cadastro, ficha de entrevista, CBFI, termo de adesão e o que diz a Lei 9.608/1998.",
    "inLanguage": "pt-BR",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#site"
+    "@id": "https://cruzvermelhapetropolis.org/#site"
    },
    "publisher": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+    "@id": "https://cruzvermelhapetropolis.org/#organizacao"
    },
    "breadcrumb": {
-    "@id": "https://cruzvermelhariodejaneiro.org/voluntariado/#trilha"
+    "@id": "https://cruzvermelhapetropolis.org/voluntariado/#trilha"
    },
    "dateModified": "2026-10-18",
    "citation": [
@@ -246,43 +248,43 @@
     "https://www.icrc.org/pt/nossos-principios-fundamentais"
    ],
    "image": [
-    "https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-juventude-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-primeiros-socorros-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-distribuicao-donativos-550.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/desenhos/principios-icones.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/voluntario-microfone-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/cruz-roja-chilena-rcp-2012-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/desenhos/caminho-voluntario.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/auditorio-voluntarios-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-diploma-voluntaria-th.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/congresso-nacional-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-voluntaria-960.webp"
+    "https://cruzvermelhapetropolis.org/assets/otim/dia-criancas-juventude-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/dia-criancas-primeiros-socorros-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-distribuicao-donativos-550.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/desenhos/principios-icones.svg",
+    "https://cruzvermelhapetropolis.org/assets/otim/voluntario-microfone-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/cruz-roja-chilena-rcp-2012-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/desenhos/caminho-voluntario.svg",
+    "https://cruzvermelhapetropolis.org/assets/otim/auditorio-voluntarios-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-ac-atividades-6-th.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-ac-diploma-voluntaria-th.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/congresso-nacional-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/dia-criancas-voluntaria-960.webp"
    ]
   },
   {
    "@type": "BreadcrumbList",
-   "@id": "https://cruzvermelhariodejaneiro.org/voluntariado/#trilha",
+   "@id": "https://cruzvermelhapetropolis.org/voluntariado/#trilha",
    "itemListElement": [
     {
      "@type": "ListItem",
      "position": 1,
      "name": "Início",
-     "item": "https://cruzvermelhariodejaneiro.org/"
+     "item": "https://cruzvermelhapetropolis.org/"
     },
     {
      "@type": "ListItem",
      "position": 2,
      "name": "Voluntariado",
-     "item": "https://cruzvermelhariodejaneiro.org/voluntariado/"
+     "item": "https://cruzvermelhapetropolis.org/voluntariado/"
     }
    ]
   },
   {
    "@type": "FAQPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/voluntariado/#perguntas",
+   "@id": "https://cruzvermelhapetropolis.org/voluntariado/#perguntas",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/voluntariado/#pagina"
+    "@id": "https://cruzvermelhapetropolis.org/voluntariado/#pagina"
    },
    "mainEntity": [
     {

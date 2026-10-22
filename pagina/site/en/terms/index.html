@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms of Use | Brazilian Red Cross Petrópolis</title>
   <meta name="description" content="Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, course enrolment, donations, liability and jurisdiction.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/en/terms/">
-  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/termos/">
-  <link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/terms/">
-  <link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/terminos/">
-  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/termos/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/en/terms/">
+  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhapetropolis.org/termos/">
+  <link rel="alternate" hreflang="en" href="https://cruzvermelhapetropolis.org/en/terms/">
+  <link rel="alternate" hreflang="es" href="https://cruzvermelhapetropolis.org/es/terminos/">
+  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhapetropolis.org/termos/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Terms of Use | Brazilian Red Cross Petrópolis">
   <meta property="og:description" content="Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, course enrolment, donations, liability and jurisdiction.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/en/terms/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/en/terms/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -124,7 +124,7 @@
       .pol-tabela td::before { content:attr(data-rotulo) ": "; font-weight:700; color:var(--muted) }
     }
 </style>
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebPage","@id":"https://cruzvermelhariodejaneiro.org/en/terms/#pagina","url":"https://cruzvermelhariodejaneiro.org/en/terms/","name":"Terms of Use","description":"Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, course enrolment, donations, liability and jurisdiction.","inLanguage":"en","dateModified":"2026-10-19","isPartOf":{"@id":"https://cruzvermelhariodejaneiro.org/#site"},"about":{"@id":"https://cruzvermelhariodejaneiro.org/#organizacao"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://cruzvermelhariodejaneiro.org/en/"},{"@type":"ListItem","position":2,"name":"Terms of Use","item":"https://cruzvermelhariodejaneiro.org/en/terms/"}]}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebPage","@id":"https://cruzvermelhapetropolis.org/en/terms/#pagina","url":"https://cruzvermelhapetropolis.org/en/terms/","name":"Terms of Use","description":"Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, course enrolment, donations, liability and jurisdiction.","inLanguage":"en","dateModified":"2026-10-19","isPartOf":{"@id":"https://cruzvermelhapetropolis.org/#site"},"about":{"@id":"https://cruzvermelhapetropolis.org/#organizacao"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://cruzvermelhapetropolis.org/en/"},{"@type":"ListItem","position":2,"name":"Terms of Use","item":"https://cruzvermelhapetropolis.org/en/terms/"}]}]</script>
   <!-- Google tag (gtag.js) -->
   <script>
     // Consentimento antes de tudo (LGPD; Guia de Cookies da ANPD): estatística e marketing negados até a
@@ -153,12 +153,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -168,13 +170,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -224,7 +226,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
 </head>
 <body>

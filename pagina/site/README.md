@@ -1,6 +1,6 @@
 # site/ — páginas estáticas do site principal
 
-Espelho do `public_html` de `cruzvermelhariodejaneiro.org` (Hostinger, conta `u448697994`)
+Espelho do `public_html` de `cruzvermelhapetropolis.org` (Hostinger, conta `u448697994`)
 restrito às páginas mantidas à mão: `index.html`, `doacao.html`, `equipe.html` e
 `campanha-agasalho.html`, mais `sitemap-escola.xml`, `sitemap-paginas.xml` e a pasta
 `matricula-cursos-presenciais/` (página gerada por `scripts/gerar_matricula_presencial.py`;

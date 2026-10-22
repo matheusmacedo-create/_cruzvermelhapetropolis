@@ -39,5 +39,5 @@ site/matricula-cursos-presenciais/api/painel.php
 site/matricula-cursos-presenciais/api/comparecimentos.php
 site/matricula-cursos-presenciais/api/config.example.php
 # (5) o checkout.js (antes das telas). Conferir que o servidor entrega o novo (o hash vem do nome ?v=):
-#   v=$(sha256sum site/matricula-cursos-presenciais/static/checkout.js | cut -c1-10); curl -s "https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/static/checkout.js?v=$v" | sha256sum   # começa com $v
+#   v=$(sha256sum site/matricula-cursos-presenciais/static/checkout.js | cut -c1-10); curl -s "https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/static/checkout.js?v=$v" | sha256sum   # começa com $v
 site/matricula-cursos-presenciais/static/checkout.js

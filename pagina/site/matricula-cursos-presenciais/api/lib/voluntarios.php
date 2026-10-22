@@ -1009,7 +1009,7 @@ function mcp_montar_email_voluntario_equipe(array $f): array
         'html' => mcp_moldura("Nova ficha de voluntariado: $primeiro", $corpo, [
             'eyebrow' => 'Voluntariado' . ($protocolo !== '' ? " · $protocolo" : ''),
             'preheader' => "$frentes · " . mcp_voluntario_local_texto($f),
-            'motivo' => 'Aviso automático do formulário de voluntariado de cruzvermelhariodejaneiro.org para ' . mcp_voluntarios_email_destino() . '.',
+            'motivo' => 'Aviso automático do formulário de voluntariado de cruzvermelhapetropolis.org para ' . mcp_voluntarios_email_destino() . '.',
         ]),
         'texto' => $texto,
     ];
@@ -1076,7 +1076,7 @@ function mcp_montar_email_voluntario_confirmacao(array $f): array
         'html' => mcp_moldura("Recebemos sua ficha, $nome.", $corpo, [
             'eyebrow' => 'Voluntariado',
             'preheader' => "Protocolo $protocolo. As novas entradas no voluntariado abrem em " . MCP_VOL_PROXIMAS_ENTRADAS . ', e a equipe entra em contato nessa época.',
-            'motivo' => 'Você recebeu este e-mail porque preencheu a ficha de voluntariado em cruzvermelhariodejaneiro.org.',
+            'motivo' => 'Você recebeu este e-mail porque preencheu a ficha de voluntariado em cruzvermelhapetropolis.org.',
         ]),
         'texto' => $texto,
     ];

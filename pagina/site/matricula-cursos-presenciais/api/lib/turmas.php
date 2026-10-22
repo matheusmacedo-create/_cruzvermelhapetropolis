@@ -507,7 +507,7 @@ function mcp_montar_email_turma_equipe(array $p, ?array $progresso = null): arra
         'html' => mcp_moldura($fechada ? 'Pedido de turma fechada' : 'Nova pessoa na lista de interesse', $corpo, [
             'eyebrow' => 'Turmas sob demanda · ' . $p['protocolo'],
             'preheader' => $rotulo . ' · ' . mcp_turma_alunos((int) $p['pessoas']),
-            'motivo' => 'Aviso automático da página de matrícula de cruzvermelhariodejaneiro.org.',
+            'motivo' => 'Aviso automático da página de matrícula de cruzvermelhapetropolis.org.',
         ]),
         'texto' => $texto,
     ];
@@ -569,7 +569,7 @@ function mcp_montar_email_turma_confirmacao(array $p): array
         'html' => mcp_moldura($aviso ? "Aviso anotado, $nome." : ($fechada ? "Pedido de turma recebido, $nome." : "Você está na lista, $nome."), $corpo, [
             'eyebrow' => $aviso ? 'Aviso da data' : 'Turmas sob demanda',
             'preheader' => $aviso ? 'Quando a turma abrir, avisamos por e-mail.' : ($fechada ? 'A secretaria responde em até ' . MCP_EMAIL_PRAZO . ' com as datas.' : 'Avisamos quando juntarmos ' . MCP_TURMA_MINIMO . ' alunos.'),
-            'motivo' => 'Você recebeu este e-mail porque pediu uma turma na página de matrícula de cruzvermelhariodejaneiro.org.',
+            'motivo' => 'Você recebeu este e-mail porque pediu uma turma na página de matrícula de cruzvermelhapetropolis.org.',
         ]),
         'texto' => $texto,
     ];

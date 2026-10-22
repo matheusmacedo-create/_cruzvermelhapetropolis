@@ -32,7 +32,7 @@ from gerar_matricula_presencial import HOME, RAIZ, esc, partes_da_home
 PASTA = RAIZ / "site" / "voluntariado" / "cadastro"
 SAIDA = PASTA / "index.html"
 JS_ARQUIVO = PASTA / "cadastro.js"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 URL_PAGINA = f"{ORIGEM}/voluntariado/cadastro/"
 API = "/matricula-cursos-presenciais/api/voluntarios.php"
 # A mesma imagem de compartilhamento das páginas institucionais (gerar_institucional.py).

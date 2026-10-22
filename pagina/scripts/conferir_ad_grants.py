@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Confere a entrega local e, com --url, os endereços publicados; só faz leituras.
 
-Uso: python3 scripts/conferir_ad_grants.py [--url https://cruzvermelhariodejaneiro.org]
+Uso: python3 scripts/conferir_ad_grants.py [--url https://cruzvermelhapetropolis.org]
 Não envia formulários, cria pagamentos nem atesta aprovação pelo Google.
 """
 import argparse

@@ -24,7 +24,7 @@ import sys
 from collections import defaultdict, deque
 from urllib.parse import urljoin, urlparse, urlunparse
 
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 SITEMAPS = [f"{ORIGEM}/sitemap-index.xml", f"{ORIGEM}/sitemap.xml"]
 ANCORA_FRACA = {"clique aqui", "aqui", "leia mais", "saiba mais", "veja mais", "mais", "link", "ver"}
 IGNORAR = ("mailto:", "tel:", "javascript:", "data:")

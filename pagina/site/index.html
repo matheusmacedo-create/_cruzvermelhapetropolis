@@ -11,21 +11,21 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/">
   <meta property="og:title" content="Cruz Vermelha Brasileira Petrópolis | Site oficial">
   <meta property="og:description" content="Cruz Vermelha Brasileira, filial de Petrópolis: associação sem fins lucrativos que forma voluntários e faz campanhas humanitárias. Sede no Centro do Rio.">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cruz Vermelha Brasileira Petrópolis | Site oficial">
   <meta name="twitter:description" content="Cruz Vermelha Brasileira, filial de Petrópolis: associação sem fins lucrativos que forma voluntários e faz campanhas humanitárias. Sede no Centro do Rio.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/">
-  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/">
-  <link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/">
-  <link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/">
-  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/">
+  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhapetropolis.org/">
+  <link rel="alternate" hreflang="en" href="https://cruzvermelhapetropolis.org/en/">
+  <link rel="alternate" hreflang="es" href="https://cruzvermelhapetropolis.org/es/">
+  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhapetropolis.org/">
   <link rel="preload" as="image" href="assets/otim/hero-turma-cbfi-1440.webp" media="(min-width: 921px)">
   <link rel="preload" as="image" href="assets/otim/hero-turma-cbfi-960.webp" media="(min-width: 481px) and (max-width: 920px)" fetchpriority="high">
   <link rel="preload" as="image" href="assets/otim/hero-turma-cbfi-640.webp" media="(max-width: 480px)" fetchpriority="high">
@@ -941,12 +941,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -956,13 +958,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -1012,7 +1014,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
   <script type="application/ld+json">
 {
@@ -1020,7 +1022,7 @@
   "@graph": [
     {
       "@type": "NGO",
-      "@id": "https://cruzvermelhariodejaneiro.org/#organizacao",
+      "@id": "https://cruzvermelhapetropolis.org/#organizacao",
       "name": "Cruz Vermelha Brasileira - Filial do Município de Petrópolis",
       "legalName": "CRUZ VERMELHA BRASILEIRA FILIAL DO ESTADO DO RIO DE JANEIRO",
       "alternateName": [
@@ -1028,9 +1030,9 @@
         "CVB Petrópolis"
       ],
       "description": "Associação privada sem fins lucrativos, filial estadual da Cruz Vermelha Brasileira em Petrópolis e parte do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho. Forma os próprios voluntários, inclusive em primeiros socorros, e atua em educação preventiva e apoio comunitário.",
-      "url": "https://cruzvermelhariodejaneiro.org/",
-      "logo": "https://cruzvermelhariodejaneiro.org/assets/logo-cvb-petropolis.png",
-      "image": "https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg",
+      "url": "https://cruzvermelhapetropolis.org/",
+      "logo": "https://cruzvermelhapetropolis.org/assets/logo-cvb-petropolis.png",
+      "image": "https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg",
       "email": "cvbpetropolis@gmail.com",
       "contactPoint": [
         {
@@ -1059,7 +1061,7 @@
         "name": "Estado do Rio de Janeiro"
       },
       "parentOrganization": {
-        "@id": "https://cruzvermelhariodejaneiro.org/#cvb"
+        "@id": "https://cruzvermelhapetropolis.org/#cvb"
       },
       "knowsAbout": [
         "Primeiros socorros",
@@ -1102,7 +1104,7 @@
     },
     {
       "@type": "NGO",
-      "@id": "https://cruzvermelhariodejaneiro.org/#cvb",
+      "@id": "https://cruzvermelhapetropolis.org/#cvb",
       "name": "Cruz Vermelha Brasileira",
       "url": "https://cruzvermelha.org.br/pb/",
       "foundingDate": "1908-12-05",
@@ -1115,28 +1117,28 @@
     },
     {
       "@type": "WebPage",
-      "@id": "https://cruzvermelhariodejaneiro.org/#webpage",
-      "url": "https://cruzvermelhariodejaneiro.org/",
+      "@id": "https://cruzvermelhapetropolis.org/#webpage",
+      "url": "https://cruzvermelhapetropolis.org/",
       "name": "Cruz Vermelha Brasileira Petrópolis | Site oficial",
       "isPartOf": {
-        "@id": "https://cruzvermelhariodejaneiro.org/#site"
+        "@id": "https://cruzvermelhapetropolis.org/#site"
       },
       "about": {
-        "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+        "@id": "https://cruzvermelhapetropolis.org/#organizacao"
       },
       "inLanguage": "pt-BR",
       "significantLink": [
-        "https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/",
-        "https://cruzvermelhariodejaneiro.org/voluntariado/",
-        "https://cruzvermelhariodejaneiro.org/quem-somos/",
-        "https://cruzvermelhariodejaneiro.org/historia/",
-        "https://cruzvermelhariodejaneiro.org/principios-fundamentais/",
-        "https://cruzvermelhariodejaneiro.org/movimento-internacional/",
-        "https://cruzvermelhariodejaneiro.org/emblema/",
-        "https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/",
-        "https://cruzvermelhariodejaneiro.org/base-legal/",
-        "https://cruzvermelhariodejaneiro.org/transparencia/",
-        "https://cruzvermelhariodejaneiro.org/doe/"
+        "https://cruzvermelhapetropolis.org/voluntariado/cadastro/",
+        "https://cruzvermelhapetropolis.org/voluntariado/",
+        "https://cruzvermelhapetropolis.org/quem-somos/",
+        "https://cruzvermelhapetropolis.org/historia/",
+        "https://cruzvermelhapetropolis.org/principios-fundamentais/",
+        "https://cruzvermelhapetropolis.org/movimento-internacional/",
+        "https://cruzvermelhapetropolis.org/emblema/",
+        "https://cruzvermelhapetropolis.org/direito-internacional-humanitario/",
+        "https://cruzvermelhapetropolis.org/base-legal/",
+        "https://cruzvermelhapetropolis.org/transparencia/",
+        "https://cruzvermelhapetropolis.org/doe/"
       ]
     }
   ]
@@ -1147,18 +1149,18 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://cruzvermelhariodejaneiro.org/#site",
-    "url": "https://cruzvermelhariodejaneiro.org/",
+    "@id": "https://cruzvermelhapetropolis.org/#site",
+    "url": "https://cruzvermelhapetropolis.org/",
     "name": "Cruz Vermelha Brasileira Petrópolis",
     "inLanguage": "pt-BR",
     "publisher": {
-      "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+      "@id": "https://cruzvermelhapetropolis.org/#organizacao"
     }
   }
 ]
   </script>
   <script type="application/ld+json" id="faq-ld">
-{"@context":"https://schema.org","@type":"FAQPage","@id":"https://cruzvermelhariodejaneiro.org/#faq","url":"https://cruzvermelhariodejaneiro.org/#faq","name":"Tire suas dúvidas sobre a Cruz Vermelha Brasileira Petrópolis","inLanguage":"pt-BR","isPartOf":{"@id":"https://cruzvermelhariodejaneiro.org/#site"},"mainEntity":[{"@type":"Question","name":"O que é a Cruz Vermelha Brasileira Petrópolis?","acceptedAnswer":{"@type":"Answer","text":"A Cruz Vermelha Brasileira Petrópolis é a filial do Município de Petrópolis da sociedade nacional da Cruz Vermelha no Brasil: uma associação privada sem fins lucrativos, integrante da estrutura federativa nacional e do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho. Tem sede no Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro do Rio, e é reconhecida como de utilidade pública municipal (Lei 5.153/2010) e estadual (Lei 9.984/2023). Atua na formação dos próprios voluntários, inclusive em primeiros socorros, em educação preventiva e em campanhas de apoio comunitário. Os princípios, o Movimento e a base legal estão na página Quem somos; a história, em Nossa história."}},{"@type":"Question","name":"Como ajudar a Cruz Vermelha Brasileira Petrópolis? Posso doar dinheiro pelo site?","acceptedAnswer":{"@type":"Answer","text":"Pode. A doação em dinheiro para a Cruz Vermelha Brasileira Petrópolis é feita na página de doação, por PIX ou cartão, e o comprovante chega por e-mail, com o CNPJ da filial. Também dá para ajudar sendo voluntário, com o cadastro no formulário oficial do voluntariado, já que a filial forma os próprios voluntários; entregando roupas de frio, cobertores e calçados na sede, pela Campanha do Agasalho, de segunda a sexta, das 10h às 17h; ou propondo uma parceria de empresa, escola ou instituição pelo chat do site, que responde por e-mail."}},{"@type":"Question","name":"Onde doar roupas, agasalhos e cobertores para a Cruz Vermelha no Rio de Janeiro?","acceptedAnswer":{"@type":"Answer","text":"Roupas de frio, cobertores e calçados são recebidos na sede da Cruz Vermelha Brasileira Petrópolis, na Rua Carlos Gomes, 6, Centro, pela Campanha do Agasalho, de segunda a sexta, das 10h às 17h. A triagem prioriza casacos e agasalhos, cobertores e mantas sem rasgos, meias, luvas, gorros, cachecóis, blusas de manga longa e calçados fechados, em pares. Leve as peças limpas, em bom estado e separadas por tipo e tamanho: assim a ajuda chega mais rápido a quem precisa, sem desperdício. Para outros itens, confirme antes com a equipe pelo chat do site, que responde por e-mail."}},{"@type":"Question","name":"A Cruz Vermelha no Rio de Janeiro atende emergências ou marca consultas?","acceptedAnswer":{"@type":"Answer","text":"Não. A Cruz Vermelha Brasileira Petrópolis, sediada no Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro do Rio, não agenda consultas nem faz atendimento de urgência: em uma emergência, ligue 192 (SAMU) ou 193 (Corpo de Bombeiros). O que a filial faz é educação preventiva, campanhas de apoio comunitário e a formação dos próprios voluntários, que aprendem a agir até a chegada do socorro. Quem quer um curso com certificado encontra os da escola ligada à filial. Para outros assuntos, fale com a equipe pelo chat do site, que responde por e-mail em até 3 dias úteis."}},{"@type":"Question","name":"Onde fica a Cruz Vermelha Brasileira Petrópolis e qual é o horário?","acceptedAnswer":{"@type":"Answer","text":"A sede da Cruz Vermelha Brasileira Petrópolis fica no Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro, CEP 20230-130. É lá que acontecem a formação de voluntários, nos dias e horários de cada turma, o recebimento de donativos da Campanha do Agasalho, de segunda a sexta, das 10h às 17h, e os cursos presenciais da escola. O CNPJ da filial é 09.198.238/0001-48. Antes de ir, confirme o que precisa pelo chat do site ou pelo e-mail cvbpetropolis@gmail.com: a equipe responde em até 3 dias úteis. A seção de contato traz o endereço com link para o mapa."}},{"@type":"Question","name":"Como falar com a Cruz Vermelha Brasileira Petrópolis? Tem telefone ou WhatsApp?","acceptedAnswer":{"@type":"Answer","text":"O atendimento da Cruz Vermelha Brasileira Petrópolis é por e-mail: use o chat Fale com a gente, no canto de qualquer página, ou escreva para cvbpetropolis@gmail.com. A equipe responde em até 3 dias úteis, com o número de protocolo no assunto; vale conferir a caixa de spam. Esse canal atende voluntariado, doações, campanhas, parcerias e dúvidas sobre os cursos da escola, e os dados completos estão na seção de contato. Para o voluntariado existe um WhatsApp próprio, (21) 97036-0264, exclusivo para quem quer ser voluntário; o cadastro é feito no formulário do voluntariado. Para acompanhar as ações da filial, veja as notícias, o Instagram @cruzvermelhabrasileirarj e o canal da filial no YouTube."}},{"@type":"Question","name":"Como ser voluntário da Cruz Vermelha Brasileira Petrópolis?","acceptedAnswer":{"@type":"Answer","text":"Para ser voluntário da Cruz Vermelha Brasileira Petrópolis, faça o cadastro aqui no site: leva uns dez minutos, e a confirmação chega por e-mail, com o protocolo. As novas entradas abrem em janeiro de 2027: só nessa época a equipe entra em contato por e-mail, com todos os cadastrados, para a ficha de entrevista. Quem é aceito faz o CBFI, o curso de formação inicial dos voluntários, que abre quatro vezes por ano, na sede, no Centro do Rio, e é gratuito. Por fim, assina o termo de adesão ao serviço voluntário, como manda a Lei 9.608/1998. Veja o passo a passo completo na página do voluntariado."}},{"@type":"Question","name":"Quem pode ser voluntário? Precisa ser da área da saúde ou fazer um curso pago?","acceptedAnswer":{"@type":"Answer","text":"Não precisa ser da área da saúde nem comprar curso nenhum: a Cruz Vermelha Brasileira Petrópolis forma os próprios voluntários, e essa formação é gratuita. A idade mínima é 16 anos; menores de 18 assinam o termo de adesão com um responsável. O caminho é o mesmo para todos: cadastro no site, ficha de entrevista, CBFI (o curso de formação inicial dos voluntários, quatro vezes por ano, na sede) e termo de adesão. Há espaço para perfis diferentes, em frentes como formação e primeiros socorros, campanhas e ações, juventude, comunicação e gestão de riscos e desastres. Saiba mais na página do voluntariado."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","@id":"https://cruzvermelhapetropolis.org/#faq","url":"https://cruzvermelhapetropolis.org/#faq","name":"Tire suas dúvidas sobre a Cruz Vermelha Brasileira Petrópolis","inLanguage":"pt-BR","isPartOf":{"@id":"https://cruzvermelhapetropolis.org/#site"},"mainEntity":[{"@type":"Question","name":"O que é a Cruz Vermelha Brasileira Petrópolis?","acceptedAnswer":{"@type":"Answer","text":"A Cruz Vermelha Brasileira Petrópolis é a filial do Município de Petrópolis da sociedade nacional da Cruz Vermelha no Brasil: uma associação privada sem fins lucrativos, integrante da estrutura federativa nacional e do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho. Tem sede no Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro do Rio, e é reconhecida como de utilidade pública municipal (Lei 5.153/2010) e estadual (Lei 9.984/2023). Atua na formação dos próprios voluntários, inclusive em primeiros socorros, em educação preventiva e em campanhas de apoio comunitário. Os princípios, o Movimento e a base legal estão na página Quem somos; a história, em Nossa história."}},{"@type":"Question","name":"Como ajudar a Cruz Vermelha Brasileira Petrópolis? Posso doar dinheiro pelo site?","acceptedAnswer":{"@type":"Answer","text":"Pode. A doação em dinheiro para a Cruz Vermelha Brasileira Petrópolis é feita na página de doação, por PIX ou cartão, e o comprovante chega por e-mail, com o CNPJ da filial. Também dá para ajudar sendo voluntário, com o cadastro no formulário oficial do voluntariado, já que a filial forma os próprios voluntários; entregando roupas de frio, cobertores e calçados na sede, pela Campanha do Agasalho, de segunda a sexta, das 10h às 17h; ou propondo uma parceria de empresa, escola ou instituição pelo chat do site, que responde por e-mail."}},{"@type":"Question","name":"Onde doar roupas, agasalhos e cobertores para a Cruz Vermelha no Rio de Janeiro?","acceptedAnswer":{"@type":"Answer","text":"Roupas de frio, cobertores e calçados são recebidos na sede da Cruz Vermelha Brasileira Petrópolis, na Rua Carlos Gomes, 6, Centro, pela Campanha do Agasalho, de segunda a sexta, das 10h às 17h. A triagem prioriza casacos e agasalhos, cobertores e mantas sem rasgos, meias, luvas, gorros, cachecóis, blusas de manga longa e calçados fechados, em pares. Leve as peças limpas, em bom estado e separadas por tipo e tamanho: assim a ajuda chega mais rápido a quem precisa, sem desperdício. Para outros itens, confirme antes com a equipe pelo chat do site, que responde por e-mail."}},{"@type":"Question","name":"A Cruz Vermelha no Rio de Janeiro atende emergências ou marca consultas?","acceptedAnswer":{"@type":"Answer","text":"Não. A Cruz Vermelha Brasileira Petrópolis, sediada no Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro do Rio, não agenda consultas nem faz atendimento de urgência: em uma emergência, ligue 192 (SAMU) ou 193 (Corpo de Bombeiros). O que a filial faz é educação preventiva, campanhas de apoio comunitário e a formação dos próprios voluntários, que aprendem a agir até a chegada do socorro. Quem quer um curso com certificado encontra os da escola ligada à filial. Para outros assuntos, fale com a equipe pelo chat do site, que responde por e-mail em até 3 dias úteis."}},{"@type":"Question","name":"Onde fica a Cruz Vermelha Brasileira Petrópolis e qual é o horário?","acceptedAnswer":{"@type":"Answer","text":"A sede da Cruz Vermelha Brasileira Petrópolis fica no Palácio da Cruz Vermelha, na Praça da Cruz Vermelha, 10, Centro, Rio de Janeiro, CEP 20230-130. É lá que acontecem a formação de voluntários, nos dias e horários de cada turma, o recebimento de donativos da Campanha do Agasalho, de segunda a sexta, das 10h às 17h, e os cursos presenciais da escola. O CNPJ da filial é 09.198.238/0001-48. Antes de ir, confirme o que precisa pelo chat do site ou pelo e-mail cvbpetropolis@gmail.com: a equipe responde em até 3 dias úteis. A seção de contato traz o endereço com link para o mapa."}},{"@type":"Question","name":"Como falar com a Cruz Vermelha Brasileira Petrópolis? Tem telefone ou WhatsApp?","acceptedAnswer":{"@type":"Answer","text":"O atendimento da Cruz Vermelha Brasileira Petrópolis é por e-mail: use o chat Fale com a gente, no canto de qualquer página, ou escreva para cvbpetropolis@gmail.com. A equipe responde em até 3 dias úteis, com o número de protocolo no assunto; vale conferir a caixa de spam. Esse canal atende voluntariado, doações, campanhas, parcerias e dúvidas sobre os cursos da escola, e os dados completos estão na seção de contato. Para o voluntariado existe um WhatsApp próprio, (21) 97036-0264, exclusivo para quem quer ser voluntário; o cadastro é feito no formulário do voluntariado. Para acompanhar as ações da filial, veja as notícias, o Instagram @cruzvermelhabrasileirarj e o canal da filial no YouTube."}},{"@type":"Question","name":"Como ser voluntário da Cruz Vermelha Brasileira Petrópolis?","acceptedAnswer":{"@type":"Answer","text":"Para ser voluntário da Cruz Vermelha Brasileira Petrópolis, faça o cadastro aqui no site: leva uns dez minutos, e a confirmação chega por e-mail, com o protocolo. As novas entradas abrem em janeiro de 2027: só nessa época a equipe entra em contato por e-mail, com todos os cadastrados, para a ficha de entrevista. Quem é aceito faz o CBFI, o curso de formação inicial dos voluntários, que abre quatro vezes por ano, na sede, no Centro do Rio, e é gratuito. Por fim, assina o termo de adesão ao serviço voluntário, como manda a Lei 9.608/1998. Veja o passo a passo completo na página do voluntariado."}},{"@type":"Question","name":"Quem pode ser voluntário? Precisa ser da área da saúde ou fazer um curso pago?","acceptedAnswer":{"@type":"Answer","text":"Não precisa ser da área da saúde nem comprar curso nenhum: a Cruz Vermelha Brasileira Petrópolis forma os próprios voluntários, e essa formação é gratuita. A idade mínima é 16 anos; menores de 18 assinam o termo de adesão com um responsável. O caminho é o mesmo para todos: cadastro no site, ficha de entrevista, CBFI (o curso de formação inicial dos voluntários, quatro vezes por ano, na sede) e termo de adesão. Há espaço para perfis diferentes, em frentes como formação e primeiros socorros, campanhas e ações, juventude, comunicação e gestão de riscos e desastres. Saiba mais na página do voluntariado."}}]}
   </script>
 </head>
 <body>
@@ -1580,7 +1582,7 @@
           <p class="lead">Voluntariado, doações, campanhas ou parcerias: escreva para a gente. A equipe responde pelo e-mail institucional.</p>
           <a class="contact-mail" href="mailto:cvbpetropolis@gmail.com?subject=Contato%20pelo%20site">
             <span class="contact-mail-icone"><i class="fa-regular fa-envelope" aria-hidden="true"><svg class="ico ico-envelope" aria-hidden="true" focusable="false"><use href="#i-envelope"/></svg></i></span>
-            <span class="contact-mail-texto"><b>E-mail institucional</b><span>contato@<wbr>cruzvermelhariodejaneiro.org</span></span>
+            <span class="contact-mail-texto"><b>E-mail institucional</b><span>contato@<wbr>cruzvermelhapetropolis.org</span></span>
             <span class="contact-mail-acao" aria-hidden="true"><i class="fa-solid fa-arrow-right"><svg class="ico ico-arrow-right" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></i></span>
           </a>
           <button type="button" class="contact-copiar" data-copiar="cvbpetropolis@gmail.com"><i class="fa-regular fa-copy" aria-hidden="true"><svg class="ico ico-copy" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg></i> <span>Copiar e-mail</span></button>
@@ -1797,7 +1799,7 @@
       var grade = document.querySelector('[data-noticias-home]');
       if (!grade || !window.fetch || !window.DOMParser) return;
       var fora = (grade.getAttribute('data-fora') || '').split(' '), quantas = parseInt(grade.getAttribute('data-quantas'), 10) || 3;
-      var origem = 'https://cruzvermelhariodejaneiro.org';
+      var origem = 'https://cruzvermelhapetropolis.org';
       function elemento(tag, classe, texto) { var e = document.createElement(tag); if (classe) e.className = classe; if (texto) e.textContent = texto; return e; }
       function atualizar() {
         fetch('/noticias/', { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.text() : ''; }).then(function (t) {

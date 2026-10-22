@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacidad | Cruz Roja Brasileña Petrópolis</title>
   <meta name="description" content="Qué recoge el sitio de la Cruz Roja Brasileña Petrópolis en la matrícula, el chat, el boletín y el registro de voluntarios, para qué, con quién se comparte y sus derechos según la LGPD.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/es/privacidad/">
-  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhariodejaneiro.org/privacidade/">
-  <link rel="alternate" hreflang="en" href="https://cruzvermelhariodejaneiro.org/en/privacy/">
-  <link rel="alternate" hreflang="es" href="https://cruzvermelhariodejaneiro.org/es/privacidad/">
-  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhariodejaneiro.org/privacidade/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/es/privacidad/">
+  <link rel="alternate" hreflang="pt-BR" href="https://cruzvermelhapetropolis.org/privacidade/">
+  <link rel="alternate" hreflang="en" href="https://cruzvermelhapetropolis.org/en/privacy/">
+  <link rel="alternate" hreflang="es" href="https://cruzvermelhapetropolis.org/es/privacidad/">
+  <link rel="alternate" hreflang="x-default" href="https://cruzvermelhapetropolis.org/privacidade/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_LA">
   <meta property="og:title" content="Privacidad | Cruz Roja Brasileña Petrópolis">
   <meta property="og:description" content="Qué recoge el sitio de la Cruz Roja Brasileña Petrópolis en la matrícula, el chat, el boletín y el registro de voluntarios, para qué, con quién se comparte y sus derechos según la LGPD.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/es/privacidad/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/es/privacidad/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -124,7 +124,7 @@
       .pol-tabela td::before { content:attr(data-rotulo) ": "; font-weight:700; color:var(--muted) }
     }
 </style>
-  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebPage","@id":"https://cruzvermelhariodejaneiro.org/es/privacidad/#pagina","url":"https://cruzvermelhariodejaneiro.org/es/privacidad/","name":"Política de Privacidad","description":"Qué recoge el sitio de la Cruz Roja Brasileña Petrópolis en la matrícula, el chat, el boletín y el registro de voluntarios, para qué, con quién se comparte y sus derechos según la LGPD.","inLanguage":"es","dateModified":"2026-10-19","isPartOf":{"@id":"https://cruzvermelhariodejaneiro.org/#site"},"about":{"@id":"https://cruzvermelhariodejaneiro.org/#organizacao"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://cruzvermelhariodejaneiro.org/es/"},{"@type":"ListItem","position":2,"name":"Política de Privacidad","item":"https://cruzvermelhariodejaneiro.org/es/privacidad/"}]}]</script>
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebPage","@id":"https://cruzvermelhapetropolis.org/es/privacidad/#pagina","url":"https://cruzvermelhapetropolis.org/es/privacidad/","name":"Política de Privacidad","description":"Qué recoge el sitio de la Cruz Roja Brasileña Petrópolis en la matrícula, el chat, el boletín y el registro de voluntarios, para qué, con quién se comparte y sus derechos según la LGPD.","inLanguage":"es","dateModified":"2026-10-19","isPartOf":{"@id":"https://cruzvermelhapetropolis.org/#site"},"about":{"@id":"https://cruzvermelhapetropolis.org/#organizacao"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://cruzvermelhapetropolis.org/es/"},{"@type":"ListItem","position":2,"name":"Política de Privacidad","item":"https://cruzvermelhapetropolis.org/es/privacidad/"}]}]</script>
   <!-- Google tag (gtag.js) -->
   <script>
     // Consentimento antes de tudo (LGPD; Guia de Cookies da ANPD): estatística e marketing negados até a
@@ -153,12 +153,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -168,13 +170,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -224,7 +226,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
 </head>
 <body>
@@ -279,7 +281,7 @@
     <div class="wrap pol-corpo">
       <div class="pol-intro">
         <p>Esta política explica, en lenguaje directo, qué datos personales trata el sitio de la Cruz Roja Brasileña Petrópolis, para qué sirven, con quién se comparten, cuánto tiempo se guardan y cómo ejercer sus derechos. Sigue la Ley General de Protección de Datos Personales de Brasil (Ley n.º 13.709/2018, la LGPD).</p>
-        <p>Se aplica a cruzvermelhariodejaneiro.org y a todas sus páginas, incluidas las noticias, el acervo y las versiones en inglés y español, y a la página del proyecto Impacto das Cores (projetocores.cruzvermelhariodejaneiro.org). El curso de Punción Venosa tiene sitio y <a href="https://puncaovenosav1.cruzvermelhariodejaneiro.org/politica-de-privacidade" target="_blank" rel="noopener">política de privacidad propios</a>, en portugués.</p>
+        <p>Se aplica a cruzvermelhapetropolis.org y a todas sus páginas, incluidas las noticias, el acervo y las versiones en inglés y español, y a la página del proyecto Impacto das Cores (projetocores.cruzvermelhariodejaneiro.org). El curso de Punción Venosa tiene sitio y <a href="https://puncaovenosav1.cruzvermelhariodejaneiro.org/politica-de-privacidade" target="_blank" rel="noopener">política de privacidad propios</a>, en portugués.</p>
       </div>
         <nav class="pol-indice" aria-label="En esta página">
           <p>En esta página</p>
@@ -421,7 +423,7 @@
       </section>
       <section id="voluntariado" aria-labelledby="t-voluntariado">
         <h2 id="t-voluntariado">Voluntariado</h2>
-        <p>Quien quiere ser voluntario se registra en <a href="/voluntariado/cadastro/" hreflang="pt-BR" lang="pt-BR">cruzvermelhariodejaneiro.org/voluntariado/cadastro/</a>, un formulario de nuestro propio sitio, en portugués. El formulario externo que usábamos antes (Spotform) dejó de usarse, y la filial ya no recoge datos por él.</p>
+        <p>Quien quiere ser voluntario se registra en <a href="/voluntariado/cadastro/" hreflang="pt-BR" lang="pt-BR">cruzvermelhapetropolis.org/voluntariado/cadastro/</a>, un formulario de nuestro propio sitio, en portugués. El formulario externo que usábamos antes (Spotform) dejó de usarse, y la filial ya no recoge datos por él.</p>
         <ul>
           <li><strong>Qué pedimos:</strong> nombre, fecha de nacimiento, correo, teléfono, ciudad, barrio y estado, CPF (opcional: sirve para preparar el acuerdo de adhesión y el registro en el control de asistencia de quien sea aceptado), escolaridad, profesión, si tiene formación en el área de la salud y cuál (una pregunta sobre su profesión, no sobre su salud), experiencia y habilidades, las áreas en las que quiere actuar, los días y horarios en que puede, su motivación y cómo conoció la institución. Con la ficha quedan la fecha y la hora en que usted aceptó esta política y declaró que la información es verdadera, la versión de la política aceptada y los datos técnicos del envío: la dirección IP, la página desde la que envió y, solo con su permiso de estadística, los parámetros de campaña de la dirección (utm, fbclid y gclid).</li>
           <li><strong>Para qué:</strong> seleccionar y organizar el voluntariado. El equipo analiza la ficha, se pone en contacto por el correo o el teléfono informado para fijar la entrevista y el Curso Básico de Formación Institucional (CBFI) y, si usted es aceptado, emite el acuerdo de adhesión al servicio voluntario (Ley n.º 9.608/1998) y lo registra en el control de asistencia de la sede. La ficha no se usa para ninguna otra finalidad.</li>

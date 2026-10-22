@@ -9,7 +9,7 @@
  */
 declare(strict_types=1);
 
-const MCP_DOACAO_FORMULARIO_VOLUNTARIO = 'https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/'; // formulário próprio (16/10/2026)
+const MCP_DOACAO_FORMULARIO_VOLUNTARIO = 'https://cruzvermelhapetropolis.org/voluntariado/cadastro/'; // formulário próprio (16/10/2026)
 const MCP_DOACAO_AGRADECIMENTO = 'Como agradecimento, quem doa pelo site recebe acesso futuro a cursos gravados gratuitos da Cruz Vermelha Brasileira Petrópolis.';
 
 function mcp_doacao_remetente(): string
@@ -118,7 +118,7 @@ function mcp_doacao_montar_email_pix(array $d): array
         'html' => mcp_moldura('Falta só o pagamento do PIX', $corpo, [
             'eyebrow' => 'Doação · Cruz Vermelha Brasileira Petrópolis',
             'preheader' => "Código PIX de $total pronto para pagar. Vale por 24 horas.",
-            'motivo' => 'Você recebeu este e-mail porque gerou um PIX de doação em cruzvermelhariodejaneiro.org/doe.',
+            'motivo' => 'Você recebeu este e-mail porque gerou um PIX de doação em cruzvermelhapetropolis.org/doe.',
         ]),
         'texto' => "$nome, seu código PIX de $total está pronto.\n\nPIX copia e cola:\n{$d['pix_copia_cola']}\n\nPágina da doação: $url\n\nO código vale por 24 horas.\n",
     ];
@@ -194,7 +194,7 @@ function mcp_doacao_montar_email_confirmada(array $d): array
         'html' => mcp_moldura('Obrigado, ' . $nome . '.', $corpo, [
             'eyebrow' => 'Doação · Cruz Vermelha Brasileira Petrópolis',
             'preheader' => "Recebemos sua doação de $total. Aqui está o comprovante e o que ela sustenta.",
-            'motivo' => 'Você recebeu este e-mail porque doou em cruzvermelhariodejaneiro.org/doe.',
+            'motivo' => 'Você recebeu este e-mail porque doou em cruzvermelhapetropolis.org/doe.',
         ]),
         'texto' => $texto,
     ];

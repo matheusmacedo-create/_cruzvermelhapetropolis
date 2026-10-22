@@ -89,7 +89,7 @@ final class McpPdf
     public function metadados(string $titulo, string $autor, string $assunto): void
     {
         $this->info = ['Title' => $titulo, 'Author' => $autor, 'Subject' => $assunto,
-            'Creator' => 'cruzvermelhariodejaneiro.org', 'Producer' => 'cruzvermelhariodejaneiro.org'];
+            'Creator' => 'cruzvermelhapetropolis.org', 'Producer' => 'cruzvermelhapetropolis.org'];
     }
 
     public function retangulo(float $x, float $y, float $l, float $a, string $cor): void

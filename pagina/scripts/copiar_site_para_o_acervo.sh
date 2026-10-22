@@ -8,10 +8,10 @@
 # que o servidor não entrega (config.php, api/) fica de fora por construção.
 #
 # Uso: R2_ACCOUNT_ID=… R2_ACCESS_KEY_ID=… R2_SECRET_ACCESS_KEY=… scripts/copiar_site_para_o_acervo.sh
-# Opcionais: R2_BUCKET_ACERVO (cvrj-acervo), SITE (https://cruzvermelhariodejaneiro.org/).
+# Opcionais: R2_BUCKET_ACERVO (cvrj-acervo), SITE (https://cruzvermelhapetropolis.org/).
 set -euo pipefail
 
-SITE=${SITE:-https://cruzvermelhariodejaneiro.org/}
+SITE=${SITE:-https://cruzvermelhapetropolis.org/}
 BUCKET=${R2_BUCKET_ACERVO:-cvrj-acervo}
 R2_ENDPOINT=${R2_ENDPOINT:-${R2_ACCOUNT_ID:+https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com}}
 R2_ENDPOINT=${R2_ENDPOINT%/}

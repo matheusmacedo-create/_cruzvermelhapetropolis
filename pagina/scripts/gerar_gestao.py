@@ -34,7 +34,7 @@ from gerar_matricula_presencial import HOME, RAIZ, esc, partes_da_home
 
 PASTA = RAIZ / "site" / "gestao"
 SAIDA = PASTA / "index.html"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 URL_PAGINA = f"{ORIGEM}/gestao/"
 URL_INDICE = f"{ORIGEM}/verificar/lotes/indice.json"
 TITULO = "Como funciona a nossa gestão – Cruz Vermelha Brasileira Petrópolis"

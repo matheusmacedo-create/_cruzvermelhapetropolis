@@ -1286,7 +1286,7 @@ function pn_ponto_aparelhos(string $usuario, string $aviso, string $classe): nev
         . pn_ponto_abas('aparelhos')
         . ($aviso !== '' ? '<div class="aviso ' . pn_e($classe) . '">' . pn_e($aviso) . '</div>' : '')
         . '<div class="ficha" style="margin-top:0"><div class="cartao"><h2>Este aparelho</h2>' . $este . '</div>'
-        . '<div class="cartao"><h2>QR code para o celular</h2><p class="nota" style="margin-top:0">Imprima o cartaz em A4 e cole perto da entrada. O QR code abre <b>cruzvermelhariodejaneiro.org/ponto</b>.</p>'
+        . '<div class="cartao"><h2>QR code para o celular</h2><p class="nota" style="margin-top:0">Imprima o cartaz em A4 e cole perto da entrada. O QR code abre <b>cruzvermelhapetropolis.org/ponto</b>.</p>'
         . '<div class="acoes"><a class="btn btn-outline" href="../ponto/cartaz/" target="_blank" rel="noopener">Abrir o cartaz para imprimir</a></div></div>'
         . pn_ponto_codigo_cartao($usuario) . '</div>'
         . '<div class="tabela rolagem" style="margin-top:18px"><table class="respostas"><thead><tr><th>Aparelho</th><th>Liberado</th><th>Último uso</th><th>Situação</th><th></th></tr></thead><tbody>'
@@ -1502,7 +1502,7 @@ function pn_colaborador(string $usuario, ?int $id, string $aviso = '', string $c
         . '<div class="tabela rolagem"><table class="respostas"><thead><tr><th>Dia</th><th>Entrada</th><th>Saída</th><th>Horas</th><th>Registro</th><th></th></tr></thead><tbody>'
         . ($tabela !== '' ? $tabela : '<tr><td colspan="6" class="vazio">Nenhum registro neste mês.</td></tr>') . '</tbody></table></div>'
         . $lancar
-        . '<p class="nota">A declaração de horas sai para o mês escolhido (no mês atual, até hoje), cita o termo de adesão e leva um código de verificação que qualquer pessoa confere em cruzvermelhariodejaneiro.org/conferir. '
+        . '<p class="nota">A declaração de horas sai para o mês escolhido (no mês atual, até hoje), cita o termo de adesão e leva um código de verificação que qualquer pessoa confere em cruzvermelhapetropolis.org/conferir. '
         . 'O registro serve para reconhecer as horas doadas, nunca para cobrar horário.</p></div>'
         . pc_ficha_lembretes($usuario, $c)
         . '<div class="cartao" style="margin-top:18px;max-width:720px"><h2>Dados do colaborador</h2>' . $dados . '</div>';

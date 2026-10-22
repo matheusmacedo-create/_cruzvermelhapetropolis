@@ -522,7 +522,7 @@ PAGINA_CARTAZ = """<!DOCTYPE html>
 </body>
 </html>
 """
-URL_PONTO = "https://cruzvermelhariodejaneiro.org/ponto/"
+URL_PONTO = "https://cruzvermelhapetropolis.org/ponto/"
 
 QRCODE = '  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>'
 

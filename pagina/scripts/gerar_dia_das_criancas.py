@@ -40,7 +40,7 @@ from gerar_matricula_presencial import HOME, RAIZ, esc, partes_da_home
 PASTA = RAIZ / "site" / "dia-das-criancas"
 SAIDA = PASTA / "index.html"
 OTIM = RAIZ / "site" / "assets" / "otim"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 URL_PAGINA = f"{ORIGEM}/dia-das-criancas/"
 URL_NOTICIAS = "/noticias/"
 API_CONTATO = "/matricula-cursos-presenciais/api/contato.php"

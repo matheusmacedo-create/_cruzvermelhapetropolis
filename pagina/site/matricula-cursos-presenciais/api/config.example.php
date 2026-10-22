@@ -13,7 +13,7 @@ return [
     'DB_SENHA' => '',
 
     // Endereço público das páginas (monta postback_url e os links dos e-mails).
-    'SITE_URL' => 'https://cruzvermelhariodejaneiro.org',
+    'SITE_URL' => 'https://cruzvermelhapetropolis.org',
 
     // Inscrição em centavos. Deixe vazio para ler de cursos.json (9900).
     'INSCRICAO_CENTAVOS' => '',

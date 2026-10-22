@@ -25,7 +25,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 HOME = RAIZ / "site" / "index.html"
 DADOS = RAIZ / "site" / "faq-home.json"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 MARCA_INI = "<!-- faq:inicio -->"
 MARCA_FIM = "<!-- faq:fim -->"
 PERMITIDOS = re.compile(r"^(/[a-z0-9\-./#?=&]*|https://escola\.cursoscruzvermelha\.org(/.*)?|https://www\.youtube\.com/@cruzvermelhariodejaneiro-org|https://pt\.wikipedia\.org/wiki/Cruz_Vermelha_Brasileira_-_Rio_de_Janeiro)$")

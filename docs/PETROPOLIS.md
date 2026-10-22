@@ -37,6 +37,21 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 2. Domínio, hospedagem e e-mail
 
+- [x] **Site no ar (22/10/2026): https://cruzvermelhapetropolis.org** — Hostinger,
+      mesma conta e plano do RJ (`u448697994`), HTTPS ativo. Publicado com
+      `hosting_websites_deploy-static-site-archive` a partir de `pagina/site/`
+      mais as fotos de `assets/` copiadas do site do RJ (não versionadas; 22
+      arquivos que o RJ também não tem ficaram de fora). A pasta
+      `matricula-cursos-presenciais/api/` subiu sem `config*.php`: chat,
+      cadastro de voluntários e medição respondem erro até ter configuração
+      própria de Petrópolis.
+- [x] Domínio trocado na página (links, canônicos, JSON-LD, sitemaps,
+      `.htaccess`, cookie de consentimento). Subdomínios e e-mails do RJ
+      (`doar.`, `projetocores.`, `presidente@`…) continuam com o domínio do RJ.
+- [x] **Fora dos buscadores** (`robots.txt` com `Disallow: /`) enquanto o
+      conteúdo for do RJ (Palácio, história, equipe). Voltar o robots antigo,
+      que está comentado no próprio arquivo, quando o conteúdo for trocado.
+
 - [ ] Domínio do site de Petrópolis (no RJ: `cruzvermelhariodejaneiro.org`,
       citado em ~100 arquivos da Redação e ~200 da `pagina/`).
 - [ ] Hospedagem do site estático (no RJ: Hostinger, `public_html/`) e conta FTP
@@ -98,10 +113,12 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 4. Canais e integrações de terceiros
 
-- [ ] **Google Analytics 4**: IDs do RJ no código (`G-HDYZZ5JZHF` em ~250 lugares
-      da página, `G-Z5NWV4RBTT`, `G-3JVMYP3BBS`).
-- [ ] **Meta Pixel / API de Conversões**: pixel do RJ `2224500131617302` em ~84
-      páginas.
+- [ ] **Google Analytics 4 e Meta Pixel**: os do RJ (`G-HDYZZ5JZHF`,
+      `2224500131617302`) estão **desligados** na página (`var GTAG = ''` e
+      `var PIXEL = ''`: nada é baixado nem enviado). Com os de Petrópolis,
+      voltar os endereços e trocar os IDs no `gtag('config')`/`fbq('init')`.
+      O aviso de cookies ainda cita GA e Meta. Na Redação, `lib/site/analytics.ts`
+      ainda tem os IDs do RJ.
 - [ ] Redes sociais (Upload-Post: perfil e página do Facebook).
 - [ ] WhatsApp (instância e número).
 - [ ] Doações / checkout / Unicopag.

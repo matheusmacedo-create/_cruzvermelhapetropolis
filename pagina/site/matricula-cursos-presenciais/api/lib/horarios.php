@@ -342,7 +342,7 @@ function mcp_montar_email_horarios(array $inscricao, array $p): array
         . mcp_botao($painel, 'Ver o mapa do curso no painel');
     return [
         'assunto' => 'Horários: ' . $inscricao['nome'] . ' — ' . $inscricao['curso_nome'],
-        'html' => mcp_moldura('Preferência de dias e horários', $corpo, ['eyebrow' => 'Aviso interno · matrícula cursos presenciais', 'motivo' => 'Aviso automático do questionário de horários de cruzvermelhariodejaneiro.org para a secretaria.']),
+        'html' => mcp_moldura('Preferência de dias e horários', $corpo, ['eyebrow' => 'Aviso interno · matrícula cursos presenciais', 'motivo' => 'Aviso automático do questionário de horários de cruzvermelhapetropolis.org para a secretaria.']),
         'texto' => $texto . "\nMapa do curso: $painel\n",
     ];
 }
@@ -408,7 +408,7 @@ function mcp_montar_email_lembrete_horarios(array $inscricao, int $numero): arra
         'html' => mcp_moldura($numero === 1 ? "Falta só um passo, $nome." : "Ainda dá tempo, $nome.", $corpo, [
             'eyebrow' => 'Matrícula cursos presenciais',
             'preheader' => 'Toque nos dias e horários em que você consegue vir. Leva 30 segundos.',
-            'motivo' => 'Você recebeu este e-mail porque pagou uma inscrição em cruzvermelhariodejaneiro.org e ainda não disse seus horários. São no máximo dois lembretes, e eles param assim que você responde.',
+            'motivo' => 'Você recebeu este e-mail porque pagou uma inscrição em cruzvermelhapetropolis.org e ainda não disse seus horários. São no máximo dois lembretes, e eles param assim que você responde.',
         ]),
         'texto' => $texto,
     ];

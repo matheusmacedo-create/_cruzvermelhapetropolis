@@ -26,7 +26,7 @@ from gerar_matricula_presencial import HOME, RAIZ, esc, partes_da_home
 PASTA = RAIZ / "site" / "pedido-de-documentos"
 SAIDA = PASTA / "index.html"
 LIB_PHP = RAIZ / "site" / "matricula-cursos-presenciais" / "api" / "lib" / "documentos.php"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 URL_PAGINA = f"{ORIGEM}/pedido-de-documentos/"
 API = "/matricula-cursos-presenciais/api/documentos.php"
 TITULO = "Pedido de documentos – Cruz Vermelha Brasileira Petrópolis"

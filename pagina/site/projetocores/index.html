@@ -752,7 +752,7 @@
     "@context": "https://schema.org",
     "@type": "NGO",
     "name": "Cruz Vermelha Brasileira — Petrópolis",
-    "url": "https://cruzvermelhariodejaneiro.org/",
+    "url": "https://cruzvermelhapetropolis.org/",
     "description": "Ação humanitária e mobilização comunitária no estado do Rio de Janeiro.",
     "sameAs": []
   }
@@ -786,12 +786,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -801,13 +803,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -857,7 +859,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="https://cruzvermelhariodejaneiro.org/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="https://cruzvermelhapetropolis.org/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
 </head>
 
@@ -866,7 +868,7 @@
 
   <header class="topbar">
     <div class="container nav">
-      <a class="brand" href="https://cruzvermelhariodejaneiro.org/" aria-label="Site oficial da Cruz Vermelha Brasileira — Petrópolis">
+      <a class="brand" href="https://cruzvermelhapetropolis.org/" aria-label="Site oficial da Cruz Vermelha Brasileira — Petrópolis">
         <img
           class="brand-logo"
           src="assets/logo-oficial-cruz-vermelha-petropolis.webp"
@@ -877,11 +879,11 @@
       </a>
 
       <nav class="nav-links" aria-label="Navegação principal">
-        <a href="https://cruzvermelhariodejaneiro.org/quem-somos/">Quem somos</a>
+        <a href="https://cruzvermelhapetropolis.org/quem-somos/">Quem somos</a>
         <a href="#projeto">O projeto</a>
         <a href="#perguntas">Dúvidas</a>
-        <a href="https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/">Seja voluntário</a>
-        <a class="btn btn-primary" href="https://cruzvermelhariodejaneiro.org/doe/?utm_source=site&amp;utm_medium=impacto-das-cores">Doe</a>
+        <a href="https://cruzvermelhapetropolis.org/voluntariado/cadastro/">Seja voluntário</a>
+        <a class="btn btn-primary" href="https://cruzvermelhapetropolis.org/doe/?utm_source=site&amp;utm_medium=impacto-das-cores">Doe</a>
       </nav>
     </div>
   </header>
@@ -896,7 +898,7 @@
             O Impacto das Cores reúne voluntários, crianças e moradores para transformar espaços comunitários com cuidado, presença e participação.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/">
+            <a class="btn btn-primary btn-lg" href="https://cruzvermelhapetropolis.org/voluntariado/cadastro/">
               Quero ser voluntário
               <span aria-hidden="true">→</span>
             </a>
@@ -1063,7 +1065,7 @@
       <div class="container donate-card reveal">
         <h2>Ajude a pintar a próxima história.</h2>
         <p>Faça o cadastro no formulário oficial do voluntariado. A equipe entra em contato para explicar as próximas ações e a formação, que é dada pela própria Cruz Vermelha.</p>
-        <a class="btn btn-light btn-lg" href="https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/">
+        <a class="btn btn-light btn-lg" href="https://cruzvermelhapetropolis.org/voluntariado/cadastro/">
           Quero ser voluntário
           <span aria-hidden="true">→</span>
         </a>
@@ -1082,7 +1084,7 @@
         <div class="faq-list reveal">
           <details>
             <summary>Como faço para participar?</summary>
-            <p>Faça o cadastro no <a href="https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/">formulário oficial do voluntariado</a>. A equipe do voluntariado entra em contato para explicar as próximas ações e a formação.</p>
+            <p>Faça o cadastro no <a href="https://cruzvermelhapetropolis.org/voluntariado/cadastro/">formulário oficial do voluntariado</a>. A equipe do voluntariado entra em contato para explicar as próximas ações e a formação.</p>
           </details>
           <details>
             <summary>Preciso ter experiência?</summary>
@@ -1090,7 +1092,7 @@
           </details>
           <details>
             <summary>Posso doar dinheiro para o projeto?</summary>
-            <p>Sim, pela <a href="https://cruzvermelhariodejaneiro.org/doe/?utm_source=projetocores&amp;utm_medium=site">página de doação</a> da filial, por PIX ou cartão. A doação vai para o caixa da Cruz Vermelha Brasileira — Petrópolis, que mantém a formação de voluntários e as ações comunitárias como esta. Empresas e instituições que queiram apoiar o projeto podem escrever para cvbpetropolis@gmail.com.</p>
+            <p>Sim, pela <a href="https://cruzvermelhapetropolis.org/doe/?utm_source=projetocores&amp;utm_medium=site">página de doação</a> da filial, por PIX ou cartão. A doação vai para o caixa da Cruz Vermelha Brasileira — Petrópolis, que mantém a formação de voluntários e as ações comunitárias como esta. Empresas e instituições que queiram apoiar o projeto podem escrever para cvbpetropolis@gmail.com.</p>
           </details>
           <details>
             <summary>Esta é uma iniciativa da Cruz Vermelha?</summary>
@@ -1105,7 +1107,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand-block">
-          <a href="https://cruzvermelhariodejaneiro.org/" aria-label="Acessar o site oficial da Cruz Vermelha Brasileira — Petrópolis">
+          <a href="https://cruzvermelhapetropolis.org/" aria-label="Acessar o site oficial da Cruz Vermelha Brasileira — Petrópolis">
             <img
               class="footer-brand-logo"
               src="assets/logo-oficial-cruz-vermelha-petropolis.webp"
@@ -1130,7 +1132,7 @@
           <div class="footer-links">
             <a href="https://www.instagram.com/cruzvermelhabrasileirarj/" target="_blank" rel="noopener noreferrer">Instagram @cruzvermelhabrasileirarj</a>
             <a href="https://www.facebook.com/profile.php?id=61591390052128" target="_blank" rel="noopener noreferrer">Facebook Cruz Vermelha Brasileira — RJ</a>
-            <a href="https://cruzvermelhariodejaneiro.org/">Site institucional</a>
+            <a href="https://cruzvermelhapetropolis.org/">Site institucional</a>
           </div>
         </div>
 
@@ -1150,12 +1152,12 @@
 
       <div class="footer-legal">
         <span>© 2026 Cruz Vermelha Brasileira — Filial do Município de Petrópolis.</span>
-        <span><strong>Projeto Impacto das Cores</strong> · <a href="https://cruzvermelhariodejaneiro.org/privacidade/">Privacidade</a> · <a href="https://cruzvermelhariodejaneiro.org/termos/">Termos de Uso</a> · <a href="https://cruzvermelhariodejaneiro.org/cookies/">Cookies</a> · <a href="https://cruzvermelhariodejaneiro.org/cookies/#preferencias" data-cvrj-cookies>Preferências de cookies</a></span>
+        <span><strong>Projeto Impacto das Cores</strong> · <a href="https://cruzvermelhapetropolis.org/privacidade/">Privacidade</a> · <a href="https://cruzvermelhapetropolis.org/termos/">Termos de Uso</a> · <a href="https://cruzvermelhapetropolis.org/cookies/">Cookies</a> · <a href="https://cruzvermelhapetropolis.org/cookies/#preferencias" data-cvrj-cookies>Preferências de cookies</a></span>
       </div>
     </div>
   </footer>
 
-  <a class="mobile-donate" href="https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/">Quero ser voluntário →</a>
+  <a class="mobile-donate" href="https://cruzvermelhapetropolis.org/voluntariado/cadastro/">Quero ser voluntário →</a>
 
   <dialog id="lightbox" aria-label="Visualização ampliada da foto">
     <button class="close-dialog" type="button" aria-label="Fechar imagem">×</button>

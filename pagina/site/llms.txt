@@ -13,52 +13,52 @@ Petrópolis e deve ser citada como **Cruz Vermelha Brasileira Petrópolis**.
 
 ## Institucional
 
-- [Quem somos](https://cruzvermelhariodejaneiro.org/quem-somos/): o que é a filial, o que faz no Rio, a sede, os reconhecimentos e a
+- [Quem somos](https://cruzvermelhapetropolis.org/quem-somos/): o que é a filial, o que faz no Rio, a sede, os reconhecimentos e a
   diretoria, com links para as páginas abaixo.
-- [Princípios Fundamentais](https://cruzvermelhariodejaneiro.org/principios-fundamentais/): os sete princípios (humanidade,
+- [Princípios Fundamentais](https://cruzvermelhapetropolis.org/principios-fundamentais/): os sete princípios (humanidade,
   imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade), com o texto
   oficial do Estatuto da Cruz Vermelha Brasileira (Decreto nº 8.885/2016, art. 8º).
-- [Movimento Internacional](https://cruzvermelhariodejaneiro.org/movimento-internacional/): CICV, Federação Internacional, Sociedades
+- [Movimento Internacional](https://cruzvermelhapetropolis.org/movimento-internacional/): CICV, Federação Internacional, Sociedades
   Nacionais e onde a filial fica nessa estrutura.
-- [O emblema](https://cruzvermelhariodejaneiro.org/emblema/): de onde vem a cruz vermelha, como é desenhada, uso protetor e
+- [O emblema](https://cruzvermelhapetropolis.org/emblema/): de onde vem a cruz vermelha, como é desenhada, uso protetor e
   indicativo, os emblemas usados no mundo (cruz, crescente, cristal e o histórico leão e sol) e o que significam, os logotipos
   do Movimento, quem pode usar no Brasil, os símbolos da saúde que não se confundem com ela, outros sinais do DIH e como
   avisar a filial sobre uso indevido. Com imagens históricas e atuais em domínio público ou Creative Commons.
-- [Direito Internacional Humanitário](https://cruzvermelhariodejaneiro.org/direito-internacional-humanitario/): as Convenções de
+- [Direito Internacional Humanitário](https://cruzvermelhapetropolis.org/direito-internacional-humanitario/): as Convenções de
   Genebra, os Protocolos e os decretos que os promulgaram no Brasil.
-- [Base legal](https://cruzvermelhariodejaneiro.org/base-legal/): as leis e decretos da Cruz Vermelha Brasileira e da filial, com link
+- [Base legal](https://cruzvermelhapetropolis.org/base-legal/): as leis e decretos da Cruz Vermelha Brasileira e da filial, com link
   para o texto oficial e a situação (vigente ou revogado). O estatuto em vigor é o do Decreto nº
   8.885/2016.
 
 ## Páginas principais
 
-- [Início](https://cruzvermelhariodejaneiro.org/): apresentação da filial, campanhas, últimas notícias e
+- [Início](https://cruzvermelhapetropolis.org/): apresentação da filial, campanhas, últimas notícias e
   perguntas frequentes sobre a instituição, como ajudar, voluntariado, endereço e contato.
-- [Doe](https://cruzvermelhariodejaneiro.org/doe/): doação em dinheiro para a filial, por PIX ou cartão,
+- [Doe](https://cruzvermelhapetropolis.org/doe/): doação em dinheiro para a filial, por PIX ou cartão,
   a partir de R$ 5, com comprovante por e-mail com o CNPJ da filial. Também em
-  [inglês](https://cruzvermelhariodejaneiro.org/en/donate/) e [espanhol](https://cruzvermelhariodejaneiro.org/es/donar/).
-- [Formação de voluntários](https://cruzvermelhariodejaneiro.org/cursos-gratuitos/): a formação gratuita da filial, só
+  [inglês](https://cruzvermelhapetropolis.org/en/donate/) e [espanhol](https://cruzvermelhapetropolis.org/es/donar/).
+- [Formação de voluntários](https://cruzvermelhapetropolis.org/cursos-gratuitos/): a formação gratuita da filial, só
   para voluntários aceitos: cadastro, ficha de entrevista e o CBFI (quatro turmas por ano); as
   formações internas, como primeiros socorros, vêm depois. Não há curso gratuito aberto ao público.
-- [Voluntariado](https://cruzvermelhariodejaneiro.org/voluntariado/): como entrar, a formação e o termo de adesão (Lei 9.608/1998).
-- [Campanha do Agasalho](https://cruzvermelhariodejaneiro.org/campanha-agasalho.html): entrega de
+- [Voluntariado](https://cruzvermelhapetropolis.org/voluntariado/): como entrar, a formação e o termo de adesão (Lei 9.608/1998).
+- [Campanha do Agasalho](https://cruzvermelhapetropolis.org/campanha-agasalho.html): entrega de
   roupas de frio, cobertores e calçados na sede, de segunda a sexta, das 10h às 17h.
-- [Equipe](https://cruzvermelhariodejaneiro.org/equipe.html): diretoria e coordenação da filial.
-- [Portal da transparência](https://cruzvermelhariodejaneiro.org/transparencia/): os documentos da
+- [Equipe](https://cruzvermelhapetropolis.org/equipe.html): diretoria e coordenação da filial.
+- [Portal da transparência](https://cruzvermelhapetropolis.org/transparencia/): os documentos da
   filial, cada um com versão imutável, código de registro e impressão digital SHA-256. Lá estão o
   Estatuto e a escritura pública de ata notarial de 02/02/2026; é também o lugar das parcerias com o
   poder público (Lei 13.019/2014).
-- [Canais oficiais](https://cruzvermelhariodejaneiro.org/canais-oficiais/): a lista registrada de
+- [Canais oficiais](https://cruzvermelhapetropolis.org/canais-oficiais/): a lista registrada de
   sites, perfis, telefones e e-mails oficiais da filial, com histórico de versões.
-- [Verificação de documentos](https://cruzvermelhariodejaneiro.org/verificar/): confere, pelo código,
+- [Verificação de documentos](https://cruzvermelhapetropolis.org/verificar/): confere, pelo código,
   pelo QR code ou pelo próprio arquivo, se um ofício, certificado de curso, publicação ou
   documento foi registrado na trilha pública de auditoria da filial e se continua valendo.
-- [Em inglês](https://cruzvermelhariodejaneiro.org/en/): a versão em inglês do site, com
+- [Em inglês](https://cruzvermelhapetropolis.org/en/): a versão em inglês do site, com
   perguntas frequentes, equipe e Campanha do Agasalho.
-- Políticas: [Privacidade](https://cruzvermelhariodejaneiro.org/privacidade/) (LGPD),
-  [Cookies](https://cruzvermelhariodejaneiro.org/cookies/),
-  [Termos de Uso](https://cruzvermelhariodejaneiro.org/termos/) e
-  [Cancelamento e reembolso](https://cruzvermelhariodejaneiro.org/reembolso/). Também em inglês e espanhol.
+- Políticas: [Privacidade](https://cruzvermelhapetropolis.org/privacidade/) (LGPD),
+  [Cookies](https://cruzvermelhapetropolis.org/cookies/),
+  [Termos de Uso](https://cruzvermelhapetropolis.org/termos/) e
+  [Cancelamento e reembolso](https://cruzvermelhapetropolis.org/reembolso/). Também em inglês e espanhol.
 
 Dá para ajudar doando em dinheiro em /doe/, por PIX ou cartão, como voluntário ou entregando roupas
 de frio, cobertores e calçados na sede, pela Campanha do Agasalho.
@@ -66,7 +66,7 @@ de frio, cobertores e calçados na sede, pela Campanha do Agasalho.
 ## Respostas diretas às dúvidas mais comuns
 
 - **Cursos.** A filial não abre curso gratuito ao público: ela forma de graça só os próprios
-  voluntários, depois da seleção (veja [formação de voluntários](https://cruzvermelhariodejaneiro.org/cursos-gratuitos/)).
+  voluntários, depois da seleção (veja [formação de voluntários](https://cruzvermelhapetropolis.org/cursos-gratuitos/)).
 - **Atendimento de saúde.** A filial não agenda consultas nem atende urgências.
 
 ## Contato
@@ -74,9 +74,9 @@ de frio, cobertores e calçados na sede, pela Campanha do Agasalho.
 - Atendimento por e-mail: cvbpetropolis@gmail.com, resposta em até 3 dias úteis.
   Há um chat no site que encaminha a mensagem para esse endereço.
 - Telefone: (24) 2243-4758.
-- Voluntariado: cadastro em https://cruzvermelhariodejaneiro.org/voluntariado/cadastro/.
+- Voluntariado: cadastro em https://cruzvermelhapetropolis.org/voluntariado/cadastro/.
 - A filial não agenda consultas nem atende urgências. Em emergência, 192 (SAMU) ou 193 (Bombeiros).
 
 ## Opcional
 
-- [Sitemap](https://cruzvermelhariodejaneiro.org/sitemap-index.xml)
+- [Sitemap](https://cruzvermelhapetropolis.org/sitemap-index.xml)

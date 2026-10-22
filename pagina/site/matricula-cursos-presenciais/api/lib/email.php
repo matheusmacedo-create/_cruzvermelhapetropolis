@@ -889,7 +889,7 @@ function mcp_email_b_acompanhe(array $i): array
 }
 
 /** Opções da moldura dos e-mails ao aluno: chapéu, prévia, motivo e a linha do fornecedor no rodapé (F2). */
-function mcp_email_opcoes_aluno(string $preheader, string $motivo = 'Você recebeu este e-mail porque pagou uma inscrição em cruzvermelhariodejaneiro.org com este endereço.'): array
+function mcp_email_opcoes_aluno(string $preheader, string $motivo = 'Você recebeu este e-mail porque pagou uma inscrição em cruzvermelhapetropolis.org com este endereço.'): array
 {
     return ['eyebrow' => 'Cursos presenciais', 'preheader' => $preheader, 'motivo' => $motivo, 'fornecedor' => true];
 }
@@ -897,7 +897,7 @@ function mcp_email_opcoes_aluno(string $preheader, string $motivo = 'Você receb
 /** Opções da moldura dos avisos internos. */
 function mcp_email_opcoes_secretaria(): array
 {
-    return ['eyebrow' => 'Aviso interno · matrícula cursos presenciais', 'motivo' => 'Aviso automático do checkout de cruzvermelhariodejaneiro.org para a secretaria.'];
+    return ['eyebrow' => 'Aviso interno · matrícula cursos presenciais', 'motivo' => 'Aviso automático do checkout de cruzvermelhapetropolis.org para a secretaria.'];
 }
 
 // ----------------------------------------------------------------------------- PIX aberto (recuperação)
@@ -1027,7 +1027,7 @@ function mcp_montar_email_pix_aberto(array $inscricao): array
     return [
         'assunto' => $completo ? "Falta só o PIX para concluir sua inscrição e matrícula em $curso" : "Falta só o PIX para concluir sua inscrição em $curso",
         'html' => mcp_moldura("Falta só o PIX, $nome.", $c['html'], mcp_email_opcoes_aluno($preheader,
-            'Você recebeu este e-mail porque iniciou uma inscrição em cruzvermelhariodejaneiro.org com este endereço.')),
+            'Você recebeu este e-mail porque iniciou uma inscrição em cruzvermelhapetropolis.org com este endereço.')),
         'texto' => $c['texto'] . "\n\nDúvidas? Responda este e-mail ou escreva para " . mcp_email_contato_endereco() . '.',
     ];
 }
@@ -2046,10 +2046,10 @@ function mcp_contato_canal(string $assunto): array
 {
     return match ($assunto) {
         'brinquedos' => ['nome' => 'formulário de doação do Dia das Crianças', 'rotulo' => 'Formulário de doação',
-            'site' => 'formulário de doação do Dia das Crianças, em cruzvermelhariodejaneiro.org'],
+            'site' => 'formulário de doação do Dia das Crianças, em cruzvermelhapetropolis.org'],
         'documentos' => ['nome' => 'página de pedido de documentos', 'rotulo' => 'Pedido de documento',
-            'site' => 'página de pedido de documentos de cruzvermelhariodejaneiro.org'],
-        default => ['nome' => 'chat do site', 'rotulo' => 'Chat do site', 'site' => 'chat de cruzvermelhariodejaneiro.org'],
+            'site' => 'página de pedido de documentos de cruzvermelhapetropolis.org'],
+        default => ['nome' => 'chat do site', 'rotulo' => 'Chat do site', 'site' => 'chat de cruzvermelhapetropolis.org'],
     };
 }
 

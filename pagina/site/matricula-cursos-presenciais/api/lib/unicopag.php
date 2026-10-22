@@ -396,7 +396,7 @@ function mcp_aviso_montar(string $assunto, string $titulo, string $paragrafoHtml
     return [
         'assunto' => $assunto,
         'html' => mcp_moldura($titulo, mcp_p($paragrafoHtml) . ($linhas ? mcp_caixa($linhas) : ''),
-            ['eyebrow' => 'Aviso interno · matrícula cursos presenciais', 'motivo' => 'Aviso automático do checkout de cruzvermelhariodejaneiro.org para a secretaria.']),
+            ['eyebrow' => 'Aviso interno · matrícula cursos presenciais', 'motivo' => 'Aviso automático do checkout de cruzvermelhapetropolis.org para a secretaria.']),
         'texto' => $texto,
     ];
 }

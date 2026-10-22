@@ -7,21 +7,21 @@
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <title>Emblemas da Cruz Vermelha: símbolos e uso – Cruz Vermelha Petrópolis</title>
   <meta name="description" content="Cruz, crescente, cristal e leão e sol vermelhos: a origem, o desenho e o uso de cada emblema, quem pode usá-los no Brasil e como avisar sobre uso indevido.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/emblema/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/emblema/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="Emblemas da Cruz Vermelha: símbolos e uso – Cruz Vermelha Petrópolis">
   <meta property="og:description" content="Cruz, crescente, cristal e leão e sol vermelhos: a origem, o desenho e o uso de cada emblema, quem pode usá-los no Brasil e como avisar sobre uso indevido.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/emblema/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-emblema.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/emblema/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-emblema.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Emblemas da Cruz Vermelha: símbolos e uso – Cruz Vermelha Petrópolis">
   <meta name="twitter:description" content="Cruz, crescente, cristal e leão e sol vermelhos: a origem, o desenho e o uso de cada emblema, quem pode usá-los no Brasil e como avisar sobre uso indevido.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-emblema.jpg">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-emblema.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -146,12 +146,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -161,13 +163,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -217,7 +219,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
   <script type="application/ld+json">
 {
@@ -225,19 +227,19 @@
  "@graph": [
   {
    "@type": "WebPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/emblema/#pagina",
-   "url": "https://cruzvermelhariodejaneiro.org/emblema/",
+   "@id": "https://cruzvermelhapetropolis.org/emblema/#pagina",
+   "url": "https://cruzvermelhapetropolis.org/emblema/",
    "name": "Os emblemas da Cruz Vermelha no mundo: origem, desenho e uso",
    "description": "Cruz, crescente, cristal e leão e sol vermelhos: a origem, o desenho e o uso de cada emblema, quem pode usá-los no Brasil e como avisar sobre uso indevido.",
    "inLanguage": "pt-BR",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#site"
+    "@id": "https://cruzvermelhapetropolis.org/#site"
    },
    "publisher": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+    "@id": "https://cruzvermelhapetropolis.org/#organizacao"
    },
    "breadcrumb": {
-    "@id": "https://cruzvermelhariodejaneiro.org/emblema/#trilha"
+    "@id": "https://cruzvermelhapetropolis.org/emblema/#trilha"
    },
    "dateModified": "2026-10-15",
    "citation": [
@@ -271,87 +273,87 @@
    ],
    "primaryImageOfPage": {
     "@type": "ImageObject",
-    "url": "https://cruzvermelhariodejaneiro.org/assets/otim/og-emblema.jpg",
+    "url": "https://cruzvermelhapetropolis.org/assets/otim/og-emblema.jpg",
     "width": 1200,
     "height": 630
    },
    "image": [
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/dunant-jovem-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/batalha-solferino-bossoli-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/assinatura-convencao-genebra-1864-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/convencao-genebra-1864-documento-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/bandeira-suica.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/proporcoes.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/proporcoes-errado.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/uso-protetor.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/uso-indicativo.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-hospital-de-campanha-1944-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-bracadeira-enfermeiro-feb-1944-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-navio-hospital-usns-mercy-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-bracadeira-enfermeiro-militar-canada-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-ambulancia-cruz-vermelha-de-macau-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-ambulancia-cruz-vermelha-italiana-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-voluntarios-coletes-cruz-vermelha-americana-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cruz-vermelha.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/crescente-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/leao-e-sol-vermelhos.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/ambulancia-crescente-vermelho-1877-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/hospital-crescente-vermelho-1916-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/leao-e-sol-vermelhos-bracal-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/selo-leao-e-sol-vermelhos-1969-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-crescente-vermelho-turco-veiculo-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-com-cruz.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-com-crescente.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-com-cruz-e-crescente.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-com-estrela.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/tres-emblemas.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-veiculo-cicv-land-cruiser-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/logo-cvb-petropolis-520.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/cruz-vermelha-brasileira-feb-1944-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-cvb-hospital-curitiba-fachada-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/fotos/uso-cvb-predio-porto-alegre-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/bastao-de-asclepio-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/estrela-da-vida.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cruz-verde-farmacia.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/iso-7010-e003.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/protecao-civil.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/bens-culturais.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/forcas-perigosas.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/indevido-farmacia.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/indevido-kit.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/indevido-app.svg"
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/dunant-jovem-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/batalha-solferino-bossoli-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/assinatura-convencao-genebra-1864-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/convencao-genebra-1864-documento-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/bandeira-suica.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/proporcoes.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/proporcoes-errado.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/uso-protetor.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/uso-indicativo.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-hospital-de-campanha-1944-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-bracadeira-enfermeiro-feb-1944-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-navio-hospital-usns-mercy-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-bracadeira-enfermeiro-militar-canada-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-ambulancia-cruz-vermelha-de-macau-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-ambulancia-cruz-vermelha-italiana-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-voluntarios-coletes-cruz-vermelha-americana-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cruz-vermelha.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/crescente-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/leao-e-sol-vermelhos.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/ambulancia-crescente-vermelho-1877-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/hospital-crescente-vermelho-1916-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/leao-e-sol-vermelhos-bracal-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/selo-leao-e-sol-vermelhos-1969-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-crescente-vermelho-turco-veiculo-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-com-cruz.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-com-crescente.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-com-cruz-e-crescente.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-com-estrela.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/tres-emblemas.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-veiculo-cicv-land-cruiser-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/logo-cvb-petropolis-520.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/cruz-vermelha-brasileira-feb-1944-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-cvb-hospital-curitiba-fachada-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/fotos/uso-cvb-predio-porto-alegre-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/bastao-de-asclepio-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/estrela-da-vida.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cruz-verde-farmacia.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/iso-7010-e003.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/protecao-civil.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/bens-culturais.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/forcas-perigosas.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/indevido-farmacia.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/indevido-kit.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/indevido-app.svg"
    ]
   },
   {
    "@type": "BreadcrumbList",
-   "@id": "https://cruzvermelhariodejaneiro.org/emblema/#trilha",
+   "@id": "https://cruzvermelhapetropolis.org/emblema/#trilha",
    "itemListElement": [
     {
      "@type": "ListItem",
      "position": 1,
      "name": "Início",
-     "item": "https://cruzvermelhariodejaneiro.org/"
+     "item": "https://cruzvermelhapetropolis.org/"
     },
     {
      "@type": "ListItem",
      "position": 2,
      "name": "Quem somos",
-     "item": "https://cruzvermelhariodejaneiro.org/quem-somos/"
+     "item": "https://cruzvermelhapetropolis.org/quem-somos/"
     },
     {
      "@type": "ListItem",
      "position": 3,
      "name": "O emblema",
-     "item": "https://cruzvermelhariodejaneiro.org/emblema/"
+     "item": "https://cruzvermelhapetropolis.org/emblema/"
     }
    ]
   },
   {
    "@type": "FAQPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/emblema/#perguntas",
+   "@id": "https://cruzvermelhapetropolis.org/emblema/#perguntas",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/emblema/#pagina"
+    "@id": "https://cruzvermelhapetropolis.org/emblema/#pagina"
    },
    "mainEntity": [
     {

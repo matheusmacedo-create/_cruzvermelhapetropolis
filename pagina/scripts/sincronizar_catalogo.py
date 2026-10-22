@@ -28,7 +28,7 @@ ORIGEM = "https://escola.cursoscruzvermelha.org"
 RAIZ = Path(__file__).resolve().parent.parent
 SAIDA = RAIZ / "site" / "matricula-cursos-presenciais" / "cursos.json"
 
-# Cursos que a escola publica e que não são vendidos no domínio da filial (cruzvermelhariodejaneiro.org): ficam só
+# Cursos que a escola publica e que não são vendidos no domínio da filial (cruzvermelhapetropolis.org): ficam só
 # na plataforma da escola. Slug -> motivo e data da decisão. Tirar daqui é o único jeito de o curso voltar.
 FORA_DO_DOMINIO = {
     "micropigmentacao-labial": ("procedimento estético, sem relação com a missão humanitária da filial; decisão do "

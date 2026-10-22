@@ -4,9 +4,9 @@ titulo: Privacy Policy | Brazilian Red Cross Petrópolis
 descricao: What the Brazilian Red Cross Petrópolis website collects at enrolment, in donations, in the chat and in the newsletter, why, and your rights under Brazil's LGPD.
 h1: Privacy Policy
 atualizado: Last updated on 24 September 2026.
-aviso: This is a courtesy translation. The binding version is the Portuguese one, at [cruzvermelhariodejaneiro.org/privacidade](/privacidade/).
+aviso: This is a courtesy translation. The binding version is the Portuguese one, at [cruzvermelhapetropolis.org/privacidade](/privacidade/).
 ---
-This policy explains, in plain language, which personal data this website processes, what it is used for, who it is shared with and how you exercise your rights. It applies to **cruzvermelhariodejaneiro.org** and its pages, and follows Brazil's General Data Protection Law (Law 13,709/2018 — LGPD).
+This policy explains, in plain language, which personal data this website processes, what it is used for, who it is shared with and how you exercise your rights. It applies to **cruzvermelhapetropolis.org** and its pages, and follows Brazil's General Data Protection Law (Law 13,709/2018 — LGPD).
 
 The data controller is the branch below. For any privacy matter, write to [cvbpetropolis@gmail.com](mailto:cvbpetropolis@gmail.com).
 

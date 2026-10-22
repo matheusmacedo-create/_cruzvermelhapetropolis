@@ -4,7 +4,7 @@
 #   scripts/publicar_hostinger.sh --copiar-do-ar /tmp/no-ar-passo2 $(grep -vE '^(#|$)' scripts/publicacao-pagar-tudo-passo2-banco.txt)
 # Publicar: scripts/publicar_hostinger.sh $(grep -vE '^(#|$)' scripts/publicacao-pagar-tudo-passo2-banco.txt)
 # Depois, abrir o banco (resposta esperada 404) e, minutos depois, o SELECT de conferência (README, pagar tudo):
-#   curl -s -o /dev/null -w '%{http_code}\n' "https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/api/status.php?t=0000000000000000000000000000000000000000"
+#   curl -s -o /dev/null -w '%{http_code}\n' "https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/api/status.php?t=0000000000000000000000000000000000000000"
 # Desfazer: o db.php do ar é o do Git (origin/main): scripts/desfazer_publicacao.sh af46c1c scripts/publicacao-pagar-tudo-passo2-banco.txt
 # (as colunas novas ficam: o código do ar funciona com elas).
 site/matricula-cursos-presenciais/api/lib/db.php

@@ -4,7 +4,7 @@
 Substitui (19/09/2026) a página que ficava em smartpa.ge/rWPY. Ficaram só os três destinos que o
 Matheus pediu (cursos na escola, formulário do voluntário e WhatsApp do voluntariado), com os links
 exatamente como estavam, no padrão visual da home (cabeçalho, rodapé, GA4, Meta Pixel e chat), para o
-tráfego do Instagram entrar em cruzvermelhariodejaneiro.org e cada clique ser medido (GA4 `bio_click`).
+tráfego do Instagram entrar em cruzvermelhapetropolis.org e cada clique ser medido (GA4 `bio_click`).
 Só a copy dos rótulos foi ajustada. Os blocos ficam em BLOCOS.
 
 Desde 19/10/2026 (segunda recusa do Ad Grants, achado M14): `noindex, follow` (é uma lista de links para quem
@@ -16,7 +16,7 @@ cartões de cursos e voluntário) e a imagem de compartilhamento og-bio.jpg.
 
 Uso:  python3 scripts/gerar_bio.py
 Depois: publicar site/bio/ (index.html + img/) com scripts/publicar_hostinger.sh e limpar o cache.
-Endereço para a bio do Instagram: https://cruzvermelhariodejaneiro.org/bio/?utm_source=ig&utm_medium=social&utm_content=link_in_bio
+Endereço para a bio do Instagram: https://cruzvermelhapetropolis.org/bio/?utm_source=ig&utm_medium=social&utm_content=link_in_bio
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ from gerar_voluntariado_cadastro import PROXIMAS_ENTRADAS
 
 PASTA = RAIZ / "site" / "bio"
 SAIDA = PASTA / "index.html"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 URL_PAGINA = f"{ORIGEM}/bio/"
 
 TITULO = "Cruz Vermelha Brasileira Petrópolis | Links oficiais"

@@ -4,7 +4,7 @@ titulo: Terms of Use | Brazilian Red Cross Petrópolis
 descricao: Rules for using the Brazilian Red Cross Petrópolis website: content, the red cross emblem, donations, courses and liability.
 h1: Terms of Use
 atualizado: Last updated on 24 September 2026.
-aviso: This is a courtesy translation. The binding version is the Portuguese one, at [cruzvermelhariodejaneiro.org/termos](/termos/).
+aviso: This is a courtesy translation. The binding version is the Portuguese one, at [cruzvermelhapetropolis.org/termos](/termos/).
 ---
 This website is maintained by the Rio de Janeiro State branch of the Brazilian Red Cross to provide information about its humanitarian work, courses and campaigns. By using it, you agree to what is set out here.
 

@@ -3,9 +3,9 @@
 # quem tem o link salvo, impresso ou em anúncio, e para o Google juntar os dois endereços num só.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(.*)$ https://cruzvermelhariodejaneiro.org/doe/ [R=301,L]
+  RewriteRule ^(.*)$ https://cruzvermelhapetropolis.org/doe/ [R=301,L]
 </IfModule>
 # Sem mod_rewrite: o redirecionamento do próprio Apache.
 <IfModule !mod_rewrite.c>
-  RedirectMatch 301 ^/(.*)$ https://cruzvermelhariodejaneiro.org/doe/
+  RedirectMatch 301 ^/(.*)$ https://cruzvermelhapetropolis.org/doe/
 </IfModule>

@@ -21,11 +21,11 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 SITE = RAIZ / "site"
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 LOCAL = "http://127.0.0.1:8767"
 IGNORAR = ("mailto:", "tel:", "javascript:", "data:", "#")
 # O checkout responde 200 mas é noindex de propósito; as âncoras são conferidas à parte.
-EXTERNOS_NOSSOS = re.compile(r"^https://(?:[a-z-]+\.)?cruzvermelhariodejaneiro\.org")
+EXTERNOS_NOSSOS = re.compile(r"^https://(?:[a-z-]+\.)?cruzvermelhapetropolis\.org")
 # Páginas que o .htaccess redireciona antes de servir: o arquivo fica no repositório como histórico,
 # mas ninguém chega nele, e os links de dentro não valem nada.
 NAO_SERVIDAS = {"doacao.html", "cursos.html", "doar/index.html"}
@@ -45,7 +45,7 @@ def paginas() -> list[Path]:
 
 def aponta_escondida(alvo: str, pagina: str) -> bool:
     """O link (já sem âncora) leva a uma pasta escondida? Vale caminho absoluto, relativo e URL completa."""
-    caminho = absoluta(re.sub(r"^https?://(?:www\.)?cruzvermelhariodejaneiro\.org", "", alvo), pagina, "")
+    caminho = absoluta(re.sub(r"^https?://(?:www\.)?cruzvermelhapetropolis\.org", "", alvo), pagina, "")
     caminho = posixpath.normpath(caminho.split("?")[0])
     return any(caminho == f"/{e}" or caminho.startswith(f"/{e}/") for e in ESCONDIDAS)
 

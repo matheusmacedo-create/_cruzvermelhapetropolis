@@ -118,7 +118,7 @@ function mcp_montar_email_pix_lembrete(array $inscricao): array
     return [
         'assunto' => $completo ? "Sua inscrição e matrícula em $curso continuam abertas: falta só o PIX" : "Sua inscrição em $curso continua aberta: falta só o PIX",
         'html' => mcp_moldura("Falta só o PIX, $nome.", $c['html'], mcp_email_opcoes_aluno($preheader,
-            'Você recebeu este e-mail porque iniciou uma inscrição em cruzvermelhariodejaneiro.org com este endereço. É o único lembrete.')),
+            'Você recebeu este e-mail porque iniciou uma inscrição em cruzvermelhapetropolis.org com este endereço. É o único lembrete.')),
         'texto' => $c['texto'] . "\n\nDúvidas? Responda este e-mail ou escreva para " . mcp_email_contato_endereco() . ".\n",
     ];
 }

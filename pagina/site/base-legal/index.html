@@ -7,21 +7,21 @@
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <title>Base legal da Cruz Vermelha Brasileira – Cruz Vermelha Petrópolis</title>
   <meta name="description" content="As leis e decretos da Cruz Vermelha Brasileira e da filial do Rio: estatuto, emblema, Convenções de Genebra e utilidade pública, com links oficiais.">
-  <link rel="canonical" href="https://cruzvermelhariodejaneiro.org/base-legal/">
+  <link rel="canonical" href="https://cruzvermelhapetropolis.org/base-legal/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Brasileira Petrópolis">
   <meta property="og:title" content="Base legal da Cruz Vermelha Brasileira – Cruz Vermelha Petrópolis">
   <meta property="og:description" content="As leis e decretos da Cruz Vermelha Brasileira e da filial do Rio: estatuto, emblema, Convenções de Genebra e utilidade pública, com links oficiais.">
-  <meta property="og:url" content="https://cruzvermelhariodejaneiro.org/base-legal/">
-  <meta property="og:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta property="og:url" content="https://cruzvermelhapetropolis.org/base-legal/">
+  <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Base legal da Cruz Vermelha Brasileira – Cruz Vermelha Petrópolis">
   <meta name="twitter:description" content="As leis e decretos da Cruz Vermelha Brasileira e da filial do Rio: estatuto, emblema, Convenções de Genebra e utilidade pública, com links oficiais.">
-  <meta name="twitter:image" content="https://cruzvermelhariodejaneiro.org/assets/otim/og-home.jpg">
+  <meta name="twitter:image" content="https://cruzvermelhapetropolis.org/assets/otim/og-home.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -146,12 +146,14 @@
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
-      var GTAG = 'https://www.googletagmanager.com/gtag/js?id=G-HDYZZ5JZHF';
-      var PIXEL = 'https://connect.facebook.net/en_US/fbevents.js';
+      // Petrópolis ainda não tem Google Analytics nem pixel da Meta próprios: os do RJ ficam desligados
+      // (vazio = não baixa). Com os IDs de Petrópolis, volte os endereços e troque o gtag('config') e o fbq('init').
+      var GTAG = '';
+      var PIXEL = '';
       var baixados = {};
       function ler() {
         var m = document.cookie.match(/(?:^|;\s*)cvrj_consentimento=([^;]+)/);
@@ -161,13 +163,13 @@
         return p.v === '1' ? { estatistica: p.e === '1', marketing: p.m === '1', revisao: parseInt(p.r, 10) || 0 } : null;
       }
       function baixar(src) {
-        if (baixados[src]) return;
+        if (!src || baixados[src]) return;
         baixados[src] = 1;
         var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s);
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\.)?cruzvermelhariodejaneiro\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\.)?cruzvermelhapetropolis\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;
@@ -217,7 +219,7 @@
       if (document.readyState === 'complete') agendar(); else window.addEventListener('load', agendar);
     })();
   </script>
-  <script src="/consentimento/consentimento.js?v=5ad82fa582" defer></script>
+  <script src="/consentimento/consentimento.js?v=b33d46d62e" defer></script>
   <!-- End Meta Pixel Code -->
   <script type="application/ld+json">
 {
@@ -225,19 +227,19 @@
  "@graph": [
   {
    "@type": "WebPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#pagina",
-   "url": "https://cruzvermelhariodejaneiro.org/base-legal/",
+   "@id": "https://cruzvermelhapetropolis.org/base-legal/#pagina",
+   "url": "https://cruzvermelhapetropolis.org/base-legal/",
    "name": "Base legal: as leis e decretos da Cruz Vermelha Brasileira e da filial",
    "description": "As leis e decretos da Cruz Vermelha Brasileira e da filial do Rio: estatuto, emblema, Convenções de Genebra e utilidade pública, com links oficiais.",
    "inLanguage": "pt-BR",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#site"
+    "@id": "https://cruzvermelhapetropolis.org/#site"
    },
    "publisher": {
-    "@id": "https://cruzvermelhariodejaneiro.org/#organizacao"
+    "@id": "https://cruzvermelhapetropolis.org/#organizacao"
    },
    "breadcrumb": {
-    "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#trilha"
+    "@id": "https://cruzvermelhapetropolis.org/base-legal/#trilha"
    },
    "dateModified": "2026-10-19",
    "citation": [
@@ -267,52 +269,52 @@
     "https://www.icrc.org/pt/nossos-emblemas"
    ],
    "image": [
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-do-catete-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-do-planalto-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/desenhos/linha-do-tempo-base-legal.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/bastao-de-asclepio-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/emblema/commons/cristal-vermelho.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/desenhos/organizacao-cvb.svg",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-pedro-ernesto-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/palacio-tiradentes-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/presidente-luiz-carlos-dos-santos-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/historia-ac-atividades-6-th.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-brincadeira-arcos-932.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/dia-criancas-voluntaria-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/institucional/fotos/congresso-nacional-960.webp",
-    "https://cruzvermelhariodejaneiro.org/assets/otim/presidente-e-vice-gabinete-473.webp"
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/palacio-do-catete-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/palacio-do-planalto-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/desenhos/linha-do-tempo-base-legal.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/bastao-de-asclepio-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/emblema/commons/cristal-vermelho.svg",
+    "https://cruzvermelhapetropolis.org/assets/institucional/desenhos/organizacao-cvb.svg",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/palacio-pedro-ernesto-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/palacio-tiradentes-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/presidente-luiz-carlos-dos-santos-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/historia-ac-atividades-6-th.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/dia-criancas-brincadeira-arcos-932.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/dia-criancas-voluntaria-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/institucional/fotos/congresso-nacional-960.webp",
+    "https://cruzvermelhapetropolis.org/assets/otim/presidente-e-vice-gabinete-473.webp"
    ],
    "mainEntity": {
-    "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#normas"
+    "@id": "https://cruzvermelhapetropolis.org/base-legal/#normas"
    }
   },
   {
    "@type": "BreadcrumbList",
-   "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#trilha",
+   "@id": "https://cruzvermelhapetropolis.org/base-legal/#trilha",
    "itemListElement": [
     {
      "@type": "ListItem",
      "position": 1,
      "name": "Início",
-     "item": "https://cruzvermelhariodejaneiro.org/"
+     "item": "https://cruzvermelhapetropolis.org/"
     },
     {
      "@type": "ListItem",
      "position": 2,
      "name": "Quem somos",
-     "item": "https://cruzvermelhariodejaneiro.org/quem-somos/"
+     "item": "https://cruzvermelhapetropolis.org/quem-somos/"
     },
     {
      "@type": "ListItem",
      "position": 3,
      "name": "Base legal",
-     "item": "https://cruzvermelhariodejaneiro.org/base-legal/"
+     "item": "https://cruzvermelhapetropolis.org/base-legal/"
     }
    ]
   },
   {
    "@type": "ItemList",
-   "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#normas",
+   "@id": "https://cruzvermelhapetropolis.org/base-legal/#normas",
    "name": "Leis e decretos da Cruz Vermelha Brasileira e da filial",
    "itemListElement": [
     {
@@ -515,9 +517,9 @@
   },
   {
    "@type": "FAQPage",
-   "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#perguntas",
+   "@id": "https://cruzvermelhapetropolis.org/base-legal/#perguntas",
    "isPartOf": {
-    "@id": "https://cruzvermelhariodejaneiro.org/base-legal/#pagina"
+    "@id": "https://cruzvermelhapetropolis.org/base-legal/#pagina"
    },
    "mainEntity": [
     {

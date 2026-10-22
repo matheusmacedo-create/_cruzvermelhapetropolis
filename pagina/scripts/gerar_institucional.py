@@ -42,7 +42,7 @@ import chat_widget
 import icones
 from gerar_matricula_presencial import HOME, RAIZ, partes_da_home
 
-ORIGEM = "https://cruzvermelhariodejaneiro.org"
+ORIGEM = "https://cruzvermelhapetropolis.org"
 CONTEUDO = RAIZ / "site" / "institucional.json"
 ATUALIZADO = date(2026, 10, 11)
 IMAGEM_OG = f"{ORIGEM}/assets/otim/og-home.jpg"

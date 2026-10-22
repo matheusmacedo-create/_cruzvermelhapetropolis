@@ -20,12 +20,12 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const RAIZ = path.resolve(__dirname, '..', 'site');
-const BASE = 'https://cruzvermelhariodejaneiro.org';
+const BASE = 'https://cruzvermelhapetropolis.org';
 const DO_REPOSITORIO = process.argv.includes('--repositorio');
 
 function arquivoLocal(u) {
   const x = new URL(u);
-  if (x.host !== 'cruzvermelhariodejaneiro.org') return null;
+  if (x.host !== 'cruzvermelhapetropolis.org') return null;
   let p = decodeURIComponent(x.pathname);
   if (p.endsWith('/')) p += 'index.html';
   const f = path.join(RAIZ, p);
@@ -50,10 +50,10 @@ async function cenario(nome, url, passos, esperado) {
     // simAntigo: "sim" sem a revisão atual do texto (r), como o do aviso anterior ou o da Punção.
     const revisao = esperado.simAntigo ? '' : '&r=2';
     await ctx.addCookies([{ name: 'cvrj_consentimento', value: encodeURIComponent(`v=1&e=1&m=1&t=${Math.floor(Date.now() / 1000)}${revisao}`),
-      domain: '.cruzvermelhariodejaneiro.org', path: '/', secure: true, sameSite: 'Lax' }]);
+      domain: '.cruzvermelhapetropolis.org', path: '/', secure: true, sameSite: 'Lax' }]);
   }
   if (DO_REPOSITORIO) {
-    await ctx.route(/^https:\/\/cruzvermelhariodejaneiro\.org\//, async (r) => {
+    await ctx.route(/^https:\/\/cruzvermelhapetropolis\.org\//, async (r) => {
       // Páginas e os scripts delas (checkout.js, chat.js, aviso de cookies) vêm do repositório.
       const documento = r.request().resourceType() === 'document';
       if (!documento && !/\.(js|css)$/.test(new URL(r.request().url()).pathname)) return r.continue();
