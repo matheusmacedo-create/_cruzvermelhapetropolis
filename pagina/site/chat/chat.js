@@ -87,9 +87,6 @@
   var ASSUNTOS = [
     ['voluntariado', 'Voluntariado'],
     ['doacoes', 'Doações, Campanha do Agasalho e parcerias'],
-    ['matricula', 'Matrícula em cursos'],
-    ['curso', 'Dúvida sobre um curso'],
-    ['pagamento', 'Pagamento ou PIX'],
     ['outro', 'Outro assunto']
   ];
   // Assuntos com uma ação pronta no site: o botão aparece junto das respostas, antes de escrever para a equipe.
@@ -97,7 +94,8 @@
     voluntariado: { href: '/voluntariado/cadastro/', rotulo: 'Fazer o cadastro de voluntário' },
     doacoes: { href: '/doe/?utm_source=site&utm_medium=chat', rotulo: 'Doar pelo site' }
   };
-  var COM_CURSO = ['matricula', 'curso', 'pagamento'];
+  // Petrópolis não tem escola: nenhum assunto pede curso (as respostas de curso acima ficam sem uso).
+  var COM_CURSO = [];
   var ORDEM = ['assunto', 'curso', 'nome', 'email', 'telefone', 'mensagem'];
   var ROTULOS = { assunto: 'Assunto', curso: 'Curso', nome: 'Nome', email: 'E-mail', telefone: 'Telefone', mensagem: 'Mensagem' };
   var ICONES = {

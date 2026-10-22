@@ -71,11 +71,24 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
       páginas e nos geradores (`pagina/scripts/`), para não voltar ao regerar.
 - [ ] **Página, conteúdo que ainda é do RJ** (precisa de texto de Petrópolis):
       o Palácio da Cruz Vermelha (1908/1919–1923) na home, em "Quem somos",
-      na FAQ e no chat; `historia/` e `en/history/`; as notícias em inglês
-      (`en/news/`, autoria do RJ, ficaram intactas — tirar do site);
-      equipe e gestão (pessoas e e-mails do RJ); a escola e a matrícula
-      (O-CVB Filial Rio de Janeiro Ensino Ltda, cursos, horários);
-      Dia das Crianças, Campanha do Agasalho, Projeto Cores e base legal.
+      na FAQ e no chat; `historia/` e `en/history/`; equipe e gestão
+      (pessoas e e-mails do RJ); Dia das Crianças, Campanha do Agasalho,
+      Projeto Cores e base legal. Ainda há menções em texto à escola do RJ
+      (O-CVB Filial Rio de Janeiro Ensino Ltda) em "Quem somos", na bio, na
+      formação de voluntários, na equipe, nos termos e no reembolso.
+- [x] **Notícias e escola fora da página (22/10/2026):** saíram `en/news/`
+      e `traducoes/en/noticias/`, a matrícula (`matricula-cursos-presenciais/`,
+      menos a pasta `api/`, que também atende o formulário de voluntários, o
+      chat e a medição), `cursos.html`, `en/courses/`, `es/cursos/`, o
+      `sitemap-escola.xml` e o kit `pagina/escola/`. Também os links do menu e
+      do rodapé, as seções de cursos e notícias da home, os grupos de cursos da
+      FAQ (pt/en/es), os assuntos de curso do chat, os 301 do `.htaccess`, as
+      URLs dos sitemaps e o `llms.txt`. As notícias de Petrópolis voltam pela
+      Redação, em `/noticias/`; o link "Notícias" pode voltar ao menu então.
+- [ ] Os geradores de `pagina/scripts/` ainda montam a escola
+      (`gerar_matricula_presencial.py` e os que dependem dele) e conferem o link
+      da escola no menu: `gerar_idiomas.py` para com "o menu da home não tem o
+      link da escola". Ajustar os geradores antes de regerar qualquer página.
 - [ ] Contatos sem equivalente ainda: WhatsApp do voluntariado
       (21) 97036-0264, Instagram `cruzvermelhabrasileirarj` e a página do
       Facebook do RJ.

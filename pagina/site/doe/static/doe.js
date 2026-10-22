@@ -205,7 +205,7 @@
       + '</div>'
       + (d.anonima ? '<p>Registramos sua doação como <b>anônima</b>: seu nome não aparece em agradecimentos públicos.</p>' : '')
       + '<p>Sua doação mantém a formação de voluntários, a capacitação em primeiros socorros e as ações da Cruz Vermelha Brasileira Petrópolis no estado.</p>'
-      + '<a class="btn btn-red doe-acao" href="/noticias/">Ver as ações da filial</a>'
+      + 'Ver as ações da filial'
       + '<a class="btn btn-outline doe-acao" href="https://www.instagram.com/cruzvermelhabrasileirarj/" target="_blank" rel="noopener" style="margin-top:8px">Seguir no Instagram</a>'
       + '</div>';
     mostrar('obrigado');
