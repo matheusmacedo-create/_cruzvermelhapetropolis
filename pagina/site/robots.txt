@@ -1,8 +1,4 @@
-# 22/10/2026: site de Petrópolis no ar com conteúdo ainda herdado do RJ (Palácio, história, equipe).
-# Fora dos buscadores até esse conteúdo ser trocado. Depois, voltar para:
-#   User-agent: *
-#   Allow: /
-#   Disallow: /acervo/equipe/
-#   Sitemap: https://cruzvermelhapetropolis.org/sitemap-index.xml
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://cruzvermelhapetropolis.org/sitemap.xml

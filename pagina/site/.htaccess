@@ -1,44 +1,30 @@
-# Raiz do site principal (public_html). Regras de SEO:
-# 1) www → apex: uma só versão do endereço para o Google (a canonical já aponta para o apex).
-# 2) doacao.html → /doe/ (a doação passou a ser feita dentro do domínio).
-# 3) Endereços antigos (sos-venezuela.html, install.php) e variações sem extensão → 301.
-# 4) Página 404 própria, com menu e atalhos, no lugar da página padrão da Hostinger.
-# Os subdomínios servidos de pastas dentro de public_html não são afetados (a condição testa o host).
+# Site da Cruz Vermelha Brasileira – Filial de Petrópolis (pagina/scripts/gerar_site_petropolis.py).
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteCond %{HTTP_HOST} ^www\.cruzvermelhapetropolis\.org$ [NC]
+  # Um endereço só, sem www (o http → https a Hostinger já faz; testar HTTPS aqui pode dar laço atrás do CDN).
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
   RewriteRule ^(.*)$ https://cruzvermelhapetropolis.org/$1 [R=301,L]
 
-  # /index.html e /en/index.html respondiam 200, cópias de / e /en/: 301 para o endereço com barra.
-  # THE_REQUEST olha o pedido do navegador, não o index.html que o servidor serve por dentro.
+  # /index.html → / (e o mesmo nas pastas).
   RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
   RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
 
-  # A doação passou a acontecer em /doe/ (antes: doacao.html e o subdomínio doar., na Vercel).
-  # 301 para juntar num endereço só o que o Google já conhece.
-  RewriteRule ^doacao\.html$ /doe/ [R=301,L]
-
-  # Endereços antigos e variações sem extensão que o Google e links antigos ainda tentam.
-  # Cada um responde 301 para a página viva equivalente, em vez de 404.
-  RewriteRule ^sos-venezuela\.html$ /doe/ [R=301,L]
-  RewriteRule ^install\.php$ /bio/ [R=301,L]
-  RewriteRule ^(doacao|doar|doe-agora)/?$ /doe/ [R=301,L]
-  RewriteRule ^equipe/?$ /equipe.html [R=301,L]
-  RewriteRule ^campanha-agasalho/?$ /campanha-agasalho.html [R=301,L]
-  # /voluntariado/ é página própria desde 11/10/2026 (scripts/gerar_institucional.py); os outros dois endereços levam a ela.
-  RewriteRule ^(voluntario|seja-voluntario)/?$ /voluntariado/ [R=301,L]
-  RewriteRule ^contato/?$ /#contato [R=301,L]
+  # Endereços da primeira versão do site (27/10/2026: páginas herdadas do RJ saíram).
+  RewriteRule ^(doacao\.html|doar/?|doacao-indisponivel\.html)$ /doe/ [R=301,L]
+  RewriteRule ^(cursos-gratuitos|voluntariado/cadastro)/?$ /voluntariado/ [R=301,L]
+  RewriteRule ^(movimento-internacional|emblema|direito-internacional-humanitario|historia|equipe\.html|equipe|gestao|base-legal)/?$ /quem-somos/ [R=301,L]
+  RewriteRule ^(termos|cookies|reembolso)/?$ /privacidade/ [R=301,L]
+  RewriteRule ^(bio|links?|campanha-agasalho\.html|dia-das-criancas|projetocores|pedido-de-documentos|verificar|en|es)(/.*)?$ / [R=301,L]
 </IfModule>
 <IfModule mod_headers.c>
-  # HSTS: o navegador passa a só falar HTTPS com o domínio, sem a ida e volta pelo HTTP.
-  # Um ano, subdomínios incluídos. Só é enviado sobre HTTPS, como manda a especificação.
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
-<IfModule mod_mime.c>
-  # AVIF (o banner do topo da home): sem isto, o LiteSpeed da Hostinger mandava .avif como text/plain.
-  AddType image/avif .avif
-  # Evento para a agenda (/dia-das-criancas/dia-das-criancas.ics): com text/calendar o iPhone abre "Adicionar à agenda".
-  AddType text/calendar .ics
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType text/css "access plus 30 days"
+  ExpiresByType application/javascript "access plus 30 days"
 </IfModule>
-
 ErrorDocument 404 /404.html

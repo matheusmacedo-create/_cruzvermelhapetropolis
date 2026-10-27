@@ -43,8 +43,8 @@ __pycache__/
 pagina/site/assets/*
 !pagina/site/assets/otim/
 pagina/site/assets/otim/*
-# A imagem principal do celular acompanha a home e a publicação.
-!pagina/site/assets/otim/hero-turma-cbfi-640.webp
+# Fotos de Petrópolis (licença livre, créditos em pagina/site/assets/fotos/creditos.json).
+!pagina/site/assets/fotos/
 # Logos de Petrópolis: ainda não estão no servidor, então vão no repositório.
 !pagina/site/assets/logo-cvb-petropolis.png
 !pagina/site/assets/logo-oficial-cruz-vermelha-petropolis.webp

@@ -63,6 +63,17 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 3. Identidade e conteúdo
 
+> **27/10/2026 — página refeita só com Petrópolis.** `pagina/site/` agora sai de
+> `pagina/scripts/gerar_site_petropolis.py` (início, quem somos, voluntariado,
+> doe, prevenção, princípios, contato, privacidade, créditos e 404), com fotos
+> turísticas da cidade de licença livre (créditos em `/creditos/` e em
+> `pagina/site/assets/fotos/creditos.json`). Saíram todas as páginas, fotos,
+> pessoas, história, campanhas, chat, formulários e a API herdados do RJ; os
+> endereços antigos levam por 301 às páginas novas (`.htaccess`). O site voltou
+> a aceitar buscadores (`robots.txt` com `Allow: /` e `sitemap.xml`). Os outros
+> scripts de `pagina/scripts/` e `pagina/docs/` são do site do RJ e não valem
+> mais para esta página. Os itens abaixo sobre a página ficam como histórico.
+
 - [x] **Redação (22/10/2026):** nome da filial, CNPJ, endereço, telefone e
       e-mail (`lib/site/juridico.ts`, dados do cartão CNPJ), logo
       (`public/images/logo-cvb-petropolis.png`, encaixada na mesma grade da do

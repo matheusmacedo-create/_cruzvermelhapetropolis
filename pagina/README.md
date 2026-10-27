@@ -1,3 +1,8 @@
+> **Petrópolis (27/10/2026):** a página de `cruzvermelhapetropolis.org` é gerada por
+> `scripts/gerar_site_petropolis.py` (`python3 pagina/scripts/gerar_site_petropolis.py`).
+> O resto deste README e dos scripts descreve o site do Rio de Janeiro, de onde este
+> repositório foi copiado, e não vale para a página de Petrópolis.
+
 # Cruz Vermelha Brasileira – Rio de Janeiro · site institucional e ligação com a escola
 
 Revisão para Ad Grants de 19/10/2026: [correções, testes e roteiro de publicação](docs/revisao-ad-grants-2026-10-19.md). Novas inscrições sem contribuição de divulgação, identificação da escola no checkout, doação sem promessa futura e imagem móvel versionada. A documentação abaixo preserva o histórico anterior; consulte a revisão para o estado desta entrega.
