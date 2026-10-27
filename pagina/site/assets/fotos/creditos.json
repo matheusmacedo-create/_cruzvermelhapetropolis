@@ -1,14 +1,14 @@
 {
   "hero": {
-    "arquivo": "quitandinha-1920.webp",
+    "arquivo": "palacio-de-cristal-1920.webp",
     "largura": 1920,
-    "altura": 1219,
-    "alt": "Palácio Quitandinha e o lago, em Petrópolis",
-    "legenda": "Palácio Quitandinha e o lago, em Petrópolis.",
+    "altura": 1173,
+    "alt": "Palácio de Cristal, em Petrópolis, iluminado ao entardecer",
+    "legenda": "Palácio de Cristal, em Petrópolis.",
     "autor": "Wilfredor",
-    "licenca": "CC0",
-    "licenca_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
-    "origem": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_Quitandinha,_Petropolis.jpg",
+    "licenca": "CC BY-SA 4.0",
+    "licenca_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "origem": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_de_Cristal_(Petr%C3%B3polis).jpg",
     "editada": true
   },
   "serra": {
@@ -36,15 +36,15 @@
     "editada": true
   },
   "cristal": {
-    "arquivo": "palacio-de-cristal-1200.webp",
-    "largura": 1200,
-    "altura": 733,
-    "alt": "Palácio de Cristal, em Petrópolis, iluminado ao entardecer",
-    "legenda": "Palácio de Cristal, em Petrópolis.",
+    "arquivo": "quitandinha-1920.webp",
+    "largura": 1920,
+    "altura": 1219,
+    "alt": "Palácio Quitandinha e o lago, em Petrópolis",
+    "legenda": "Palácio Quitandinha e o lago, em Petrópolis.",
     "autor": "Wilfredor",
-    "licenca": "CC BY-SA 4.0",
-    "licenca_url": "https://creativecommons.org/licenses/by-sa/4.0",
-    "origem": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_de_Cristal_(Petr%C3%B3polis).jpg",
+    "licenca": "CC0",
+    "licenca_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "origem": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_Quitandinha,_Petropolis.jpg",
     "editada": true
   },
   "rionegro": {
