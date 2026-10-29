@@ -15,6 +15,6 @@ export const DADOS_DA_FILIAL = {
   nome: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis',
   cnpj: '09.198.238/0001-48',
   endereco: 'Rua Carlos Gomes, 6 — Centro, Petrópolis/RJ, CEP 25680-120',
-  email: 'cvbpetropolis@gmail.com',
-  telefone: '(24) 2243-4758',
+  email: 'contato@cruzvermelhapetropolis.org',
+  telefone: '(21) 99605-6454',
 } as const

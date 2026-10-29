@@ -391,7 +391,7 @@ function PassoDoCodigo({ email, enviadoEm, reenviado, voltar, aoTrocarEmail, aoR
           <li>
             Ainda sem código? Fale com a coordenação do Voluntariado pelo telefone{' '}
             {/* nowrap: sem ele, o ponto final caía sozinho na linha de baixo. */}
-            <span className="whitespace-nowrap"><a href="tel:+552422434758" className="underline underline-offset-2">(24) 2243-4758</a>.</span>
+            <span className="whitespace-nowrap"><a href="tel:+5521996056454" className="underline underline-offset-2">(21) 99605-6454</a>.</span>
           </li>
         </ul>
       </details>

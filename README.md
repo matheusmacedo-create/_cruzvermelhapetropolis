@@ -29,7 +29,8 @@ Dados do Comprovante de Inscrição no CNPJ (emitido em 21/10/2026):
 - **Atividades:** 94.99-5-00 (principal, atividades associativas) e 88.00-6-00
   (assistência social sem alojamento)
 - **Endereço:** R. Carlos Gomes, 6 – Centro – Petrópolis/RJ – CEP 25680-120
-- **Contato:** cvbpetropolis@gmail.com · (24) 2243-4758 · (24) 3113-0074
+- **Contato:** contato@cruzvermelhapetropolis.org · (21) 99605-6454 · (21) 97465-0301
+  (no cartão CNPJ ainda constam cvbpetropolis@gmail.com · (24) 2243-4758 · (24) 3113-0074)
 
 Logotipos (vertical e horizontal) em [`docs/identidade/`](./docs/identidade).
 

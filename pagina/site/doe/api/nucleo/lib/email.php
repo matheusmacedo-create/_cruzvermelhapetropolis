@@ -36,7 +36,7 @@ const MCP_TEXTO_ESTORNO_SEM_TURMA = 'Nos cursos comprados sem turma aberta, tamb
 /** Endereço que recebe o chat do site e responde os e-mails ao aluno. */
 function mcp_email_contato_endereco(): string
 {
-    return (string) mcp_cfg('EMAIL_CONTATO', 'cvbpetropolis@gmail.com');
+    return (string) mcp_cfg('EMAIL_CONTATO', 'contato@cruzvermelhapetropolis.org');
 }
 
 /** Remetente das respostas do painel ao cliente (EMAIL_REMETENTE_CONTATO ou o remetente geral). */

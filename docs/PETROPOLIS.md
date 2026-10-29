@@ -63,6 +63,11 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 3. Identidade e conteúdo
 
+> **29/10/2026 — contatos oficiais:** e-mail contato@cruzvermelhapetropolis.org e
+> telefones (21) 99605-6454 e (21) 97465-0301, no site, na Redação
+> (`lib/site/juridico.ts`) e na configuração da doação. O cartão CNPJ ainda traz
+> o Gmail e os fixos (24); atualizar lá também, se for o caso.
+
 > **27/10/2026 — página refeita só com Petrópolis.** `pagina/site/` agora sai de
 > `pagina/scripts/gerar_site_petropolis.py` (início, quem somos, voluntariado,
 > doe, prevenção, princípios, contato, privacidade, créditos e 404), com fotos

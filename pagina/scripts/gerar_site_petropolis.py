@@ -26,8 +26,8 @@ FILIAL = {
     "cidade": "Petrópolis",
     "uf": "RJ",
     "cep": "25680-120",
-    "email": "cvbpetropolis@gmail.com",
-    "telefones": ["(24) 2243-4758", "(24) 3113-0074"],
+    "email": "contato@cruzvermelhapetropolis.org",
+    "telefones": ["(21) 99605-6454", "(21) 97465-0301"],
 }
 TEL = {t: "+55" + "".join(c for c in t if c.isdigit()) for t in FILIAL["telefones"]}
 ENDERECO = f'{FILIAL["rua"]} · {FILIAL["bairro"]} · {FILIAL["cidade"]}/{FILIAL["uf"]} · CEP {FILIAL["cep"]}'

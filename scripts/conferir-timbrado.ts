@@ -30,8 +30,8 @@ const corpo = Array.from({ length: 14 }, (_v, i) => `Parágrafo ${i + 1}: a Cruz
 async function main() {
   conferir('filial tirada do nome completo', NOME_DA_FILIAL === 'Filial do Município de Petrópolis', NOME_DA_FILIAL)
   conferir('decreto em três linhas', LINHAS_DO_DECRETO.join(' ') === 'Reconhecida como Utilidade Pública Internacional - Decreto nº 9.620, de 13/06/1912')
-  // E-mail de webmail (gmail.com) não vira site no rodapé; com domínio próprio, o site volta a aparecer.
-  conferir('rodapé com quatro linhas, sem webmail como site', linhasDoRodape().length === 4 && !linhasDoRodape()[3].includes('| gmail.com |') && linhasDoRodape()[3].includes('cvbpetropolis@gmail.com'))
+  // O site é o domínio do e-mail oficial (webmail, como gmail.com, não vira site).
+  conferir('rodapé com quatro linhas e o site', linhasDoRodape().length === 4 && linhasDoRodape()[3].includes('| cruzvermelhapetropolis.org |') && linhasDoRodape()[3].includes('contato@cruzvermelhapetropolis.org'))
 
   const dados = {
     doc: {
