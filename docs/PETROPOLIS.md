@@ -143,6 +143,9 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
       `config.php`; depois de cada publicação assim, mande o `config.php` de
       novo (ou publique só os arquivos alterados). Sem Resend, os e-mails saem
       pelo `mail()` da Hostinger. Doação mensal desligada (como no RJ).
+      `config.php` enviado ao servidor em 29/10/2026 e testado com um PIX de
+      R$ 5 não pago (protocolo CVD-261029-0001): a Unicopag gerou o código e a
+      doação ficou gravada no banco.
 - [ ] Escola (no RJ: `escola.cursoscruzvermelha.org`) — decidir se Petrópolis
       terá escola, catálogo e matrícula próprios ou se tira essas áreas.
 
