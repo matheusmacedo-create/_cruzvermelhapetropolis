@@ -45,6 +45,9 @@ pagina/site/assets/*
 pagina/site/assets/otim/*
 # Fotos de Petrópolis (licença livre, créditos em pagina/site/assets/fotos/creditos.json).
 !pagina/site/assets/fotos/
+# CSS e JS do site de Petrópolis (gerar_site_petropolis.py).
+!pagina/site/assets/site.css
+!pagina/site/assets/site.js
 # Logos de Petrópolis: ainda não estão no servidor, então vão no repositório.
 !pagina/site/assets/logo-cvb-petropolis.png
 !pagina/site/assets/logo-oficial-cruz-vermelha-petropolis.webp

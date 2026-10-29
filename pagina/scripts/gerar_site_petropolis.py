@@ -188,7 +188,7 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
   <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">{extra_head}
   <script type="application/ld+json">{ld}</script>
 </head>
-<body>
+<body{' class="pagina-doe"' if '/doe/' in caminho else ''}>
 {cabecalho(caminho)}
 <main id="conteudo">
 {corpo}
@@ -389,11 +389,14 @@ def doe() -> str:
     tels = " ou ".join(f'<a href="tel:{TEL[t]}">{t}</a>' for t in FILIAL["telefones"])
     return f"""<div class="doe">
 <section class="doe-hero">
-  <div class="wrap doe-grid">
-    <div>
-      <p class="eyebrow">Doação</p>
-      <h1>Doe para a Cruz Vermelha em Petrópolis</h1>
-      <p class="lead">Em menos de um minuto, por PIX ou cartão. Sua doação fica na cidade e sustenta o voluntariado, a prevenção e as ações humanitárias da filial.</p>
+  <div class="wrap doe-grid doe-grid-chamada">
+    <div class="doe-intro">
+      <p class="eyebrow">Doe agora</p>
+      <h1>Quando a emergência chega, a ajuda precisa já estar pronta.</h1>
+      <p class="lead">Petrópolis conhece de perto a força das chuvas na serra. Sua doação é o que permite à Cruz Vermelha estar preparada: fomentar as ações sociais e humanitárias, investir em prevenção, socorrer a população em desastres naturais e calamidades públicas e ampliar e fortalecer o voluntariado da nossa instituição.</p>
+      <p class="lead"><b>Doe hoje. Em menos de um minuto, por PIX ou cartão, e o recurso fica em Petrópolis.</b></p>
+    </div>
+    <div class="doe-extras">
       <ul class="doe-confianca">
         <li>{icone('predio')}<span><b>CNPJ {FILIAL['cnpj']}</b>, {esc(FILIAL['nome'])}. É o CNPJ que aparece no comprovante.</span></li>
         <li>{icone('mao')}<span><b>Pagamento em ambiente seguro</b>, processado pela Unicopag. Os dados do cartão não ficam guardados no site.</span></li>
@@ -480,6 +483,19 @@ def doe() -> str:
   </div>
 </section>
 </div>
+<section class="secao">
+  <div class="wrap">
+    <p class="eyebrow">Para onde vai a sua doação</p>
+    <h2>Cada contribuição mantém a ajuda de pé antes, durante e depois da crise</h2>
+    <div class="grade-4">
+      <article class="cartao">{icone('mao')}<h3>Ações sociais e humanitárias</h3><p>Apoio a famílias e comunidades em situação de vulnerabilidade, com imparcialidade e sem distinção de quem precisa.</p></article>
+      <article class="cartao">{icone('sms')}<h3>Prevenção</h3><p>Informação e preparo para que cada morador saiba o que fazer, para onde ir e a quem chamar quando o risco aparece.</p></article>
+      <article class="cartao">{icone('chuva')}<h3>Desastres e calamidades</h3><p>Resposta e auxílio à população atingida por chuvas, deslizamentos, enchentes e outras calamidades públicas.</p></article>
+      <article class="cartao">{icone('pessoas')}<h3>Voluntariado</h3><p>Mais gente preparada para agir: acolhimento, formação e estrutura para ampliar e fortalecer o voluntariado da filial.</p></article>
+    </div>
+    <p class="acoes"><a class="botao botao-vermelho" href="#doe-card">Quero doar agora</a></p>
+  </div>
+</section>
 <section class="secao secao-suave">
   <div class="wrap grade-3">
     <article class="cartao">{icone('mochila')}<h3>Doação de itens</h3><p>Antes de levar, fale com a gente: assim os itens chegam a quem precisa no momento certo e nada se perde.</p><a class="seta" href="/contato/">Fale com a filial</a></article>
@@ -613,7 +629,7 @@ if __name__ == "__main__":
     pagina("/", "Cruz Vermelha Brasileira – Petrópolis", "Filial do Município de Petrópolis da Cruz Vermelha Brasileira: voluntariado, doações, prevenção e contato.", home())
     pagina("/quem-somos/", "Quem somos – Cruz Vermelha Petrópolis", "A filial de Petrópolis da Cruz Vermelha Brasileira: missão, o que fazemos e o Movimento Internacional.", quem_somos(), "rionegro")
     pagina("/voluntariado/", "Voluntariado – Cruz Vermelha Petrópolis", "Como ser voluntário da Cruz Vermelha Brasileira em Petrópolis.", voluntariado(), "serra")
-    pagina("/doe/", "Doe – Cruz Vermelha Petrópolis", "Doe para a filial de Petrópolis da Cruz Vermelha Brasileira por PIX ou cartão, com comprovante por e-mail.", doe(), "cristal", DOE_HEAD, DOE_FIM)
+    pagina("/doe/", "Doe agora – Cruz Vermelha Petrópolis", "Quando a emergência chega, a ajuda precisa já estar pronta. Doe por PIX ou cartão para as ações humanitárias, a prevenção, o socorro em desastres e o voluntariado da Cruz Vermelha em Petrópolis.", doe(), "cristal", DOE_HEAD, DOE_FIM)
     pagina("/doe/obrigado/", "Sua doação – Cruz Vermelha Petrópolis", "Acompanhe a sua doação para a Cruz Vermelha Petrópolis.", doe_obrigado(), "cristal", DOE_HEAD + '\n  <meta name="robots" content="noindex">', DOE_FIM)
     pagina("/prevencao/", "Prevenção – Cruz Vermelha Petrópolis", "Orientações para antes, durante e depois de chuvas fortes e emergências em Petrópolis.", prevencao(), "serra")
     pagina("/principios-fundamentais/", "Princípios Fundamentais – Cruz Vermelha Petrópolis", "Os sete Princípios Fundamentais do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho.", principios(), "rionegro")
