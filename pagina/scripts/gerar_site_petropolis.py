@@ -30,6 +30,18 @@ FILIAL = {
     "telefones": ["(21) 99605-6454", "(21) 97465-0301"],
 }
 TEL = {t: "+55" + "".join(c for c in t if c.isdigit()) for t in FILIAL["telefones"]}
+
+
+def zap(telefone: str, mensagem: str = "Olá! Vim pelo site da Cruz Vermelha Petrópolis.") -> str:
+    """Link do WhatsApp (os dois telefones da filial são WhatsApp), com a mensagem já escrita."""
+    from urllib.parse import quote
+    return f"https://wa.me/{TEL[telefone].lstrip('+')}?text={quote(mensagem)}"
+
+
+def links_zap(separador: str = " · ", mensagem: str | None = None) -> str:
+    return separador.join(
+        f'<a href="{esc(zap(t, mensagem) if mensagem else zap(t))}" rel="noopener" target="_blank">{t}</a>' for t in FILIAL["telefones"]
+    )
 ENDERECO = f'{FILIAL["rua"]} · {FILIAL["bairro"]} · {FILIAL["cidade"]}/{FILIAL["uf"]} · CEP {FILIAL["cep"]}'
 MAPA = "https://www.google.com/maps/search/?api=1&query=" + "Rua+Carlos+Gomes%2C+6%2C+Centro%2C+Petr%C3%B3polis+-+RJ%2C+25680-120"
 
@@ -70,6 +82,7 @@ ICONES = {
     "email": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
     "local": '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
     "mochila": '<rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h6"/>',
+    "whatsapp": '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/><path d="M9.5 9.5c.3 1.6 1.4 3.3 3 4.2l1.2-.9 1.8.8-.3 1.6c-3 .3-6.6-3.2-6.4-6.3l1.5-.4.9 1.7z"/>',
     "sms": '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/>',
 }
 
@@ -110,6 +123,7 @@ def rodape() -> str:
       <h2>Fale com a filial</h2>
       <p>{icone('local')} <a href="{MAPA}" rel="noopener" target="_blank">{esc(ENDERECO)}</a></p>
       <p>{icone('telefone')} {tels}</p>
+      <p>{icone('whatsapp')} WhatsApp: {links_zap()}</p>
       <p>{icone('email')} <a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></p>
     </div>
     <div>
@@ -180,6 +194,7 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
 {corpo}
 </main>
 {rodape()}
+<a class="zap-flutuante" href="{esc(zap(FILIAL['telefones'][0]))}" rel="noopener" target="_blank" aria-label="Falar com a filial pelo WhatsApp">{icone('whatsapp')}<span>WhatsApp</span></a>
 <script src="/assets/site.js?v={VERSAO_JS}" defer></script>{extra_fim}
 </body>
 </html>
@@ -303,6 +318,7 @@ def home() -> str:
       <ul class="lista-icones">
         <li>{icone('local')} <span><a href="{MAPA}" rel="noopener" target="_blank">{esc(ENDERECO)}</a></span></li>
         <li>{icone('telefone')} <span>{tels}</span></li>
+        <li>{icone('whatsapp')} <span>WhatsApp: {links_zap()}</span></li>
         <li>{icone('email')} <span><a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></span></li>
       </ul>
       <a class="botao botao-vermelho" href="{MAPA}" rel="noopener" target="_blank">Ver no mapa</a>
@@ -358,7 +374,8 @@ def voluntariado() -> str:
       <h2>Quero participar</h2>
       <p>Envie um e-mail com nome, telefone, bairro, disponibilidade e o que gostaria de fazer.</p>
       <a class="botao botao-vermelho" href="mailto:{FILIAL['email']}?subject={assunto.replace(' ', '%20')}&amp;body={corpo}">Enviar e-mail</a>
-      <p class="pequeno">Ou ligue: {' · '.join(f'<a href="tel:{TEL[t]}">{t}</a>' for t in FILIAL['telefones'])}</p>
+      <a class="botao botao-zap" href="{esc(zap(FILIAL['telefones'][0], 'Olá! Quero ser voluntário da Cruz Vermelha Petrópolis.'))}" rel="noopener" target="_blank">{icone('whatsapp')} Chamar no WhatsApp</a>
+      <p class="pequeno">WhatsApp ou telefone: {links_zap(mensagem='Olá! Quero ser voluntário da Cruz Vermelha Petrópolis.')}</p>
     </aside>
   </div>
 </section>"""
@@ -538,7 +555,7 @@ def contato() -> str:
 <section class="secao">
   <div class="wrap grade-3">
     <article class="cartao">{icone('local')}<h3>Endereço</h3><p>{esc(FILIAL['rua'])}<br>{FILIAL['bairro']} · {FILIAL['cidade']}/{FILIAL['uf']}<br>CEP {FILIAL['cep']}</p><a class="seta" href="{MAPA}" rel="noopener" target="_blank">Abrir no mapa</a></article>
-    <article class="cartao">{icone('telefone')}<h3>Telefones</h3><p>{tels}</p></article>
+    <article class="cartao">{icone('whatsapp')}<h3>WhatsApp e telefone</h3><p>{tels}</p><p>{"".join(f'<a class="botao botao-zap botao-pequeno" href="{esc(zap(t))}" rel="noopener" target="_blank">WhatsApp {t}</a>' for t in FILIAL["telefones"])}</p></article>
     <article class="cartao">{icone('email')}<h3>E-mail</h3><p><a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></p></article>
   </div>
   <div class="wrap aviso"><p>A filial não faz atendimento de urgência. Em emergência: Defesa Civil <a href="tel:199">199</a> · Bombeiros <a href="tel:193">193</a> · SAMU <a href="tel:192">192</a>.</p></div>
