@@ -66,3 +66,5 @@ pagina/site/noticias/
 # (com /cookies/, /reembolso/ e as versões em inglês e espanhol) e entram no repositório.
 # Chaves de liga e desliga do pagar tudo: só no servidor (o .htaccess nega config-*.php, inclusive com hífen).
 pagina/site/matricula-cursos-presenciais/api/config-pagar-tudo.php
+# Chaves da doação (Unicopag, banco): só no servidor.
+pagina/site/doe/api/nucleo/config*.php

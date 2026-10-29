@@ -8,6 +8,7 @@ Uso: python3 pagina/scripts/gerar_site_petropolis.py
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 from pathlib import Path
@@ -146,7 +147,7 @@ ORGANIZACAO = {
 }
 
 
-def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: str = "hero") -> None:
+def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: str = "hero", extra_head: str = "", extra_fim: str = "") -> None:
     url = ORIGEM + caminho
     og = ORIGEM + "/assets/fotos/" + FOTOS[foto_social]["arquivo"]
     ld = json.dumps(ORGANIZACAO, ensure_ascii=False, separators=(",", ":"))
@@ -170,7 +171,7 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">
+  <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">{extra_head}
   <script type="application/ld+json">{ld}</script>
 </head>
 <body>
@@ -179,7 +180,7 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
 {corpo}
 </main>
 {rodape()}
-<script src="/assets/site.js?v={VERSAO_JS}" defer></script>
+<script src="/assets/site.js?v={VERSAO_JS}" defer></script>{extra_fim}
 </body>
 </html>
 """
@@ -364,19 +365,128 @@ def voluntariado() -> str:
 
 
 def doe() -> str:
-    return topo_de_pagina("Doe", "Sua doação fica em Petrópolis",
-        "Cada contribuição ajuda a filial a manter o trabalho humanitário na cidade.", "cristal") + f"""
-<section class="secao">
-  <div class="wrap grade-3">
-    <article class="cartao">{icone('mao')}<h3>Doação em dinheiro</h3><p>Peça os dados oficiais para depósito ou PIX pelo telefone ou pelo e-mail da filial. A conta é sempre em nome da filial, CNPJ {FILIAL['cnpj']}.</p></article>
-    <article class="cartao">{icone('mochila')}<h3>Doação de itens</h3><p>Antes de levar, fale com a gente: assim os itens chegam a quem precisa no momento certo e nada se perde.</p></article>
-    <article class="cartao">{icone('predio')}<h3>Empresas e parceiros</h3><p>Campanhas, ações de prevenção e apoio institucional. Conte o que a sua organização gostaria de fazer.</p></article>
+    valores = "".join(
+        f'<button class="doe-op doe-valor" type="button" data-valor="{v}">R$ {v // 100}</button>'
+        for v in (3000, 6000, 10000, 15000, 25000, 50000)
+    )
+    tels = " ou ".join(f'<a href="tel:{TEL[t]}">{t}</a>' for t in FILIAL["telefones"])
+    return f"""<div class="doe">
+<section class="doe-hero">
+  <div class="wrap doe-grid">
+    <div>
+      <p class="eyebrow">Doação</p>
+      <h1>Doe para a Cruz Vermelha em Petrópolis</h1>
+      <p class="lead">Em menos de um minuto, por PIX ou cartão. Sua doação fica na cidade e sustenta o voluntariado, a prevenção e as ações humanitárias da filial.</p>
+      <ul class="doe-confianca">
+        <li>{icone('predio')}<span><b>CNPJ {FILIAL['cnpj']}</b>, {esc(FILIAL['nome'])}. É o CNPJ que aparece no comprovante.</span></li>
+        <li>{icone('mao')}<span><b>Pagamento em ambiente seguro</b>, processado pela Unicopag. Os dados do cartão não ficam guardados no site.</span></li>
+        <li>{icone('email')}<span><b>Comprovante por e-mail</b> assim que o pagamento é confirmado.</span></li>
+      </ul>
+      {foto("cristal", "doe-foto")}
+    </div>
+    <aside class="doe-card" id="doe-card">
+      <p class="doe-teste" id="doe-teste" hidden>Modo de teste: o valor cobrado não é o valor escolhido.</p>
+      <div class="doe-passos" aria-hidden="true">
+        <span class="doe-passo ativo"><i>1</i> Valor</span>
+        <span class="doe-traco"></span>
+        <span class="doe-passo"><i>2</i> Dados</span>
+        <span class="doe-traco"></span>
+        <span class="doe-passo"><i>3</i> Pagamento</span>
+      </div>
+      <form id="doe-form" novalidate>
+        <div id="doe-valor">
+          <div class="doe-bloco" id="doe-frequencia" hidden>
+            <span class="doe-rotulo">Frequência</span>
+            <div class="doe-opcoes">
+              <button class="doe-op doe-freq ativo" type="button" data-freq="unica">Doação única<small>Contribua uma vez</small></button>
+              <button class="doe-op doe-freq" type="button" data-freq="mensal">Mensal<small>Apoie todo mês</small></button>
+            </div>
+          </div>
+          <div class="doe-bloco">
+            <span class="doe-rotulo">Valor da doação</span>
+            <div class="doe-valores">{valores}</div>
+            <label class="doe-outro">
+              <span>R$</span>
+              <input id="doe-outro" type="text" inputmode="numeric" autocomplete="off" placeholder="Outro valor" aria-label="Outro valor em reais">
+            </label>
+          </div>
+          <button class="btn btn-red doe-acao" type="button" id="doe-continuar" style="margin-top:20px">Continuar</button>
+          <p class="doe-aviso">Conexão segura. O comprovante chega no seu e-mail assim que o pagamento é confirmado.</p>
+        </div>
+
+        <div id="doe-dados" hidden>
+          <div class="doe-bloco">
+            <span class="doe-rotulo">Seus dados</span>
+            <label class="doe-campo"><span>Nome completo</span><input id="doe-nome" type="text" autocomplete="name" enterkeyhint="next"></label>
+            <label class="doe-campo"><span>E-mail</span><input id="doe-email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next"></label>
+            <div class="doe-dupla">
+              <label class="doe-campo"><span>CPF</span><input id="doe-cpf" type="text" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00"></label>
+              <label class="doe-campo"><span>Telefone</span><input id="doe-telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(24) 99999-9999"></label>
+            </div>
+          </div>
+          <div class="doe-bloco">
+            <span class="doe-rotulo">Forma de pagamento</span>
+            <div class="doe-opcoes">
+              <button class="doe-op doe-metodo ativo" type="button" data-metodo="pix">PIX<small>Confirmação na hora</small></button>
+              <button class="doe-op doe-metodo" type="button" data-metodo="cartao">Cartão<small>Crédito, à vista</small></button>
+            </div>
+            <div class="doe-cartao-grid" id="doe-cartao" hidden style="margin-top:14px">
+              <label class="doe-campo largo"><span>Número do cartão</span><input id="doe-cartao_numero" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" disabled></label>
+              <label class="doe-campo largo"><span>Nome como está no cartão</span><input id="doe-cartao_nome" type="text" autocomplete="cc-name" disabled></label>
+              <label class="doe-campo"><span>Validade</span><input id="doe-cartao_validade" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" disabled></label>
+              <label class="doe-campo"><span>Código de segurança</span><input id="doe-cartao_cvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="000" disabled></label>
+            </div>
+            <label class="doe-caixa" id="doe-cobre-caixa">
+              <input type="checkbox" id="doe-cobre">
+              <span>Quero cobrir os <b>custos de processamento</b> (<span id="doe-taxa-valor">R$ 0,00</span>) para a filial receber o valor cheio.</span>
+            </label>
+            <label class="doe-caixa" id="doe-anonimo-caixa">
+              <input type="checkbox" id="doe-anonimo">
+              <span>Quero <b>doar anonimamente</b>: meu nome não aparece em agradecimentos públicos.</span>
+            </label>
+            <label class="doe-caixa" id="doe-aceite-caixa">
+              <input type="checkbox" id="doe-aceite">
+              <span>Li e concordo com a <a href="/privacidade/" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo o uso dos meus dados para processar a doação.</span>
+            </label>
+          </div>
+          <div class="doe-resumo"><span>Total da doação</span><b class="doe-total">R$ 0,00</b></div>
+          <div class="doe-armadilha" aria-hidden="true"><label>Não preencha<input id="doe-site" type="text" tabindex="-1" autocomplete="off"></label></div>
+          <button class="btn btn-red doe-acao" type="submit" id="doe-enviar">Doar</button>
+          <button class="doe-voltar" type="button">Voltar e mudar o valor</button>
+          <p class="doe-erro" id="doe-erro" role="alert"></p>
+        </div>
+      </form>
+      <div id="doe-pix" hidden></div>
+      <div id="doe-obrigado" hidden></div>
+      <noscript><p class="doe-aviso">Esta página precisa de JavaScript para gerar o pagamento. Ative o JavaScript ou escreva para {FILIAL['email']}.</p></noscript>
+    </aside>
   </div>
-  <div class="wrap aviso">
-    <p><b>Atenção a golpes.</b> A filial não pede doações por mensagem de pessoas físicas nem em contas em nome de terceiros. Na dúvida, confirme pelos telefones {' ou '.join(f'<a href="tel:{TEL[t]}">{t}</a>' for t in FILIAL['telefones'])}.</p>
-    <a class="botao botao-vermelho" href="mailto:{FILIAL['email']}?subject=Quero%20doar%20para%20a%20Cruz%20Vermelha%20Petr%C3%B3polis">Quero doar</a>
+</section>
+</div>
+<section class="secao secao-suave">
+  <div class="wrap grade-3">
+    <article class="cartao">{icone('mochila')}<h3>Doação de itens</h3><p>Antes de levar, fale com a gente: assim os itens chegam a quem precisa no momento certo e nada se perde.</p><a class="seta" href="/contato/">Fale com a filial</a></article>
+    <article class="cartao">{icone('predio')}<h3>Empresas e parceiros</h3><p>Campanhas, ações de prevenção e apoio institucional. Conte o que a sua organização gostaria de fazer.</p><a class="seta" href="mailto:{FILIAL['email']}">Escrever para a filial</a></article>
+    <article class="cartao">{icone('telefone')}<h3>Atenção a golpes</h3><p>A filial não pede doações por mensagem de pessoas físicas nem em contas de terceiros. Doe só por esta página ou confirme pelos telefones {tels}.</p></article>
   </div>
 </section>"""
+
+
+def doe_obrigado() -> str:
+    return f"""<div class="doe">
+<section class="doe-hero">
+  <div class="wrap" style="max-width:640px">
+    <aside class="doe-card" style="position:static">
+      <div id="doe-valor" hidden></div>
+      <div id="doe-dados" hidden></div>
+      <div id="doe-pix"><p class="doe-aviso">Carregando sua doação…</p></div>
+      <div id="doe-obrigado" hidden></div>
+      <noscript><p class="doe-aviso">Esta página precisa de JavaScript para mostrar sua doação. Confira seu e-mail: o comprovante e o código PIX foram enviados para lá.</p></noscript>
+    </aside>
+    <p class="doe-aviso" style="margin-top:20px">Dúvidas sobre sua doação? Escreva para <a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a>.</p>
+  </div>
+</section>
+</div>"""
 
 
 def prevencao() -> str:
@@ -441,7 +551,9 @@ def privacidade() -> str:
 <h1>Política de privacidade</h1>
 <p>Este site é mantido pela {esc(FILIAL['nome'])}, CNPJ {FILIAL['cnpj']}, {esc(ENDERECO)}.</p>
 <h2>O que coletamos</h2>
-<p>O site não tem formulários, não usa cookies de estatística ou de publicidade e não pede dados pessoais. Os contatos são feitos por e-mail ou telefone, por iniciativa de quem nos procura. As fontes de texto vêm do Google Fonts, que recebe o endereço IP do seu acesso para entregar os arquivos.</p>
+<p>O site não usa cookies de estatística ou de publicidade. Os contatos são feitos por e-mail ou telefone, por iniciativa de quem nos procura. As fontes de texto vêm do Google Fonts, que recebe o endereço IP do seu acesso para entregar os arquivos.</p>
+<h2>Doações</h2>
+<p>Para doar em <a href="/doe/">/doe/</a>, pedimos nome, e-mail, CPF e telefone, que o meio de pagamento exige, e guardamos o registro da doação (valor, forma de pagamento, situação e o endereço IP de onde ela foi feita) para emitir o comprovante, prestar contas e evitar fraudes. O pagamento é processado pela Unicopag: os dados do cartão vão direto para ela e não ficam guardados no site, que só recebe a bandeira e os quatro últimos dígitos. A base legal é a execução da doação e o cumprimento de obrigações legais (LGPD, art. 7º, II e V).</p>
 <h2>Quando você nos escreve</h2>
 <p>Os dados que você mandar por e-mail ou telefone (nome, contato e o que contar na mensagem) são usados só para responder e, se for o caso, para organizar o voluntariado ou a doação, com base no seu consentimento e no interesse legítimo da filial (Lei Geral de Proteção de Dados, Lei nº 13.709/2018). Não vendemos nem compartilhamos esses dados para fins comerciais.</p>
 <h2>Seus direitos</h2>
@@ -472,18 +584,20 @@ def nao_encontrada() -> str:
 
 
 def versao(arquivo: str) -> str:
-    import hashlib
     return hashlib.sha256((SITE / "assets" / arquivo).read_bytes()).hexdigest()[:10]
 
 
 VERSAO_CSS = versao("site.css")
 VERSAO_JS = versao("site.js")
+DOE_HEAD = f'\n  <link rel="stylesheet" href="/doe/static/doe.css?v={hashlib.sha256((SITE / "doe/static/doe.css").read_bytes()).hexdigest()[:10]}">'
+DOE_FIM = f'\n<script src="/doe/static/doe.js?v={hashlib.sha256((SITE / "doe/static/doe.js").read_bytes()).hexdigest()[:10]}" defer></script>'
 
 if __name__ == "__main__":
     pagina("/", "Cruz Vermelha Brasileira – Petrópolis", "Filial do Município de Petrópolis da Cruz Vermelha Brasileira: voluntariado, doações, prevenção e contato.", home())
     pagina("/quem-somos/", "Quem somos – Cruz Vermelha Petrópolis", "A filial de Petrópolis da Cruz Vermelha Brasileira: missão, o que fazemos e o Movimento Internacional.", quem_somos(), "rionegro")
     pagina("/voluntariado/", "Voluntariado – Cruz Vermelha Petrópolis", "Como ser voluntário da Cruz Vermelha Brasileira em Petrópolis.", voluntariado(), "serra")
-    pagina("/doe/", "Doe – Cruz Vermelha Petrópolis", "Como doar para a filial de Petrópolis da Cruz Vermelha Brasileira, sempre em nome do CNPJ da filial.", doe(), "cristal")
+    pagina("/doe/", "Doe – Cruz Vermelha Petrópolis", "Doe para a filial de Petrópolis da Cruz Vermelha Brasileira por PIX ou cartão, com comprovante por e-mail.", doe(), "cristal", DOE_HEAD, DOE_FIM)
+    pagina("/doe/obrigado/", "Sua doação – Cruz Vermelha Petrópolis", "Acompanhe a sua doação para a Cruz Vermelha Petrópolis.", doe_obrigado(), "cristal", DOE_HEAD + '\n  <meta name="robots" content="noindex">', DOE_FIM)
     pagina("/prevencao/", "Prevenção – Cruz Vermelha Petrópolis", "Orientações para antes, durante e depois de chuvas fortes e emergências em Petrópolis.", prevencao(), "serra")
     pagina("/principios-fundamentais/", "Princípios Fundamentais – Cruz Vermelha Petrópolis", "Os sete Princípios Fundamentais do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho.", principios(), "rionegro")
     pagina("/contato/", "Contato – Cruz Vermelha Petrópolis", "Endereço, telefones e e-mail da Cruz Vermelha Brasileira em Petrópolis.", contato(), "imperial")

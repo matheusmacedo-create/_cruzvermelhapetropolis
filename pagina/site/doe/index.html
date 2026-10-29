@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Doe – Cruz Vermelha Petrópolis</title>
-  <meta name="description" content="Como doar para a filial de Petrópolis da Cruz Vermelha Brasileira, sempre em nome do CNPJ da filial.">
+  <meta name="description" content="Doe para a filial de Petrópolis da Cruz Vermelha Brasileira por PIX ou cartão, com comprovante por e-mail.">
   <link rel="canonical" href="https://cruzvermelhapetropolis.org/doe/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Cruz Vermelha Petrópolis">
   <meta property="og:title" content="Doe – Cruz Vermelha Petrópolis">
-  <meta property="og:description" content="Como doar para a filial de Petrópolis da Cruz Vermelha Brasileira, sempre em nome do CNPJ da filial.">
+  <meta property="og:description" content="Doe para a filial de Petrópolis da Cruz Vermelha Brasileira por PIX ou cartão, com comprovante por e-mail.">
   <meta property="og:url" content="https://cruzvermelhapetropolis.org/doe/">
   <meta property="og:image" content="https://cruzvermelhapetropolis.org/assets/fotos/quitandinha-1920.webp">
   <meta name="theme-color" content="#cc0000">
@@ -18,7 +18,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="/assets/site.css?v=60e1b6bee8">
+  <link rel="stylesheet" href="/assets/site.css?v=9696e06348">
+  <link rel="stylesheet" href="/doe/static/doe.css?v=c89748d0f7">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"NGO","@id":"https://cruzvermelhapetropolis.org/#organizacao","name":"Cruz Vermelha Brasileira – Filial do Município de Petrópolis","alternateName":"Cruz Vermelha Petrópolis","url":"https://cruzvermelhapetropolis.org/","logo":"https://cruzvermelhapetropolis.org/assets/logo-cvb-petropolis.png","email":"cvbpetropolis@gmail.com","telephone":["+552422434758","+552431130074"],"taxID":"09.198.238/0001-48","address":{"@type":"PostalAddress","streetAddress":"Rua Carlos Gomes, 6","addressLocality":"Petrópolis","addressRegion":"RJ","postalCode":"25680-120","addressCountry":"BR"},"parentOrganization":{"@type":"NGO","name":"Cruz Vermelha Brasileira"}}</script>
 </head>
 <body>
@@ -33,23 +34,104 @@
   </div>
 </header>
 <main id="conteudo">
-<section class="faixa-foto">
-  <img class="faixa-foto-img" src="/assets/fotos/quitandinha-1920.webp" width="1920" height="1219" alt="Palácio Quitandinha e o lago, em Petrópolis" loading="eager" decoding="async">
-  <div class="wrap faixa-foto-texto">
-    <p class="eyebrow">Doe</p>
-    <h1>Sua doação fica em Petrópolis</h1>
-    <p>Cada contribuição ajuda a filial a manter o trabalho humanitário na cidade.</p>
+<div class="doe">
+<section class="doe-hero">
+  <div class="wrap doe-grid">
+    <div>
+      <p class="eyebrow">Doação</p>
+      <h1>Doe para a Cruz Vermelha em Petrópolis</h1>
+      <p class="lead">Em menos de um minuto, por PIX ou cartão. Sua doação fica na cidade e sustenta o voluntariado, a prevenção e as ações humanitárias da filial.</p>
+      <ul class="doe-confianca">
+        <li><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/><path d="M4 21h16"/></svg><span><b>CNPJ 09.198.238/0001-48</b>, Cruz Vermelha Brasileira – Filial do Município de Petrópolis. É o CNPJ que aparece no comprovante.</span></li>
+        <li><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.4-9.3-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.3 6c-2.3 4.6-9.3 9-9.3 9z"/></svg><span><b>Pagamento em ambiente seguro</b>, processado pela Unicopag. Os dados do cartão não ficam guardados no site.</span></li>
+        <li><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span><b>Comprovante por e-mail</b> assim que o pagamento é confirmado.</span></li>
+      </ul>
+      <img class="doe-foto" src="/assets/fotos/quitandinha-1920.webp" width="1920" height="1219" alt="Palácio Quitandinha e o lago, em Petrópolis" loading="lazy" decoding="async">
+    </div>
+    <aside class="doe-card" id="doe-card">
+      <p class="doe-teste" id="doe-teste" hidden>Modo de teste: o valor cobrado não é o valor escolhido.</p>
+      <div class="doe-passos" aria-hidden="true">
+        <span class="doe-passo ativo"><i>1</i> Valor</span>
+        <span class="doe-traco"></span>
+        <span class="doe-passo"><i>2</i> Dados</span>
+        <span class="doe-traco"></span>
+        <span class="doe-passo"><i>3</i> Pagamento</span>
+      </div>
+      <form id="doe-form" novalidate>
+        <div id="doe-valor">
+          <div class="doe-bloco" id="doe-frequencia" hidden>
+            <span class="doe-rotulo">Frequência</span>
+            <div class="doe-opcoes">
+              <button class="doe-op doe-freq ativo" type="button" data-freq="unica">Doação única<small>Contribua uma vez</small></button>
+              <button class="doe-op doe-freq" type="button" data-freq="mensal">Mensal<small>Apoie todo mês</small></button>
+            </div>
+          </div>
+          <div class="doe-bloco">
+            <span class="doe-rotulo">Valor da doação</span>
+            <div class="doe-valores"><button class="doe-op doe-valor" type="button" data-valor="3000">R$ 30</button><button class="doe-op doe-valor" type="button" data-valor="6000">R$ 60</button><button class="doe-op doe-valor" type="button" data-valor="10000">R$ 100</button><button class="doe-op doe-valor" type="button" data-valor="15000">R$ 150</button><button class="doe-op doe-valor" type="button" data-valor="25000">R$ 250</button><button class="doe-op doe-valor" type="button" data-valor="50000">R$ 500</button></div>
+            <label class="doe-outro">
+              <span>R$</span>
+              <input id="doe-outro" type="text" inputmode="numeric" autocomplete="off" placeholder="Outro valor" aria-label="Outro valor em reais">
+            </label>
+          </div>
+          <button class="btn btn-red doe-acao" type="button" id="doe-continuar" style="margin-top:20px">Continuar</button>
+          <p class="doe-aviso">Conexão segura. O comprovante chega no seu e-mail assim que o pagamento é confirmado.</p>
+        </div>
+
+        <div id="doe-dados" hidden>
+          <div class="doe-bloco">
+            <span class="doe-rotulo">Seus dados</span>
+            <label class="doe-campo"><span>Nome completo</span><input id="doe-nome" type="text" autocomplete="name" enterkeyhint="next"></label>
+            <label class="doe-campo"><span>E-mail</span><input id="doe-email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next"></label>
+            <div class="doe-dupla">
+              <label class="doe-campo"><span>CPF</span><input id="doe-cpf" type="text" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00"></label>
+              <label class="doe-campo"><span>Telefone</span><input id="doe-telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(24) 99999-9999"></label>
+            </div>
+          </div>
+          <div class="doe-bloco">
+            <span class="doe-rotulo">Forma de pagamento</span>
+            <div class="doe-opcoes">
+              <button class="doe-op doe-metodo ativo" type="button" data-metodo="pix">PIX<small>Confirmação na hora</small></button>
+              <button class="doe-op doe-metodo" type="button" data-metodo="cartao">Cartão<small>Crédito, à vista</small></button>
+            </div>
+            <div class="doe-cartao-grid" id="doe-cartao" hidden style="margin-top:14px">
+              <label class="doe-campo largo"><span>Número do cartão</span><input id="doe-cartao_numero" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" disabled></label>
+              <label class="doe-campo largo"><span>Nome como está no cartão</span><input id="doe-cartao_nome" type="text" autocomplete="cc-name" disabled></label>
+              <label class="doe-campo"><span>Validade</span><input id="doe-cartao_validade" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" disabled></label>
+              <label class="doe-campo"><span>Código de segurança</span><input id="doe-cartao_cvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="000" disabled></label>
+            </div>
+            <label class="doe-caixa" id="doe-cobre-caixa">
+              <input type="checkbox" id="doe-cobre">
+              <span>Quero cobrir os <b>custos de processamento</b> (<span id="doe-taxa-valor">R$ 0,00</span>) para a filial receber o valor cheio.</span>
+            </label>
+            <label class="doe-caixa" id="doe-anonimo-caixa">
+              <input type="checkbox" id="doe-anonimo">
+              <span>Quero <b>doar anonimamente</b>: meu nome não aparece em agradecimentos públicos.</span>
+            </label>
+            <label class="doe-caixa" id="doe-aceite-caixa">
+              <input type="checkbox" id="doe-aceite">
+              <span>Li e concordo com a <a href="/privacidade/" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo o uso dos meus dados para processar a doação.</span>
+            </label>
+          </div>
+          <div class="doe-resumo"><span>Total da doação</span><b class="doe-total">R$ 0,00</b></div>
+          <div class="doe-armadilha" aria-hidden="true"><label>Não preencha<input id="doe-site" type="text" tabindex="-1" autocomplete="off"></label></div>
+          <button class="btn btn-red doe-acao" type="submit" id="doe-enviar">Doar</button>
+          <button class="doe-voltar" type="button">Voltar e mudar o valor</button>
+          <p class="doe-erro" id="doe-erro" role="alert"></p>
+        </div>
+      </form>
+      <div id="doe-pix" hidden></div>
+      <div id="doe-obrigado" hidden></div>
+      <noscript><p class="doe-aviso">Esta página precisa de JavaScript para gerar o pagamento. Ative o JavaScript ou escreva para cvbpetropolis@gmail.com.</p></noscript>
+    </aside>
   </div>
 </section>
-<section class="secao">
+</div>
+<section class="secao secao-suave">
   <div class="wrap grade-3">
-    <article class="cartao"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.4-9.3-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.3 6c-2.3 4.6-9.3 9-9.3 9z"/></svg><h3>Doação em dinheiro</h3><p>Peça os dados oficiais para depósito ou PIX pelo telefone ou pelo e-mail da filial. A conta é sempre em nome da filial, CNPJ 09.198.238/0001-48.</p></article>
-    <article class="cartao"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h6"/></svg><h3>Doação de itens</h3><p>Antes de levar, fale com a gente: assim os itens chegam a quem precisa no momento certo e nada se perde.</p></article>
-    <article class="cartao"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/><path d="M4 21h16"/></svg><h3>Empresas e parceiros</h3><p>Campanhas, ações de prevenção e apoio institucional. Conte o que a sua organização gostaria de fazer.</p></article>
-  </div>
-  <div class="wrap aviso">
-    <p><b>Atenção a golpes.</b> A filial não pede doações por mensagem de pessoas físicas nem em contas em nome de terceiros. Na dúvida, confirme pelos telefones <a href="tel:+552422434758">(24) 2243-4758</a> ou <a href="tel:+552431130074">(24) 3113-0074</a>.</p>
-    <a class="botao botao-vermelho" href="mailto:cvbpetropolis@gmail.com?subject=Quero%20doar%20para%20a%20Cruz%20Vermelha%20Petr%C3%B3polis">Quero doar</a>
+    <article class="cartao"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h6"/></svg><h3>Doação de itens</h3><p>Antes de levar, fale com a gente: assim os itens chegam a quem precisa no momento certo e nada se perde.</p><a class="seta" href="/contato/">Fale com a filial</a></article>
+    <article class="cartao"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/><path d="M4 21h16"/></svg><h3>Empresas e parceiros</h3><p>Campanhas, ações de prevenção e apoio institucional. Conte o que a sua organização gostaria de fazer.</p><a class="seta" href="mailto:cvbpetropolis@gmail.com">Escrever para a filial</a></article>
+    <article class="cartao"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg><h3>Atenção a golpes</h3><p>A filial não pede doações por mensagem de pessoas físicas nem em contas de terceiros. Doe só por esta página ou confirme pelos telefones <a href="tel:+552422434758">(24) 2243-4758</a> ou <a href="tel:+552431130074">(24) 3113-0074</a>.</p></article>
   </div>
 </section>
 </main>
@@ -76,5 +158,6 @@
   </div>
 </footer>
 <script src="/assets/site.js?v=cfbaca1e2b" defer></script>
+<script src="/doe/static/doe.js?v=11c91b8b3b" defer></script>
 </body>
 </html>

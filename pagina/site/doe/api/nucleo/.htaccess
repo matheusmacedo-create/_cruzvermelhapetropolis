@@ -1,0 +1,2 @@
+# Biblioteca comum (vinda do checkout do RJ) e config.php com as chaves: só incluídos pelo PHP, nunca servidos.
+Require all denied

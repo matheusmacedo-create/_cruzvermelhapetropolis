@@ -132,7 +132,17 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
       ainda tem os IDs do RJ.
 - [ ] Redes sociais (Upload-Post: perfil e página do Facebook).
 - [ ] WhatsApp (instância e número).
-- [ ] Doações / checkout / Unicopag.
+- [x] **Doações pela Unicopag (29/10/2026):** `/doe/` com PIX e cartão, mesmo
+      código do RJ (`pagina/site/doe/api/`, com a biblioteca comum do checkout em
+      `doe/api/nucleo/`). Banco MySQL próprio na Hostinger
+      (`u448697994_doacaopetro`, a tabela `mcp_doacoes` se cria sozinha). As
+      chaves (Unicopag de Petrópolis, senha do banco, e-mails) ficam **só no
+      servidor**, em `public_html/doe/api/nucleo/config.php` (modelo em
+      `doe/api/config.example.php`). **Atenção:** publicar com
+      `deploy-static-site-archive` apaga o que não está no pacote, inclusive o
+      `config.php`; depois de cada publicação assim, mande o `config.php` de
+      novo (ou publique só os arquivos alterados). Sem Resend, os e-mails saem
+      pelo `mail()` da Hostinger. Doação mensal desligada (como no RJ).
 - [ ] Escola (no RJ: `escola.cursoscruzvermelha.org`) — decidir se Petrópolis
       terá escola, catálogo e matrícula próprios ou se tira essas áreas.
 
