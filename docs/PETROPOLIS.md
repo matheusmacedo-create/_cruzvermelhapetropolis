@@ -68,6 +68,14 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 > (`lib/site/juridico.ts`) e na configuração da doação. O cartão CNPJ ainda traz
 > o Gmail e os fixos (24); atualizar lá também, se for o caso.
 
+> **29/10/2026 — chat "Fale com a gente" de volta**, o mesmo balão do RJ
+> (`pagina/site/chat/`), com respostas rápidas de Petrópolis e sem cursos. A
+> mensagem vai por e-mail para contato@cruzvermelhapetropolis.org (com cópia para
+> quem escreveu) e fica gravada no banco da doação (`chat/api/contato.php` usa a
+> biblioteca de `doe/api/nucleo/`). Testado no ar: protocolo CV-261029-0001.
+> Publicação arquivo a arquivo (TUS com `?override=true`), sem apagar o
+> `config.php`.
+
 > **27/10/2026 — página refeita só com Petrópolis.** `pagina/site/` agora sai de
 > `pagina/scripts/gerar_site_petropolis.py` (início, quem somos, voluntariado,
 > doe, prevenção, princípios, contato, privacidade, créditos e 404), com fotos

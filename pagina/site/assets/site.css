@@ -165,3 +165,7 @@ blockquote { margin: 1rem 0; padding: 18px 22px; border-left: 4px solid var(--ve
 @media (max-width: 1040px) { .doe-grid-chamada { grid-template-areas: "intro" "cartao" "extras"; } }
 @media (max-width: 620px) { .pagina-doe .zap-flutuante { display: none; } }
 .doe-grid-chamada { row-gap: 8px; }
+
+/* O balão do chat (chat/chat.css) fica no canto; o WhatsApp sobe para não ficar por cima dele. */
+.zap-flutuante { bottom: 92px; right: 20px; }
+button.botao { font: inherit; font-weight: 700; cursor: pointer; }

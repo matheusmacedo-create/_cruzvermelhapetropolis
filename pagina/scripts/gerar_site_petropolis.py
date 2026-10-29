@@ -185,7 +185,8 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">{extra_head}
+  <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">
+  <link rel="stylesheet" href="/chat/chat.css?v={VERSAO_CHAT_CSS}">{extra_head}
   <script type="application/ld+json">{ld}</script>
 </head>
 <body{' class="pagina-doe"' if '/doe/' in caminho else ''}>
@@ -195,7 +196,8 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
 </main>
 {rodape()}
 <a class="zap-flutuante" href="{esc(zap(FILIAL['telefones'][0]))}" rel="noopener" target="_blank" aria-label="Falar com a filial pelo WhatsApp">{icone('whatsapp')}<span>WhatsApp</span></a>
-<script src="/assets/site.js?v={VERSAO_JS}" defer></script>{extra_fim}
+<script src="/assets/site.js?v={VERSAO_JS}" defer></script>
+<script src="/chat/chat.js?v={VERSAO_CHAT_JS}" defer></script>{extra_fim}
 </body>
 </html>
 """
@@ -572,7 +574,7 @@ def contato() -> str:
   <div class="wrap grade-3">
     <article class="cartao">{icone('local')}<h3>Endereço</h3><p>{esc(FILIAL['rua'])}<br>{FILIAL['bairro']} · {FILIAL['cidade']}/{FILIAL['uf']}<br>CEP {FILIAL['cep']}</p><a class="seta" href="{MAPA}" rel="noopener" target="_blank">Abrir no mapa</a></article>
     <article class="cartao">{icone('whatsapp')}<h3>WhatsApp e telefone</h3><p>{tels}</p><p>{"".join(f'<a class="botao botao-zap botao-pequeno" href="{esc(zap(t))}" rel="noopener" target="_blank">WhatsApp {t}</a>' for t in FILIAL["telefones"])}</p></article>
-    <article class="cartao">{icone('email')}<h3>E-mail</h3><p><a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></p></article>
+    <article class="cartao">{icone('email')}<h3>E-mail e chat</h3><p><a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></p><p><button class="botao botao-vermelho botao-pequeno" type="button" data-abrir-chat>Escrever pelo chat</button></p></article>
   </div>
   <div class="wrap aviso"><p>A filial não faz atendimento de urgência. Em emergência: Defesa Civil <a href="tel:199">199</a> · Bombeiros <a href="tel:193">193</a> · SAMU <a href="tel:192">192</a>.</p></div>
 </section>"""
@@ -622,6 +624,9 @@ def versao(arquivo: str) -> str:
 
 VERSAO_CSS = versao("site.css")
 VERSAO_JS = versao("site.js")
+# Chat "Fale com a gente" (o mesmo do RJ): manda a mensagem por e-mail pela API em chat/api/contato.php.
+VERSAO_CHAT_CSS = hashlib.sha256((SITE / "chat/chat.css").read_bytes()).hexdigest()[:10]
+VERSAO_CHAT_JS = hashlib.sha256((SITE / "chat/chat.js").read_bytes()).hexdigest()[:10]
 DOE_HEAD = f'\n  <link rel="stylesheet" href="/doe/static/doe.css?v={hashlib.sha256((SITE / "doe/static/doe.css").read_bytes()).hexdigest()[:10]}">'
 DOE_FIM = f'\n<script src="/doe/static/doe.js?v={hashlib.sha256((SITE / "doe/static/doe.js").read_bytes()).hexdigest()[:10]}" defer></script>'
 
