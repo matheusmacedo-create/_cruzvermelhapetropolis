@@ -85,9 +85,15 @@ Settings → Environment Variables. Aqui só existem nomes.
 | `R2_ACCOUNT_ID` `R2_ACCESS_KEY_ID` `R2_SECRET_ACCESS_KEY` | server | **segredo** — token do Cloudflare R2 só com leitura e escrita de objetos nos buckets da trilha e do acervo; sem elas, o espelho da trilha e o acervo ficam desligados (§7.9, §7.10, `docs/armazenamento-r2.md`) |
 | `R2_BUCKET_TRILHA` | server | bucket do espelho da trilha (`cvrj-trilha`) |
 | `GOOGLE_SAFE_BROWSING_KEY` | server | opcional — reserva da chave do Safe Browsing (o lugar preferido é Configurações → Integrações); sem ela, os links não são conferidos (§8.4) |
+| `GOOGLE_ADS_REFRESH` | server | **segredo**, opcional — reserva da autorização do Google Ads (o lugar é o cofre, pelo botão "Conectar Google Ads"; §7.29d) |
+| `GOOGLE_ADS_OAUTH` | server | **segredo**, opcional — reserva do cliente OAuth próprio do Google Ads (`google_ads_oauth` em Configurações → Integrações), para quando o projeto do cliente do Gmail não tem acesso à API do Ads; vazio, o Ads usa o do Gmail (§7.29d) |
+| `GOOGLE_ADS_CUSTOMER_ID` | server | opcional — a conta de anúncios (o Ad Grants, 10 dígitos) que a conexão usa quando a conta Google alcança mais de uma; também se escolhe no cartão (§7.29d) |
 | `PORTAL_TRANSPARENCIA_KEY` | server | opcional — reserva da chave gratuita da CGU para a verificação do candidato (§7.36); `PORTAL_TRANSPARENCIA_URL` só em testes |
 | `R2_BUCKET_ACERVO` | server | bucket do acervo (`cvrj-acervo`); sem ela, a tela Acervo avisa que falta configurar (§7.10) |
+| `ELEVENLABS_API_KEY` | server | **segredo**, opcional — reserva do cartão “ElevenLabs (voz da instituição)” de Configurações → Integrações, que é o lugar preferido; a voz e onde ela fala ficam em Configurações → Voz (§8.7) |
 | `KAPSO_WHATSAPP` | server | **segredo**, opcional — reserva do cartão “WhatsApp (Kapso — API oficial)” de Configurações → Integrações, que é o lugar preferido; JSON com `chave`, `numeroId` e, opcionais, `modelo`, `modeloCodigo`, `modeloSeguranca` e `wabaId` (§8.5) |
+| `SITE_VOLUNTARIOS_TOKEN` | server | **segredo**, opcional — reserva do cartão “Site — fichas de voluntariado” de Configurações → Integrações; o mesmo valor do `REDACAO_TOKEN` no `config-redacao.php` do servidor do site. Sem ela, as fichas do site não entram (§7.38) |
+| `SITE_VOLUNTARIOS_URL` | server | opcional, só em testes — outro endereço para a API de fichas do site (§7.38) |
 
 **`NEXT_PUBLIC_` significa "vai para o navegador de todo visitante".** Um segredo
 com esse prefixo está publicado, não configurado. `lib/supabase/env.ts` recusa
@@ -172,7 +178,7 @@ lib/                      regras e acesso a dados, uma pasta por área:
   chamados/ oficios/ compras/ portaria/ financeiro/ patrimonio/ transparencia/ auditoria/
   equipe.ts rh/ participantes/ membro/ cursos/ oportunidades/ cracha/ escola/
   pdf/                    timbrado, folha, fontes (§7.30)
-  analytics/ google/ integracoes/ ia/ apis-publicas/ armazenamento/
+  analytics/ google/ integracoes/ ia/ apis-publicas/ armazenamento/ voz/
   ajuda/                  o texto de ajuda de cada área (§7.15)
 scripts/                  conferir-*.ts (um por área, npx tsx) · backup-banco.sh · restaurar-arquivos.sh
 supabase/migrations/      o schema, em ordem cronológica (108 arquivos em 28/09/2026)
@@ -642,6 +648,11 @@ confira em `/api/admin/ftp-check`.
    endereço interno (`/api/private-blob`, Blob, workspace, localhost), Markdown que não
    virou HTML (`![`, `**`, `](`) ou o domínio antigo.
 4. **Subida** por FTPS e, depois, índice, sitemap e `.htaccess` (`vitrine.ts`).
+
+**Narração** (§8.7): com a voz ligada para as matérias, `gerarPaginaDaMateria` pede a
+`narracaoDaMateria` o MP3 do texto (`ouvir-<hash>.mp3` na pasta da matéria) e a página ganha
+o “Ouça esta matéria” abaixo do cabeçalho, com o aviso de voz gerada por IA, os botões de velocidade
+(1×, 1,25×, 1,5×, 2×; `playbackRate`, sem guardar nada no navegador) e o `AudioObject` no JSON-LD. A publicação gera; a regeração só reaproveita o que já está no ar.
 
 **Datas.** `site_published_at` é a primeira publicação e não muda mais; o
 `dateModified` e o `lastmod` do sitemap são a última edição do texto (`updated_at`,
@@ -1843,6 +1854,105 @@ essa conta. A ajuda ("Conectar o Google Drive da filial") e o cartão dizem isso
   `envio_arquivos.drive_arquivo_id`, o tipo `guardar_documento` em
   `whatsapp_pendencias` e "drive" em `private.whatsapp_permitidas_validas`.
 
+### 7.29d Google Ads da filial (`lib/google/ads.ts`, 22/10/2026)
+
+A conta do **Google Ad Grants** (a verba que o Google doa a organizações sem fins
+lucrativos, em dólar) onde rodam as campanhas de pesquisa que levam ao site da
+filial. O Palácio não liga anúncio: ele confere e cria, **pausada**, a campanha
+institucional do plano, e quem ativa é uma pessoa, no painel do Google, depois de
+revisar. Sem o Ads conectado (ou sem a migração), nada muda.
+- **Conexão própria, no padrão da do Drive** (`google_ads_conexao` + chave
+  `google_ads` no cofre, oculta em `SERVICOS`; `/api/google/conectar-ads`, mesma
+  volta `/api/google/retorno` com `state` começando em `ads.`). Escopos: `adwords`
+  mais `openid`/`userinfo.email` (o do Ads não traz quem autorizou), com
+  `somenteEstes`. A volta lista as contas de anúncios que a autorização alcança
+  (`customers:listAccessibleCustomers`) e escolhe a única, ou a de
+  `GOOGLE_ADS_CUSTOMER_ID` se a alcança; com mais de uma, o cartão pede a escolha
+  (`escolherContaDoAds`, conferida contra a lista). A reconexão da mesma conta
+  mantém a escolha e a campanha já criada.
+- **Cliente OAuth próprio (opcional).** O acesso à API é do projeto do Google Cloud
+  dono do cliente OAuth. O "My First Project" do cliente do Gmail teve o Explorer negado
+  duas vezes (22/10/2026), e trocar o cliente geral derrubaria Gmail, Drive e conta de
+  administrador. Por isso `clienteDoAds` lê `google_ads_oauth` (Integrações; reserva
+  `GOOGLE_ADS_OAUTH`) e só na falta dele usa o do Gmail; a conexão (`conectar-ads`), a
+  volta (`trocarCodigo(…, cliente)`) e a renovação do token usam o mesmo cliente. A
+  autorização vale só para o cliente que a gerou: trocar o cliente pede "Reconectar". O
+  cartão diz qual cliente está em uso.
+- **Sem developer token.** O Google o aposentou em 9/9/2026: o nível de acesso
+  (Test → Explorer → Basic) é do projeto do Google Cloud dono do cliente OAuth, e se
+  pede em "Google Ads API → Visão geral" do console. Com Test, a API só fala com
+  contas de teste e a lista de contas vem vazia — o cartão diz isso. O cabeçalho
+  `developer-token` não é enviado (é ignorado hoje e será recusado).
+- **O cartão "7. Google Ads"** em Configurações › E-mail dos setores
+  (`components/admin/ads-google.tsx`): situação, conta Google, contas de anúncios
+  alcançadas e a escolhida, e um bloco por plano (uma campanha por página de
+  destino) com o resumo, "Conferir no Google" (o pedido com `validateOnly`: o Google
+  confere limites, políticas e segmentação sem gravar) e "Criar campanha (pausada)",
+  além de "Desconectar" (`app/actions/google-ads.ts`, `integracoes.configurar`
+  conferido em cada action; o id do plano vem do botão). Criada, o bloco mostra a
+  data e o link no painel. O registro de cada campanha mora em `activity_log`
+  (`google_ads_campanha_criada`, com plano, nome, campanha e conta), sem migração:
+  a coluna `campanha_recurso` da conexão guardava uma só e deixou de ser usada.
+- **`lib/google/ads.ts` (nunca lança):** token renovado como as outras conexões;
+  `invalid_grant` e 401 marcam `expirada` — só a troca de `ativa` para `expirada`
+  dispara o alerta `google_ads`. `lerConta` (moeda, fuso, se é de administrador),
+  `listarCampanhas`, `campanhasRegistradas` (por plano, da conta em uso) e
+  `criarCampanha(plano)` — que, achando campanha com o mesmo nome, só a
+  registra se o Palácio ainda não a tinha e ela está pausada, como a criação a deixa
+  (a resposta da criação se perdeu; o pedido é uma transação, então ela entrou
+  inteira), e recusa nos outros casos; o registro que não pode ser lido (null) trava a
+  criação e o cartão avisa; confere a constante
+  do local por GAQL (existe, `ENABLED`, com o nome canônico do plano) e manda **um
+  pedido só** (`googleAds:mutate`, `partialFailure: false`): ou tudo entra ou nada
+  entra. A volta do consentimento distingue "não deu para listar as contas" (null:
+  mantém a lista e a escolha de antes) de "lista vazia". O registro é por conta de
+  anúncios: trocar de conta mostra só as campanhas criadas na nova.
+- **Regras puras** (`lib/google/ads-regras.ts`, sem import nenhum, conferidas por
+  `npx tsx scripts/conferir-google-ads.ts`): `PLANOS_DO_GRANTS`, uma campanha por
+  página de destino com US$ 5 por dia cada (23/10/2026: o guia "Primeiros socorros:
+  o que fazer nas emergências mais comuns", com os grupos Convulsão, Queimadura e
+  Emergências comuns, e o "Lei Lucas na prática", com Lei Lucas: o que é e Lei Lucas:
+  escolas e creches; palavras de dúvida em correspondência de frase, dois anúncios
+  por grupo com até 10 títulos e 4 descrições, seis sitelinks (outros guias, voluntariado
+  e /doe/, só "por PIX": o cartão está desligado na /doe/); negativas de animais,
+  material de estudo, sangramento que não é ferimento e queimadura de sol; cidade do
+  Rio de Janeiro, "Maximizar cliques" com teto de US$ 2 só para começar — a política
+  pede lance por conversão quando a conta tiver conversões; UTMs `grants-guia-…` no
+  `finalUrlSuffix`). Os textos só prometem o que a página entrega: os guias ajudam a
+  reconhecer e a pedir ajuda, as manobras se aprendem com prática.
+  `planoPorId`, `problemasDoPlano` (30 letras por título, 90 por
+  descrição, 15 por caminho, mínimos do anúncio responsivo, telefone no texto do
+  anúncio, sitelink que repete texto de anúncio, negativa repetida, anúncio fora da
+  página da campanha e as regras do Grants: dois grupos, dois anúncios por grupo, dois
+  sitelinks, nada de palavra única, palavra que a
+  negativa derrubaria), `operacoesDaCampanha` (ids temporários negativos, tudo
+  `PAUSED`, só a pesquisa do Google, `PRESENCE` na geografia,
+  `containsEuPoliticalAdvertising` declarado, operações **agrupadas por tipo**, pai
+  antes de filho), `motivoDaFalhaDoAds` (a leitura de `error.details[].errors[]` da
+  API: reconectar, acesso do projeto — `CLOUD_PROJECT_NOT_APPROVED_FOR_PRODUCTION` —,
+  conta, pedido, serviço).
+- **Armadilhas já pagas na revisão (22/10/2026):**
+  - **Sem critério de idioma.** Desde set/2026 a API recusa `LanguageInfo` em campanha
+    de pesquisa (`ContextError.OPERATION_NOT_PERMITTED_FOR_CONTEXT`), e com
+    `partialFailure: false` uma recusa derruba o pedido inteiro.
+  - **A cidade é constante fixa**, `geoTargetConstants/1001655`, conferida pelo nome
+    canônico: "Rio de Janeiro" como City no Brasil são duas constantes (1001655 e
+    9198038), e a consulta por nome não diz qual vem primeiro.
+  - **Telefone não vai no texto do anúncio** (política editorial); vai em extensão de
+    chamada. Sitelink não repete título de anúncio (política de Repetição).
+  - **Negativa não casa variante**: com e sem acento são duas, plural também. "vaga"
+    não é negativa: bloquearia "vagas de voluntariado".
+- **Os cursos pagos ficam fora** de propósito: a política de site do Ad Grants
+  aceita venda só quando não é o foco e a página de matrícula é de venda. Vender
+  curso por anúncio é com conta paga comum, em reais, se um dia houver.
+- **Conversões** vêm do GA4 do site (`purchase` na doação, `generate_lead` no
+  cadastro de voluntário), importadas no painel depois de vincular a propriedade à
+  conta — a vinculação é manual, com o login do Google. Com conversão medida, o lance
+  pode passar a "Maximizar conversões".
+- **Migração** `20261022135046_cvrj_google_ads.sql` (só acrescenta, a aplicar):
+  `google_ads_conexao` (RLS forçado, leitura só de administradores, policy criada só
+  se não existe).
+
 ### 7.30 Papel timbrado (`lib/pdf/timbrado.ts`)
 
 O modelo da p. 24 do Manual de Identidade Institucional, desenhado por
@@ -2073,6 +2183,30 @@ cada parte. Guia completo em `docs/mapa-do-ecossistema.md`.
   redesenhados e animados a cada clique; o React cuida só dos dados); item
   novo entra por migração, não pela tela; a equipe da Escola não vê o mapa
   (regra geral do papel `escola`).
+
+### 7.38 Fichas de voluntariado do site (`/voluntariado?aba=inscricoes`, 27/10/2026)
+
+O cadastro de voluntários do site (`cruzvermelhariodejaneiro.org/voluntariado/cadastro/`,
+repositório do site) grava no MySQL da Hostinger. As fichas em aberto lá (`nova`,
+`em_analise`, `entrevista`) entram aqui como inscrições pendentes, `origem = 'importacao'`,
+com a selfie como foto (`lib/voluntariado/fichas-do-site.ts`; regras puras em
+`fichas-do-site-regras.ts`, conferidas por `scripts/conferir-fichas-do-site.ts`).
+
+- **Ligação**: uma chave compartilhada (`site_voluntarios` no cofre, reserva
+  `SITE_VOLUNTARIOS_TOKEN`; do lado do site, `REDACAO_TOKEN` em `config-redacao.php`). A API
+  do site é `api/redacao-voluntarios.php` (GET lista em lotes por `id`; POST aprova ou recusa).
+- **Quando roda**: o site avisa a cada ficha nova (`POST /api/voluntariado/fichas-do-site`,
+  mesma chave, a busca roda em `after()`); a rotina diária (GET, `CRON_SECRET`) e o botão
+  “Buscar fichas do site” cobrem aviso perdido. O cursor (`site_fichas_sincronizacao.ultimo_id`)
+  diz até onde já se leu.
+- **Sem duplicar**: `participantes.site_protocolo` é único por espaço; `importar_ficha_do_site`
+  é idempotente e, se já existe cadastro com o mesmo e-mail, só liga a ficha a ele.
+- **Decisão na Redação**: aprovar (`mudarSituacao`, `aprovarComRestricao`) chama o site, que
+  aceita a ficha e devolve o código de aprovação; ele fica em `site_codigo_aprovacao` e aparece
+  no quadro “Código de aprovação” com o QR de `/conferir/?c=` do site. O CPF vai junto
+  (`cpf_para_o_site`, auditado) porque o site exige CPF para emitir código. Falhar no site não
+  desfaz a aprovação: a ficha oferece “Gerar código no site”. Recusar aqui recusa lá.
+- O portal do site continua para consulta e para cancelar um código.
 
 ## 8. Integrações externas
 
@@ -2511,6 +2645,212 @@ recebimento e teste em `/configuracoes/whatsapp` (só admin). A Evolution API, u
   usuários ganha a linha `LINHA_DO_CADASTRO` (só no corpo: pede texto). O assistente não tem ferramenta para isso
   (o teto é 20): o prompt manda ensinar o `colaborador:` e o nome. Teste do banco:
   `supabase/tests/whatsapp-cadastro-colaborador.test.sql`.
+- **Autocadastro de colaborador pelo WhatsApp (23/10/2026)** (`lib/whatsapp/autocadastro.ts`, regras puras em
+  `lib/whatsapp/autocadastro-regras.ts` — `npx tsx scripts/conferir-autocadastro.ts`; migração
+  `20261023120000`): quem ainda NÃO tem conta manda `quero me cadastrar` (o link `wa.me/<bot>?text=…`, de
+  `linkDoBot`, vai onde quiserem — a conversa é sempre privada, o bot não lê grupo) e o bot conduz, só por
+  mensagem: nome → coordenação (lista oficial) → cargo → e-mail pessoal → nascimento → CEP (BrasilAPI/ViaCEP; a rua
+  só é perguntada se o CEP não achar) → número → complemento → contato de emergência → **foto do rosto** (a imagem
+  vai já ao Blob privado `equipe-cadastro/…`, pois a mídia da Meta não dura até a aprovação) → ciência (LGPD).
+  O estado vive em `colaborador_autocadastros` (um aberto por número; vence em 7 dias; no máximo 3 pedidos por
+  número em 24 h e 30 por hora no espaço; RLS forçada, sem policy). Dados pessoais e foto saem quando o pedido
+  acaba (`private.autocadastro_sem_dados_pessoais`; chaves = `CHAVES_PESSOAIS`, mudou lá, muda no gatilho).
+  **Aprovação (decisão do responsável, 23/10/2026 — contraria o "só no link do Palácio" do cadastro pelo
+  `colaborador:`):** quem tem `usuarios.gerenciar` e número confirmado recebe o resumo mascarado com a foto e os
+  botões Aprovar/Recusar (ou escreve `cadastros`); "Aprovar" pede um segundo toque ("Sim, criar") e o primeiro a
+  tocar trava o pedido (`aprovando`). Os ids dos botões são `cad:<a|r|s|v>:<uuid sem hífens>` (38 caracteres; o teto
+  da Meta é 40). Depois: a ficha do RH (`whatsapp_autocadastro_criar_ficha`, só service role, mais
+  `equipe_preencher_pelo_convite` — a mesma função da página pública, que cifra e valida), a conta do Google
+  (`nome.sobrenome@`, com 2, 3… se ocupado) e o aviso à pessoa. A senha provisória vai ao **WhatsApp da pessoa**, com o passo
+  a passo (`textoDaContaCriada`; decisão do responsável em 23/10/2026, que reverte a de 15/10: o e-mail pessoal só
+  recebe se o WhatsApp falhar). Sai uma vez, nunca é gravada (categoria `conta`: o texto some da fila depois do envio)
+  e o Google obriga a trocá-la no primeiro acesso. Pedido preso em `aprovando` por mais de 10 min volta a `aguardando`
+  (`soltarPedidosPresos`).
+  **Acompanhamento:** todo aprovador (`usuarios.gerenciar` com número confirmado) recebe a cada pedido novo e a cada
+  desfecho (aprovado, recusado, falha com o motivo), menos quem acabou de agir; só nome e resultado, nunca dado pessoal
+  (`avisarAcompanhamento`). O cargo oferece o botão "Coordenador(a)", que vira "Coordenador(a) de <setor>". O endereço do
+  setor (`setores.email`) só recebe a pessoa se já for **grupo** do Google; hoje eles são apelidos do Gmail (a conta nasce
+  e o aviso diz que ela não entrou no grupo). Criar o grupo no lugar do apelido muda a entrega do setor: é decisão à parte.
+  **Coordenador de setor (23/10/2026, migração `20261023140000`, tabela `setor_coordenadores`):** quem coordena um setor
+  é guardado **pelo número do WhatsApp** (pode ainda não ter login no Palácio). Entra por conta própria: no
+  autocadastro escolhe o cargo "Coordenador(a)" (`ehCoordenador`), um **administrador** aprova (o resumo avisa que a
+  pessoa passa a aprovar a equipe e recebe a senha da caixa própria do setor) e `executarCriacao` o registra. Daí em diante ele recebe e
+  aprova — com os mesmos dois toques — **só o cadastro do próprio setor** (`podeDecidir`: nunca outro setor).
+  **Setor com mais de um coordenador (24/10/2026, decisão do responsável):** o coordenador registrado também aprova
+  **outro coordenador do mesmo setor** (Comunicação Social tem vários): o primeiro, que um administrador aprovou, aprova
+  os seguintes, que entram em `setor_coordenadores` do mesmo jeito. O pedido de coordenador passa a chegar também aos
+  coordenadores do setor (`aprovadores`). O que continua só de administrador: o primeiro coordenador de um setor (não há
+  ninguém do setor para aprovar) e a **caixa própria do setor** — coordenador aprovando coordenador não cria nem entrega
+  caixa (`darCaixaAoSetor` só com `aprovador.admin`), e a confirmação diz isso
+  (`AVISO_DE_COORDENADOR_PELO_COORDENADOR`). `atorDeAprovacao` junta as duas fontes
+  (administrador pela conta, coordenador pelo número); a ficha, a conta e a auditoria seguem o mesmo caminho, com
+  `aprovado_por` em `activity_log`. O comando `link do time` devolve, a quem coordena, o `wa.me` com o setor já
+  escolhido (`quero me cadastrar em <setor>`: a pessoa pula a pergunta da coordenação). Sem a migração, só o
+  administrador aprova. Revogar: `revogado_em` (sem tela ainda).
+  **Endereço do setor como grupo do Google (23/10/2026, `lib/google/grupos-regras.ts` — `npx tsx
+  scripts/conferir-grupos.ts`, contra um Google de mentira):** os endereços dos setores eram APELIDOS de uma caixa
+  (contato@); apelido e grupo não convivem com o mesmo endereço. Quando um **administrador** aprova um cadastro num setor
+  cujo endereço ainda é apelido, `converterEmGrupo` tira o apelido, cria o grupo e o **libera para receber de fora**
+  (`whoCanPostMessage: ANYONE_CAN_POST`, `alt=json` — sem isso o endereço público do setor deixaria de receber), e põe a
+  caixa antiga como membro (o e-mail segue chegando onde chegava). Qualquer falha desfaz o que já foi feito (apaga o grupo,
+  devolve o apelido). Caixa real (o endereço é o principal de um usuário, como contato@) nunca se converte; grupo que já
+  existe não se mexe. A confirmação do administrador mostra o que vai mudar (`avisoDaConversao`). Coordenador aprovando
+  NÃO converte (só administrador): se o endereço ainda é apelido, a conta nasce, a pessoa não entra no grupo e os
+  administradores são avisados. Quem entra como coordenador(a) é **gerente** do grupo (`MANAGER`), os demais **membros**;
+  membro que vira coordenador é promovido e dono/gerente nunca é rebaixado. A conversão exige duas permissões novas da
+  conexão de administrador — `admin.directory.group` e `apps.groups.settings` (e a API Groups Settings ligada no projeto
+  do Google Cloud): reconectar o administrador depois do deploy. Efeito colateral conhecido: o envio pelo Palácio "como
+  ti@" (send-as no Gmail da caixa dona do apelido) pode precisar ser reverificado.
+  **Diagnóstico do 403 (23/10/2026):** o Google responde "Not Authorized to access this resource/api" tanto quando o
+  token não recebeu as permissões (a tela de consentimento deixa desmarcar) quanto quando a conta não tem o privilégio de
+  Grupos no Admin do Google. `dicaDeAcessoNegado` (lib/google/diretorio.ts) consulta o `tokeninfo` e diz qual: lista o que
+  FALTA no token ou, se está completo, aponta a conta/os Controles de API. O comando `grupos` (só administrador, só
+  leitura; `situacaoDosGrupos`) mostra esse diagnóstico e, para cada setor, se o endereço é grupo, apelido de quem, caixa
+  real ou inexistente.
+  O comando também roda uma **sonda** (`sondarAcesso`): lê uma página de usuários e uma de grupos. Se usuários vai e grupos
+  não, o problema é o serviço *Grupos para empresas* desativado na organização (Admin Console → Apps → Google Workspace),
+  não o token nem a conta.
+  **O 403 que travou a primeira troca (23/10/2026):** com o endereço de um APELIDO, o Google responde 403 ("Not Authorized
+  to access this resource/api") a `groups.get` — não 404. A sonda provou: ler usuários ✅, ler grupos ✅, só o `groups.get`
+  do apelido caía. Por isso `consultarEndereco` pergunta primeiro pelo USUÁRIO (o apelido aparece, `primaryEmail`
+  diferente) e só depois pelo grupo, e o coordenador (que não converte) usa `colocarSeForGrupo`: apelido nunca recebe
+  chamada de grupo. Logo depois de tirar o apelido o Google ainda pode responder 409 à criação do grupo: tenta de novo
+  (6×, com espera) e, se nunca libera, devolve o apelido.
+  O grupo do setor nasce **fechado por dentro** (`whoCanViewGroup` e `whoCanDiscoverGroup` só para membros): o padrão da
+  organização deixaria todos os usuários verem as conversas, e setores como Psicologia, Jurídico e Ouvidoria recebem
+  mensagem sensível. Recebe de fora (`ANYONE_CAN_POST`; exige "proprietários podem permitir e-mails de fora" marcado
+  em Grupos para empresas) e só entra por convite.
+  **Endurecimentos antes da primeira troca real (23/10/2026, achados da investigação do 403):** (1)
+  `verificarAntesDeConverter` lê os grupos e a API de configurações ANTES de tirar o apelido: se a leitura é negada ou a
+  Groups Settings API não está ligada (ou propagando), aborta sem tocar no e-mail do setor; (2) a volta atrás confere o
+  RESULTADO (o endereço voltou a ser apelido do dono?), tenta o apelido de novo (6×) e, se não volta, a mensagem traz
+  🚨 ATENÇÃO e onde restaurar à mão (`ErroDeGrupo.restauracaoFalhou`) — nunca em silêncio; (3) o token de acesso do
+  administrador fica em memória por instância e sobrevivia à reconexão: um 401 ou 403 descarta e tenta UMA vez com token
+  novo; (4) as mensagens do Google levam o `reason` (forbidden, accessNotConfigured…); (5) `adicionarAoGrupo` (link de
+  criação de conta) só entra se o endereço é grupo (`colocarSeForGrupo`); (6) a conexão de administrador pede só os
+  escopos necessários (`somenteEstes`, vale na próxima reconexão); (7) a sonda do `grupos` também testa a API de
+  configurações. Falha na ficha ou no Google devolve o pedido a `aguardando` (a ficha criada é
+  reaproveitada); depois que a conta do Google existe, o que falhar vira aviso, nunca desfaz. Ainda NÃO cria
+  login do Palácio (isso segue por `colaborador:` / "Adicionar pessoas") e a foto fica em
+  `equipe_membros.foto_cadastro_path` (o crachá e a ficha ainda não a leem). Sem a migração, "quero me cadastrar"
+  cai na apresentação de sempre.
+
+  **Mudança de rumo (23/10/2026, decisão do responsável): nada de grupo nem de apelido.** Cada endereço — o do setor e o
+  profissional de cada pessoa — é uma **conta própria, com caixa privada** (o Workspace for Nonprofits não cobra por
+  usuário). A troca por grupo (`converterEmGrupo`) ficou no repositório, testada, mas **nada a chama**.
+
+  **Caixas dos setores (24/10/2026): um comando só.** Os setores já têm nome e endereço certos; faltava criar a caixa de
+  cada um e ligá-la à coordenação — e fazer isso setor a setor, à mão, não fazia sentido. O comando **`caixas dos
+  setores`** (só administrador; `apelidos` abre o mesmo) faz tudo em dois toques:
+  - `previaDasCaixas` (só leitura) consulta o Google (`planoDasCaixas`: apelido de quem / livre / caixa real / grupo) e mostra,
+    setor por setor, o que será feito; a pergunta "Criar essas caixas?" vai em mensagem própria (a prévia passa de 1024
+    caracteres e perderia os botões). O botão `cx:<s|n>:<minutos>:<assinatura>` vale 15 minutos e leva a **assinatura do
+    plano** (`assinaturaDoPlano`: FNV-1a dos endereços que precisam de caixa e do estado de cada um). Na confirmação
+    (`criarCaixasDosSetoresPeloBotao`) o plano é recalculado: se a assinatura não bate — algo mudou, ou o segundo toque no
+    mesmo botão, quando o plano já é outro — nada é feito.
+  - `criarCaixasDosSetores` (regra pura, `Chamar` injetável) vai setor a setor, em sequência, **primeiro os endereços
+    livres** (nada é apagado neles) e só depois os que são apelido. Apelido → apaga o apelido e cria a conta logo em seguida;
+    o POST é a palavra final (`semConsulta`: uma segunda leitura logo depois de apagar pode ainda enxergar o apelido) e
+    repete até 6 vezes em 409 (o Google ainda mostra o endereço por alguns segundos). **Nada é afirmado sem conferir:** se o
+    DELETE estoura, o endereço é reconsultado — `livre` = foi apagado mesmo assim (segue e cria), `apelido` = "continua como
+    estava", sem resposta = "não sei" (`incerto`, manda conferir no Admin do Google); se o POST estoura (timeout, 5xx), a
+    conta pode ter nascido: reconsulta e, se já é caixa real, conta como criada. Se a criação falha, **devolve o apelido**
+    (`restaurarApelido`: 4 tentativas, exceção não interrompe, e só diz "voltou" pela **lista de apelidos do dono**, nunca pela
+    resposta do POST nem pela leitura do endereço). Um setor que falha não impede os outros, **exceto** erro que vale para
+    todos (401/403/412/limite de contas) ou dois setores seguidos falhando: o resto fica `adiada` (motivo na resposta), para
+    não repetir apagar-falhar-devolver em cada um. `ate` (120 s, e no máximo o prazo do lote do webhook menos 90 s): depois
+    dele nenhum setor novo começa. **`aoCriar`** roda logo depois de cada conta, antes do setor seguinte: é onde o
+    Palácio registra a conta em `google_contas`, alinha `caixas_de_email.no_gmail` e entrega a senha — se o processo for
+    cortado depois, o que já nasceu não fica sem registro. Cada conta nasce com senha aleatória, troca no primeiro acesso,
+    nome = o setor, sobrenome "Cruz Vermelha RJ".
+    **Segunda rodada de revisão (24/10/2026)** fechou mais: a palavra final sobre "o DELETE foi aplicado?" é a **lista de
+    apelidos do dono** (`apelidoEstaNoDono`), não `GET /users/{endereço}` (leitura atrasada: o DELETE aplicado com a resposta
+    perdida aparecia como "continua como estava" e o lote seguia apagando os outros); o apelido é devolvido ao dono da
+    releitura; erro "em dúvida" (lançou ou 5xx) relê o endereço até 3 vezes antes de concluir "não nasceu" — 4xx é o Google
+    recusando, nada nasceu, e uma conta que apareça depois não é nossa; resultado **incerto** ou apelido que **não voltou**
+    param o lote (só o primeiro setor serve de canário destrutivo); erro 400 (dado inválido só do setor) não conta para o freio
+    de "dois seguidos"; a folga do lote é de 150 s (o último setor começa com ~210 s de sobra); "Rate Limit Exceeded" não é
+    "limite de usuários". A guarda de uso da redefinição **falha fechada** (`lastLoginTime` ausente = não redefine) e a caixa só
+    conta como entregue quando **todos** os coordenadores receberam. Leituras que falham na trava do lote, no comando de um
+    setor e em `setoresDasCaixas` não seguem (nada é mexido no Google). **Estado em produção (24/10/2026 00:00 UTC):** o
+    comando `apelidos` da primeira versão já apagou os 14 apelidos de setor; os 14 endereços estão livres e nenhum setor
+    tem coordenador registrado — o primeiro `caixas dos setores` só cria contas (nada a apagar nem a devolver).
+  - **Trava do lote** (`pedirVezDoLote`): o "Sim, criar" grava `google_caixas_dos_setores_inicio` em `activity_log` e só segue
+    se não há outro lote mais antigo (menos de 10 min) sem o `google_caixas_dos_setores` de fim correspondente
+    (`metadata.inicio`). Dois toques seguidos ou dois administradores com a mesma prévia passam os dois pela assinatura; a
+    trava é o que faz o segundo esperar. A assinatura (SHA-256 truncado, 12 hex) cobre endereço, estado, dono do apelido e
+    **quem receberá a senha**; leituras de banco que falham **lançam** (`ErroDeBanco`) em vez de virar "lista vazia".
+    O botão `cx:` não conta no teto de respostas por número (tem validade e assinatura).
+  - **A caixa nasce sem dono, a menos que já haja coordenador.** Setor com coordenador registrado em `setor_coordenadores`
+    (relido **na hora de criar cada caixa**, não só na prévia) recebe a senha por WhatsApp (`textoDaSenhaDaCaixa`, categoria
+    `conta`); nos outros a senha é **descartada** — ninguém entra na caixa até a coordenação ser aprovada, e **o e-mail que
+    chegar ao setor nesse meio-tempo cai numa caixa que ninguém abre** (a prévia diz isso em letras claras). A senha só
+    existe em memória e, enquanto espera na fila do WhatsApp, no texto da mensagem (a categoria `conta` apaga o texto depois de
+    enviado); nunca vai a `activity_log` nem à resposta. O resultado vem em mensagens de até 3500 caracteres
+    (`emMensagens`), **o que deu errado primeiro**, para o corte da Meta nunca comer um alerta.
+  - **"Sem dono" = a senha ainda não chegou a ninguém**, não "o setor não tem coordenador" (`estadoDaCaixaDoSetor`): há linha
+    em `google_contas` com o endereço do setor E nenhum `activity_log` `google_caixa_do_setor_entregue` (`entity_type =
+    'setor'`, `entity_id` = o setor) — gravado quando a senha chega por WhatsApp/e-mail (lote, comando ou aprovação).
+    Banco que não responde = `desconhecido`, nunca "sem dono" (falhar aberto redefiniria a senha de uma caixa em uso). Sem
+    linha em `google_contas` (o contato@, caixa criada à mão) = `nao_nossa`: nunca é tocada.
+  - **Ligar à coordenação = a aprovação.** Quando um administrador aprova alguém com cargo **Coordenador(a)**
+    (`executarCriacao` → `darCaixaAoSetor`): endereço livre → a caixa nasce agora; caixa **sem dono** → é **entregue**
+    (`redefinirSenhaDaCaixa`: PATCH com senha nova, troca no primeiro acesso, recuperação = e-mail e celular de quem entra) e
+    a senha vai na mesma mensagem da conta pessoal (`textoDaContaCriada` numera as duas caixas). A redefinição ainda recusa
+    caixa em que **alguém já entrou** (`lastLoginTime` diferente de 1970-01-01 no Directory = `em_uso`): é a segunda trava,
+    por regra e não só por dado — vale também para o contato@. Caixa entregue, apelido, grupo e caixa que não é nossa nunca são
+    tocados. A tela de confirmação (`avisoDaCaixaNaConfirmacao`) diz de antemão qual é o caso, inclusive "senha redefinida".
+    O coordenador é registrado em `setor_coordenadores` ao fim; se a entrega falhou, a caixa segue "sem dono" e
+    `caixa do setor: <nome>` a reenvia (redefine e manda aos coordenadores registrados).
+  - **`caixa do setor: <nome>`** continua como atalho de UM setor (nome inteiro e dois-pontos, porque cria conta de verdade):
+    cria a caixa, ou **reenvia** a que existe sem dono se o setor já tem coordenador registrado (é o caminho de recuperação
+    quando a entrega falhou); apelido → manda usar `caixas dos setores`. Sem coordenador registrado, ninguém recebe a senha.
+  - **Ordem de uso:** `caixas dos setores` → "Sim, criar". Depois, cada coordenação se cadastra (link do setor) e um
+    administrador aprova — a caixa é entregue na aprovação. Entre apagar o apelido e a conta nascer passam segundos, não
+    horas, porque é um passo só.
+
+  Revisões independentes (duas rodadas) fecharam: 404 ao apagar apelido = `nao_era_apelido`; boas-vindas com o aviso de apagar
+  a mensagem logo depois das senhas (fora das 24 h o modelo da Meta corta em 1000); `na_fila` nunca dito como "enviada";
+  "caixa do setor" exige os dois-pontos e o nome inteiro; e, na segunda rodada, os caminhos de falha acima (timeout, resposta
+  perdida, leitura atrasada, erro que atinge todos, registro só no fim, lote duplicado). Outros pontos de atenção
+  conhecidos: apagar o apelido provavelmente remove o "enviar como" do contato@ (assinatura, nome de exibição) e devolvê-lo
+  não restaura isso; a primeira criação real merece ser conferida no Admin do Google (campos como `recoveryPhone` em E.164 e a
+  janela de propagação do apelido só se confirmam contra o Google de verdade).
+  **O bot só responde quando perguntado** (24/10/2026): reação com emoji, localização e outras mensagens sem texto, mídia nem
+  toque são ignoradas (`ignorar: 'sem_conteudo'`) — antes a reação 🙏 a uma senha recebia o menu inteiro com "Não entendi"; agradecimento,
+  "ok" e emoji solto (`ehCortesia`: até 4 palavras só de cortesia, sem "?") não recebem resposta; e o que o bot não entende recebe
+  uma linha (`TEXTO_NAO_ENTENDI_CURTO`: "escreva *ajuda* e a sua dúvida, ou *menu*"), sem despejar o menu. O menu continua saindo quando
+  a pessoa pede ("menu", "oi"). Quem tem o assistente ligado segue sendo atendido por ele.
+  **Menu mais simples e passeio "funções"** (24/10/2026): o menu de saudação perdeu a frase longa sobre responder avisos e ganhou
+  a última linha `LINHA_DAS_FUNCOES` ("Quer conhecer tudo o que eu faço? Escreva *funções*"), que também sai nas boas-vindas
+  depois de confirmar o número (mesmo `textoDoMenu`). O comando `funcoes` (só como mensagem inteira: "funções", "o que você faz",
+  "tour", "comandos"…) responde `textoDasFuncoes`: as opções agrupadas (Avisos, Seu dia, Chamados, Dúvidas) mais só as áreas que a
+  pessoa tem (portaria, financeiro, presença, frota, estoque, assistente, administração). Área nova no menu entra também aí.
+  **Cadastrado pelo WhatsApp, sem login no Palácio** (24/10/2026): o número só se liga a um perfil com login (`whatsapp_contas`,
+  por `user_id`), e quem se cadastra pelo bot não tem login — o bot o tratava como desconhecido (apresentação uma vez por dia, depois
+  silêncio, inclusive para "oi"). Agora "oi", "menu" e "funções" desse número (coordenador em `setor_coordenadores`, ou cadastro
+  `aprovado` em `colaborador_autocadastros`) recebem `textoDoMenuSemPalacio`: o coordenador vê `cadastros` e `link do time`; os demais,
+  que o cadastro está concluído. Não cria linha em `whatsapp_contas` (isso exigiria um usuário do Palácio). Outras mensagens desse
+  número seguem sem resposta.
+  **`criar email de <nome>`** (24/10/2026, só administrador): o e-mail institucional de quem JÁ tem conta e ficha e ainda não
+  tem e-mail (`equipe_membros` ativo, `email_trabalho` nulo, WhatsApp confirmado). `previaDoEmailDePessoa` mostra quem, o endereço e
+  o final do WhatsApp; "Sim, criar" (botão `em:`, 15 min, leva 12 dígitos do id da pessoa) chama `criarEmailDePessoa`: cria a conta
+  no Google (recuperação = o celular do WhatsApp), grava `email_trabalho`, registra em `google_contas` e `activity_log`
+  (`whatsapp_email_de_quem_ja_tem_conta`) e manda a senha provisória ao WhatsApp da pessoa (categoria `conta`), como no cadastro.
+  Sem WhatsApp, sem ficha ou sem nome e sobrenome, nada é criado. A senha nunca vai na resposta ao administrador.
+  **Quem já tem conta** (24/10/2026): o cadastro pelo WhatsApp é de quem ainda NÃO tem conta. Quem tem (o número está confirmado
+  numa conta) e escreve "quero me cadastrar" recebe `textoDeQuemJaTemConta` — já está cadastrado(a), com o e-mail institucional
+  se houver, ou "o que falta é o e-mail institucional: peça à coordenação" — em vez do menu ("Não entendi"). O e-mail de quem já
+  tem conta e ficha ainda é criado pelos caminhos de antes (Palácio/convite), não pelo WhatsApp.
+  **`acompanhamento`** (24/10/2026; também `andamento`, `quem falta`): só leitura, mostra por setor se a coordenação já se
+  cadastrou (`setor_coordenadores`), se está aguardando aprovação (pedido com cargo de coordenação), o estado da caixa do setor
+  (entregue / sem dono / já existia), quantas pessoas da equipe têm e-mail institucional e quantos pedidos aguardam. O
+  administrador vê todos os setores; o coordenador, só os seus. "Quem falta" é o que o sistema sabe (coordenações sem cadastro e
+  pessoas da equipe sem e-mail institucional): não há lista de quem DEVERIA se cadastrar além de `equipe_membros`.
+  **Fica para depois (conhecido):** nada revoga `setor_coordenadores` (não há comando; `revogado_em` existe, sem UI) nem
+  olha `equipe_membros.situacao`: quem sai da equipe segue aprovando; dois setores com o mesmo endereço contam uma vez (o
+  primeiro por nome); a tela de criar conta por link e a ajuda (`lib/ajuda/conteudo/comunicacao.ts`) ainda falam em "ligar ao
+  grupo do setor".
 - **“Não fui eu” (18/10/2026)** (`lib/whatsapp/protecao.ts`): o aviso de segurança de algo que a própria
   pessoa faria (`ofereceNaoFuiEu`: acesso de aparelho ou país novo, entrada bloqueada, senha trocada por
   ela ou pelo link, verificação mexida por ela, e-mail trocado, e `AVISO_AO_NUMERO_ANTIGO`) leva
@@ -2652,7 +2992,8 @@ recebimento e teste em `/configuracoes/whatsapp` (só admin). A Evolution API, u
   categoria `equipe`. A rotina diária lembra (2 dias, no máximo 2 vezes) trocando o token.
 - **Fila, silêncio e volume** (`lib/whatsapp/fila.ts`, tabela `whatsapp_fila`): toda mensagem sai por
   `entregar()`. Aviso comum entre 22h e 7h (São Paulo) espera e sai às 7h (portaria, segurança da
-  conta, código, bot e teste saem na hora). No máximo 12 mensagens por minuto no espaço, 3 s entre
+  conta, código, bot, teste e **conta nova** — categoria `conta`: e-mail e senha provisória de quem acabou de ser
+  aprovado, decisão de 24/10/2026 — saem na hora, de madrugada também). No máximo 12 mensagens por minuto no espaço, 3 s entre
   uma e outra, e 40 avisos por pessoa em 24 h. Falha por Kapso fora (rede, 5xx, chave, número)
   volta para a fila com espera de 5 min a 12 h; tempo esgotado não é repetido (pode ter saído). A
   fila anda quando chega mensagem (webhook), a cada aviso novo, na rotina diária
@@ -2701,6 +3042,16 @@ recebimento e teste em `/configuracoes/whatsapp` (só admin). A Evolution API, u
   instância só reconfere a cada 10 min: o alerta manda e-mail pelo Resend, e a falha dele não vira outro
   alerta. As outras integrações do cofre (Meta Ads, Conversões, Analytics, Safe Browsing, Portal da
   Transparência, Hunter) já mostram o erro a quem usa ou gravam no banco e ficaram de fora.
+  **O alerta resolvido (24/10/2026):** o alerta não tinha fim. “O Google recusou o cliente OAuth” saiu três
+  vezes em 22–23/10, o cliente foi trocado e as quatro conexões reconectadas às 21h–22h de 23/10, e o aviso
+  continuou não lido no sino de quatro administradores e citado pelo assistente do WhatsApp como problema
+  aberto (ele lê os avisos das últimas 24 h, lidos ou não). Agora a reconexão que dá certo
+  (`app/api/google/retorno`, depois da troca do código) chama `encerrarAlertasDaConexao`: os avisos ainda não
+  lidos dos alertas que ela resolve (`alertasResolvidosPelaConexao`: a autorização da própria conexão e, com o
+  cliente do Gmail, o cliente OAuth recusado; nunca o “Drive sem espaço”) viram lidos para todos, e o marco
+  `integracao_normalizada` encerra a janela de 6 h (`alertaDeIntegracaoSai` com `normalizadaEm`: a falha nova
+  avisa na hora). O assistente deixa de fora o alerta com marco de normalizada depois dele
+  (`normalizacoesRecentes`, `integracaoDoTitulo`: o aviso não guarda outra marca que o título).
 - **Antes da migração `20261018231000`:** a função da cota não existe, `cotaDeConversas` devolve null e
   nada espera pela cota (a tela e o `status` dizem que não deu para contar); o CHECK de
   `whatsapp_fila.motivo` não aceita `cota` (nunca chega a ser pedido); e o alerta de integração entra no
@@ -3209,6 +3560,55 @@ banco em `20261002150000` e `20261004170000` (`supabase/tests/conversoes.test.sq
 - **Teste local.** `META_GRAPH_URL` e `UNICOPAG_URL` apontam os dois clientes
   para servidores de mentira.
 
+### 8.7 Voz da instituição: ElevenLabs (23/10/2026)
+
+A voz da filial, pela ElevenLabs (`lib/voz/`), em dois usos que começam **desligados** e ligam
+separados em Configurações → Voz (`/configuracoes/voz`, só `integracoes.configurar`). A chave mora
+no cofre (serviço `elevenlabs`, testada na ElevenLabs antes de guardar; reserva `ELEVENLABS_API_KEY`);
+a voz (id e nome), o modelo (padrão `eleven_v4`) e os dois interruptores, em `voz_config`
+(migração `20261023160000`, só acrescenta; leitura só de admin, escrita só do servidor por
+`app/actions/voz.ts`, que confere que a voz é da conta). Sem a migração, a tela diz que falta
+aplicá-la e nada muda: a matéria sai sem áudio e o WhatsApp responde só por escrito.
+
+- **Matérias do site** (§7.6): o texto que se lê (`textoParaNarrar`: título, linha fina, corpo;
+  sem foto, legenda, crédito nem endereço de link) vira um MP3 em trechos de até 2.000 caracteres,
+  cortados em fim de parágrafo, cada um com o vizinho como contexto (`previous_text`/`next_text`),
+  três por vez, emendados quadro a quadro (`narrar`). Os pedidos vão pelo endpoint de **streaming**
+  e só desistem depois de 30 s sem chegar nada (`falar`); a narração inteira tem 150 s
+  (`PRAZO_DA_NARRACAO_MS`), e o trecho que parou ou levou 429 tenta mais uma vez se ainda houver prazo.
+  As páginas que publicam (`/redes/[id]`, `/configuracoes/site`) declaram `maxDuration = 300`.
+  **Pago em 24/10/2026:** com o tempo total fixo de 60 s por pedido e trechos de 4.500, a primeira
+  matéria (8.500 caracteres, `eleven_v4`) saiu sem áudio: “A ElevenLabs não respondeu a tempo”. O nome do arquivo é o hash do texto, da voz e
+  do modelo (`nomeDoAudio`): republicar sem mudar nada acha o arquivo no ar (HEAD) e não gasta
+  crédito; mudou, gera outro, e os `ouvir-*.mp3` antigos da pasta saem (`removerNarracoesAntigas`,
+  só esse padrão). Matéria com mais de 30 mil caracteres não é narrada. Falha (sem crédito, chave,
+  voz que saiu da conta) não impede a publicação: a página sai sem o player, e o motivo vai em
+  “Ficou fora da página”. O **Regerar** comum não gera áudio novo, só mantém o que existe;
+  **“Regerar e narrar as que faltam”** (Configurações → Site, `regerarPaginasDasNoticias(…, { narrar })`)
+  narra as que não têm, **uma matéria por rodada** (`maximoPorRodada: 1`, rodada de até 250 s), e
+  devolve `itens` (cada matéria com o desfecho) e `proximoTitulo`: a tela mostra barra, matéria da vez,
+  relógio, estimativa e a lista de concluídas, para o trabalho de ~1 min por matéria não parecer travado.
+- **WhatsApp** (§8.5): quem falou com o assistente por **áudio** recebe a resposta por escrito,
+  como sempre, e logo depois a mesma resposta falada (`responderEmAudio`, passado ao turno como
+  `emAudio` pelo `bot.ts`). Só a resposta comum do modelo, inteira numa mensagem: plano, pergunta,
+  recibo, link de confirmação e texto fixo nunca. O texto falado sai sem link, marcação nem emoji
+  (`textoParaFalarNoWhatsapp`), não sai abaixo de 60 caracteres nem se for quase só número (código,
+  protocolo), e é **só o começo** da resposta: até 350 caracteres, em fim de frase, com “O restante está
+  na mensagem escrita.” (`encurtarParaFalar`). No WhatsApp o modelo é sempre o `eleven_flash_v2_5`
+  (`MODELO_DO_WHATSAPP`: metade do crédito, mais rápido; a matéria fica no de narração), e há teto de
+  15 áudios por pessoa e 150 no espaço por dia, contados em `whatsapp_mensagens` (`comando = 'voz'`)
+  desde a meia-noite de Brasília (`audioNoTeto`; sem conseguir contar, não manda). Até 24/10/2026
+  lia a resposta inteira, até 700 caracteres, no modelo de narração. Pede Opus à ElevenLabs e confere `OggS` nos primeiros
+  bytes: só OGG Opus vira mensagem de voz (`audio.voice: true`); se não vier Ogg, vai MP3 como
+  arquivo de áudio. Só dentro da janela de 24 h (modelo não leva áudio), nunca pela fila, com pelo
+  menos 12 s sobrando no turno; registrado em `whatsapp_mensagens` com `comando = 'voz'`, sem texto.
+- **O que vai para a ElevenLabs:** o texto da matéria publicada e, com o WhatsApp ligado, o texto
+  da resposta do assistente. A ElevenLabs guarda o histórico na conta (`enable_logging=false` é só
+  do plano Enterprise).
+- **Testes:** `npx tsx scripts/conferir-voz.ts` (sem rede nem banco): texto narrado, trechos sem
+  perda, nome do arquivo, texto falado, formatos, leitura da configuração e a página com e sem o
+  player (inclusive nome fora do padrão e a guarda da página).
+
 ## 9. Convenções
 
 **Marca.** O emblema (a cruz) é **sempre vermelho sobre fundo branco** — nunca
@@ -3422,6 +3822,10 @@ para a tela podem ter teto, desde que a tela diga que cortou.
   mesmo no payload; rodar `scripts/avaliar-assistente.ts --gastar` antes de ligar as ações. No Google Drive da conta
   conectada, compartilhar "Palácio – Arquivos" com a equipe (o que o Palácio cria nasce privado da conta: sem isso,
   os links do WhatsApp e da ficha do envio não abrem para ninguém mais).
+- **Voz da instituição, implantação** (§8.7) — aplicar `20261023160000_cvrj_voz.sql`, guardar a chave
+  da ElevenLabs em Integrações, escolher a voz em Configurações → Voz. A conferir no primeiro uso: se o
+  `opus_48000_64` da ElevenLabs chega em Ogg (o código cai para MP3 se não chegar) e se a Kapso aceita
+  `audio.voice` no envio.
 - **Plano do Upload-Post** — o gratuito dá 10 publicações/mês. O pago (~US$16/mês
   no anual) é ilimitado. Decisão da instituição, ainda não tomada.
 

@@ -157,12 +157,12 @@ export function normalizarDescricao(texto: string | null | undefined, limite = 1
   return cortarNoLimite(limpo, limite)
 }
 
-/** A assinatura dos títulos do site: "Assunto | Cruz Vermelha Brasileira Rio de Janeiro". */
+/** A assinatura dos títulos do site: "Assunto | Cruz Vermelha Brasileira Petrópolis". */
 export const ASSINATURA_DA_ABA = ` | ${NOME_DO_SITE}`
 
 /**
  * O <title> da aba, em até 60 caracteres, no padrão do site:
- * "Assunto | Cruz Vermelha Brasileira Rio de Janeiro".
+ * "Assunto | Cruz Vermelha Brasileira Petrópolis".
  *
  * A assinatura tem 42 caracteres: com ela, qualquer assunto acima de 18
  * passaria do limite que a busca mostra, e o que ficaria visível seria a
@@ -609,6 +609,8 @@ export function rodapeDoSite(origem: string, ano: number | string): string {
           <a href="${o}/cookies/">Política de Cookies</a>
           <span class="sep">|</span>
           <a href="${o}/reembolso/">Cancelamento e reembolso</a>
+          <span class="sep">|</span>
+          <a href="${o}/como-produzimos-nosso-conteudo/">Como produzimos nosso conteúdo</a>
           <span class="sep">|</span>
           <a href="${o}/cookies/#preferencias" data-cvrj-cookies>Preferências de cookies</a>
         </div>
