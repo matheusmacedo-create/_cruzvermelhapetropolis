@@ -583,8 +583,7 @@ export function rodapeDoSite(origem: string, ano: number | string): string {
         <div class="footer-col">
           <h4>Siga-nos</h4>
           <div class="footer-social">
-            <a href="https://www.facebook.com/profile.php?id=61591390052128" target="_blank" rel="noopener" aria-label="Facebook">${svgDaMarca('facebook', 16, 'currentColor')}</a>
-            <a href="https://www.instagram.com/cruzvermelhabrasileirarj/" target="_blank" rel="noopener" aria-label="Instagram">${svgDaMarca('instagram', 16, 'currentColor')}</a>
+            <a href="https://www.instagram.com/_cruzvermelhapetropolis/" target="_blank" rel="noopener" aria-label="Instagram">${svgDaMarca('instagram', 16, 'currentColor')}</a>
           </div>
         </div>
       </div>

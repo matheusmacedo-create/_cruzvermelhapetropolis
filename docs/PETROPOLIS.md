@@ -86,9 +86,10 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 > financeiro, setores e mapa do ecossistema). Os identificadores internos `cvrj_*`
 > (tabelas, migrações, cookies) e `selo-cvbrj/1` ficam: não aparecem para ninguém.
 > Ainda falta, quando a conta existir: verificar `noticias.`, `info.` e
-> `parceria.cruzvermelhapetropolis.org` no Resend, e o Instagram e o Facebook da
-> filial (`cruzvermelhabrasileirarj` ainda aparece na prévia do Instagram e no
-> rodapé das páginas que a Redação gera).
+> `parceria.cruzvermelhapetropolis.org` no Resend, e a página do Facebook da
+> filial (o link do Facebook do RJ saiu do rodapé das páginas da Redação). O
+> Instagram é `@_cruzvermelhapetropolis`: está no rodapé e no contato do site, no
+> JSON-LD (`sameAs`), no e-mail de agradecimento da doação e na Redação.
 
 > **01/11/2026 — Google Tag Manager `GTM-PDLBB439`** em todas as páginas do site,
 > com o trecho oficial (o do `<head>` e o `<noscript>` logo após o `<body>`), ao

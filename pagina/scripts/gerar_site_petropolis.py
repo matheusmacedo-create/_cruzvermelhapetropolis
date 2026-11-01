@@ -28,7 +28,9 @@ FILIAL = {
     "cep": "25680-120",
     "email": "contato@cruzvermelhapetropolis.org",
     "telefones": ["(21) 99605-6454", "(21) 97465-0301"],
+    "instagram": "_cruzvermelhapetropolis",
 }
+INSTAGRAM = f"https://www.instagram.com/{FILIAL['instagram']}/"
 TEL = {t: "+55" + "".join(c for c in t if c.isdigit()) for t in FILIAL["telefones"]}
 
 
@@ -84,6 +86,7 @@ ICONES = {
     "mochila": '<rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h6"/>',
     "whatsapp": '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/><path d="M9.5 9.5c.3 1.6 1.4 3.3 3 4.2l1.2-.9 1.8.8-.3 1.6c-3 .3-6.6-3.2-6.4-6.3l1.5-.4.9 1.7z"/>',
     "sms": '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/>',
+    "instagram": '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
 }
 
 
@@ -125,6 +128,7 @@ def rodape() -> str:
       <p>{icone('telefone')} {tels}</p>
       <p>{icone('whatsapp')} WhatsApp: {links_zap()}</p>
       <p>{icone('email')} <a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></p>
+      <p>{icone('instagram')} Instagram: <a href="{INSTAGRAM}" rel="noopener" target="_blank">@{FILIAL['instagram']}</a></p>
     </div>
     <div>
       <h2>Navegue</h2>
@@ -157,6 +161,7 @@ ORGANIZACAO = {
         "postalCode": FILIAL["cep"],
         "addressCountry": "BR",
     },
+    "sameAs": [INSTAGRAM],
     "parentOrganization": {"@type": "NGO", "name": "Cruz Vermelha Brasileira"},
 }
 
@@ -600,7 +605,7 @@ def contato() -> str:
   <div class="wrap grade-3">
     <article class="cartao">{icone('local')}<h3>Endereço</h3><p>{esc(FILIAL['rua'])}<br>{FILIAL['bairro']} · {FILIAL['cidade']}/{FILIAL['uf']}<br>CEP {FILIAL['cep']}</p><a class="seta" href="{MAPA}" rel="noopener" target="_blank">Abrir no mapa</a></article>
     <article class="cartao">{icone('whatsapp')}<h3>WhatsApp e telefone</h3><p>{tels}</p><p>{"".join(f'<a class="botao botao-zap botao-pequeno" href="{esc(zap(t))}" rel="noopener" target="_blank">WhatsApp {t}</a>' for t in FILIAL["telefones"])}</p></article>
-    <article class="cartao">{icone('email')}<h3>E-mail e chat</h3><p><a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a></p><p><button class="botao botao-vermelho botao-pequeno" type="button" data-abrir-chat>Escrever pelo chat</button></p></article>
+    <article class="cartao">{icone('email')}<h3>E-mail, chat e Instagram</h3><p><a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a><br>Instagram: <a href="{INSTAGRAM}" rel="noopener" target="_blank">@{FILIAL['instagram']}</a></p><p><button class="botao botao-vermelho botao-pequeno" type="button" data-abrir-chat>Escrever pelo chat</button></p></article>
   </div>
   <div class="wrap aviso"><p>A filial não faz atendimento de urgência. Em emergência: Defesa Civil <a href="tel:199">199</a> · Bombeiros <a href="tel:193">193</a> · SAMU <a href="tel:192">192</a>.</p></div>
 </section>"""

@@ -172,7 +172,7 @@ function mcp_doacao_montar_email_confirmada(array $d): array
         . mcp_subtitulo('Continue por perto')
         . mcp_p('Quem doa costuma querer ver o resultado. As ações da filial, as turmas formadas e as campanhas em andamento ficam nas notícias do site e no Instagram.')
         . mcp_botao($site . '/noticias/', 'Ver as ações da filial')
-        . mcp_p('E se você quiser ir além da doação: a filial forma os próprios voluntários, com turmas na sede, no Centro de Petrópolis. <a href="' . MCP_DOACAO_FORMULARIO_VOLUNTARIO . '" style="color:#cc0000;font-weight:700">Cadastre-se como voluntário</a> ou acompanhe pelo <a href="https://www.instagram.com/cruzvermelhabrasileirarj/" style="color:#cc0000;font-weight:700">Instagram @cruzvermelhabrasileirarj</a>.')
+        . mcp_p('E se você quiser ir além da doação: a filial forma os próprios voluntários, com turmas na sede, no Centro de Petrópolis. <a href="' . MCP_DOACAO_FORMULARIO_VOLUNTARIO . '" style="color:#cc0000;font-weight:700">Cadastre-se como voluntário</a> ou acompanhe pelo <a href="https://www.instagram.com/_cruzvermelhapetropolis/" style="color:#cc0000;font-weight:700">Instagram @_cruzvermelhapetropolis</a>.')
         . mcp_nota(mcp_escapar(MCP_DOACAO_AGRADECIMENTO))
         . '<p style="margin:26px 0 0;font-size:15px;line-height:1.5;color:#1a202c">Com gratidão,<br><strong>Equipe da Cruz Vermelha Brasileira Petrópolis</strong></p>';
 

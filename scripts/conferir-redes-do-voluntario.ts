@@ -16,10 +16,10 @@ const igual = (nome: string, obtido: unknown, esperado: unknown) => {
 const url = (r: ReturnType<typeof normalizarRede>) => (r && 'url' in r ? r.url : r && 'erro' in r ? 'ERRO' : null)
 
 // Instagram: @usuário, usuário, link com e sem https, link com www e com barra no fim.
-igual('instagram @usuário', url(normalizarRede('instagram', ' @cruzvermelha.rj ')), 'https://www.instagram.com/cruzvermelha.rj')
-igual('instagram usuário sem @', url(normalizarRede('instagram', 'cruzvermelha_rj')), 'https://www.instagram.com/cruzvermelha_rj')
-igual('instagram link sem https', url(normalizarRede('instagram', 'instagram.com/cruzvermelha.rj/')), 'https://instagram.com/cruzvermelha.rj')
-igual('instagram link completo', url(normalizarRede('instagram', 'https://www.instagram.com/cruzvermelha.rj?igsh=abc')), 'https://www.instagram.com/cruzvermelha.rj?igsh=abc')
+igual('instagram @usuário', url(normalizarRede('instagram', ' @cruzvermelha.petropolis ')), 'https://www.instagram.com/cruzvermelha.petropolis')
+igual('instagram usuário sem @', url(normalizarRede('instagram', 'cruzvermelha_petropolis')), 'https://www.instagram.com/cruzvermelha_petropolis')
+igual('instagram link sem https', url(normalizarRede('instagram', 'instagram.com/cruzvermelha.petropolis/')), 'https://instagram.com/cruzvermelha.petropolis')
+igual('instagram link completo', url(normalizarRede('instagram', 'https://www.instagram.com/cruzvermelha.petropolis?igsh=abc')), 'https://www.instagram.com/cruzvermelha.petropolis?igsh=abc')
 igual('instagram http vira https', url(normalizarRede('instagram', 'http://www.instagram.com/fulana')), 'https://www.instagram.com/fulana')
 igual('instagram de outro site é recusado', url(normalizarRede('instagram', 'https://tiktok.com/@fulana')), 'ERRO')
 igual('instagram host parecido é recusado', url(normalizarRede('instagram', 'https://instagram.com.golpe.br/fulana')), 'ERRO')
@@ -46,8 +46,8 @@ igual('outro longo demais é recusado', url(normalizarRede('outro', 'https://sit
 igual('outro tira a âncora', url(normalizarRede('outro', 'https://site.com/pagina#topo')), 'https://site.com/pagina')
 
 // Como aparece na tela.
-igual('texto do instagram vira @', textoDaRede('instagram', 'https://www.instagram.com/cruzvermelha.rj'), '@cruzvermelha.rj')
-igual('texto do instagram com parâmetro não vira @', textoDaRede('instagram', 'https://www.instagram.com/cruzvermelha.rj?igsh=abc'), 'instagram.com/cruzvermelha.rj?igsh=abc')
+igual('texto do instagram vira @', textoDaRede('instagram', 'https://www.instagram.com/cruzvermelha.petropolis'), '@cruzvermelha.petropolis')
+igual('texto do instagram com parâmetro não vira @', textoDaRede('instagram', 'https://www.instagram.com/cruzvermelha.petropolis?igsh=abc'), 'instagram.com/cruzvermelha.petropolis?igsh=abc')
 igual('texto do linkedin sem https', textoDaRede('linkedin', 'https://www.linkedin.com/in/fulana'), 'linkedin.com/in/fulana')
 igual('texto de outro', textoDaRede('outro', 'https://fulana.com.br/'), 'fulana.com.br')
 
