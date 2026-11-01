@@ -12,9 +12,9 @@
   # Endereços da primeira versão do site (27/10/2026: páginas herdadas do RJ saíram).
   RewriteRule ^(doacao\.html|doar/?|doacao-indisponivel\.html)$ /doe/ [R=301,L]
   RewriteRule ^(cursos-gratuitos|voluntariado/cadastro)/?$ /voluntariado/ [R=301,L]
-  RewriteRule ^(movimento-internacional|emblema|direito-internacional-humanitario|historia|equipe\.html|equipe|gestao|base-legal)/?$ /quem-somos/ [R=301,L]
+  RewriteRule ^(movimento-internacional|emblema|direito-internacional-humanitario|historia|equipe\.html|equipe|base-legal)/?$ /quem-somos/ [R=301,L]
   RewriteRule ^(termos|cookies|reembolso)/?$ /privacidade/ [R=301,L]
-  RewriteRule ^(bio|links?|campanha-agasalho\.html|dia-das-criancas|projetocores|pedido-de-documentos|verificar|en|es)(/.*)?$ / [R=301,L]
+  RewriteRule ^(bio|links?|campanha-agasalho\.html|dia-das-criancas|projetocores|en|es)(/.*)?$ / [R=301,L]
 </IfModule>
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS

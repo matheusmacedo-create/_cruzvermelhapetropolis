@@ -2033,7 +2033,7 @@ function mcp_contato_assuntos(): array
         'voluntariado' => 'Voluntariado', 'doacoes' => 'Doações e parcerias', 'outro' => 'Outro assunto',
         // Só do formulário da página /dia-das-criancas/ (o chat não oferece este assunto).
         'brinquedos' => 'Doação de brinquedos (Dia das Crianças)',
-        // Só da página /pedido-de-documentos/ (api/documentos.php); os comprovantes vão só por e-mail.
+        // Do chat (assunto da página /pedido-de-documentos/).
         'documentos' => 'Pedido de documento',
     ];
 }

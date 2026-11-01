@@ -33,6 +33,7 @@
     { assuntos: ["voluntariado"], rotulo: "Como ser voluntário?", p: "Como ser voluntário da Cruz Vermelha em Petrópolis?", r: "Mande nome, telefone, bairro, disponibilidade e o que gostaria de fazer por aqui, pelo e-mail contato@cruzvermelhapetropolis.org ou pelo WhatsApp (21) 99605-6454. A equipe conversa com você e explica a orientação inicial. O voluntariado não é remunerado (Lei 9.608/1998)." },
     { assuntos: ["outro"], rotulo: "Vocês atendem emergência?", p: "A Cruz Vermelha em Petrópolis atende emergências?", r: "Não. A filial não faz atendimento de urgência nem marca consultas. Em emergência, ligue para a Defesa Civil (199), os Bombeiros (193) ou o SAMU (192). Para receber alertas de chuva, envie o seu CEP por SMS para 40199." },
     { assuntos: ["outro"], rotulo: "Onde fica?", p: "Onde fica a Cruz Vermelha em Petrópolis?", r: "Na Rua Carlos Gomes, 6, Centro, Petrópolis/RJ, CEP 25680-120. Antes de ir, combine pelo WhatsApp ou telefone (21) 99605-6454 ou (21) 97465-0301." },
+    { assuntos: ["documentos"], rotulo: "Como pedir um documento?", p: "Como peço um documento da filial?", r: "Primeiro veja o portal da transparência (cruzvermelhapetropolis.org/transparencia): os documentos publicados podem ser baixados ali, com a impressão digital para conferir. Se o que você procura não estiver lá, ou se precisar da íntegra de um documento com dados tarjados, escreva aqui qual documento é e para que vai usar. A resposta vem por e-mail." },
     { assuntos: ["outro"], rotulo: "Tem telefone ou WhatsApp?", p: "Como falar com a Cruz Vermelha em Petrópolis?", r: "Pelo WhatsApp ou telefone (21) 99605-6454 e (21) 97465-0301, pelo e-mail contato@cruzvermelhapetropolis.org ou por este chat, que manda a sua mensagem por e-mail para a equipe." }
   ];
   /* /chat:respostas */
@@ -42,11 +43,12 @@
   var ASSUNTOS = [
     ['voluntariado', 'Voluntariado'],
     ['doacoes', 'Doações e parcerias'],
+    ['documentos', 'Pedido de documento'],
     ['outro', 'Outro assunto']
   ];
   // Assuntos com uma ação pronta no site: o botão aparece junto das respostas, antes de escrever para a equipe.
   var ACOES = {
-    voluntariado: { href: '/voluntariado/cadastro/', rotulo: 'Fazer o cadastro de voluntário' },
+    voluntariado: { href: '/voluntariado/', rotulo: 'Ver como ser voluntário' },
     doacoes: { href: '/doe/?utm_source=site&utm_medium=chat', rotulo: 'Doar pelo site' }
   };
   // Petrópolis não tem escola: nenhum assunto pede curso (as respostas de curso acima ficam sem uso).

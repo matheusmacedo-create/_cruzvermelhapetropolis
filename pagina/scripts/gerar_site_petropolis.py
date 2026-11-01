@@ -54,6 +54,7 @@ MENU = [
     ("/voluntariado/", "Voluntariado"),
     ("/prevencao/", "Prevenção"),
     ("/principios-fundamentais/", "Princípios"),
+    ("/transparencia/", "Transparência"),
     ("/contato/", "Contato"),
 ]
 
@@ -377,6 +378,8 @@ def quem_somos() -> str:
       <li><b>Prevenção:</b> levamos informação sobre preparo para emergências e primeiros cuidados à comunidade.</li>
       <li><b>Apoio comunitário:</b> participamos de campanhas e ações de assistência social, em parceria com a comunidade e com o poder público.</li>
     </ul>
+    <h2 id="como-nos-financiamos">Como nos financiamos</h2>
+    <p>A filial é uma associação sem fins lucrativos e se mantém com doações de pessoas e empresas, campanhas e parcerias. Os documentos que mostram como o dinheiro entra e é usado (estatuto, atas, demonstrações contábeis e relatórios de atividades) ficam no <a href="/transparencia/">portal da transparência</a>; o que não estiver lá pode ser pedido pelo <a href="/pedido-de-documentos/">pedido de documentos</a>.</p>
     <h2>O Movimento Internacional</h2>
     <p>O Movimento reúne três partes: o <b>Comitê Internacional da Cruz Vermelha</b> (CICV), que protege e assiste as vítimas de conflitos armados; a <b>Federação Internacional das Sociedades da Cruz Vermelha e do Crescente Vermelho</b> (FICV), que coordena a ajuda em desastres e o desenvolvimento das Sociedades Nacionais; e as <b>Sociedades Nacionais</b>, como a Cruz Vermelha Brasileira, que atuam em cada país.</p>
     <h2>O emblema</h2>
@@ -641,6 +644,82 @@ def creditos() -> str:
 </div></section>"""
 
 
+def pedido_de_documentos() -> str:
+    assunto = "Pedido de documentos – Cruz Vermelha Petrópolis"
+    corpo = "Nome completo:%0D%0AE-mail ou telefone:%0D%0ADocumento que procuro:%0D%0APara que vou usar (opcional):%0D%0A"
+    return f"""<section class="secao"><div class="wrap texto">
+<p class="eyebrow">Transparência</p>
+<h1>Pedido de documentos</h1>
+<p>Procura um documento da filial que não está no <a href="/transparencia/">portal da transparência</a>, ou a íntegra de um que saiu com dados tarjados? Peça aqui. A resposta vem por e-mail.</p>
+<h2>Como pedir</h2>
+<ol class="passos">
+  <li><b>Diga qual documento</b> você procura (por exemplo: ata de uma assembleia, demonstrações de um ano, certidão).</li>
+  <li><b>Deixe um contato</b> para a resposta: e-mail ou telefone.</li>
+  <li><b>Se for a íntegra</b> de um documento com dados pessoais, conte para que vai usar: a filial avalia o pedido de acordo com a LGPD (Lei nº 13.709/2018).</li>
+</ol>
+<p class="acoes"><button class="botao botao-vermelho" type="button" data-abrir-chat data-assunto="documentos">Pedir pelo chat</button>
+<a class="botao botao-contorno" href="mailto:{FILIAL['email']}?subject={assunto}&amp;body={corpo}">Pedir por e-mail</a></p>
+<p class="pequeno">Pedidos que não dependem de documento da filial (certidões de cartório, por exemplo) podem ser feitos direto ao órgão que emite.</p>
+</div></section>"""
+
+
+def gestao() -> str:
+    return f"""<section class="secao"><div class="wrap texto">
+<p class="eyebrow">Transparência</p>
+<h1>Como funciona a nossa gestão</h1>
+<p>A filial publica os documentos que mostram quem a dirige, como decide e como usa o dinheiro que recebe. Três regras valem para tudo o que sai como oficial:</p>
+<h2>1. Cada documento tem uma impressão digital</h2>
+<p>Todo PDF do <a href="/transparencia/">portal da transparência</a> sai com a sua impressão digital (SHA-256): um código calculado a partir do próprio arquivo. Se uma vírgula mudar, o código muda. Qualquer pessoa confere em <a href="/verificar/">Verificar um documento</a> ou no próprio computador.</p>
+<h2>2. Nada é trocado em silêncio</h2>
+<p>Quando um documento ganha versão nova, a anterior continua listada. Com a trilha pública de auditoria da filial, cada registro ganha também um código de verificação, um carimbo de tempo e um selo diário, que mostram quando o documento foi publicado e se continua valendo. A trilha entra no ar junto com o sistema interno da filial.</p>
+<h2>3. Só os canais oficiais falam pela filial</h2>
+<p>Os endereços, telefones e perfis da filial estão em <a href="/canais-oficiais/">Canais oficiais</a>. A filial não pede doações por mensagem de pessoas físicas nem em contas de terceiros: doe só pela página <a href="/doe/">Doe</a>.</p>
+<h2>Dados pessoais</h2>
+<p>Documentos com dados de pessoas (CPF, endereço, assinaturas) saem com esses dados tarjados. A íntegra pode ser pedida pelo <a href="/pedido-de-documentos/">pedido de documentos</a>. Veja também a <a href="/privacidade/">política de privacidade</a>.</p>
+</div></section>"""
+
+
+def verificar() -> str:
+    return f"""<section class="secao"><div class="wrap texto">
+<p class="eyebrow">Transparência</p>
+<h1>Verificar um documento</h1>
+<p>Confira se um PDF é o mesmo que a filial publicou no <a href="/transparencia/">portal da transparência</a>. O arquivo não sai do seu computador: a impressão digital (SHA-256) é calculada aqui mesmo, no navegador, e comparada com as que estão publicadas no portal.</p>
+<div class="verificar-caixa">
+  <label for="verificar-arquivo"><b>Escolha o PDF</b></label>
+  <input id="verificar-arquivo" type="file" accept="application/pdf,.pdf">
+  <p id="verificar-resultado" class="verificar-resultado" role="status" aria-live="polite"></p>
+</div>
+<h2>Pelo computador</h2>
+<p>No Windows: <code>certutil -hashfile arquivo.pdf SHA256</code>. No Mac ou Linux: <code>shasum -a 256 arquivo.pdf</code>. O resultado tem de ser igual à impressão digital publicada no portal.</p>
+<h2>Pelo código de verificação</h2>
+<p>A consulta pelo código de verificação (o que traz a data do registro, o carimbo de tempo e o selo diário) abre quando a trilha pública de auditoria da filial entrar no ar. Até lá, confira pela impressão digital. <a href="/gestao/">Entenda como funciona</a>.</p>
+</div></section>
+<script>
+(function () {{
+  var campo = document.getElementById('verificar-arquivo');
+  var saida = document.getElementById('verificar-resultado');
+  if (!campo || !window.crypto || !crypto.subtle) {{ if (saida) saida.textContent = 'Este navegador não calcula a impressão digital. Use o comando abaixo.'; return; }}
+  function hex(buf) {{ return Array.prototype.map.call(new Uint8Array(buf), function (b) {{ return ('0' + b.toString(16)).slice(-2); }}).join(''); }}
+  campo.addEventListener('change', function () {{
+    var arquivo = campo.files && campo.files[0];
+    if (!arquivo) return;
+    saida.className = 'verificar-resultado';
+    saida.textContent = 'Calculando…';
+    Promise.all([
+      arquivo.arrayBuffer().then(function (b) {{ return crypto.subtle.digest('SHA-256', b); }}).then(hex),
+      fetch('/transparencia/', {{ cache: 'no-store' }}).then(function (r) {{ return r.ok ? r.text() : ''; }})
+    ]).then(function (r) {{
+      var hash = r[0];
+      var publicados = (r[1].match(/[0-9a-f]{{64}}/g) || []);
+      var achou = publicados.indexOf(hash) >= 0;
+      saida.className = 'verificar-resultado ' + (achou ? 'verificar-ok' : 'verificar-nao');
+      saida.textContent = (achou ? 'Confere: este arquivo é igual a um documento publicado no portal. ' : 'Não confere: nenhum documento publicado no portal tem esta impressão digital. ') + 'SHA-256: ' + hash;
+    }}).catch(function () {{ saida.textContent = 'Não foi possível conferir agora. Tente de novo ou use o comando abaixo.'; }});
+  }});
+}})();
+</script>"""
+
+
 def nao_encontrada() -> str:
     return f"""<section class="secao"><div class="wrap texto">
 <p class="eyebrow">Página não encontrada</p>
@@ -670,6 +749,9 @@ if __name__ == "__main__":
     pagina("/prevencao/", "Prevenção – Cruz Vermelha Petrópolis", "Orientações para antes, durante e depois de chuvas fortes e emergências em Petrópolis.", prevencao(), "serra")
     pagina("/principios-fundamentais/", "Princípios Fundamentais – Cruz Vermelha Petrópolis", "Os sete Princípios Fundamentais do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho.", principios(), "rionegro")
     pagina("/contato/", "Contato – Cruz Vermelha Petrópolis", "Endereço, telefones e e-mail da Cruz Vermelha Brasileira em Petrópolis.", contato(), "imperial")
+    pagina("/pedido-de-documentos/", "Pedido de documentos – Cruz Vermelha Petrópolis", "Peça um documento da Cruz Vermelha Petrópolis que não está no portal da transparência.", pedido_de_documentos())
+    pagina("/gestao/", "Como funciona a nossa gestão – Cruz Vermelha Petrópolis", "Impressão digital dos documentos, versões, canais oficiais e dados pessoais: como a Cruz Vermelha Petrópolis presta contas.", gestao())
+    pagina("/verificar/", "Verificar um documento – Cruz Vermelha Petrópolis", "Confira se um PDF é o mesmo que a Cruz Vermelha Petrópolis publicou no portal da transparência.", verificar())
     pagina("/privacidade/", "Privacidade – Cruz Vermelha Petrópolis", "Como o site da Cruz Vermelha Petrópolis trata dados pessoais.", privacidade())
     pagina("/creditos/", "Créditos das fotos – Cruz Vermelha Petrópolis", "Autoria e licença das fotos de Petrópolis usadas no site.", creditos())
     pagina("/404.html", "Página não encontrada – Cruz Vermelha Petrópolis", "Página não encontrada.", nao_encontrada())

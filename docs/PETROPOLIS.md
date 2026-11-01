@@ -69,6 +69,25 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 > (`lib/site/juridico.ts`) e na configuração da doação. O cartão CNPJ ainda traz
 > o Gmail e os fixos (24); atualizar lá também, se for o caso.
 
+> **01/11/2026 — portal da transparência no site, com documentos de exemplo.**
+> `/transparencia/` e `/canais-oficiais/` saem dos mesmos geradores que a Redação
+> usa ao publicar (`lib/transparencia/paginas.ts`), rodados por
+> `npx tsx scripts/gerar-transparencia-de-exemplo.ts`: cinco PDFs marcados
+> "EXEMPLO" (estatuto, ata, demonstrações, relatório e CNPJ), com impressão
+> digital SHA-256, sem código de verificação e com uma faixa de demonstração;
+> as duas pastas ficam com `noindex` (`.htaccess`) até os documentos oficiais
+> entrarem. Quando a Redação estiver no ar e a equipe enviar os documentos pela
+> tela Transparência, ela grava por cima, nos mesmos endereços (apague então os
+> PDFs `exemplo-*` de `public_html/transparencia/arquivos/`). Novas no gerador
+> do site: `/verificar/` (confere a impressão digital no navegador, contra as
+> publicadas no portal; a consulta por código abre com a trilha),
+> `/pedido-de-documentos/` (pelo chat, assunto "Pedido de documento", ou
+> e-mail), `/gestao/` e a seção "Como nos financiamos" em Quem somos; o menu
+> ganhou "Transparência". O esqueleto das páginas da Redação
+> (`lib/site/esqueleto.ts`) passou a ter o cabeçalho, o rodapé, a folha
+> (`/assets/site.css?v=`, lida da home) e a medição (gtag + GTM) do site de
+> Petrópolis; saíram o aviso de cookies e o Pixel da Meta do RJ.
+
 > **01/11/2026 — revisão do nome em todo o repositório.** Nenhum texto, endereço,
 > CNPJ ou nome da filial do RJ ficou no código, nos textos, nos testes e na
 > documentação: domínio e e-mails passaram para `cruzvermelhapetropolis.org` (a

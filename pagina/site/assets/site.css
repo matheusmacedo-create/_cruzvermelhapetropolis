@@ -169,3 +169,11 @@ blockquote { margin: 1rem 0; padding: 18px 22px; border-left: 4px solid var(--ve
 /* O balão do chat (chat/chat.css) fica no canto; o WhatsApp sobe para não ficar por cima dele. */
 .zap-flutuante { bottom: 92px; right: 20px; }
 button.botao { font: inherit; font-weight: 700; cursor: pointer; }
+
+/* Transparência: botão de contorno, verificação de documento. */
+.botao-contorno { background: #fff; color: var(--vermelho); border-color: var(--vermelho); }
+.botao-contorno:hover { background: #fff5f5; }
+.verificar-caixa { margin: 1.4rem 0 2rem; padding: 22px 24px; border: 1px solid var(--linha); border-radius: var(--raio); background: var(--fundo-suave); display: grid; gap: 10px; }
+.verificar-resultado { margin: 0; font-size: .95rem; word-break: break-all; }
+.verificar-ok { color: #0b7a4b; font-weight: 700; }
+.verificar-nao { color: var(--vermelho); font-weight: 700; }
