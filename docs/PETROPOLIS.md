@@ -33,7 +33,8 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 - [ ] **Vercel Blob**: store próprio.
 - [ ] **GitHub Actions**: o backup diário (`.github/workflows/backup-banco.yml`)
       só faz algo com os Secrets configurados neste repositório (bucket próprio).
-- [ ] **Branch `main`** e proteção dela (todo merge na `main` publica).
+- [ ] **Branch `main`** criada em 01/11/2026; falta a proteção dela e torná-la
+      o branch padrão no GitHub (todo merge na `main` publica).
 
 ## 2. Domínio, hospedagem e e-mail
 
@@ -67,6 +68,32 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 > telefones (21) 99605-6454 e (21) 97465-0301, no site, na Redação
 > (`lib/site/juridico.ts`) e na configuração da doação. O cartão CNPJ ainda traz
 > o Gmail e os fixos (24); atualizar lá também, se for o caso.
+
+> **01/11/2026 — Redação atualizada com o RJ** até `5c87d90` (30/10/2026):
+> 47 commits, 76 arquivos — Google Ads (Ad Grants), voz (ElevenLabs),
+> autocadastro de colaborador pelo WhatsApp, coordenadores de setor, fichas do
+> cadastro de voluntários do site, "Esqueci minha senha" pelo WhatsApp, grupos
+> do Google, backup e pg_net, com 6 migrações novas (entram pelo workflow
+> **Aplicar migrações** junto com as outras). Os textos para pessoas foram
+> trocados para Petrópolis. Ficaram do RJ de propósito:
+> - os planos do Ad Grants (`lib/google/ads-regras.ts`): cidade do Rio, guias
+>   do site do RJ e títulos no limite de 30 letras. Refazer para Petrópolis
+>   antes de criar qualquer campanha;
+> - as fichas do site (`lib/voluntariado/fichas-do-site.ts`) já apontam para
+>   cruzvermelhapetropolis.org, mas a página de Petrópolis ainda não tem o
+>   formulário de cadastro nem a API: até lá a busca não traz nada;
+> - os e-mails institucionais `@cruzvermelhariodejaneiro.org` (como no resto
+>   da Redação, esperando o domínio de e-mail de Petrópolis).
+> A conferência `scripts/conferir-google-ads.ts` tem uma falha que também
+> acontece no RJ ("a volta do Ads troca o código com o mesmo cliente": o
+> texto procurado mudou na rota).
+
+> **01/11/2026 — Google Analytics 4 `G-MJ0DGJHLVW`** em todas as páginas do
+> site (gerador `pagina/scripts/gerar_site_petropolis.py`) e na Redação
+> (`ID_DO_ANALYTICS` em `lib/site/analytics.ts`, para as páginas que ela
+> publicar). A política de privacidade passou a citar o Analytics. Ainda é do
+> RJ em `lib/site/analytics.ts`: o número da propriedade (`ID_DA_PROPRIEDADE`,
+> de onde Resultados lê os números) e o Pixel da Meta.
 
 > **29/10/2026 — chat "Fale com a gente" de volta**, o mesmo balão do RJ
 > (`pagina/site/chat/`), com respostas rápidas de Petrópolis e sem cursos. A
@@ -137,7 +164,9 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 
 ## 4. Canais e integrações de terceiros
 
-- [ ] **Google Analytics 4 e Meta Pixel**: os do RJ (`G-HDYZZ5JZHF`,
+- [x] **Google Analytics 4 (01/11/2026):** `G-MJ0DGJHLVW` no site e na Redação.
+      Falta o número da propriedade em `ID_DA_PROPRIEDADE`.
+- [ ] **Meta Pixel** (e o histórico do GA4 abaixo): os do RJ (`G-HDYZZ5JZHF`,
       `2224500131617302`) estão **desligados** na página (`var GTAG = ''` e
       `var PIXEL = ''`: nada é baixado nem enviado). Com os de Petrópolis,
       voltar os endereços e trocar os IDs no `gtag('config')`/`fbq('init')`.

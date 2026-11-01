@@ -161,6 +161,10 @@ ORGANIZACAO = {
 }
 
 
+# Google Analytics 4 da filial (o identificador sai impresso em toda página; não é segredo).
+ID_DO_ANALYTICS = "G-MJ0DGJHLVW"
+
+
 def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: str = "hero", extra_head: str = "", extra_fim: str = "") -> None:
     url = ORIGEM + caminho
     og = ORIGEM + "/assets/fotos/" + FOTOS[foto_social]["arquivo"]
@@ -168,6 +172,15 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
     doc = f"""<!doctype html>
 <html lang="pt-BR">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={ID_DO_ANALYTICS}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+
+    gtag('config', '{ID_DO_ANALYTICS}');
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(titulo)}</title>
@@ -586,14 +599,14 @@ def privacidade() -> str:
 <h1>Política de privacidade</h1>
 <p>Este site é mantido pela {esc(FILIAL['nome'])}, CNPJ {FILIAL['cnpj']}, {esc(ENDERECO)}.</p>
 <h2>O que coletamos</h2>
-<p>O site não usa cookies de estatística ou de publicidade. Os contatos são feitos por e-mail ou telefone, por iniciativa de quem nos procura. As fontes de texto vêm do Google Fonts, que recebe o endereço IP do seu acesso para entregar os arquivos.</p>
+<p>Usamos o Google Analytics para saber quantas pessoas visitam o site e quais páginas leem. Ele grava cookies no seu navegador e recebe dados do acesso (páginas vistas, aparelho, navegador e região aproximada), sem nome nem contato; os números servem só para melhorar o site. Você pode bloquear esses cookies nas configurações do navegador. O site não usa cookies de publicidade. Os contatos são feitos por e-mail ou telefone, por iniciativa de quem nos procura. As fontes de texto vêm do Google Fonts, que recebe o endereço IP do seu acesso para entregar os arquivos.</p>
 <h2>Doações</h2>
 <p>Para doar em <a href="/doe/">/doe/</a>, pedimos nome, e-mail, CPF e telefone, que o meio de pagamento exige, e guardamos o registro da doação (valor, forma de pagamento, situação e o endereço IP de onde ela foi feita) para emitir o comprovante, prestar contas e evitar fraudes. O pagamento é processado pela Unicopag: os dados do cartão vão direto para ela e não ficam guardados no site, que só recebe a bandeira e os quatro últimos dígitos. A base legal é a execução da doação e o cumprimento de obrigações legais (LGPD, art. 7º, II e V).</p>
 <h2>Quando você nos escreve</h2>
 <p>Os dados que você mandar por e-mail ou telefone (nome, contato e o que contar na mensagem) são usados só para responder e, se for o caso, para organizar o voluntariado ou a doação, com base no seu consentimento e no interesse legítimo da filial (Lei Geral de Proteção de Dados, Lei nº 13.709/2018). Não vendemos nem compartilhamos esses dados para fins comerciais.</p>
 <h2>Seus direitos</h2>
 <p>Você pode pedir acesso, correção ou exclusão dos seus dados pelo e-mail <a href="mailto:{FILIAL['email']}">{FILIAL['email']}</a>.</p>
-<p class="pequeno">Atualizada em 27 de outubro de 2026.</p>
+<p class="pequeno">Atualizada em 1º de novembro de 2026.</p>
 </div></section>"""
 
 

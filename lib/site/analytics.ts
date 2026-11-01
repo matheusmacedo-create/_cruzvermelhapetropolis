@@ -16,8 +16,8 @@
  *    existem no servidor e ficaram de fora.
  */
 
-/** O mesmo identificador que a home do site já usa. */
-export const ID_DO_ANALYTICS = 'G-HDYZZ5JZHF'
+/** O Analytics de Petrópolis, o mesmo que as páginas de pagina/site/ já usam. */
+export const ID_DO_ANALYTICS = 'G-MJ0DGJHLVW'
 /**
  * A propriedade do GA4 desse identificador (Administrador → Detalhes da
  * propriedade), de onde Resultados lê os números pela Data API. Também não é
