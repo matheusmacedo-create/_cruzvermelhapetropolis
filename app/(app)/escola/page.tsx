@@ -30,7 +30,7 @@ function Numero({ rotulo, valor, detalhe }: { rotulo: string; valor: string; det
 }
 
 /**
- * A escola como empresa: uma unidade da Cruz Vermelha RJ com receita e
+ * A escola como empresa: uma unidade da Cruz Vermelha Petrópolis com receita e
  * gestão próprias. Esta é a porta de entrada — vendas do mês, marketing,
  * advertoriais e o que pede atenção —, cada bloco levando à sua área. Aluno,
  * turma e secretaria continuam no sistema da escola; daqui só o atalho.

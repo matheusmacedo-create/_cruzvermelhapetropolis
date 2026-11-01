@@ -191,7 +191,7 @@ insert into public.equipe_convites (workspace_id, membro_id, token_hash, expira_
 select throws_ok(format('insert into public.equipe_convites (workspace_id, membro_id, token_hash, expira_em) values (%L, %L, %L, now())', :'ws', '00000000-0000-4000-8000-0000000000b1', repeat('c', 64)),
                  '23505', null, 'um link aberto por pessoa');
 set local role service_role;
-select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('9', 64), '{"cidade":"Rio"}'), 'P0001', 'Este link venceu ou já foi usado. Peça um novo ao RH.', 'token desconhecido não grava');
+select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('9', 64), '{"cidade":"Petrópolis"}'), 'P0001', 'Este link venceu ou já foi usado. Peça um novo ao RH.', 'token desconhecido não grava');
 select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('b', 64), '{"documentos":{"cpf":"111.111.111-11"}}'), 'P0001', 'CPF inválido.', 'CPF inválido é recusado');
 select lives_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('b', 64),
                 '{"telefone_pessoal":"21 98765-4321","cidade":"","data_nascimento":"1990-05-01","documentos":{"rg":"12.345.678-9"},"banco":{"conta":"999"},"cargo":"Diretora"}'),
@@ -203,7 +203,7 @@ select ok((select tem_documentos and not tem_banco and cargo is null from public
           'documentos entram cifrados; banco e cargo pelo link, nunca');
 select is((select (detalhe->>'pela_pessoa')::boolean from public.equipe_auditoria where membro_id = '00000000-0000-4000-8000-0000000000b1' order by id desc limit 1), true, 'auditoria diz que foi a própria pessoa');
 set local role service_role;
-select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('b', 64), '{"cidade":"Rio"}'), 'P0001', 'Este link venceu ou já foi usado. Peça um novo ao RH.', 'o link vale uma vez só');
+select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('b', 64), '{"cidade":"Petrópolis"}'), 'P0001', 'Este link venceu ou já foi usado. Peça um novo ao RH.', 'o link vale uma vez só');
 reset role;
 
 select lives_ok(format('insert into public.notifications (workspace_id, user_id, title, message, categoria) values (%L, %L, %L, %L, %L)', :'ws', :'admin', 'Ficha completa', 'x', 'equipe'),
@@ -212,7 +212,7 @@ select lives_ok(format('insert into public.notifications (workspace_id, user_id,
 update public.equipe_membros set situacao = 'desligado' where id = '00000000-0000-4000-8000-0000000000b1';
 insert into public.equipe_convites (workspace_id, membro_id, token_hash, expira_em) values (:'ws', '00000000-0000-4000-8000-0000000000b1', repeat('d', 64), now() + interval '7 days');
 set local role service_role;
-select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('d', 64), '{"cidade":"Rio"}'), 'P0001', 'Este link não vale mais. Fale com o RH.', 'desligado não usa mais o link (20260929140000)');
+select throws_ok(format('select public.equipe_preencher_pelo_convite(%L, %L)', repeat('d', 64), '{"cidade":"Petrópolis"}'), 'P0001', 'Este link não vale mais. Fale com o RH.', 'desligado não usa mais o link (20260929140000)');
 reset role;
 
 select * from finish();

@@ -46,7 +46,7 @@ const TETO_DE_LEITURAS = 20
 /** O endereço da matéria no domínio do site, sem www (o www responde 301 para ele). Nulo se for de outro lugar. */
 function enderecoNoSite(url: unknown): string | null {
   if (typeof url !== 'string') return null
-  const m = /^https?:\/\/(?:www\.)?cruzvermelhariodejaneiro\.org(\/.*)$/i.exec(url.trim())
+  const m = /^https?:\/\/(?:www\.)?cruzvermelhapetropolis\.org(\/.*)$/i.exec(url.trim())
   return m ? `${ORIGEM_DO_SITE}${m[1]}` : null
 }
 

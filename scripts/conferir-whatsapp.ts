@@ -4,7 +4,7 @@
  */
 import {
   numeroCanonico, formatarNumero, mascararNumero,
-  lerCategoriasDoWhatsapp, decidirWhatsapp, textoDoAviso, lerEventoDaKapso, estadoDoNumeroNaKapso, numeroSemNonoDigito, problemaNaSaude, interpretarComando, textoDosAvisos, textoDasLidas,
+  ehCortesia, TEXTO_NAO_ENTENDI_CURTO, LINHA_DAS_FUNCOES, textoDasFuncoes, lerCategoriasDoWhatsapp, decidirWhatsapp, textoDoAviso, lerEventoDaKapso, estadoDoNumeroNaKapso, numeroSemNonoDigito, problemaNaSaude, interpretarComando, textoDosAvisos, textoDasLidas,
   textoDoMenu, codigoNoFormato, emSilencio, fimDoSilencio, silencioSeAplica, proximaTentativa, falhaMereceReenvio,
   categoriaVaiPorWhatsapp, horaEmSaoPaulo, lerPedido, rotuloDoDia, textoDaAgenda, textoDosChamados, textoDasAprovacoes, textoDaAjuda, respostaParaWhatsapp,
   textoDoConviteDoPalacio, alvoDoLink, dicaDeResposta, lerDecisao, ehConfirmacao, ehCancelamento, ehPular, lerEscolha, textoDaConferencia, textoDaEscolha, textoPedeDetalhes, tituloDoRelato,
@@ -33,7 +33,7 @@ import {
 import { lerHodometro, pedidoDeRetorno, pedidoDeSaida } from '../lib/patrimonio/frota'
 import { CATEGORIAS, ROTULO_DA_CATEGORIA } from '../lib/notificacoes/regras'
 import {
-  ALERTA_DE_INTEGRACAO_A_CADA_HORAS, INTEGRACOES_ALERTADAS, alertaDeIntegracaoSai, motivoDaFalhaDoEmail, motivoDaFalhaDoR2, textoDoAlertaDeIntegracao,
+  ALERTA_DE_INTEGRACAO_A_CADA_HORAS, INTEGRACOES_ALERTADAS, alertaDeIntegracaoSai, alertasResolvidosPelaConexao, integracaoDoTitulo, motivoDaFalhaDoEmail, motivoDaFalhaDoR2, textoDoAlertaDeIntegracao,
 } from '../lib/integracoes/alertas-regras'
 import { lerRespostaDaVisita, respostaClaraDaVisita } from '../lib/portaria/regras'
 import { interativoDaFicha, lerBotaoDaFicha, modeloDaFichaForaDaJanela, montagemDaFicha as montagemDaFichaReal, textoDaFicha, type FichaDaVisita } from '../lib/whatsapp/portaria-regras'
@@ -409,8 +409,8 @@ contem(corpoParaWhatsapp(avisoDe({ tipo: 'whatsapp_removido', numero: mascararNu
 const aoNumeroAntigo = textoDeSeguranca(AVISO_AO_NUMERO_ANTIGO)
 contem(aoNumeroAntigo, 'Este número deixou de receber os avisos de uma conta do Palácio Virtual', 'número antigo: o recado')
 igual(/Olá|Carla|Matheus|sua conta|\d{2} de \w+ de \d{4}/.test(aoNumeroAntigo), false, 'número antigo: sem nome, sem quem fez, sem data e sem "sua conta"')
-const bloqueada = corpoParaWhatsapp(avisoDe({ tipo: 'conta_bloqueada', lugar: 'Rio de Janeiro/RJ, BR' }))
-contem(bloqueada, 'de Rio de Janeiro/RJ, BR (local aproximado)', 'bloqueio: o local aproximado')
+const bloqueada = corpoParaWhatsapp(avisoDe({ tipo: 'conta_bloqueada', lugar: 'Petrópolis/RJ, BR' }))
+contem(bloqueada, 'de Petrópolis/RJ, BR (local aproximado)', 'bloqueio: o local aproximado')
 contem(bloqueada, 'Em 18 de outubro de 2026', 'bloqueio: a data')
 igual(/\d+ (tentativas|minutos)/.test(bloqueada), false, 'bloqueio: sem os números do bloqueio')
 
@@ -426,6 +426,7 @@ igual(fimDoSilencio(new Date('2026-09-28T05:00:00Z')).toISOString(), '2026-09-28
 igual(fimDoSilencio(new Date('2026-09-30T02:30:00Z')).toISOString(), '2026-09-30T10:00:00.000Z', 'virada de mês')
 igual(silencioSeAplica({ tipo: 'aviso', categoria: 'chat' }), true, 'aviso comum espera')
 igual(silencioSeAplica({ tipo: 'aviso', categoria: 'portaria' }), false, 'portaria sai na hora')
+igual(silencioSeAplica({ tipo: 'aviso', categoria: 'conta' }), false, 'conta nova (senha provisória) sai na hora, de madrugada também')
 igual(silencioSeAplica({ tipo: 'seguranca' }), false, 'segurança sai na hora')
 igual(silencioSeAplica({ tipo: 'bot' }), false, 'resposta do bot sai na hora')
 igual(proximaTentativa(1, new Date('2026-09-28T12:00:00Z'))?.toISOString(), '2026-09-28T12:05:00.000Z', '1ª espera 5 min')
@@ -886,7 +887,7 @@ igual(BOTAO_DO_NAO_FUI_EU.tipo === 'botoes' && ehNaoFuiEu(BOTAO_DO_NAO_FUI_EU.bo
 igual(MARCA_DO_NAO_FUI_EU.length <= 40, true, 'segurança: a marca cabe no registro')
 for (const t of ['não fui eu', 'NÃO FUI EU!', 'Nao foi eu', 'não fui eu não', 'Não reconheço']) igual(ehNaoFuiEu(t), true, `"não fui eu": ${t}`)
 for (const t of ['fui eu', 'não', 'eu não fui na reunião', 'confirmo', '']) igual(ehNaoFuiEu(t), false, `não é "não fui eu": ${t}`)
-igual(avisoOfereceNaoFuiEu({ tipo: 'conta_bloqueada', lugar: 'Rio' }), true, 'oferece: bloqueio')
+igual(avisoOfereceNaoFuiEu({ tipo: 'conta_bloqueada', lugar: 'Petrópolis' }), true, 'oferece: bloqueio')
 igual(avisoOfereceNaoFuiEu({ tipo: 'senha_alterada', como: 'propria' }), true, 'oferece: senha trocada pela pessoa')
 igual(avisoOfereceNaoFuiEu({ tipo: 'senha_alterada', como: 'link' }), true, 'oferece: senha trocada pelo link')
 igual(avisoOfereceNaoFuiEu({ tipo: 'senha_alterada', como: 'admin', adminNome: 'M' }), false, 'não oferece: senha trocada pela administração')
@@ -1014,6 +1015,20 @@ igual(alertaDeIntegracaoSai({ ultimoAlertaEm: null, agora: agoraDaIntegracao }),
 igual(alertaDeIntegracaoSai({ ultimoAlertaEm: '2026-10-18T10:00:00Z', agora: agoraDaIntegracao }), false, 'integrações: outro em menos de 6 h não sai')
 igual(alertaDeIntegracaoSai({ ultimoAlertaEm: '2026-10-18T06:00:00Z', agora: agoraDaIntegracao }), true, 'integrações: 6 h depois, sai de novo')
 igual(alertaDeIntegracaoSai({ ultimoAlertaEm: '2099-01-01T00:00:00Z', agora: agoraDaIntegracao }), true, 'integrações: marco com data futura não cala o alerta')
+igual(alertaDeIntegracaoSai({ ultimoAlertaEm: '2026-10-18T10:00:00Z', normalizadaEm: '2026-10-18T10:30:00Z', agora: agoraDaIntegracao }), true, 'integrações: normalizada depois do alerta, a falha nova avisa na hora')
+igual(alertaDeIntegracaoSai({ ultimoAlertaEm: '2026-10-18T10:30:00Z', normalizadaEm: '2026-10-18T10:00:00Z', agora: agoraDaIntegracao }), false, 'integrações: normalizada ANTES do alerta não reabre a janela')
+igual(alertaDeIntegracaoSai({ ultimoAlertaEm: '2026-10-18T10:00:00Z', normalizadaEm: '2099-01-01T00:00:00Z', agora: agoraDaIntegracao }), false, 'integrações: normalizada com data futura não vale')
+{
+  const gmail = alertasResolvidosPelaConexao('gmail', true)
+  igual(gmail.integracoes, ['google_gmail', 'google_oauth'], 'reconexão do Gmail resolve a autorização e o cliente OAuth')
+  igual(gmail.titulos.includes('O Google recusou o cliente OAuth'), true, 'título do cliente OAuth recusado na lista')
+  igual(alertasResolvidosPelaConexao('ads', false).integracoes, ['google_ads'], 'Google Ads com cliente próprio não resolve o cliente do Gmail')
+  igual(alertasResolvidosPelaConexao('ads', true).integracoes, ['google_ads', 'google_oauth'], 'Google Ads com o cliente do Gmail resolve os dois')
+  igual(alertasResolvidosPelaConexao('drive', true).titulos.includes(textoDoAlertaDeIntegracao('google_drive', { motivo: 'servico' }).titulo), false, 'reconectar não resolve o Drive sem espaço')
+  igual(integracaoDoTitulo('O Google recusou o cliente OAuth'), 'google_oauth', 'título → integração')
+  igual(integracaoDoTitulo('O Google Drive do Palácio está sem espaço'), 'google_drive', 'título de outra variante → integração')
+  igual(integracaoDoTitulo('Nova aprovação pedida'), null, 'aviso comum não é alerta de integração')
+}
 igual(alertaDeIntegracaoSai({ ultimoAlertaEm: 'lixo', agora: agoraDaIntegracao }), true, 'integrações: marco ilegível não cala o alerta')
 igual([401, 403, 500, 503, 0, 422, 400].map((s) => motivoDaFalhaDoEmail(s)), ['chave', 'chave', 'servico', 'servico', 'servico', null, null], 'integrações: as falhas do Resend que alertam')
 igual(motivoDaFalhaDoEmail(429, 'You have reached your daily email sending quota.'), 'servico', 'integrações: Resend sem cota no plano alerta')
@@ -1551,6 +1566,33 @@ async function conferirEnvioPelaKapso() {
 }
 
 conferirEnvioPelaKapso().catch((causa) => { falhas++; console.log('FALHOU: o envio pela Kapso lançou', causa) }).finally(() => {
+  // cortesia, reação e o "não entendi" curto
+  for (const t of ['ok', 'Obrigada!', 'muito obrigado', 'valeu', '👍', '🙏', 'blz', 'Obrigado, recebi', 'beleza, vi']) igual(ehCortesia(t), true, `cortesia: "${t}" não pede resposta`)
+  for (const t of ['obrigada, mas como troco a senha?', 'ok e agora?', 'não recebi a senha', 'como faço para entrar', 'ok vou fazer isso hoje à tarde ok ok']) igual(ehCortesia(t), false, `cortesia: "${t}" é pergunta ou frase: responde`)
+  igual(TEXTO_NAO_ENTENDI_CURTO.length < 200 && !TEXTO_NAO_ENTENDI_CURTO.includes('1 –'), true, 'não entendi: uma linha, sem lista de opções')
+  {
+    const reacao = lerEventoDaKapso({ type: 'whatsapp.message.received', message: { id: 'wamid.R', from: '5521970360264', type: 'reaction', timestamp: '1788000000', reaction: { emoji: '🙏', message_id: 'wamid.X' } }, conversation: { phone_number: '+5521970360264' } }, 'whatsapp.message.received', null)
+    igual(reacao.mensagens[0]?.ignorar, 'sem_conteudo', 'reação com emoji: ignorada, o bot não responde')
+    const texto = lerEventoDaKapso({ type: 'whatsapp.message.received', message: { id: 'wamid.T', from: '5521970360264', type: 'text', timestamp: '1788000000', text: { body: 'oi' } }, conversation: { phone_number: '+5521970360264' } }, 'whatsapp.message.received', null)
+    igual(texto.mensagens[0]?.ignorar, null, 'mensagem de texto: não é ignorada')
+  }
+  // o passeio "funções": só como a mensagem inteira, e o menu aponta para ele
+  for (const t of ['funções', 'Funcoes', 'o que você faz?', 'tour', 'comandos']) igual(lerPedido(t, { pausado: false }).comando, 'funcoes', `funções: "${t}" abre o passeio`)
+  for (const t of ['funções', 'o que você faz']) igual(lerPedido(t, { pausado: false, assistente: true }).comando, 'funcoes', `funções: "${t}" abre o passeio também com o assistente`)
+  igual(lerPedido('quais as funções do chamado 12 que abri', { pausado: false }).comando === 'funcoes', false, 'funções: no meio de uma frase não roda')
+  contem(textoDoMenu({ nome: 'Ana', pausado: false, urlBase: 'https://p' }), LINHA_DAS_FUNCOES, 'menu: aponta para o passeio')
+  igual(textoDoMenu({ nome: 'Ana', pausado: false, urlBase: 'https://p' }).includes('Para responder um aviso'), false, 'menu: sem a explicação longa (ela está no passeio)')
+  {
+    const simples = textoDasFuncoes({})
+    contem(simples, '*chamado:* e o problema', 'passeio: chamado')
+    contem(simples, '*ajuda* e a sua dúvida', 'passeio: ajuda')
+    contem(simples, 'responda a própria mensagem dele', 'passeio: como responder um aviso')
+    igual(simples.includes('*portaria*') || simples.includes('*status*') || simples.includes('*financeiro*'), false, 'passeio: sem as áreas que a pessoa não tem')
+    const tudo = textoDasFuncoes({ assistente: true, admin: true, usuarios: true, atende: true, portaria: true, financeiro: true, presenca: true, frota: 'operar', estoque: true })
+    for (const parte of ['*portaria*', '*financeiro*', '*presença*', '*veículos*', '*estoque*', '*status*', '*colaborador:*', 'Escreva do seu jeito']) contem(tudo, parte, `passeio completo: ${parte}`)
+    igual(tudo.length < 3500, true, `passeio completo cabe numa mensagem (${tudo.length})`)
+  }
   if (falhas) { console.log(`\n${falhas} falha(s).`); process.exit(1) }
+
   console.log('WhatsApp: tudo certo.')
 })

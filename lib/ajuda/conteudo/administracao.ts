@@ -459,7 +459,7 @@ const USUARIOS: GuiaDaArea = {
     {
       id: 'sem-email-confirmado',
       pergunta: 'Por que importa a pessoa ter e-mail confirmado?',
-      resposta: 'Sem e-mail confirmado não há para onde mandar o link de “Esqueci minha senha”, o link de nova senha que você envia, os avisos de segurança por e-mail nem os e-mails de notificação (se a pessoa confirmou o WhatsApp, os avisos de segurança chegam por lá). Nesse caso, para redefinir a senha só restam a senha temporária ou uma senha definida por você.',
+      resposta: 'Sem e-mail confirmado, o link de “Esqueci minha senha” só chega se a pessoa tiver o WhatsApp confirmado (o do convite, ou o confirmado em “Meu perfil”). Também não há para onde mandar o link de nova senha que você envia, os avisos de segurança por e-mail nem os e-mails de notificação (se a pessoa confirmou o WhatsApp, os avisos de segurança chegam por lá). Nesse caso, para redefinir a senha só restam a senha temporária ou uma senha definida por você.',
       termos: ['não confirmado', 'sem e-mail', 'Link por e-mail indisponível'],
     },
     {
@@ -624,6 +624,12 @@ const CONFIGURACOES: GuiaDaArea = {
           texto: '“Conectar Google Drive” liga a conta Google da filial onde o Palácio guarda arquivos, na pasta “Palácio – Arquivos”: a cópia dos envios que chegam pelo WhatsApp e os documentos que a equipe guarda por lá. O Palácio só enxerga o que ele mesmo criou. O cartão mostra a situação, a conta e a pasta raiz; “Desconectar” para tudo.',
           seAusente: 'pular',
         },
+        {
+          alvo: 'configuracoes.google-ads',
+          titulo: 'Google Ads',
+          texto: '“Conectar Google Ads” liga a conta Google que administra o Google Ads da filial (a do Ad Grants). Com a conta de anúncios escolhida, aparece uma campanha por página (hoje, os guias de primeiros socorros e da Lei Lucas): “Conferir no Google” pede ao Google que valide a campanha sem gravar nada, e “Criar campanha (pausada)” a cria de verdade — pausada: ativar é no painel do Google, depois de revisar.',
+          seAusente: 'pular',
+        },
       ],
     },
     {
@@ -707,6 +713,20 @@ const CONFIGURACOES: GuiaDaArea = {
       dica: 'Se a autorização vencer, os administradores recebem um alerta de integração e o cartão pede “Reconectar”. Desconectar para as cópias, mas o que já está no Drive continua lá. Não revogue o acesso em myaccount.google.com se o e-mail dos setores usa a mesma conta: lá a revogação derruba todas as conexões do Palácio.',
     },
     {
+      id: 'conectar-google-ads',
+      titulo: 'Conectar o Google Ads e criar a campanha do Ad Grants',
+      quem: 'Só administradores',
+      passos: [
+        'No Google Cloud, ative a “Google Ads API” e, na página “Google Ads API › Visão geral”, peça o acesso Explorer (sem ele a API só fala com contas de teste). Não existe mais developer token: o acesso é do projeto. Se o projeto do cliente do Gmail não for aprovado, peça num projeto da filial, crie nele um cliente OAuth (Aplicativo da Web, com o mesmo endereço de retorno do Gmail) e cole em Integrações → “Google Ads (cliente OAuth do projeto com acesso à API)”.',
+        'Abra Configurações › E-mail dos setores e desça até “7. Google Ads”. Toque em “Conectar Google Ads” e entre com a conta Google que administra o Google Ads da filial (hoje, a do contato@). O Google pede a permissão de gerenciar as campanhas e o e-mail da conta.',
+        'De volta ao Palácio, o cartão mostra “Ativa”, a conta e as contas de anúncios que a autorização alcança. Se houver mais de uma, digite a do Ad Grants (10 dígitos, como no painel) e toque em “Usar esta conta”.',
+        'Cada página tem a sua campanha, com orçamento próprio. No bloco da campanha, toque em “Conferir no Google”: o mesmo pedido da criação vai com validateOnly, e o Google confere limites, políticas e segmentação sem gravar nada. Se recusar, o cartão diz o quê.',
+        'Toque em “Criar campanha (pausada)” no mesmo bloco. A campanha, os grupos, as palavras-chave, os anúncios e os sitelinks nascem pausados. Revise tudo no painel do Google Ads e ative por lá. Repita para cada página.',
+        'No GA4, marque “purchase” e “generate_lead” como eventos principais e vincule a propriedade à conta do Google Ads; no Google Ads, importe os dois como conversões. Com conversão medida, dá para trocar o lance para “Maximizar conversões”.',
+      ],
+      dica: 'A conta do Ad Grants é em dólar e tem regras próprias: só pesquisa, lance de até US$ 2, dois grupos por campanha e dois anúncios por grupo, e 5% de taxa de cliques ao mês — abaixo disso o Google suspende a conta. Nenhuma campanha leva à página de matrícula: a política do programa aceita venda só quando não é o foco da página, e por isso os anúncios levam aos guias, que apresentam o curso e a doação no fim.',
+    },
+    {
       id: 'criar-setor',
       titulo: 'Dizer quem envia pelo endereço de um setor',
       quem: 'Só administradores',
@@ -720,7 +740,7 @@ const CONFIGURACOES: GuiaDaArea = {
     {
       id: 'ativar-endereco',
       titulo: 'Ligar um endereço a um setor e ativar',
-      exemplo: 'O endereço compras@cruzvermelhariodejaneiro.org é ativado para o setor Compras; quem é do setor já vê a caixa em “E-mail do setor”.',
+      exemplo: 'O endereço compras@cruzvermelhapetropolis.org é ativado para o setor Compras; quem é do setor já vê a caixa em “E-mail do setor”.',
       quem: 'Só administradores',
       passos: [
         'Endereço criado (e confirmado) no Gmail depois da conexão só aparece depois de “Sincronizar endereços”. Ele chega inativo.',
@@ -856,6 +876,12 @@ const CONFIGURACOES: GuiaDaArea = {
       pergunta: 'O que o Palácio guarda no Google Drive, e o que ele enxerga lá?',
       resposta: 'Tudo fica dentro da pasta “Palácio – Arquivos”, no Drive da conta conectada. Em “Envios do WhatsApp/AAAA-MM/título do envio (ENV-…)” cai a cópia de cada envio de fotos e vídeos que chegou pelo WhatsApp, com a autorização de imagem na descrição de cada arquivo; a ficha do envio ganha o link “Cópia no Google Drive”. Nas pastas dos setores ficam os documentos que a equipe guarda pelo WhatsApp: cada pessoa só na pasta do próprio setor (o nome do setor no Palácio), e quem administra em qualquer lugar.\n\nA permissão é a menor que o Google oferece: o Palácio vê e mexe só no que ele mesmo criou. O resto do Drive da conta continua invisível para ele, e nada é apagado por ele.',
       termos: ['google drive', 'drive', 'pasta', 'palácio – arquivos', 'cópia dos envios', 'drive.file', 'documentos'],
+    },
+    {
+      id: 'campanha-do-google-ads',
+      pergunta: 'O Palácio liga anúncios no Google sozinho?',
+      resposta: 'Não. Ele só confere e cria as campanhas do Ad Grants, e elas nascem pausadas: nada é veiculado até alguém revisar e ativar no painel do Google Ads. É uma campanha por página, cada uma com o seu orçamento diário: hoje, o guia de primeiros socorros e o guia da Lei Lucas na prática, com anúncios de pesquisa para a cidade de Petrópolis que respondem a dúvidas como “o que fazer em caso de convulsão” ou “lei lucas escolas”. Nenhuma leva à página de matrícula: os guias apresentam o curso e a doação no fim do texto.\n\nSe a autorização expirar, os administradores recebem um alerta e o cartão pede “Reconectar”; as campanhas continuam no Google como estão.',
+      termos: ['google ads', 'ad grants', 'campanha', 'anúncio', 'palavras-chave', 'conferir no google', 'criar campanha', 'pausada', 'orçamento'],
     },
     {
       id: 'link-do-drive-pede-acesso',
@@ -1071,7 +1097,7 @@ const WHATSAPP: GuiaDaArea = {
     {
       id: 'alertas-de-integracoes',
       pergunta: 'Que alertas de integrações chegam pelo WhatsApp?',
-      resposta: 'Quando uma integração para, os administradores recebem um aviso no assunto “Integrações”, no sino, no e-mail e também no WhatsApp, com o que fazer: a conta Google do e-mail dos setores, a de administrador ou a do Google Drive expirou ou foi revogada (reconecte em Configurações → E-mail dos setores); o Drive ficou sem espaço; o Google recusou o cliente OAuth (confira em Integrações); o Resend recusou a chave ou o domínio, saiu do ar ou limitou os envios (os e-mails não saem); o Cloudflare R2 não gravou (as fotos que chegam pelo WhatsApp e o espelho da trilha pública).\n\nÉ no máximo um aviso por integração a cada 6 horas, e o da conta Google só na hora em que ela expira. A queda do próprio WhatsApp continua no assunto “Sistema”, só no sino e no e-mail.',
+      resposta: 'Quando uma integração para, os administradores recebem um aviso no assunto “Integrações”, no sino, no e-mail e também no WhatsApp, com o que fazer: a conta Google do e-mail dos setores, a de administrador ou a do Google Drive expirou ou foi revogada (reconecte em Configurações → E-mail dos setores); o Drive ficou sem espaço; o Google recusou o cliente OAuth (confira em Integrações); o Resend recusou a chave ou o domínio, saiu do ar ou limitou os envios (os e-mails não saem); o Cloudflare R2 não gravou (as fotos que chegam pelo WhatsApp e o espelho da trilha pública).\n\nÉ no máximo um aviso por integração a cada 6 horas, e o da conta Google só na hora em que ela expira. Quando a conta Google é reconectada com sucesso em Configurações → E-mail dos setores, os avisos que isso resolve somem do sino de todos os administradores (e o assistente do WhatsApp deixa de citá-los). A queda do próprio WhatsApp continua no assunto “Sistema”, só no sino e no e-mail.',
       termos: ['integrações', 'alerta', 'google expirou', 'conta google', 'resend', 'e-mail parou', 'r2', 'armazenamento', 'google drive'],
     },
     {
@@ -1263,7 +1289,7 @@ const PERFIL: GuiaDaArea = {
     {
       id: 'borda-amarela',
       pergunta: 'Por que o quadro do e-mail está com a borda amarela?',
-      resposta: 'Porque a sua conta ainda não tem um e-mail de recuperação confirmado. Enquanto for assim, “Esqueci minha senha” não tem para onde mandar o link. Cadastre o endereço e abra o link de confirmação que chega nele.',
+      resposta: 'Porque a sua conta ainda não tem um e-mail de recuperação confirmado. Enquanto for assim, “Esqueci minha senha” só manda o link pelo WhatsApp, se ele estiver confirmado. Cadastre o endereço e abra o link de confirmação que chega nele.',
       termos: ['faixa amarela', 'não confirmado', 'aviso amarelo'],
     },
     {
@@ -1373,4 +1399,99 @@ const PERFIL: GuiaDaArea = {
   relacionadas: ['/notificacoes', '/pessoas'],
 }
 
-export const guias: GuiaDaArea[] = [ACESSOS, USUARIOS, CONFIGURACOES, WHATSAPP, PERFIL]
+// -------------------------------------------------------------------- Voz
+
+const VOZ: GuiaDaArea = {
+  href: '/configuracoes/voz',
+  paraQueServe: 'Voz dá à filial uma voz própria, pela ElevenLabs. Com ela ligada, as matérias publicadas no site ganham o “Ouça esta matéria”, e o assistente do WhatsApp responde também em áudio a quem falou com ele por áudio. Os dois usos começam desligados e ligam separados.',
+  quemUsa: 'Só administradores abrem esta aba. Quem publica matérias não precisa fazer nada: com a narração ligada, o áudio sai junto com a página.',
+  naPratica: {
+    titulo: 'A matéria que também se ouve',
+    passos: [
+      'A administração guarda a chave da ElevenLabs no cartão “ElevenLabs (voz da instituição)”, em Integrações.',
+      'Nesta aba, escolhe a voz, ouve a amostra em português e marca “Narrar as matérias do site”.',
+      'A Carla publica a matéria da campanha de inverno. A página sai com o “Ouça esta matéria” logo abaixo do título.',
+      'Quem lê pelo celular no ônibus toca no play e ouve a matéria inteira; quem tem pressa toca em “1,5×” ou “2×” para acelerar.',
+    ],
+    resultado: 'A matéria chega também a quem enxerga mal, a quem lê com dificuldade e a quem está com as mãos ocupadas.',
+  },
+  tour: [
+    {
+      titulo: 'A voz da instituição',
+      texto: 'Aqui a administração escolhe a voz da filial e onde ela fala: nas matérias do site e nas respostas em áudio do WhatsApp.',
+    },
+    {
+      alvo: 'voz.escolha',
+      titulo: 'Voz e modelo',
+      texto: 'As vozes são as da conta da ElevenLabs. A amostra da própria ElevenLabs não gasta crédito; “Ouvir em português com este modelo” gasta uns 100 caracteres.',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'voz.materias',
+      titulo: 'Narrar as matérias',
+      texto: 'Ligado, publicar ou republicar uma matéria gera o áudio e a página ganha o “Ouça esta matéria”. Republicar sem mudar o texto não gasta crédito de novo.',
+      seAusente: 'pular',
+    },
+    {
+      alvo: 'voz.whatsapp',
+      titulo: 'Áudio no WhatsApp',
+      texto: 'Ligado, quem fala com o assistente por áudio recebe a resposta por escrito e, logo depois, a mesma resposta falada. Links, códigos e planos ficam só no texto.',
+      seAusente: 'pular',
+    },
+  ],
+  tarefas: [
+    {
+      id: 'ligar-a-voz',
+      titulo: 'Ligar a voz da instituição',
+      exemplo: 'A administração cola a chave da ElevenLabs, escolhe uma voz feminina pronta, ouve a amostra e liga a narração das matérias numa segunda de manhã.',
+      quem: 'Só administradores',
+      passos: [
+        'Em elevenlabs.io → Developers → API keys, crie uma chave com acesso a “Text to Speech” e “Voices”.',
+        'Em Integrações, no cartão “ElevenLabs (voz da instituição)”, cole a chave e toque em “Salvar no cofre”. O Palácio testa a chave antes de guardar.',
+        'Abra a aba “Voz”, escolha a voz e o modelo e toque em “Ouvir em português com este modelo”.',
+        'Marque onde a voz fala (as matérias, o WhatsApp ou os dois) e toque em “Salvar a voz”. Vale na próxima publicação ou na próxima mensagem.',
+      ],
+      dica: 'Use uma voz pronta da ElevenLabs ou uma criada para a filial. Voz clonada de uma pessoa real só com a autorização dela por escrito, e nunca imitando alguém.',
+    },
+    {
+      id: 'dar-voz-a-materia-antiga',
+      titulo: 'Dar voz às matérias que já estavam no ar',
+      quem: 'Administradores (todas de uma vez) ou quem publica (uma a uma)',
+      passos: [
+        'Todas de uma vez: com a narração ligada, abra Configurações → Site e toque em “Regerar e narrar as que faltam”. Confirme.',
+        'A tela mostra a barra de avanço, a matéria da vez, o tempo decorrido, quanto falta e cada matéria que terminou (narrada, regerada, pulada ou com falha). Narrar leva perto de um minuto por matéria; deixe a aba aberta até o fim.',
+        'Uma a uma: abra a publicação da matéria e toque em “Atualizar a página no site”. A página volta no mesmo endereço, agora com o “Ouça esta matéria”.',
+      ],
+      dica: 'O que já tem áudio não é narrado de novo, então rodar outra vez só completa o que faltou. O “Regerar” comum mantém os áudios que existem, mas não cria novos: assim ele não gasta crédito em lote. Matéria editada depois da última publicação fica de fora até ser republicada pela própria tela.',
+    },
+  ],
+  perguntas: [
+    {
+      id: 'materia-sem-audio',
+      pergunta: 'Por que a matéria saiu sem o “Ouça esta matéria”?',
+      resposta: 'O aviso da publicação diz o motivo, em “Ficou fora da página: a narração em áudio (…)”. Os mais comuns: a conta da ElevenLabs está sem créditos, a chave foi recusada, a voz não está mais na conta, ou a matéria passa de 30 mil caracteres. Sem aviso nenhum, a narração está desligada nesta aba (ou falta a chave em Integrações). Corrigido o motivo, republique a matéria.',
+      termos: ['sem áudio', 'ouça esta matéria', 'narração', 'não narrou', 'elevenlabs', 'créditos'],
+    },
+    {
+      id: 'audio-gasta-credito',
+      pergunta: 'Quanto crédito a voz gasta?',
+      resposta: 'A ElevenLabs cobra por caractere. Uma matéria de 4 mil caracteres gasta uns 4 mil na primeira publicação; republicar sem mudar o texto não gasta nada, porque o áudio que está no ar é reaproveitado. Mudou o texto, a voz ou o modelo, o áudio é gerado de novo. No WhatsApp, a voz lê só o começo da resposta (até uns 350 caracteres, e avisa que o restante está no texto), num modelo que gasta metade do crédito; sai só para quem mandou áudio, no máximo 15 por pessoa e 150 no total por dia.',
+      termos: ['crédito', 'custo', 'caracteres', 'saldo', 'preço da voz'],
+    },
+    {
+      id: 'audio-no-whatsapp',
+      pergunta: 'Quando o WhatsApp responde em áudio?',
+      resposta: 'Só quando quatro coisas valem juntas: o assistente está ligado para a pessoa (Configurações → WhatsApp), “Responder em áudio no WhatsApp” está ligado aqui, a pessoa falou por áudio, e a resposta é uma resposta comum do assistente, com pelo menos uns 60 caracteres. A resposta escrita sai sempre antes e vale sozinha; o áudio lê só o começo dela (até uns 350 caracteres) e termina com “O restante está na mensagem escrita”. Plano para confirmar, pergunta com opções, link e código ficam só no texto. Cada pessoa recebe no máximo 15 áudios por dia, e o espaço todo, 150; depois disso, só o texto até a meia-noite. O áudio nunca confirma nada, e o “confirmo” falado também não vale.',
+      termos: ['áudio no whatsapp', 'mensagem de voz', 'responder em áudio', 'voz no whatsapp', 'resposta falada'],
+    },
+    {
+      id: 'voz-e-privacidade',
+      pergunta: 'O que vai para a ElevenLabs?',
+      resposta: 'Só o texto que vira voz: o da matéria publicada (que já é público) e, com o áudio no WhatsApp ligado, o texto da resposta do assistente, que pode citar colegas, chamados e avisos. A ElevenLabs guarda o histórico dos áudios na conta; dá para apagar o histórico no painel dela. A página da matéria avisa que a narração é feita com voz gerada por inteligência artificial.',
+      termos: ['privacidade', 'elevenlabs', 'dados', 'lgpd', 'histórico'],
+    },
+  ],
+  relacionadas: ['/configuracoes', '/configuracoes/whatsapp'],
+}
+
+export const guias: GuiaDaArea[] = [ACESSOS, USUARIOS, CONFIGURACOES, WHATSAPP, VOZ, PERFIL]

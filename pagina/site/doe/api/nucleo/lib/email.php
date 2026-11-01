@@ -26,7 +26,7 @@ const MCP_EMAIL_PRAZO = '3 dias úteis';
 const MCP_EMAIL_CNPJ = '09.198.238/0001-48';
 const MCP_NOME_FILIAL = 'Cruz Vermelha Brasileira Petrópolis';
 /** Nomes curtos que aparecem em configurações antigas (EMAIL_REMETENTE): o remetente sai sempre com o nome completo. */
-const MCP_NOMES_CURTOS = ['cruz vermelha', 'cruz vermelha rj', 'cruz vermelha brasileira', 'cruz vermelha brasileira rj', 'cruz vermelha brasileira - rj', 'cruz vermelha brasileira – rj', 'cvb-rj', 'cvb rj', 'cvb'];
+const MCP_NOMES_CURTOS = ['cruz vermelha', 'cruz vermelha petrópolis', 'cruz vermelha brasileira', 'cruz vermelha brasileira petrópolis', 'cruz vermelha brasileira - petrópolis', 'cruz vermelha brasileira – petrópolis', 'cvb petrópolis', 'cvb-petrópolis', 'cvb'];
 const MCP_TEXTO_ESTORNO = 'Você pode desistir em até 7 dias depois do pagamento e recebe de volta tudo o que pagou, inclusive a matrícula e os juros do parcelamento. Depois disso, o valor também é devolvido se não houver turma com horário compatível ou se você desistir antes da confirmação da turma. O prazo para o dinheiro aparecer depende de PIX ou cartão.';
 /** Frase da venda sem turma (spec 10.10), acrescentada ao rodapé quando ela está ligada ou a compra esperou turma. */
 /** O rodapé de quem pagou só a taxa: o mesmo direito, sem falar de matrícula e juros que essa compra não teve. */
@@ -42,7 +42,7 @@ function mcp_email_contato_endereco(): string
 /** Remetente das respostas do painel ao cliente (EMAIL_REMETENTE_CONTATO ou o remetente geral). */
 function mcp_email_remetente_contato(): string
 {
-    return mcp_email_nome_oficial((string) mcp_cfg('EMAIL_REMETENTE_CONTATO', mcp_cfg('EMAIL_REMETENTE', MCP_NOME_FILIAL . ' <matricula@cruzvermelhariodejaneiro.org>')));
+    return mcp_email_nome_oficial((string) mcp_cfg('EMAIL_REMETENTE_CONTATO', mcp_cfg('EMAIL_REMETENTE', MCP_NOME_FILIAL . ' <matricula@cruzvermelhapetropolis.org>')));
 }
 
 /** Só o endereço de um remetente no formato "Nome <endereco>". */
@@ -244,7 +244,7 @@ function mcp_enviar_email(string $para, string $assunto, string $html, string $t
         'conteudo' => (string) ($a['conteudo'] ?? ''),
         'tipo' => preg_match('#^[a-z]+/[a-z0-9.+-]+$#', (string) ($a['tipo'] ?? '')) ? (string) $a['tipo'] : 'application/octet-stream',
     ], $anexos), static fn(array $a): bool => $a['conteudo'] !== ''));
-    $remetente = mcp_email_nome_oficial($remetente ?? (string) mcp_cfg('EMAIL_REMETENTE', MCP_NOME_FILIAL . ' <matricula@cruzvermelhariodejaneiro.org>'));
+    $remetente = mcp_email_nome_oficial($remetente ?? (string) mcp_cfg('EMAIL_REMETENTE', MCP_NOME_FILIAL . ' <matricula@cruzvermelhapetropolis.org>'));
     $resposta = $responderPara ?? (string) mcp_cfg('EMAIL_RESPOSTA', mcp_email_contato_endereco());
     if (!filter_var($resposta, FILTER_VALIDATE_EMAIL)) {
         $resposta = '';
@@ -354,7 +354,7 @@ function mcp_email_ligada(string $chave): bool
 function mcp_email_recebedor(): array
 {
     return function_exists('mcp_recebedor') ? mcp_recebedor()
-        : ['nome' => (string) mcp_cfg('RECEBEDOR_NOME', 'O-CVB Filial Rio de Janeiro Ensino Ltda'), 'cnpj' => (string) mcp_cfg('RECEBEDOR_CNPJ', '67.733.551/0001-35')];
+        : ['nome' => (string) mcp_cfg('RECEBEDOR_NOME', 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis'), 'cnpj' => (string) mcp_cfg('RECEBEDOR_CNPJ', '09.198.238/0001-48')];
 }
 
 /** Quem concede o parcelamento (CDC, art. 54-B, § 3º): ['nome', 'cnpj']; padrão, o recebedor. */
@@ -2033,7 +2033,7 @@ function mcp_contato_assuntos(): array
         'voluntariado' => 'Voluntariado', 'doacoes' => 'Doações e parcerias', 'outro' => 'Outro assunto',
         // Só do formulário da página /dia-das-criancas/ (o chat não oferece este assunto).
         'brinquedos' => 'Doação de brinquedos (Dia das Crianças)',
-        // Só da página /pedido-de-documentos/ (api/documentos.php); os comprovantes vão só por e-mail.
+        // Do chat (assunto da página /pedido-de-documentos/).
         'documentos' => 'Pedido de documento',
     ];
 }
@@ -2181,7 +2181,7 @@ function mcp_montar_email_contato_confirmacao(array $c): array
     if ($dadosCurso) {
         $itens = [];
         if (!empty($dadosCurso['carga_horaria'])) {
-            $itens[] = '<strong>' . mcp_escapar((string) $dadosCurso['carga_horaria']) . '</strong> presenciais, na sede, no Centro do Rio';
+            $itens[] = '<strong>' . mcp_escapar((string) $dadosCurso['carga_horaria']) . '</strong> presenciais, na sede, no Centro de Petrópolis';
         }
         if (!empty($dadosCurso['escolaridade'])) {
             $itens[] = 'Escolaridade mínima: <strong>' . mcp_escapar((string) $dadosCurso['escolaridade']) . '</strong>';

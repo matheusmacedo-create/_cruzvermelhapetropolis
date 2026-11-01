@@ -74,6 +74,10 @@ anotada no `storage.tsv`, depois do prazo da trava.
    agendamentos de repositório público depois de 60 dias sem atividade** — conferir uma vez por mês
    que a rodada do dia aconteceu (no R2, o arquivo de hoje em `cvrj-backups/banco/`).
 
+   Enquanto nenhum segredo estiver configurado, a rodada termina **em amarelo** com o aviso "Backup
+   desligado" (desde 28/10/2026; antes, ficava vermelha todo dia). Amarelo quer dizer: **nenhuma cópia foi
+   feita**. Configuração pela metade (só um dos dois segredos obrigatórios) continua vermelha.
+
 Com o FTP configurado e o certificado da Hostinger vencido (já aconteceu, ver
 `lib/publicacao/ftp.ts`), a rodada falha em vez de enviar sem conferir;
 `BACKUP_FTP_VERIFICAR_CERTIFICADO=no` no workflow é o paliativo consciente.
@@ -93,7 +97,7 @@ psql -d redacao_restaurado -c "set search_path = public, extensions; select publ
 ```
 
 A conferência precisa dar `"ok": true` e `"lotes_ok": true`, e os compromissos dos lotes precisam
-bater com os publicados em `https://cruzvermelhariodejaneiro.org/verificar/lotes/indice.json` (ou no
+bater com os publicados em `https://cruzvermelhapetropolis.org/verificar/lotes/indice.json` (ou no
 espelho `verificar/lotes/indice.json` do bucket `cvrj-trilha`): é isso que prova que a cópia é a
 mesma trilha que foi ancorada, e não uma reescrita.
 

@@ -3862,7 +3862,7 @@ function PreviaSite({ destino, mestre, arquivoPorId }: {
       subtitulo: destino.extras.subtitulo || mestre.subtitulo,
       corpo,
       slug: destino.extras.slug || 'previa',
-      baseUrl: 'https://cruzvermelhariodejaneiro.org/noticias',
+      baseUrl: 'https://cruzvermelhapetropolis.org/noticias',
       publicadoEm: new Date(),
       arquivos,
     })
@@ -3903,7 +3903,7 @@ function PreviaNewsletter({ destino, mestre, arquivoPorId }: {
     titulo: destino.extras.assunto || mestre.titulo || 'Sem assunto',
     chamada: destino.extras.chamada,
     paragrafos: (destino.corpo || '').split(/\n{2,}/).map((p) => p.replace(/\n/g, ' ').trim()).filter(Boolean),
-    urlDaMateria: 'https://cruzvermelhariodejaneiro.org/noticias/exemplo/',
+    urlDaMateria: 'https://cruzvermelhapetropolis.org/noticias/exemplo/',
     rotuloDoBotao: destino.extras.rotuloDoBotao,
     imagemUrl: capa?.previa,
     urlDeSaida: `${ENDERECO_DO_PALACIO}/newsletter/sair?t=previa`,
@@ -3950,7 +3950,7 @@ function PreviaRede({ destino, arquivoPorId }: {
         <div className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">CV</span>
           <div className="leading-tight">
-            <p className="text-xs font-semibold">cruzvermelhabrasileirarj</p>
+            <p className="text-xs font-semibold">_cruzvermelhapetropolis</p>
             <p className="text-[10px] text-muted-foreground">agora · {formato.rotulo}</p>
           </div>
         </div>
@@ -3978,7 +3978,7 @@ function PreviaRede({ destino, arquivoPorId }: {
         )}
         {destino.extras.firstComment && (
           <p className="mt-2 rounded-md bg-muted/60 px-2 py-1.5 text-xs text-muted-foreground">
-            <span className="font-semibold">cruzvermelhabrasileirarj</span> {destino.extras.firstComment}
+            <span className="font-semibold">_cruzvermelhapetropolis</span> {destino.extras.firstComment}
             <span className="ml-1 text-[10px]">(primeiro comentário)</span>
           </p>
         )}

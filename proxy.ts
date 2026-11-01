@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
   // respondendo nos dois (webhooks, formulário do site, .ics). lib/dominio.ts.
   const novo = enderecoNoDominioNovo(request.headers.get('host'), request.method, request.nextUrl.pathname, request.nextUrl.search)
   if (novo) return NextResponse.redirect(novo, 308)
-  // email.cruzvermelhariodejaneiro.org: a raiz é a caixa do app de e-mail provisório (app/email).
+  // email.cruzvermelhapetropolis.org: a raiz é a caixa do app de e-mail provisório (app/email).
   const caixa = inicioDoEmail(request.headers.get('host'), request.nextUrl.pathname)
   if (caixa) return NextResponse.redirect(new URL(caixa, request.url), 307)
 

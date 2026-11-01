@@ -99,5 +99,5 @@ export const ROTULO_DA_ACAO: Record<Acao, string> = {
 }
 
 /** A página pública de verificação (no site; oculta até a abertura). */
-export const PAGINA_DE_VERIFICACAO = 'https://cruzvermelhariodejaneiro.org/verificar/'
+export const PAGINA_DE_VERIFICACAO = 'https://cruzvermelhapetropolis.org/verificar/'
 export const linkDeVerificacao = (codigo: string) => `${PAGINA_DE_VERIFICACAO}?c=${encodeURIComponent(codigo)}`

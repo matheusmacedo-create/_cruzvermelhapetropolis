@@ -26,7 +26,7 @@ type Achado = {
   detalhe: string
 }
 
-const RAIZ_DO_SITE = 'https://cruzvermelhariodejaneiro.org'
+const RAIZ_DO_SITE = 'https://cruzvermelhapetropolis.org'
 
 /** Onde o arquivo pode aparecer, e o que cada acerto significa. */
 const DESTINOS = [

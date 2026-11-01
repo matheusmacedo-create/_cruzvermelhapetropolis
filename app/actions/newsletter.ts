@@ -369,7 +369,7 @@ export async function ligarFormularioDoSite(): Promise<Resultado> {
     // FTP que aceitou o arquivo na pasta errada passaria por sucesso.
     let confirmado = false
     try {
-      const res = await fetch('https://cruzvermelhariodejaneiro.org/', { cache: 'no-store' })
+      const res = await fetch('https://cruzvermelhapetropolis.org/', { cache: 'no-store' })
       confirmado = (await res.text()).includes(MARCA)
     } catch { /* rede: a conferência falha, a gravação não se desfaz */ }
 
@@ -387,7 +387,7 @@ export async function ligarFormularioDoSite(): Promise<Resultado> {
     return {
       recado: confirmado
         ? `${resultado.detalhe} Conferido: a home pública já está com o formulário ligado.`
-        : `${resultado.detalhe} Não consegui confirmar na home pública agora — abra cruzvermelhariodejaneiro.org e teste o formulário.`,
+        : `${resultado.detalhe} Não consegui confirmar na home pública agora — abra cruzvermelhapetropolis.org e teste o formulário.`,
     }
   } catch (causa) {
     return { erro: mensagemDoErro(causa, 'Não foi possível ligar o formulário da home.') }

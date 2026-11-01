@@ -51,7 +51,7 @@ const base = { titulo: 'Ação de prevenção na Central do Brasil', data: '2026
 igual(nomeCanonico(base), '2026-09-26-acao-de-prevencao-na-central-do-brasil-ana-souza-001.jpg', 'nome canônico: data, assunto, autor, número')
 igual(nomeCanonico({ ...base, data: null, indice: 12, nomeOriginal: 'video.MOV', autor: 'Bruno' }), '2026-09-27-acao-de-prevencao-na-central-do-brasil-bruno-012.mov', 'sem data usa hoje; extensão minúscula')
 igual(nomeCanonico({ ...base, titulo: '!!!', nomeOriginal: 'sem-extensao' }), '2026-09-26-acao-ana-souza-001', 'título vazio e sem extensão')
-const longo = nomeCanonico({ ...base, titulo: 'Grande mutirão de vacinação e prevenção de doenças respiratórias na zona norte do Rio de Janeiro em setembro', autor: 'Maria Aparecida dos Santos Oliveira Pereira' })
+const longo = nomeCanonico({ ...base, titulo: 'Grande mutirão de vacinação e prevenção de doenças respiratórias no Quitandinha, em Petrópolis em setembro', autor: 'Maria Aparecida dos Santos Oliveira Pereira' })
 igual(longo.length <= 110 && !/--|-\./.test(longo), true, `nome longo cortado sem hífen solto (${longo})`)
 const chaveNova = chaveDoArquivo(envio, '2026-09', 'a1b2c3d4', nomeCanonico(base))
 igual(ehChaveDeEnvio(chaveNova, envio), true, 'chave com nome canônico é válida')

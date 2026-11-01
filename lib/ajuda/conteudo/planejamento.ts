@@ -23,12 +23,12 @@ import type { GuiaDaArea } from '../tipos'
 
 const RADAR: GuiaDaArea = {
   href: '/cerebro',
-  paraQueServe: 'O Radar mostra o que o Cérebro leu nas contas oficiais do Rio e acha que pode virar pauta: o fato, por que apareceu, o que não pode e o plano por canal. O Cérebro recomenda; quem decide, produz e publica é o Palácio Virtual. A sugestão que a equipe leva adiante vira um pacote em rascunho em “Publicações”.',
+  paraQueServe: 'O Radar mostra o que o Cérebro leu nas contas oficiais de Petrópolis e acha que pode virar pauta: o fato, por que apareceu, o que não pode e o plano por canal. O Cérebro recomenda; quem decide, produz e publica é o Palácio Virtual. A sugestão que a equipe leva adiante vira um pacote em rascunho em “Publicações”.',
   quemUsa: 'Toda a equipe do Palácio Virtual vê o Radar, leva sugestões adiante e recusa as que não servem. A recusa vale para a equipe inteira: a sugestão some daqui e do painel do Cérebro em “Publicações”.',
   naPratica: {
-    titulo: 'Uma chuva forte no Rio vira pauta de prevenção',
+    titulo: 'Uma chuva forte em Petrópolis vira pauta de prevenção',
     passos: [
-      'O Cérebro lê nas contas oficiais do Rio o alerta de chuva forte para a noite e põe a sugestão no Radar.',
+      'O Cérebro lê nas contas oficiais de Petrópolis o alerta de chuva forte para a noite e põe a sugestão no Radar.',
       'A sugestão mostra o fato, por que apareceu, o que não pode (não inventar números de vítimas) e um plano por canal.',
       'A Carla acha a sugestão boa e toca em “Trazer para pauta”: vira um pacote em rascunho em “Publicações”.',
       'O Bruno ajusta o texto com as dicas de prevenção da filial e manda para aprovação.',
@@ -38,7 +38,7 @@ const RADAR: GuiaDaArea = {
   tour: [
     {
       titulo: 'O Radar de pautas',
-      texto: 'O Cérebro lê as contas oficiais do Rio e sugere o que pode virar pauta, com uma nota de 0 a 100. Ele recomenda; quem decide e publica é o Palácio Virtual.',
+      texto: 'O Cérebro lê as contas oficiais de Petrópolis e sugere o que pode virar pauta, com uma nota de 0 a 100. Ele recomenda; quem decide e publica é o Palácio Virtual.',
     },
     {
       alvo: 'cerebro.briefing',
@@ -165,7 +165,7 @@ const RADAR: GuiaDaArea = {
     {
       id: 'o-que-e-o-cerebro',
       pergunta: 'O que é o Cérebro?',
-      resposta: 'Um serviço à parte que observa uma lista fechada de contas oficiais do Rio, avalia cada publicação por seis perguntas e decide o que merece virar pauta. Ele não publica nada: o Radar é onde o Palácio Virtual vê as sugestões e decide.\n\n“Abrir o Cérebro”, no alto da tela, leva ao próprio Cérebro.',
+      resposta: 'Um serviço à parte que observa uma lista fechada de contas oficiais de Petrópolis, avalia cada publicação por seis perguntas e decide o que merece virar pauta. Ele não publica nada: o Radar é onde o Palácio Virtual vê as sugestões e decide.\n\n“Abrir o Cérebro”, no alto da tela, leva ao próprio Cérebro.',
       termos: ['ia', 'inteligência artificial', 'sugestões', 'robô', 'radar'],
     },
     {

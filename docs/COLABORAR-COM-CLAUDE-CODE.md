@@ -12,7 +12,7 @@ mesmo jeito.
 
 | O quê | Quem providencia | Para quê |
 |---|---|---|
-| Conta no GitHub adicionada ao repositório `matheusmacedo-create/redacao-cruzvermelhariodejaneiro` | O dono do repositório (GitHub → Settings → Collaborators) | Ler o código, criar branch e abrir PR |
+| Conta no GitHub adicionada ao repositório `matheusmacedo-create/_cruzvermelhapetropolis` | O dono do repositório (GitHub → Settings → Collaborators) | Ler o código, criar branch e abrir PR |
 | Conta do Claude com Claude Code (um plano que inclua o Claude Code, ou uma chave de API própria) | Você | O seu Claude Code |
 | Acesso ao Supabase e à Vercel | **Só administradores** | Consultar o banco e os deploys pelo Claude (opcional) |
 
@@ -42,8 +42,8 @@ Recomendado para começar e para quem não programa no dia a dia.
    pasta do projeto, o VS Code já sugere as extensões recomendadas.
 2. Clone o repositório e instale as dependências:
    ```bash
-   git clone https://github.com/matheusmacedo-create/redacao-cruzvermelhariodejaneiro.git
-   cd redacao-cruzvermelhariodejaneiro
+   git clone https://github.com/matheusmacedo-create/_cruzvermelhapetropolis.git
+   cd _cruzvermelhapetropolis
    pnpm install        # pnpm, nunca npm
    ```
 3. Abra o painel do Claude Code na barra lateral e faça login com a sua conta.

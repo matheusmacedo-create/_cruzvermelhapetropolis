@@ -6,6 +6,9 @@ import { GmailError, listarEtiquetas, listarFiltros, urlDeRetorno } from '@/lib/
 import { EtiquetasDosSetores, type EtiquetaNaTela, type FiltroNaTela } from '@/components/admin/etiquetas-dos-setores'
 import { ContasDoGoogle, type ContaGoogleNaTela, type ConviteNaTela } from '@/components/admin/contas-google'
 import { DriveDoGoogle } from '@/components/admin/drive-google'
+import { AdsDoGoogle } from '@/components/admin/ads-google'
+import { PLANOS_DO_GRANTS, idDaCampanha, idDaConta, linkDaCampanha, resumoDoPlano } from '@/lib/google/ads-regras'
+import { campanhasRegistradas, type CampanhaRegistrada } from '@/lib/google/ads'
 
 export const metadata = { title: 'E-mail dos setores — Configurações' }
 
@@ -17,12 +20,12 @@ function linkVencido(expiraEm: string, usos: number, maxUsos: number): boolean {
 export default async function EmailDosSetoresPage({
   searchParams,
 }: {
-  searchParams: Promise<{ google?: string; google_admin?: string; google_drive?: string; motivo?: string }>
+  searchParams: Promise<{ google?: string; google_admin?: string; google_drive?: string; google_ads?: string; motivo?: string }>
 }) {
   const context = await exigirAdministracao()
   const supabase = await createClient()
   const workspaceId = context.workspace.id
-  const [{ data: members }, clienteGoogle, conexao, setores, membrosDeSetor, caixas, conexaoAdmin, convites, contasGoogle, conexaoDrive] = await Promise.all([
+  const [{ data: members }, clienteGoogle, conexao, setores, membrosDeSetor, caixas, conexaoAdmin, convites, contasGoogle, conexaoDrive, conexaoAds, clienteDoAds] = await Promise.all([
     supabase.from('workspace_members').select('user_id,profiles(full_name,username)').eq('workspace_id', workspaceId),
     obterCampos(workspaceId, 'google_oauth'),
     supabase.from('google_conexao').select('email_conta,estado,sincronizada_em').eq('workspace_id', workspaceId).maybeSingle(),
@@ -34,6 +37,10 @@ export default async function EmailDosSetoresPage({
     supabase.from('google_contas').select('id,nome,email,setor_id,grupo_email,grupo_ok,created_at').eq('workspace_id', workspaceId).order('created_at', { ascending: false }).limit(100),
     // O Drive (passo 6): com erro, a tabela ainda não existe (a migração do Drive não foi aplicada) e o cartão diz isso.
     supabase.from('google_drive_conexao').select('email_conta,estado,conectada_em,pasta_raiz_link').eq('workspace_id', workspaceId).maybeSingle(),
+    // O Google Ads (passo 7): como o Drive, com erro a tabela ainda não existe.
+    supabase.from('google_ads_conexao').select('email_conta,estado,conectada_em,customer_id,contas_acessiveis').eq('workspace_id', workspaceId).maybeSingle(),
+    // O cliente OAuth próprio do Google Ads (Integrações), se houver; sem ele, o Ads usa o do Gmail.
+    obterCampos(workspaceId, 'google_ads_oauth'),
   ])
 
   // Etiquetas e filtros vêm do Gmail na hora (passo 4); sem conexão ou com erro, a seção diz o motivo e o resto da tela segue.
@@ -51,7 +58,7 @@ export default async function EmailDosSetoresPage({
   }
   const nomeDoSetor = new Map((setores.data ?? []).map((s) => [s.id as string, s.nome as string]))
 
-  const { google, google_admin: googleAdmin, google_drive: googleDrive, motivo } = await searchParams
+  const { google, google_admin: googleAdmin, google_drive: googleDrive, google_ads: googleAds, motivo } = await searchParams
   const aviso = google === 'ok'
     ? { tom: 'ok' as const, texto: motivo || 'Conta Google conectada.' }
     : google === 'erro' ? { tom: 'erro' as const, texto: motivo || 'Não foi possível conectar a conta Google.' }
@@ -64,6 +71,25 @@ export default async function EmailDosSetoresPage({
     ? { tom: 'ok' as const, texto: motivo || 'Google Drive conectado.' }
     : googleDrive === 'erro' ? { tom: 'erro' as const, texto: motivo || 'Não foi possível conectar o Google Drive.' }
       : googleDrive === 'restrito' ? { tom: 'erro' as const, texto: 'Só administradores conectam o Google Drive.' } : null
+  const avisoDoAds = googleAds === 'ok'
+    ? { tom: 'ok' as const, texto: motivo || 'Google Ads conectado.' }
+    : googleAds === 'erro' ? { tom: 'erro' as const, texto: motivo || 'Não foi possível conectar o Google Ads.' }
+      : googleAds === 'restrito' ? { tom: 'erro' as const, texto: 'Só administradores conectam o Google Ads.' } : null
+  const ads = conexaoAds.data
+  const contaDoAds = idDaConta((ads?.customer_id as string | null) ?? null)
+  // As campanhas que o Palácio já criou nesta conta, por plano (o registro fica em activity_log).
+  // null = o registro não pôde ser lido: o cartão avisa e não oferece "Criar" (não dá para saber o que já existe).
+  const registradas = contaDoAds ? await campanhasRegistradas(workspaceId, contaDoAds) : new Map<string, CampanhaRegistrada>()
+  const dolares = (micros: number) => `US$ ${(micros / 1e6).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
+  const planosNaTela = PLANOS_DO_GRANTS.map((pl) => {
+    const feita = registradas?.get(pl.id)
+    const campanhaId = feita ? idDaCampanha(feita.recurso) : null
+    return {
+      id: pl.id, nome: pl.nome, destino: pl.destino, ...resumoDoPlano(pl), local: pl.local.rotulo,
+      orcamentoDiario: dolares(pl.orcamentoDiarioMicros), lanceMaximo: dolares(pl.lanceMaximoMicros),
+      campanha: feita ? { link: contaDoAds && campanhaId ? linkDaCampanha(contaDoAds, campanhaId) : null, criadaEm: feita.criadaEm } : null,
+    }
+  })
   const nomeDe = (p: unknown) => { const x = (Array.isArray(p) ? p[0] : p) as { full_name?: string; username?: string } | null; return x?.full_name || x?.username || '—' }
   const convitesNaTela: ConviteNaTela[] = (convites.data ?? []).map((c) => ({
     id: c.id as string, rotulo: String(c.rotulo ?? ''), setor: c.setor_id ? nomeDoSetor.get(c.setor_id as string) ?? null : null,
@@ -121,6 +147,18 @@ export default async function EmailDosSetoresPage({
           email: String(conexaoDrive.data.email_conta), estado: conexaoDrive.data.estado === 'expirada' ? 'expirada' : 'ativa',
           conectadaEm: String(conexaoDrive.data.conectada_em), pastaRaizLink: (conexaoDrive.data.pasta_raiz_link as string | null) ?? null,
         } : null}
+      />
+      <AdsDoGoogle
+        aviso={avisoDoAds}
+        clienteConfigurado={Boolean(clienteGoogle || clienteDoAds)}
+        clienteProprio={Boolean(clienteDoAds)}
+        disponivel={!conexaoAds.error}
+        conexao={ads ? {
+          email: String(ads.email_conta), estado: ads.estado === 'expirada' ? 'expirada' : 'ativa', conectadaEm: String(ads.conectada_em),
+          contaEscolhida: contaDoAds, contasAcessiveis: ((ads.contas_acessiveis as string[] | null) ?? []),
+        } : null}
+        planos={planosNaTela}
+        registroIndisponivel={registradas === null}
       />
     </div>
   )

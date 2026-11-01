@@ -56,7 +56,6 @@ pagina/site/assets/otim/*
 !pagina/site/assets/otim/logo-petropolis-240.webp
 
 # Vocabulário do Schema.org baixado por scripts/validar_jsonld.py (1,5 MB, refaz sozinho)
-pagina/scripts/.cache-schemaorg.jsonld
 
 # sitemap.xml da raiz: quem escreve é a Redação, por FTP (lib/site/sitemap.ts naquele repositório).
 # Fica fora daqui para não haver duas fontes da verdade; corrigido no servidor em 20/09/2026.

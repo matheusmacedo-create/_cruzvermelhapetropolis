@@ -633,9 +633,9 @@ const EMAIL_DO_SETOR: GuiaDaArea = {
       id: 'dar-acesso-no-email-provisorio',
       titulo: 'Dar acesso ao e-mail do setor para quem ainda não usa o Palácio',
       quem: 'O responsável da caixa (quem configura o correio escolhe o responsável)',
-      exemplo: 'A responsável pelo Voluntariado abre email.cruzvermelhariodejaneiro.org › Equipe das caixas, cola a lista da equipe em “Liberar o setor de uma vez” e manda a cada pessoa, pelo WhatsApp, o quadro com usuário e senha provisória.',
+      exemplo: 'A responsável pelo Voluntariado abre email.cruzvermelhapetropolis.org › Equipe das caixas, cola a lista da equipe em “Liberar o setor de uma vez” e manda a cada pessoa, pelo WhatsApp, o quadro com usuário e senha provisória.',
       passos: [
-        'Entre em email.cruzvermelhariodejaneiro.org e toque em “Equipe das caixas”.',
+        'Entre em email.cruzvermelhapetropolis.org e toque em “Equipe das caixas”.',
         'Na caixa do setor, toque em “Liberar o setor de uma vez”, escreva um nome completo por linha (até 30) e toque em “Criar os acessos”.',
         'Sai um quadro por pessoa, com o endereço, o usuário e a senha provisória: toque em “Copiar” ao lado de cada um e mande à pessoa. As senhas não aparecem de novo.',
         'Para uma pessoa só, “Nova pessoa” faz o mesmo com um nome.',
@@ -647,7 +647,7 @@ const EMAIL_DO_SETOR: GuiaDaArea = {
       id: 'criar-emails-pelo-link',
       titulo: 'Dar a cada pessoa um e-mail do Google pelo link',
       quem: 'Só administradores geram o link; qualquer pessoa da equipe usa',
-      exemplo: 'A coordenação gera um link para a Juventude, manda no grupo do WhatsApp, e cada pessoa cria o próprio e-mail @cruzvermelhariodejaneiro.org em um minuto, já recebendo os e-mails de juventude@.',
+      exemplo: 'A coordenação gera um link para a Juventude, manda no grupo do WhatsApp, e cada pessoa cria o próprio e-mail @cruzvermelhapetropolis.org em um minuto, já recebendo os e-mails de juventude@.',
       passos: [
         'Uma vez só: em Configurações › E-mail dos setores, no bloco “5. Criar e-mails pelo link”, toque em “Conectar conta de administrador” e entre com uma conta de superadministrador do Google Workspace (não é a do contato@).',
         'Escolha o setor (ou “Qualquer setor”, para a pessoa escolher), a validade em dias e quantas pessoas podem usar, e toque em “Gerar link”.',
@@ -661,7 +661,7 @@ const EMAIL_DO_SETOR: GuiaDaArea = {
   perguntas: [
     {
       id: 'email-provisorio',
-      pergunta: 'O que é o email.cruzvermelhariodejaneiro.org?',
+      pergunta: 'O que é o email.cruzvermelhapetropolis.org?',
       resposta: 'É a mesma caixa do E-mail do setor, num endereço próprio, para a equipe usar o e-mail antes de o Palácio Virtual abrir para todos. Quem entra lá vê só as caixas liberadas para ela e nada do resto do Palácio. O responsável de cada caixa dá e tira acesso; quem já é do setor no Palácio também pode entrar lá com a mesma conta.',
       termos: ['provisório', 'email.', 'sem palácio', 'acesso ao e-mail', 'senha provisória'],
     },

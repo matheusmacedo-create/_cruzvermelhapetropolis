@@ -29,7 +29,7 @@ function Formulario({ c, contas, token, onFim }: { c: ConfiguracaoDasConversoes 
           <span className="text-xs font-normal text-muted-foreground">No Gerenciador de Eventos, o número abaixo do nome do pixel. O mesmo que o site já usa.</span>
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium">Página padrão
-          <input name="pagina_padrao" maxLength={500} defaultValue={c?.pagina_padrao ?? 'https://cruzvermelhariodejaneiro.org/'} placeholder="https://…" className={inputClass} spellCheck={false} />
+          <input name="pagina_padrao" maxLength={500} defaultValue={c?.pagina_padrao ?? 'https://cruzvermelhapetropolis.org/'} placeholder="https://…" className={inputClass} spellCheck={false} />
           <span className="text-xs font-normal text-muted-foreground">Vai como origem do evento quando o curso não tem página cadastrada em Marketing → Cursos.</span>
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium sm:col-span-2">{token.proprio ? 'Trocar o token' : 'Token da API de Conversões'}

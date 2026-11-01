@@ -1,0 +1,9 @@
+# Gerado pelo Palácio Virtual — cruzvermelhapetropolis.org
+# HTML sempre revalidado.
+# Lançamento oculto: fora dos buscadores até a abertura (docs/auditoria-publica.md, §9).
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive"
+</IfModule>

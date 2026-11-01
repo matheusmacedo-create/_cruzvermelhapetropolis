@@ -1,22 +1,16 @@
 # Cruz Vermelha Brasileira – Petrópolis · Redação + página institucional
 
-Repositório único da CVB Petrópolis. Junta, num lugar só, o que no Rio de Janeiro
-vive em dois repositórios:
+Repositório único da CVB Petrópolis, com as duas partes do ecossistema:
 
-| Pasta | O que é | Onde vai rodar | Veio de |
-| --- | --- | --- | --- |
-| raiz (`app/`, `lib/`, `supabase/`…) | **Redação**: central de comunicação e gestão (Next.js 16 + Supabase), publica notícias no site | Vercel | `matheusmacedo-create/redacao-cruzvermelhariodejaneiro` @ `519242e` |
-| [`pagina/`](./pagina) | **Página institucional**: HTML estático do site principal, scripts Python de geração e publicação, docs de SEO | Hostinger (FTP) | `matheusmacedo-create/cruzvermelhariodejaneiro` @ `d8d89d3` |
+| Pasta | O que é | Onde roda |
+| --- | --- | --- |
+| raiz (`app/`, `lib/`, `supabase/`…) | **Redação / Palácio Virtual**: central de comunicação e gestão (Next.js 16 + Supabase), publica notícias no site | Vercel |
+| [`pagina/`](./pagina) | **Página institucional** de `cruzvermelhapetropolis.org`: HTML estático gerado por `pagina/scripts/gerar_site_petropolis.py`, chat e doação | Hostinger |
 
-A Redação ficou na raiz para que Vercel, GitHub Actions, skills do Claude Code e
-`pnpm` continuem funcionando sem ajuste. A `pagina/` fica fora do eslint, do
-`tsc` e do deploy da Vercel (`.vercelignore`).
-
-> **Ponto de partida = cópia do RJ.** O código, os textos, os canais e os domínios
-> ainda são os do Rio de Janeiro. A troca para Petrópolis é feita aos poucos, à
-> medida que cada canal for criado (lista em
-> [`docs/PETROPOLIS.md`](./docs/PETROPOLIS.md)). O histórico de commits do RJ não
-> foi trazido: este repositório começa limpo, com a origem anotada acima.
+A Redação fica na raiz para que Vercel, GitHub Actions, skills do Claude Code e
+`pnpm` funcionem sem ajuste. A `pagina/` fica fora do eslint, do `tsc` e do deploy
+da Vercel (`.vercelignore`). O que ainda falta configurar para a filial (contas,
+chaves, canais) está em [`docs/PETROPOLIS.md`](./docs/PETROPOLIS.md).
 
 ## A filial
 

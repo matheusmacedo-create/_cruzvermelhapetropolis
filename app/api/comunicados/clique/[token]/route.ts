@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic'
  */
 
 const TOKEN = /^[0-9a-f]{32}$/
-const SITE = 'https://cruzvermelhariodejaneiro.org/'
+const SITE = 'https://cruzvermelhapetropolis.org/'
 
 export async function GET(_: Request, { params }: { params: Promise<{ token: string }> }) {
   const { token } = await params

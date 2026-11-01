@@ -68,7 +68,7 @@ function previas(l: LinhaDoItem, r2: Bucket | null): { pequena: string | null; g
  */
 export default async function AcervoPage({ searchParams }: { searchParams: Promise<{ aba?: string | string[] }> }) {
   const context = await requireWorkspace()
-  const cabecalho = <PageHeader title="Acervo" description="A memória da filial: documentos, fotos, vídeos, recortes de imprensa e registros da história, guardados no Cloudflare R2. Tudo aqui é privado até alguém publicar em cruzvermelhariodejaneiro.org/acervo." />
+  const cabecalho = <PageHeader title="Acervo" description="A memória da filial: documentos, fotos, vídeos, recortes de imprensa e registros da história, guardados no Cloudflare R2. Tudo aqui é privado até alguém publicar em cruzvermelhapetropolis.org/acervo." />
 
   if (!pode(context.role, 'acervo.ver')) {
     return <div><PageHeader title="Acervo" /><Card className="flex items-start gap-3 p-6"><ShieldAlert className="mt-0.5 size-5 text-muted-foreground" aria-hidden /><div><p className="font-medium">Área restrita</p><p className="mt-1 text-sm text-muted-foreground">O seu papel neste espaço não dá acesso ao acervo. Se precisa de um arquivo, fale com um administrador.</p></div></Card></div>

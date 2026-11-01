@@ -3,13 +3,13 @@
 O acervo guarda no Cloudflare R2 (bucket `cvrj-acervo`, docs/armazenamento-r2.md) tudo o que vale
 guardar da filial: documentos, fotos, vídeos, recortes de imprensa e a história. A Redação é onde
 a equipe envia, cataloga e decide o que vai a público. O que for público aparece em
-**cruzvermelhariodejaneiro.org/acervo/**.
+**cruzvermelhapetropolis.org/acervo/**.
 
 | Parte | Endereço | Quem acessa |
 | --- | --- | --- |
 | privada | tela **Acervo** da Redação (`/acervo`) | ver e baixar: `acervo.ver` (admin, editor, colaborador); enviar, catalogar, publicar e excluir: `acervo.gerenciar` (admin, editor) |
-| pública | `cruzvermelhariodejaneiro.org/acervo/`, com as coleções e uma página por item | qualquer pessoa e a busca |
-| porta da equipe | `cruzvermelhariodejaneiro.org/acervo/equipe/` | 302 para a tela da Redação; `Disallow` no `robots.txt` |
+| pública | `cruzvermelhapetropolis.org/acervo/`, com as coleções e uma página por item | qualquer pessoa e a busca |
+| porta da equipe | `cruzvermelhapetropolis.org/acervo/equipe/` | 302 para a tela da Redação; `Disallow` no `robots.txt` |
 
 Tudo nasce privado. Um item só vai ao site quando alguém com `acervo.gerenciar` publica, e a
 ficha precisa estar completa para isso.
@@ -103,7 +103,7 @@ O que cada página leva, gerado em `lib/acervo/paginas.ts` sobre o esqueleto do 
 | migração `20260926003000_cvrj_acervo.sql` (tabela `acervo_itens`, gatilho, RLS) | Supabase |
 | `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` (as mesmas do espelho da trilha) e `R2_BUCKET_ACERVO=cvrj-acervo` | Vercel da Redação |
 | FTP do site (as mesmas variáveis da publicação de notícias) | Vercel da Redação |
-| CORS do bucket: `PUT`, `GET` e `HEAD` só de `https://palacio.cruzvermelhariodejaneiro.org` e `https://redacao.cruzvermelhariodejaneiro.org` (o antigo, enquanto redirecionar) (e `http://localhost:3000`) | Cloudflare → R2 → `cvrj-acervo` → Settings → CORS |
+| CORS do bucket: `PUT`, `GET` e `HEAD` só de `https://palacio.cruzvermelhapetropolis.org` e `https://redacao.cruzvermelhapetropolis.org` (o antigo, enquanto redirecionar) (e `http://localhost:3000`) | Cloudflare → R2 → `cvrj-acervo` → Settings → CORS |
 
 O token da Vercel precisa de **Object Read & Write** em `cvrj-trilha` e `cvrj-acervo`. Sem
 `R2_BUCKET_ACERVO` a tela abre e avisa que o acervo não está configurado.

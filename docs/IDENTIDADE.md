@@ -138,9 +138,9 @@ pelo Matheus em 27/09/2026.
 
 ### Decisão pendente
 
-- **Logo com "Rio de Janeiro" fora da papelaria.** O manual pede que o nome da
+- **Logo com "Petrópolis" fora da papelaria.** O manual pede que o nome da
   filial apareça só na papelaria. O app, a Área do Voluntário e o site usam a
-  composição com "RIO DE JANEIRO" em tudo. Para uma ferramenta interna da
+  composição com "PETRÓPOLIS" em tudo. Para uma ferramenta interna da
   filial isso faz sentido, mas nas peças de redes sociais a regra do manual
   vale. Manter como está ou separar por tipo de peça? É decisão da Comunicação.
 

@@ -59,7 +59,7 @@ select throws_ok(format('select public.transparencia_registrar_versao(%L, %L, ''
                         :'ws' || '/' || :'doc' || '/' || gen_random_uuid() || '.pdf', :'admin'),
                  'P0001', null, 'arquivo que não chegou ao Storage é recusado');
 
-select public.transparencia_publicar_versao(:'v1', 'https://cruzvermelhariodejaneiro.org/transparencia/arquivos/balanco-patrimonial-aaaaaaaaaaaa.pdf', :'admin');
+select public.transparencia_publicar_versao(:'v1', 'https://cruzvermelhapetropolis.org/transparencia/arquivos/balanco-patrimonial-aaaaaaaaaaaa.pdf', :'admin');
 select i.* from auditoria.itens i where i.tipo = 'documento' and i.referencia_id = :'doc' \gset d1_
 select is(:'d1_hash_arquivo'::text, repeat('a', 64), 'documento publicado entra na trilha com o SHA-256 do PDF');
 select is(:'d1_classe'::text, 'P', 'documento do portal é público');
@@ -76,7 +76,7 @@ select throws_ok(format('delete from public.transparencia_documentos where id = 
 select public.transparencia_registrar_versao(:'doc', pg_temp.arquivo(:'ws', :'doc'), 'balanco-2025-retificado.pdf', 2345, repeat('b', 64), :'admin') as v2 \gset
 select throws_ok(format('select public.transparencia_registrar_versao(%L, %L, ''x.pdf'', 1, repeat(''b'', 64), %L)', :'doc', pg_temp.arquivo(:'ws', :'doc'), :'admin'),
                  'P0001', null, 'o mesmo arquivo duas vezes no mesmo documento é recusado');
-select public.transparencia_publicar_versao(:'v2', 'https://cruzvermelhariodejaneiro.org/transparencia/arquivos/balanco-patrimonial-bbbbbbbbbbbb.pdf', :'admin');
+select public.transparencia_publicar_versao(:'v2', 'https://cruzvermelhapetropolis.org/transparencia/arquivos/balanco-patrimonial-bbbbbbbbbbbb.pdf', :'admin');
 select is((select max(versao) from auditoria.itens where referencia_id = :'doc'), 2, 'arquivo novo: versão 2 na trilha');
 select is(pg_temp.estado(:'d1_id'), 'substituido', 'e a primeira fica substituída');
 
@@ -94,7 +94,7 @@ select is(public.transparencia_marcar_removidos(:'doc'), 2, 'os 2 PDFs publicado
 select is(public.transparencia_marcar_removidos(:'doc'), 0, 'marcar de novo não muda nada');
 select throws_ok(format('update public.transparencia_versoes set removido_do_site_em = null where id = %L', :'v1'), 'P0001', null, 'a remoção registrada não se desfaz');
 select public.transparencia_registrar_versao(:'doc', pg_temp.arquivo(:'ws', :'doc'), 'balanco-2025-v3.pdf', 3456, repeat('d', 64), :'admin') as v3 \gset
-select public.transparencia_publicar_versao(:'v3', 'https://cruzvermelhariodejaneiro.org/transparencia/arquivos/balanco-patrimonial-dddddddddddd.pdf', :'admin');
+select public.transparencia_publicar_versao(:'v3', 'https://cruzvermelhapetropolis.org/transparencia/arquivos/balanco-patrimonial-dddddddddddd.pdf', :'admin');
 select is((select retirado_em from public.transparencia_documentos where id = :'doc'), null, 'publicar versão nova devolve o documento ao portal');
 select is(pg_temp.estado((select id from auditoria.itens where referencia_id = :'doc' order by versao desc limit 1)), 'vigente', 'e a trilha registra a volta');
 
@@ -123,9 +123,9 @@ select throws_ok(format($$select public.transparencia_salvar_parceria(%L, %L, '{
 
 -- ================================================================ canais oficiais
 
-select * from public.canais_publicar_versao(:'ws', '[{"tipo":"site","rotulo":"Site","valor":"cruzvermelhariodejaneiro.org","url":"https://cruzvermelhariodejaneiro.org/"}]', null, :'admin') \gset c1_
+select * from public.canais_publicar_versao(:'ws', '[{"tipo":"site","rotulo":"Site","valor":"cruzvermelhapetropolis.org","url":"https://cruzvermelhapetropolis.org/"}]', null, :'admin') \gset c1_
 select is(:c1_versao, 1, 'primeira versão dos canais');
-select * from public.canais_publicar_versao(:'ws', '[{"tipo":"site","rotulo":"Site","valor":"cruzvermelhariodejaneiro.org","url":"https://cruzvermelhariodejaneiro.org/"},{"tipo":"email","rotulo":"E-mail","valor":"contato@cruzvermelhariodejaneiro.org"}]', 'Lista revista pela diretoria.', :'admin') \gset c2_
+select * from public.canais_publicar_versao(:'ws', '[{"tipo":"site","rotulo":"Site","valor":"cruzvermelhapetropolis.org","url":"https://cruzvermelhapetropolis.org/"},{"tipo":"email","rotulo":"E-mail","valor":"contato@cruzvermelhapetropolis.org"}]', 'Lista revista pela diretoria.', :'admin') \gset c2_
 select is(:c2_versao, 2, 'segunda versão');
 select is((select count(*)::integer from auditoria.itens where tipo = 'canais' and referencia_id = :'ws'), 2, 'cada versão entra na trilha');
 select is(pg_temp.estado((select id from auditoria.itens where tipo = 'canais' and versao = 1)), 'substituido', 'a versão anterior fica substituída');
@@ -139,7 +139,7 @@ alter table public.transparencia_parcerias disable trigger transparencia_parceri
 alter table public.canais_oficiais_versoes disable trigger canais_oficiais_versoes_trilha;
 select public.transparencia_salvar_documento(:'ws', null, '{"categoria":"politicas","titulo":"Código de conduta"}', :'admin') as doc_sem \gset
 select public.transparencia_registrar_versao(:'doc_sem', pg_temp.arquivo(:'ws', :'doc_sem'), 'conduta.pdf', 500, repeat('f', 64), :'admin') as v_sem \gset
-select public.transparencia_publicar_versao(:'v_sem', 'https://cruzvermelhariodejaneiro.org/transparencia/arquivos/codigo-de-conduta-ffffffffffff.pdf', :'admin') \gset ignorar_
+select public.transparencia_publicar_versao(:'v_sem', 'https://cruzvermelhapetropolis.org/transparencia/arquivos/codigo-de-conduta-ffffffffffff.pdf', :'admin') \gset ignorar_
 select public.transparencia_salvar_parceria(:'ws', null, '{"instrumento":"termo_de_fomento","orgao":"Fundação de Teste","objeto":"Projeto de voluntariado"}', :'admin') as parc_sem \gset
 select public.transparencia_publicar_parceria(:'parc_sem', :'admin') \gset ignorar_
 select * from public.canais_publicar_versao(:'ws', '[{"tipo":"telefone","rotulo":"Telefone","valor":"(21) 0000-0000"}]', null, :'admin') \gset c3_

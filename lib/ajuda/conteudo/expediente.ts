@@ -1290,7 +1290,7 @@ const PORTARIA: GuiaDaArea = {
         'Em “Na filial agora”, espere a resposta: “Pode subir” (oriente o visitante a subir ao hall e aguardar o setor), “Aguarde na recepção” ou “Não pode receber agora”.',
       ],
       dica: 'Esqueceu a foto? Na lista “Na filial agora”, o botão “Foto” tira depois.',
-      exemplo: 'Exemplo: o técnico da empresa de ar-condicionado chega às 9h para a manutenção; a portaria registra “Refrigeração Rio”, escolhe o setor de Patrimônio e entrega o crachá V-03.',
+      exemplo: 'Exemplo: o técnico da empresa de ar-condicionado chega às 9h para a manutenção; a portaria registra “Refrigeração Serra”, escolhe o setor de Patrimônio e entrega o crachá V-03.',
     },
     {
       id: 'portaria-pelo-whatsapp',

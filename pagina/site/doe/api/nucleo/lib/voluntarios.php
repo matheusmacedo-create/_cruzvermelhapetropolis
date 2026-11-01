@@ -672,7 +672,7 @@ function mcp_voluntario_idade_texto(array $f): string
     return $idade === null ? '' : $idade . ' anos';
 }
 
-/** "Rio de Janeiro, Centro · RJ" */
+/** "Petrópolis, Centro · RJ" */
 function mcp_voluntario_local_texto(array $f): string
 {
     $local = (string) $f['cidade'] . (!empty($f['bairro']) ? ', ' . $f['bairro'] : '');

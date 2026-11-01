@@ -49,6 +49,21 @@ export const SERVICOS = {
   // O Google Drive da filial (lib/google/drive.ts): a cópia dos envios do WhatsApp e os documentos guardados por lá. Outra
   // conexão, com um escopo só (drive.file: o Palácio enxerga só o que ele mesmo criou).
   google_drive: { nome: 'Autorização do Google Drive', variavel: 'GOOGLE_DRIVE_REFRESH', painel: '', oculto: true },
+  // O Google Ads da filial (lib/google/ads.ts): a conta do Ad Grants onde rodam as campanhas de pesquisa que levam ao site.
+  // Outra conexão, com os escopos do Ads (mais o e-mail da conta); a conta de anúncios escolhida fica em google_ads_conexao.
+  google_ads: { nome: 'Autorização do Google Ads', variavel: 'GOOGLE_ADS_REFRESH', painel: '', oculto: true },
+  // O cliente OAuth PRÓPRIO do Google Ads (lib/google/ads.ts, clienteDoAds): o acesso à API do Ads (Explorer) é do projeto
+  // do Google Cloud dono do cliente, e pode não ser o do Gmail. Vazio, vale o cliente do Gmail (google_oauth).
+  google_ads_oauth: {
+    nome: 'Google Ads (cliente OAuth do projeto com acesso à API)',
+    variavel: 'GOOGLE_ADS_OAUTH',
+    painel: 'https://console.cloud.google.com/apis/credentials',
+    campos: [
+      { id: 'clientId', rotulo: 'ID do cliente', secreto: false },
+      { id: 'clientSecret', rotulo: 'Chave secreta do cliente', secreto: true },
+    ],
+    dica: 'Só se o projeto do Google Cloud do cliente do Gmail não tiver acesso à API do Google Ads. Crie o cliente (Aplicativo da Web) no projeto aprovado, com o mesmo endereço de retorno do Gmail, cole aqui e toque em “Reconectar” no cartão do Google Ads. Vazio, o Google Ads usa o cliente do Gmail.',
+  },
   // Token de um usuário do sistema (Business Manager) com ads_read: o marketing da escola lê os anúncios por ele.
   // Gerada pela própria Redação (tela Trilha pública) e lida por lib/auditoria/chave.ts; fora da tela de Integrações.
   auditoria_trilha: { nome: 'Chave de assinatura da trilha pública', variavel: 'AUDITORIA_CHAVE_PRIVADA', painel: '', oculto: true },
@@ -67,6 +82,12 @@ export const SERVICOS = {
   portal_transparencia: {
     nome: 'Portal da Transparência (CGU — sanções e PEP)', variavel: 'PORTAL_TRANSPARENCIA_KEY', painel: 'https://portaldatransparencia.gov.br/api-de-dados/cadastrar-email',
     dica: 'Cadastre com a conta gov.br da filial (prata ou ouro, ou CPF e senha com verificação em duas etapas): a chave, de 32 letras e números, chega por e-mail. Cole só ela; é testada na CGU antes de ir para o cofre.',
+  },
+  // A voz da instituição (lib/voz): a narração das matérias do site e a resposta em áudio do assistente do WhatsApp.
+  // A voz, o modelo e onde ela fala ficam em Configurações › Voz (voz_config); aqui, só a chave. Testada antes de ir ao cofre.
+  elevenlabs: {
+    nome: 'ElevenLabs (voz da instituição)', variavel: 'ELEVENLABS_API_KEY', painel: 'https://elevenlabs.io/app/developers/api-keys',
+    dica: 'Crie a chave em elevenlabs.io → Developers → API keys, com acesso a "Text to Speech" e "Voices" (o resto pode ficar desligado). Depois de salvar, escolha a voz em Configurações › Voz.',
   },
   // Serpro (Consulta CPF / Datavalid): confirma nome, nascimento e situação do CPF na Receita, e a biometria
   // facial. É pago por consulta e exige contrato com o CNPJ da filial. Fica preparado: ligar esta entrada
@@ -92,6 +113,14 @@ export const SERVICOS = {
       { id: 'wabaId', rotulo: 'ID da conta do WhatsApp Business — WABA (recomendado; está no painel da Kapso ou da Meta)', secreto: false, minimo: 5, opcional: true },
     ],
     dica: 'Chave em app.kapso.ai → Integrations → API keys; o Phone number ID está na tela do número. Os modelos são os nomes aprovados na Kapso para quem não escreveu nas últimas 24 h: o dos avisos tem uma variável no corpo; o do código é da categoria Autenticação. Depois de salvar, abra Configurações → WhatsApp e toque em "Ligar o recebimento".',
+  },
+  // A ligação com o cadastro de voluntários do site (lib/voluntariado/fichas-do-site.ts, 27/10/2026): o mesmo valor do
+  // REDACAO_TOKEN no config-redacao.php do servidor do site. As fichas viram Inscrições pendentes; aprovar avisa o site.
+  site_voluntarios: {
+    nome: 'Site — fichas de voluntariado',
+    variavel: 'SITE_VOLUNTARIOS_TOKEN',
+    painel: '',
+    dica: 'O mesmo valor de REDACAO_TOKEN no config-redacao.php do servidor do site (pelo menos 32 caracteres). Com ele, as fichas do cadastro do site aparecem em Voluntários → Inscrições pendentes.',
   },
 } as const satisfies Record<string, DefinicaoDeServico>
 

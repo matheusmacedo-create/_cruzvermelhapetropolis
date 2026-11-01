@@ -1,5 +1,4 @@
-import { blocoDoAnalytics } from '@/lib/site/analytics'
-import { svgDaMarca } from '@/lib/marcas'
+import { blocoDoAnalytics, noscriptDoAnalytics } from '@/lib/site/analytics'
 import { DADOS_DA_FILIAL } from '@/lib/site/juridico'
 
 /**
@@ -40,7 +39,7 @@ export function escapar(texto: string): string {
   return texto.replace(/[&<>"']/g, (c) => ESCAPES[c])
 }
 
-const ORIGEM_PADRAO = 'https://cruzvermelhariodejaneiro.org'
+const ORIGEM_PADRAO = 'https://cruzvermelhapetropolis.org'
 
 export function origemDoSite(baseUrl: string): string {
   try {
@@ -74,7 +73,7 @@ export function noDaOrganizacao(): Record<string, unknown> {
     '@id': `${ORIGEM_PADRAO}/#organizacao`,
     name: NOME_FORMAL_DA_FILIAL,
     url: `${ORIGEM_PADRAO}/`,
-    logo: { '@type': 'ImageObject', url: `${ORIGEM_PADRAO}/assets/logo-cvb-rj.png` },
+    logo: { '@type': 'ImageObject', url: `${ORIGEM_PADRAO}/assets/logo-cvb-petropolis.png` },
   }
 }
 
@@ -157,12 +156,12 @@ export function normalizarDescricao(texto: string | null | undefined, limite = 1
   return cortarNoLimite(limpo, limite)
 }
 
-/** A assinatura dos títulos do site: "Assunto | Cruz Vermelha Brasileira Rio de Janeiro". */
+/** A assinatura dos títulos do site: "Assunto | Cruz Vermelha Brasileira Petrópolis". */
 export const ASSINATURA_DA_ABA = ` | ${NOME_DO_SITE}`
 
 /**
  * O <title> da aba, em até 60 caracteres, no padrão do site:
- * "Assunto | Cruz Vermelha Brasileira Rio de Janeiro".
+ * "Assunto | Cruz Vermelha Brasileira Petrópolis".
  *
  * A assinatura tem 42 caracteres: com ela, qualquer assunto acima de 18
  * passaria do limite que a busca mostra, e o que ficaria visível seria a
@@ -211,6 +210,23 @@ export function chatDoSite(): string {
   return tagsDoChat
 }
 
+/**
+ * A folha do site (/assets/site.css?v=HASH), lida da home como o chat: é ela que
+ * desenha o cabeçalho, o rodapé e os botões, iguais aos das páginas do gerador
+ * do site. Sem a versão (home fora do ar, prévia no navegador), vai o endereço
+ * sem versão: o .htaccess do site guarda CSS por 30 dias, então no pior caso a
+ * página sai com a folha de até um mês atrás — nunca sem cabeçalho.
+ */
+let tagDaFolha = ''
+
+export function usarFolhaDoSite(tag: string): void {
+  tagDaFolha = tag
+}
+
+export function folhaDoSite(origem: string): string {
+  return tagDaFolha || `<link rel="stylesheet" href="${escapar(origem)}/assets/site.css">`
+}
+
 // ---------------------------------------------------------------- folha de estilo
 
 /**
@@ -222,7 +238,7 @@ export const CSS_DO_SITE = `
 :root{
   --red:#cc0000;--red-dark:#a30000;--black:#0f1318;--ink:#0f1318;
   --text:#1a202c;--muted:#718096;--line:#e2e8f0;--soft:#f7f8fa;
-  --paper:#ffffff;--stone:#f7f8fa;--blue:#2b6cb0;--max:1100px;
+  --paper:#ffffff;--stone:#f7f8fa;--blue:#2b6cb0;
   --coluna:680px;--coluna-larga:940px;
   /* Tokens editoriais do briefing "jornal digital" — usados na área de
      notícias; o chrome do site continua na paleta antiga. */
@@ -237,91 +253,10 @@ export const CSS_DO_SITE = `
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:var(--paper);line-height:1.55}
 img{display:block;max-width:100%}
 picture{display:block}
 a{color:inherit;text-decoration:none}
 .ico{display:inline-block;width:1em;height:1em;fill:currentColor;vertical-align:-.125em;overflow:visible;flex:none}
-.main-header{background:var(--paper);position:sticky;top:0;z-index:1000;box-shadow:0 12px 28px rgba(16,24,40,.10)}
-.header-container{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 32px;gap:16px;position:relative}
-.logo-area{display:flex;align-items:center;gap:12px;flex-shrink:0;color:inherit}
-.logo-img{height:52px;width:auto;display:block;flex-shrink:0;object-fit:contain}
-.nav-links{display:flex;gap:32px;position:absolute;left:50%;transform:translateX(-50%);justify-content:center}
-.nav-links a{color:var(--muted);font-weight:600;font-size:13.5px;letter-spacing:.2px;transition:color .2s;position:relative;padding-bottom:2px}
-.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--red);transition:width .2s}
-.nav-links a:hover,.nav-links a[aria-current="page"]{color:var(--red)}
-.nav-links a:hover::after,.nav-links a[aria-current="page"]::after{width:100%}
-.nav-links .nav-nowrap{white-space:nowrap}
-.nav-toggle{display:none;border:0;background:transparent;font-size:24px;color:var(--ink);cursor:pointer;margin-left:auto;padding:4px}
-.nav-toggle .ico-xmark{display:none}
-.main-header.nav-open .nav-toggle .ico-bars{display:none}
-.main-header.nav-open .nav-toggle .ico-xmark{display:inline-block}
-.header-collapse{display:flex;align-items:center;gap:24px;margin-left:auto}
-.header-actions{display:flex;gap:12px;align-items:center}
-/* Seletor de idioma, o mesmo da home e das páginas internas do site: EN e ES levam às versões traduzidas da home. */
-.seletor-idioma{display:flex;gap:2px;align-items:center;font-size:.78rem;font-weight:800;letter-spacing:.04em}
-.seletor-idioma a,.seletor-idioma .idioma-atual{padding:5px 9px;border-radius:8px;text-decoration:none;line-height:1}
-.seletor-idioma a{color:var(--muted)}
-.seletor-idioma a:hover,.seletor-idioma a:focus-visible{color:var(--red);background:rgba(204,0,0,.08)}
-.seletor-idioma .idioma-atual{color:var(--red);background:rgba(204,0,0,.08)}
-/* O botão de destaque do cabeçalho: "Doe", em vermelho. */
-.btn-doe{background:var(--red);color:#fff;font-weight:700;font-size:13.5px;display:inline-flex;align-items:center;justify-content:center;padding:9px 20px;border-radius:999px;transition:background .2s;white-space:nowrap}
-.btn-doe:hover,.btn-doe:focus-visible{background:var(--red-dark);color:#fff}
-/* Menu em grupos, como o da home: "Quem somos" e "Como ajudar" abrem uma
-   lista — no computador ao passar o mouse, focar ou clicar; no menu sanfona
-   (até 1180 px), por clique, dentro da lista. */
-.nav-links{align-items:center}
-.nav-links>a,.nav-grupo-botao{line-height:1.5}
-.nav-grupo{position:relative}
-.nav-grupo-botao{font:inherit;font-weight:600;font-size:13.5px;letter-spacing:.2px;color:var(--muted);background:none;border:0;padding:0 0 2px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.nav-grupo-botao::after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
-.nav-grupo-botao:hover,.nav-grupo.aberto .nav-grupo-botao,.nav-grupo-botao[aria-current="true"]{color:var(--red)}
-.nav-grupo.aberto .nav-grupo-botao::after{transform:translateY(1px) rotate(-135deg)}
-.nav-sub{display:none;position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);min-width:260px;padding:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(11,18,32,.14);z-index:1001}
-.nav-sub::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
-.nav-grupo.aberto .nav-sub{display:grid}
-@media(min-width:1181px) and (hover:hover){
-  .nav-grupo:hover .nav-sub{display:grid}
-  /* Um grupo aberto por clique some quando o mouse passa para o outro: nunca duas listas ao mesmo tempo. */
-  .nav-links:has(.nav-grupo:hover) .nav-grupo.aberto:not(:hover) .nav-sub{display:none}
-}
-.nav-links .nav-sub a{display:block;padding:9px 12px;border-radius:9px;color:var(--text);font-size:13.5px;white-space:nowrap}
-.nav-links .nav-sub a::after{display:none}
-.nav-links .nav-sub a:hover,.nav-links .nav-sub a:focus-visible{background:rgba(204,0,0,.07);color:var(--red)}
-.nav-links .nav-sub a[aria-current="page"]{color:var(--red);background:rgba(204,0,0,.07)}
-/* Abaixo de 1500px o menu centralizado na página encostaria no seletor de
-   idioma (na home, entre 1181 e 1280px, ele passa por cima): aqui ele segue
-   o fluxo, entre o logo e as ações, e nunca as cobre. */
-@media(min-width:1181px) and (max-width:1499px){
-  .header-collapse{flex:1;min-width:0;gap:12px}
-  .nav-links{position:static;transform:none;margin:0 auto}
-}
-@media(min-width:1181px) and (max-width:1299px){
-  .header-container{padding-left:20px;padding-right:20px}
-  .nav-links{gap:12px}
-  .seletor-idioma a,.seletor-idioma .idioma-atual{padding:5px 6px}
-  .btn-doe{padding:8px 14px}
-}
-@media(max-width:1180px){
-  .header-container{flex-wrap:nowrap;justify-content:space-between;gap:10px;padding:14px 20px}
-  .nav-toggle{display:inline-flex}
-  .header-collapse{display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);flex-direction:column;padding:8px 20px 18px;box-shadow:0 18px 40px rgba(11,18,32,.12);border-top:1px solid var(--line);margin-left:0}
-  .main-header.nav-open .header-collapse{display:flex}
-  .nav-links{position:static;transform:none;left:auto;flex-direction:column;gap:0;width:100%}
-  .nav-links a{padding:14px 4px;border-bottom:1px solid var(--line);width:100%}
-  .nav-links a::after{display:none}
-  .header-actions{display:flex;flex-direction:column;align-items:stretch;width:100%;gap:10px;margin-top:10px}
-  .header-actions .btn-doe{width:100%;padding:12px 20px}
-  .nav-links{align-items:stretch}
-  .nav-grupo{width:100%;border-bottom:1px solid var(--line)}
-  .nav-grupo-botao{width:100%;justify-content:space-between;padding:14px 4px;font-size:.95rem}
-  .nav-sub{position:static;transform:none;min-width:0;box-shadow:none;border:0;border-radius:0;padding:0 0 10px 10px}
-  .nav-sub::before{display:none}
-  .nav-links .nav-sub a{padding:10px 8px;border-bottom:0;white-space:normal}
-  /* Com os dois grupos abertos, a lista passa da altura da tela: o painel rola sozinho, sem rolar a página. */
-  .main-header.nav-open .header-collapse{max-height:calc(100vh - 76px);max-height:calc(100dvh - 76px);overflow-y:auto;overscroll-behavior:contain}
-  .logo-img{height:48px}
-}
 .materia{background:var(--paper);padding-bottom:72px}
 .coluna{width:min(var(--coluna),calc(100% - 40px));margin:0 auto}
 .coluna-larga{width:min(var(--coluna-larga),calc(100% - 40px));margin:0 auto}
@@ -353,34 +288,14 @@ article li::marker{color:var(--red)}
 blockquote{margin:2.2rem 0;padding:.35rem 0 .35rem 1.25rem;border-left:4px solid var(--red);color:var(--black);font-size:1.25rem;line-height:1.45;font-weight:600;letter-spacing:-.01em}
 .materia-fim{border-top:1px solid var(--line);margin-top:44px;padding-top:20px;font-size:13px;color:var(--muted)}
 .materia-fim a{color:var(--red);font-weight:600}
-footer{background:var(--stone);border-top:3px solid var(--red);color:var(--muted);padding:0}
-.footer-grid{max-width:1100px;margin:0 auto;padding:48px 24px 36px;display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:20px}
-.footer-brand{display:flex;flex-direction:column}
-.footer-logo{height:64px;width:auto;display:block;margin-bottom:12px;object-fit:contain}
-.footer-brand p{font-size:13px;color:var(--muted);line-height:1.7;margin:0}
-.footer-col h4{font-size:10px;font-weight:800;color:var(--black);text-transform:uppercase;letter-spacing:1.5px;margin:0 0 14px}
-.footer-col p{font-size:13px;color:var(--muted);line-height:1.8;margin:0 0 8px}
-.footer-col p .ico{color:var(--red);margin-right:6px}
-.footer-col p a{color:var(--black);font-weight:600}
-.footer-col p a:hover{color:var(--red)}
-.footer-social{display:flex;gap:10px;margin-top:4px}
-.footer-social a{width:34px;height:34px;border-radius:50%;background:var(--line);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:14px;transition:background .2s,color .2s}
-.footer-social a:hover{background:var(--red);color:#fff}
-.footer-bottom{border-top:1px solid var(--line);background:var(--line);padding:16px 0}
-/* A faixa de baixo como a home a mostra: largura toda, links cinza, separadores da cor da faixa. */
-.footer-inner{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;font-size:12px;color:var(--muted);padding:0 16px}
-.footer-inner a{color:var(--muted);font-weight:600}
-.footer-inner a:hover{color:var(--red)}
-.footer-inner .sep{color:var(--line)}
 @media(max-width:920px){
-  .footer-grid{grid-template-columns:1fr;padding:36px 20px 28px}
   .coluna,.coluna-larga{width:calc(100% - 32px)}
   .cabecalho{padding-top:28px}
   .materia{padding-bottom:48px}
   article p,article li{font-size:1.0625rem}
 }
 @media print{
-  .main-header,footer,.compartilhar,.news-share,.cv-chat{display:none}
+  .topo,.rodape,.zap-flutuante,.compartilhar,.news-share,.cv-chat{display:none}
   body{font-size:12pt}
 }
 
@@ -389,12 +304,6 @@ footer{background:var(--stone);border-top:3px solid var(--red);color:var(--muted
    ênfase (o vermelho da cruz), foto documental com legenda e crédito. */
 .single-noticia{background:var(--news-paper)}
 .single-noticia a:focus-visible,.single-noticia button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-.single-noticia .main-header{box-shadow:none;border-bottom:1px solid var(--news-line)}
-.single-noticia .header-container{padding:10px 32px}
-.single-noticia .logo-img{height:44px}
-.single-noticia .nav-links a{font-size:13px}
-.single-noticia .nav-links a[aria-current="page"]{color:var(--brand)}
-.single-noticia .btn-doe{font-size:13px}
 .news-folio{max-width:var(--max-folio);margin:0 auto;padding:0 24px 56px}
 .news-masthead{border-top:3px solid var(--brand);padding:14px 0 10px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .news-masthead .dot{color:var(--news-line)}
@@ -455,7 +364,6 @@ footer{background:var(--stone);border-top:3px solid var(--red);color:var(--muted
 .news-more .t{font-family:var(--serif);font-size:18px;font-weight:700;line-height:1.25;color:var(--news-ink);display:block;margin-bottom:6px}
 .news-more a:hover .t{color:var(--brand)}
 .news-more time{font-size:12px;color:var(--news-muted)}
-.single-noticia footer{margin-top:48px}
 @media(max-width:1199px){
   .news-article h1{font-size:42px}
   .news-body p{font-size:19px}
@@ -474,192 +382,111 @@ footer{background:var(--stone);border-top:3px solid var(--red);color:var(--muted
   .news-body p,.news-body li{font-size:18px}
   .news-body blockquote{font-size:22px}
   .news-more .cartoes{grid-template-columns:1fr}
-  .single-noticia .header-container{padding:10px 18px}
 }
 `
 
 // ---------------------------------------------------------------- cabeçalho e rodapé
 
-const LOGO = (o: string) => `${o}/assets/otim/logo-cvb-rj-520.webp`
+const LOGO = (o: string) => `${o}/assets/otim/logo-cvb-petropolis-520.webp`
 
-/** As páginas que o menu marca como a atual (aria-current + filete). */
+/** As páginas que o menu marca como a atual (aria-current). */
 export type ItemDoMenu = 'noticias' | 'acervo' | 'transparencia'
 
 /**
- * O cabeçalho com o menu — o mesmo da home. `ativo` marca a página atual.
- *
- * Seis itens no primeiro nível, nesta ordem: Quem somos (grupo), Como ajudar
- * (grupo), Notícias, Transparência, Escola e Contato. A escola é um link só,
- * para a matrícula; a plataforma dela fica fora do menu da filial.
+ * O menu do site de Petrópolis, na ordem de pagina/scripts/gerar_site_petropolis.py
+ * (MENU). Mudou lá, muda aqui: as páginas que a Redação gera e as do gerador do
+ * site têm de mostrar o mesmo cabeçalho.
  */
+export const MENU_DO_SITE: { caminho: string; rotulo: string; item?: ItemDoMenu }[] = [
+  { caminho: '/quem-somos/', rotulo: 'Quem somos' },
+  { caminho: '/voluntariado/', rotulo: 'Voluntariado' },
+  { caminho: '/prevencao/', rotulo: 'Prevenção' },
+  { caminho: '/principios-fundamentais/', rotulo: 'Princípios' },
+  { caminho: '/transparencia/', rotulo: 'Transparência', item: 'transparencia' },
+  { caminho: '/contato/', rotulo: 'Contato' },
+]
+
+/** Os ícones de traço do site (os mesmos de ICONES no gerador do site), com a classe "icone" da folha dele. */
+const ICONES_DO_SITE = {
+  local: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  telefone: '<path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/>',
+  whatsapp: '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/><path d="M9.5 9.5c.3 1.6 1.4 3.3 3 4.2l1.2-.9 1.8.8-.3 1.6c-3 .3-6.6-3.2-6.4-6.3l1.5-.4.9 1.7z"/>',
+  email: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/>',
+} as const
+
+function iconeDoSite(nome: keyof typeof ICONES_DO_SITE): string {
+  return `<svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONES_DO_SITE[nome]}</svg>`
+}
+
+const digitos = (telefone: string) => telefone.replace(/\D/g, '')
+const MAPA_DA_SEDE = 'https://www.google.com/maps/search/?api=1&query=Rua+Carlos+Gomes%2C+6%2C+Centro%2C+Petr%C3%B3polis+-+RJ%2C+25680-120'
+const ENDERECO_DA_SEDE = 'Rua Carlos Gomes, 6 · Centro · Petrópolis/RJ · CEP 25680-120'
+/** O link do WhatsApp com a mensagem já escrita, como o do site. */
+export const linkDoZap = (telefone: string, mensagem = 'Olá! Vim pelo site da Cruz Vermelha Petrópolis.') =>
+  `https://wa.me/55${digitos(telefone)}?text=${encodeURIComponent(mensagem)}`
+
+/** O cabeçalho do site: logo, menu e o botão "Doe". `ativo` marca a página atual. */
 export function cabecalhoDoSite(origem: string, ativo?: ItemDoMenu): string {
   const o = escapar(origem)
-  const atual = (item: ItemDoMenu) => (ativo === item ? ' aria-current="page"' : '')
-  return `<header class="main-header">
-      <div class="header-container">
-        <a href="${o}/" class="logo-area">
-          <img src="${escapar(LOGO(origem))}" width="520" height="156" alt="${NOME_DO_SITE}" class="logo-img">
+  const itens = MENU_DO_SITE.map((m) => `<a href="${o}${m.caminho}"${m.item && m.item === ativo ? ' aria-current="page"' : ''}>${m.rotulo}</a>`).join('')
+  return `<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <header class="topo">
+      <div class="wrap topo-linha">
+        <a class="marca" href="${o}/" aria-label="Cruz Vermelha Petrópolis: início">
+          <img src="${escapar(LOGO(origem))}" width="520" height="156" alt="Cruz Vermelha Brasileira – Petrópolis">
         </a>
-        <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-painel">${icone('bars')}${icone('xmark')}</button>
-        <div class="header-collapse" id="menu-painel">
-          <nav class="nav-links" aria-label="Menu principal">
-            <div class="nav-grupo">
-              <button class="nav-grupo-botao" type="button" aria-expanded="false" aria-controls="menu-quem-somos">Quem somos</button>
-              <div class="nav-sub" id="menu-quem-somos">
-                <a href="${o}/quem-somos/">Quem somos</a>
-                <a href="${o}/historia/">Nossa história</a>
-                <a href="${o}/equipe.html">Equipe</a>
-                <a href="${o}/principios-fundamentais/">Princípios Fundamentais</a>
-                <a href="${o}/emblema/">O emblema</a>
-                <a href="${o}/movimento-internacional/">Movimento Internacional</a>
-                <a href="${o}/direito-internacional-humanitario/">Direito Internacional Humanitário</a>
-                <a href="${o}/base-legal/">Base legal</a>
-              </div>
-            </div>
-            <div class="nav-grupo">
-              <button class="nav-grupo-botao" type="button" aria-expanded="false" aria-controls="menu-como-ajudar">Como ajudar</button>
-              <div class="nav-sub" id="menu-como-ajudar">
-                <a href="${o}/doe/">Doe</a>
-                <a href="${o}/voluntariado/">Seja voluntário</a>
-                <a href="${o}/cursos-gratuitos/">Formação de voluntários</a>
-                <a href="${o}/#campanhas">Campanhas</a>
-              </div>
-            </div>
-            <a href="${o}/noticias/"${atual('noticias')}>Notícias</a>
-            <a href="${o}/transparencia/"${atual('transparencia')}>Transparência</a>
-            <a href="${o}/matricula-cursos-presenciais/">Escola</a>
-            <a href="${o}/#contato">Contato</a>
-          </nav>
-          <div class="header-actions">
-            <div class="seletor-idioma" role="navigation" aria-label="Idioma">
-              <span class="idioma-atual" aria-current="true" lang="pt-BR">PT</span>
-              <a href="${o}/en/" hreflang="en" lang="en" aria-label="English">EN</a>
-              <a href="${o}/es/" hreflang="es" lang="es" aria-label="Español">ES</a>
-            </div>
-            <a href="${o}/doe/" class="btn-doe">Doe</a>
-          </div>
-        </div>
+        <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+        <nav id="menu" class="menu" aria-label="Menu principal">${itens}<a class="botao botao-vermelho" href="${o}/doe/">Doe</a></nav>
       </div>
     </header>`
 }
 
-/**
- * O rodapé — as mesmas colunas da home. CNPJ e endereço completo em toda
- * página (é o que um revisor procura para saber quem responde pelo site). Na
- * faixa de baixo, as políticas (do repositório do site) e "Preferências de
- * cookies": o aviso de cookies transforma o clique em qualquer
- * [data-cvrj-cookies] na abertura das preferências; sem o aviso, o link leva à
- * Política de Cookies.
- *
- * Fora daqui de propósito: a Wikipédia (o verbete foi escrito pela conta da
- * própria filial e cita o site como fonte — não é prova independente) e o
- * Acervo, enquanto não houver item publicado (lib/acervo/paginas.ts).
- */
+/** O rodapé do site: quem responde pela página (nome e CNPJ), os contatos, os links e as emergências. */
 export function rodapeDoSite(origem: string, ano: number | string): string {
   const o = escapar(origem)
   const f = DADOS_DA_FILIAL
-  return `<footer>
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <img class="footer-logo" src="${escapar(LOGO(origem))}" width="520" height="156" alt="${NOME_DO_SITE}" loading="lazy" decoding="async">
-          <p>Humanidade, imparcialidade, neutralidade, independência, voluntariado, unidade e universalidade.</p>
+  const tels = f.telefones.map((t) => `<a href="tel:+55${digitos(t)}">${t}</a>`).join(' · ')
+  const zaps = f.telefones.map((t) => `<a href="${escapar(linkDoZap(t))}" rel="noopener" target="_blank">${t}</a>`).join(' · ')
+  const links = [...MENU_DO_SITE.map((m) => [m.caminho, m.rotulo]), ['/doe/', 'Doe'], ['/canais-oficiais/', 'Canais oficiais'], ['/verificar/', 'Verificar um documento'], ['/privacidade/', 'Privacidade'], ['/creditos/', 'Créditos das fotos']]
+    .map(([c, r]) => `<li><a href="${o}${c}">${r}</a></li>`).join('')
+  return `<footer class="rodape">
+      <div class="wrap rodape-grade">
+        <div>
+          <img class="rodape-logo" src="${escapar(LOGO(origem))}" width="520" height="156" alt="Cruz Vermelha Brasileira – Petrópolis" loading="lazy">
+          <p>Cruz Vermelha Brasileira – Filial do Município de Petrópolis<br>CNPJ ${f.cnpj}</p>
         </div>
-        <div class="footer-col">
-          <h4>Sobre</h4>
-          <p>Cruz Vermelha Brasileira<br>Filial do Município de Petrópolis<br>CNPJ ${f.cnpj}</p>
-          <p><a href="${o}/quem-somos/">Quem somos</a></p>
-          <p><a href="${o}/transparencia/">Portal da transparência</a></p>
-          <p><a href="${o}/canais-oficiais/">Canais oficiais</a></p>
-          <p><a href="${o}/verificar/">Verificar um documento</a></p>
-          <p><a href="${o}/bio/">Links oficiais</a></p>
-          <p><a href="${o}/matricula-cursos-presenciais/">Escola de Educação e Saúde</a></p>
+        <div>
+          <h2>Fale com a filial</h2>
+          <p>${iconeDoSite('local')} <a href="${MAPA_DA_SEDE}" rel="noopener" target="_blank">${ENDERECO_DA_SEDE}</a></p>
+          <p>${iconeDoSite('telefone')} ${tels}</p>
+          <p>${iconeDoSite('whatsapp')} WhatsApp: ${zaps}</p>
+          <p>${iconeDoSite('email')} <a href="mailto:${f.email}">${f.email}</a></p>
+          <p>${iconeDoSite('instagram')} Instagram: <a href="https://www.instagram.com/${f.instagram}/" rel="noopener" target="_blank">@${f.instagram}</a></p>
         </div>
-        <div class="footer-col">
-          <h4>Contato</h4>
-          <p>${icone('location-dot')} Rua Carlos Gomes, 6 · Centro · Petrópolis – RJ · CEP 25680-120</p>
-          <p>${icone('phone')} ${f.telefone}</p>
-          <p>${icone('envelope')} ${f.email}</p>
-        </div>
-        <div class="footer-col">
-          <h4>Siga-nos</h4>
-          <div class="footer-social">
-            <a href="https://www.facebook.com/profile.php?id=61591390052128" target="_blank" rel="noopener" aria-label="Facebook">${svgDaMarca('facebook', 16, 'currentColor')}</a>
-            <a href="https://www.instagram.com/cruzvermelhabrasileirarj/" target="_blank" rel="noopener" aria-label="Instagram">${svgDaMarca('instagram', 16, 'currentColor')}</a>
-          </div>
+        <div>
+          <h2>Navegue</h2>
+          <ul>${links}</ul>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div class="footer-inner">
-          <span>&copy; ${escapar(String(ano))} Cruz Vermelha Brasileira – Filial do Município de Petrópolis · CNPJ ${f.cnpj}</span>
-          <span class="sep">|</span>
-          <a href="${o}/noticias/">Notícias</a>
-          <span class="sep">|</span>
-          <a href="${o}/transparencia/">Transparência</a>
-          <span class="sep">|</span>
-          <a href="${o}/canais-oficiais/">Canais oficiais</a>
-          <span class="sep">|</span>
-          <a href="${o}/verificar/">Verificar documento</a>
-          <span class="sep">|</span>
-          <a href="${o}/matricula-cursos-presenciais/">Escola de Educação e Saúde</a>
-          <span class="sep">|</span>
-          <a href="${o}/privacidade/">Política de Privacidade</a>
-          <span class="sep">|</span>
-          <a href="${o}/termos/">Termos de Uso</a>
-          <span class="sep">|</span>
-          <a href="${o}/cookies/">Política de Cookies</a>
-          <span class="sep">|</span>
-          <a href="${o}/reembolso/">Cancelamento e reembolso</a>
-          <span class="sep">|</span>
-          <a href="${o}/cookies/#preferencias" data-cvrj-cookies>Preferências de cookies</a>
-        </div>
+      <div class="wrap rodape-fim">
+        <p>Em emergência: Defesa Civil <a href="tel:199">199</a> · Bombeiros <a href="tel:193">193</a> · SAMU <a href="tel:192">192</a>. A filial não faz atendimento de urgência.</p>
+        <p>&copy; ${escapar(String(ano))} Cruz Vermelha Brasileira – Filial do Município de Petrópolis. Parte do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho.</p>
       </div>
-    </footer>`
+    </footer>
+    <a class="zap-flutuante" href="${escapar(linkDoZap(f.telefones[0]))}" rel="noopener" target="_blank" aria-label="Falar com a filial pelo WhatsApp">${iconeDoSite('whatsapp')}<span>WhatsApp</span></a>`
 }
 
-/** O script do menu de celular — só ele; script de página fica na página. */
+/** O script do menu de celular, o mesmo de /assets/site.js — só ele; script de página fica na página. */
 export function scriptDoMenu(): string {
   return `<script>
-      document.querySelector('.nav-toggle')?.addEventListener('click', function() {
-        const header = this.closest('.main-header');
-        const isOpen = header.classList.toggle('nav-open');
-        this.setAttribute('aria-expanded', String(isOpen));
-        this.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-      });
-      document.querySelectorAll('.nav-links a').forEach(function(link) {
-        link.addEventListener('click', function() {
-          const header = link.closest('.main-header');
-          header?.classList.remove('nav-open');
-          document.querySelector('.nav-toggle')?.setAttribute('aria-expanded', 'false');
-          document.querySelector('.nav-toggle')?.setAttribute('aria-label', 'Abrir menu');
-        });
-      });
-      // Grupos do menu ("Quem somos", "Como ajudar"): abrem por clique ou teclado; Esc ou clique fora fecham.
-      (function() {
-        const grupos = Array.from(document.querySelectorAll('.nav-grupo'));
-        const mouse = window.matchMedia('(min-width: 1181px) and (hover: hover)');
-        function fechar(exceto) {
-          grupos.forEach(function(g) { if (g !== exceto) { g.classList.remove('aberto'); g.querySelector('.nav-grupo-botao')?.setAttribute('aria-expanded', 'false'); } });
-        }
-        grupos.forEach(function(g) {
-          const botao = g.querySelector('.nav-grupo-botao');
-          botao?.addEventListener('click', function() {
-            const abrir = !g.classList.contains('aberto');
-            fechar(g);
-            g.classList.toggle('aberto', abrir);
-            botao.setAttribute('aria-expanded', String(abrir));
-          });
-          if (g.querySelector('a[aria-current="page"]')) botao?.setAttribute('aria-current', 'true');
-          // No computador, passar o mouse num grupo fecha o outro; sair com o Tab de um grupo o fecha.
-          g.addEventListener('mouseenter', function() { if (mouse.matches) fechar(g); });
-          g.addEventListener('focusout', function(e) {
-            if (e.relatedTarget && !g.contains(e.relatedTarget)) { g.classList.remove('aberto'); botao?.setAttribute('aria-expanded', 'false'); }
-          });
-        });
-        document.addEventListener('click', function(e) { if (!e.target.closest('.nav-grupo')) fechar(null); });
-        document.addEventListener('keydown', function(e) {
-          if (e.key !== 'Escape') return;
-          const aberto = grupos.find(function(g) { return g.classList.contains('aberto'); });
-          if (aberto) { fechar(null); aberto.querySelector('.nav-grupo-botao')?.focus(); }
+      (function () {
+        var botao = document.querySelector('.menu-botao');
+        var menu = document.getElementById('menu');
+        if (!botao || !menu) return;
+        botao.addEventListener('click', function () {
+          var aberto = menu.classList.toggle('aberto');
+          botao.setAttribute('aria-expanded', aberto ? 'true' : 'false');
         });
       })();
     </script>`
@@ -743,8 +570,7 @@ export function montarPaginaDoSite(dados: DadosDaPagina): string {
     `<title>${escapar(tituloDaAba(dados.assuntoDaAba ?? dados.titulo))}</title>`,
     `<meta name="description" content="${escapar(descricao)}">`,
     `<link rel="canonical" href="${escapar(canonica)}">`,
-    `<link rel="icon" type="image/svg+xml" href="${o}/assets/favicon.svg">`,
-    `<link rel="icon" type="image/png" href="${o}/assets/favicon.png">`,
+    `<link rel="icon" href="${o}/favicon.ico">`,
     `<meta name="theme-color" content="#cc0000">`,
     `<meta name="robots" content="${dados.indexar === false ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large'}">`,
     ...(dados.alternativas ?? []).map((a) => `<link rel="alternate" hreflang="${escapar(a.hreflang)}" href="${escapar(a.url)}">`),
@@ -768,6 +594,7 @@ export function montarPaginaDoSite(dados: DadosDaPagina): string {
     `<link rel="preconnect" href="https://fonts.googleapis.com">`,
     `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`,
     LINK_DAS_FONTES,
+    folhaDoSite(origem),
   ].join('\n    ')
 
   const chat = dados.chat ?? chatDoSite()
@@ -780,9 +607,12 @@ export function montarPaginaDoSite(dados: DadosDaPagina): string {
     <script type="application/ld+json">${JSON.stringify(dados.jsonLd).replace(/</g, '\\u003c')}</script>` : ''}
   </head>
   <body${dados.classeDoCorpo ? ` class="${escapar(dados.classeDoCorpo)}"` : ''}>
+    ${noscriptDoAnalytics()}
     ${cabecalhoDoSite(origem, dados.ativo)}
 
+    <div id="conteudo">
     ${dados.corpo}
+    </div>
 
     ${rodapeDoSite(origem, ano)}
     ${scriptDoMenu()}${dados.scriptsDoFim ? `

@@ -503,7 +503,7 @@ export function DialogCampanha({ todos, inicial, onFechar, onFeito }: {
       </label>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr]">
         <label className="text-sm font-medium">Link <span className="font-normal text-muted-foreground">(opcional — mede cliques)</span>
-          <input value={linkUrl} onChange={(e) => setLinkUrl(e.target.value)} disabled={ocupado} placeholder="https://cruzvermelhariodejaneiro.org/noticias/…" className={`mt-1 ${inputClass}`} />
+          <input value={linkUrl} onChange={(e) => setLinkUrl(e.target.value)} disabled={ocupado} placeholder="https://cruzvermelhapetropolis.org/noticias/…" className={`mt-1 ${inputClass}`} />
         </label>
         <label className="text-sm font-medium">Texto do link
           <input value={linkRotulo} onChange={(e) => setLinkRotulo(e.target.value)} disabled={ocupado} placeholder="Leia o release" className={`mt-1 ${inputClass}`} />

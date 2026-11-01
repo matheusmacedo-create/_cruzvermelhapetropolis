@@ -202,7 +202,7 @@ function pc_geral(string $usuario, string $aviso, string $classe): never
 
     // Canais.
     $resend = (string) mcp_cfg('RESEND_API_KEY', '') !== '';
-    $remetente = mcp_email_endereco(mcp_email_nome_oficial((string) (mcp_cfg('EMAIL_REMETENTE_PONTO', '') ?: mcp_cfg('EMAIL_REMETENTE', MCP_NOME_FILIAL . ' <matricula@cruzvermelhariodejaneiro.org>'))));
+    $remetente = mcp_email_endereco(mcp_email_nome_oficial((string) (mcp_cfg('EMAIL_REMETENTE_PONTO', '') ?: mcp_cfg('EMAIL_REMETENTE', MCP_NOME_FILIAL . ' <matricula@cruzvermelhapetropolis.org>'))));
     $explicaModo = match ($modo) {
         'cloud' => 'As mensagens saem sozinhas pela API oficial do WhatsApp, com os modelos aprovados pela Meta: ' . pn_e(implode(', ', array_keys(MCP_WHATSAPP_MODELOS))) . '. Quem responde PARAR deixa de receber.',
         'evolution' => 'As mensagens saem sozinhas pelo WhatsApp do Palácio Virtual (o mesmo número dos avisos da equipe), uma a cada 8 segundos, até '
@@ -256,7 +256,7 @@ function pc_geral(string $usuario, string $aviso, string $classe): never
             . $check('whatsapp_ativo', 'Usar o WhatsApp', 'Se desmarcar, nada vai pelo WhatsApp (nem para a fila) e tudo segue por e-mail. O que estava esperando volta a sair se religar dentro do prazo.')
             . '<label style="margin-top:12px">Dias sem expediente na sede (além dos feriados)<input name="dias_fechados" placeholder="24/12, 31/12" value="'
                 . pn_e(implode(', ', array_map(static fn(string $d): string => mcp_escola_data($d), array_filter(mcp_avisos_dias_fechados(), static fn(string $d): bool => $d >= mcp_ponto_hoje($agora))))) . '"></label>'
-            . '<p class="nota" style="margin-top:4px">Na véspera desses dias e dos feriados (nacionais, do estado e da cidade do Rio), o lembrete não sai.</p>'
+            . '<p class="nota" style="margin-top:4px">Na véspera desses dias e dos feriados (nacionais, do estado e da cidade de Petrópolis), o lembrete não sai.</p>'
             . '<div class="acoes">' . pc_botao('Salvar os ajustes', 'btn-red') . '</div>')
         . '</div>';
 

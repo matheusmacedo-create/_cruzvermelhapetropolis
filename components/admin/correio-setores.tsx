@@ -130,7 +130,7 @@ function PassoAPassoDoGoogle({ retorno, clienteConfigurado }: { retorno: string;
         {' '}num projeto da conta do Workspace da filial, ative a <strong className="font-medium text-foreground">Gmail API</strong>.
       </li>
       <li className={clienteConfigurado ? 'line-through opacity-60' : ''}>
-        Em “Tela de consentimento OAuth”, escolha o tipo <strong className="font-medium text-foreground">Interno</strong> (só contas @cruzvermelhariodejaneiro.org).
+        Em “Tela de consentimento OAuth”, escolha o tipo <strong className="font-medium text-foreground">Interno</strong> (só contas @cruzvermelhapetropolis.org).
       </li>
       <li className={clienteConfigurado ? 'line-through opacity-60' : ''}>
         Em “Credenciais”, crie um <strong className="font-medium text-foreground">ID do cliente OAuth</strong> do tipo “Aplicativo da Web”, com este URI de redirecionamento autorizado:

@@ -19,8 +19,8 @@ const opcoes = (p: Record<string, string | string[] | undefined> | URLSearchPara
 const url = (o: { alvo: string; chamada: string; titulo: string; texto: string }) => paraAUrl(o, PARAMETRO_DA_FILA, CHAVE_PADRAO)
 
 // ---------------------------------------------------------------- QR e rotas
-igual(linkDoCartaz('https://palacio.cruzvermelhariodejaneiro.org/', 'ti'), 'https://palacio.cruzvermelhariodejaneiro.org/chamado?fila=ti', 'link do QR sem barra dobrada')
-igual(linkDoCartaz('https://palacio.cruzvermelhariodejaneiro.org', null), 'https://palacio.cruzvermelhariodejaneiro.org/chamado', 'link do cartaz geral, sem fila')
+igual(linkDoCartaz('https://palacio.cruzvermelhapetropolis.org/', 'ti'), 'https://palacio.cruzvermelhapetropolis.org/chamado?fila=ti', 'link do QR sem barra dobrada')
+igual(linkDoCartaz('https://palacio.cruzvermelhapetropolis.org', null), 'https://palacio.cruzvermelhapetropolis.org/chamado', 'link do cartaz geral, sem fila')
 igual(formularioDaFila('manutencao'), '/chamados/novo?fila=manutencao', 'formulário da fila')
 igual(ehSlugDaFila('ti'), true, 'slug válido')
 igual(ehSlugDaFila('TI'), false, 'maiúscula não é slug')

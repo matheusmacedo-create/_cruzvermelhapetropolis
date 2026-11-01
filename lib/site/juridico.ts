@@ -17,4 +17,7 @@ export const DADOS_DA_FILIAL = {
   endereco: 'Rua Carlos Gomes, 6 — Centro, Petrópolis/RJ, CEP 25680-120',
   email: 'contato@cruzvermelhapetropolis.org',
   telefone: '(21) 99605-6454',
+  /** Os dois números atendem também pelo WhatsApp. */
+  telefones: ['(21) 99605-6454', '(21) 97465-0301'],
+  instagram: '_cruzvermelhapetropolis',
 } as const

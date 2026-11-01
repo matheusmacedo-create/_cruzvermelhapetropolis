@@ -70,7 +70,7 @@ const decisaoDespesa: Passo = {
   decisao: 'aprovar', motivo: '', isento: false,
 }
 const recusaCompra: Passo = {
-  acao: 'decidir_financeiro', tipo: 'compra', itemId: COMPRA, titulo: 'Cadeiras da recepção', codigo: 'PC-2026-0003', valor: 4800, fornecedor: 'Móveis Rio', papel: 'diretoria',
+  acao: 'decidir_financeiro', tipo: 'compra', itemId: COMPRA, titulo: 'Cadeiras da recepção', codigo: 'PC-2026-0003', valor: 4800, fornecedor: 'Móveis Serra', papel: 'diretoria',
   decisao: 'recusar', motivo: 'Valor acima do orçado.', isento: false,
 }
 const resolver: Passo = {

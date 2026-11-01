@@ -20,6 +20,8 @@ import { atendeAlgumaFila, atenderPeloCodigo, respostaDosChamados } from './aten
 import { agendaDaPessoa, aprovacoesPendentes, avisosDaPessoa, pessoaDoEspaco } from './consultas'
 import { comecarVisita, receberFotoDaVisita, temPortaria, visitasDeHoje } from './portaria'
 import { comecarCadastro } from './colaborador'
+import { atorDeAprovacao, conversarNoAutocadastro, decidirAutocadastro, ehDoAutocadastro, acompanhamentoDoCadastro, jaTemContaNoCadastro, menuDeQuemSoTemCadastro, previaDoEmailDePessoa, criarEmailDePessoa, criarCaixasDosSetoresPeloBotao, criarCaixaDoSetorPeloComando, linkDoTime, pendentesDeAprovacao, previaDasCaixas, situacaoDosGrupos, type Saida } from './autocadastro'
+import { lerPedidoDeEmail, lerBotaoDeEmail, ehPedidoDeAcompanhamento, ehPedidoDeCaixas, lerAutocadastro, lerBotaoDeAprovacao, lerBotaoDeCaixas, lerCaixaDoSetor } from './autocadastro-regras'
 import { destinoDaImagem, lerBotaoDaFicha, lerLegendaDeVisita, perguntaSemFila, type DadosDaVisita } from './portaria-regras'
 import { decidirPeloWhatsapp, listarDecisoes, podeDecidirNoFinanceiro } from './financeiro'
 import { comecarPresenca, coordenaAcoes } from './presenca'
@@ -36,9 +38,9 @@ import { visitaEsperandoResposta } from '@/lib/portaria/servidor'
 import {
   APRESENTACAO_A_CADA_HORAS, APROVACOES_NA_RESPOSTA, AVISOS_NA_RESPOSTA, COMANDOS_DE_AREA, JANELA_DAS_RESPOSTAS_MIN, RESPOSTAS_POR_JANELA,
   TEXTO_DO_CODIGO_DE_VOLTA, TEXTO_PAUSADO, TEXTO_VOLTOU, alvoDoLink, codigoNaMensagem, ehCancelamento, ehConfirmacao, interativoDoMenu, lerEscolha, lerPedido, ofereceNaoFuiEu,
-  pareceViagem, soOCodigo,
+  TEXTO_NAO_ENTENDI_CURTO, ehCortesia, normalizar, pareceViagem, soOCodigo,
   textoDaAgenda, textoDaAjuda,
-  textoDaApresentacao, textoDaFalhaDoCodigoDeIda, textoDasAprovacoes, textoDasLidas, textoDoCodigoDeIdaErrado, textoDoMenu, textoDoNumeroConfirmado, textoDosAvisos,
+  textoDaApresentacao, textoDaFalhaDoCodigoDeIda, textoDasAprovacoes, textoDasLidas, textoDasFuncoes, textoDoCodigoDeIdaErrado, textoDoMenu, textoDoNumeroConfirmado, textoDosAvisos,
   type Interativo, type ItemDoDia, type MensagemRecebida, type QuemNoMenu,
 } from './regras'
 import { responderComAssistente } from './assistente'
@@ -47,6 +49,7 @@ import { cancelarPlano, confirmarPlano, guardarPlanoDoChat, planoAberto, type Ab
 import { esperarAVez, esquecer, lembrarLista, soltarVez } from './assistente/memoria'
 import { LIMITES, TEXTOS_FIXOS, TEXTO_DA_ROTA, comandoDaRota, lerRespostaAoPlano, rotaDaMensagem, textoDoEcoDoAudio, type AvisoCitado, type Rota } from './assistente/regras'
 import type { TipoDeItem } from './assistente/marcadores'
+import { responderEmAudio } from '@/lib/voz/whatsapp'
 
 type Admin = ReturnType<typeof createAdminClient>
 
@@ -154,6 +157,63 @@ export async function atenderMensagem(admin: Admin, workspaceId: string, config:
     }
 
     const pessoa = conta ? await pessoaDoEspaco(admin, workspaceId, conta.user_id as string) : null
+
+    // O autocadastro de colaborador (lib/whatsapp/autocadastro.ts): quem ainda não tem conta se cadastra pela conversa
+    // (só texto e a foto do rosto); quem decide — um administrador ou o coordenador do setor, este pelo número — usa os
+    // botões, "cadastros" e (coordenador) "link do time". Vem antes do resto: o número ainda é desconhecido, e o toque
+    // nos botões traz o id do pedido.
+    const textoLivre = !m.midia && !m.toque ? normalizar(m.texto) : ''
+    const botaoCadastro = m.toque && !m.midia ? lerBotaoDeAprovacao(m.texto) : null
+    const pedeCadastros = textoLivre === 'cadastros'
+    const pedeLinkDoTime = ['link do time', 'meu time', 'link do meu time'].includes(textoLivre)
+    const pedeGrupos = textoLivre === 'grupos'
+    const pedeCaixas = ehPedidoDeCaixas(textoLivre)
+    const pedeAcompanhamento = ehPedidoDeAcompanhamento(textoLivre)
+    const pedidoDeEmail = textoLivre ? lerPedidoDeEmail(m.texto) : null
+    const botaoEmail = m.toque && !m.midia ? lerBotaoDeEmail(m.texto) : null
+    const botaoCaixas = m.toque && !m.midia ? lerBotaoDeCaixas(m.texto) : null
+    const pedidoDaCaixa = textoLivre ? lerCaixaDoSetor(m.texto) : null
+    const doAutocadastro = !pessoa && !botaoCadastro && await ehDoAutocadastro(admin, workspaceId, m)
+    const ator = !doAutocadastro && (botaoCadastro || pedeCadastros || pedeLinkDoTime || pedeGrupos || pedeCaixas || pedeAcompanhamento || botaoCaixas || pedidoDaCaixa || pedidoDeEmail || botaoEmail) ? await atorDeAprovacao(admin, workspaceId, numero, pessoa) : null
+    // Quem já tem conta e escreve "quero me cadastrar": o cadastro é de quem ainda não tem. Responde o que falta, em vez de "Não entendi".
+    if (pessoa && !ator && textoLivre && lerAutocadastro(m.texto)) {
+      const nova = await registrar(admin, { workspaceId, direcao: 'entrada', tipo: 'bot', situacao: 'recebida', numero, userId: pessoa.id, mensagemId: m.id, comando: 'autocadastro', enviadaEm: m.enviadaEm })
+      if (!nova || await noTetoDeRespostas(admin, workspaceId, numero)) return
+      for (const s of await jaTemContaNoCadastro(admin, workspaceId, pessoa)) await entregar(admin, workspaceId, { numero, texto: s.texto, tipo: 'bot', userId: pessoa.id, interativo: s.interativo }, { config, semFila: true })
+      return
+    }
+    if (doAutocadastro || ator) {
+      const nova = await registrar(admin, { workspaceId, direcao: 'entrada', tipo: 'bot', situacao: 'recebida', numero, userId: pessoa?.id ?? null, mensagemId: m.id, comando: 'autocadastro', enviadaEm: m.enviadaEm })
+      if (!nova) return
+      // A conversa aberta não tem o teto de respostas (são ~15 trocas, uma por mensagem da pessoa); a abertura, sim.
+      const aberta = doAutocadastro && !m.midia && lerAutocadastro(m.texto) ? false : doAutocadastro
+      if (!aberta && !botaoCadastro && !botaoCaixas && !botaoEmail && await noTetoDeRespostas(admin, workspaceId, numero)) return
+      let saidas: Saida[] = []
+      if (doAutocadastro) saidas = await conversarNoAutocadastro(admin, workspaceId, config, m)
+      else if (ator && botaoCadastro) saidas = await decidirAutocadastro(admin, workspaceId, config, ator, botaoCadastro)
+      else if (ator && pedeGrupos) saidas = await situacaoDosGrupos(admin, workspaceId, ator)
+      else if (ator && pedidoDeEmail) saidas = await previaDoEmailDePessoa(admin, workspaceId, ator, pedidoDeEmail)
+      else if (ator && botaoEmail) saidas = await criarEmailDePessoa(admin, workspaceId, config, ator, botaoEmail)
+      else if (ator && pedeAcompanhamento) saidas = await acompanhamentoDoCadastro(admin, workspaceId, ator)
+      else if (ator && pedeCaixas) saidas = await previaDasCaixas(admin, workspaceId, ator)
+      else if (ator && botaoCaixas) saidas = await criarCaixasDosSetoresPeloBotao(admin, workspaceId, config, ator, botaoCaixas, { prazoDoLote: opcoes.prazoDoLote })
+      else if (ator && pedidoDaCaixa) saidas = await criarCaixaDoSetorPeloComando(admin, workspaceId, config, ator, pedidoDaCaixa)
+      else if (ator && pedeLinkDoTime) saidas = await linkDoTime(admin, workspaceId, config, ator)
+      else if (ator) saidas = await pendentesDeAprovacao(admin, workspaceId, ator)
+      for (const s of saidas) await entregar(admin, workspaceId, { numero, texto: s.texto, tipo: 'bot', userId: pessoa?.id ?? null, interativo: s.interativo }, { config, semFila: true })
+      return
+    }
+    // Cadastrado pelo WhatsApp mas sem login no Palácio (coordenador de setor ou cadastro aprovado): "oi", "menu" e "funções"
+    // recebem o que o bot faz por ele(a) — antes, só a apresentação do primeiro dia e depois silêncio.
+    if (!pessoa && !m.midia && !m.toque && ['menu', 'funcoes'].includes(lerPedido(m.texto, { pausado: false }).comando)) {
+      const saidas = await menuDeQuemSoTemCadastro(admin, workspaceId, numero, m.nome)
+      if (saidas) {
+        const nova = await registrar(admin, { workspaceId, direcao: 'entrada', tipo: 'bot', situacao: 'recebida', numero, userId: null, mensagemId: m.id, comando: 'menu_sem_palacio', enviadaEm: m.enviadaEm })
+        if (!nova || await noTetoDeRespostas(admin, workspaceId, numero)) return
+        for (const s of saidas) await entregar(admin, workspaceId, { numero, texto: s.texto, tipo: 'bot', userId: null, interativo: s.interativo }, { config, semFila: true })
+        return
+      }
+    }
     // O áudio com a transcrição da Kapso só interessa ao assistente (o bot de comandos não ouve).
     const transcricao = pessoa && m.midia?.categoria === 'audio' && m.transcricao ? m.transcricao : null
     // O documento com legenda pode ir ao assistente (a pasta do Drive dita com outras palavras: lib/whatsapp/drive.ts).
@@ -359,8 +419,10 @@ export async function atenderMensagem(admin: Admin, workspaceId: string, config:
     const doAssistente = (texto: string) => responder(texto, { categoria: 'assistente', semFila: true })
     // O prazo do turno do assistente: 40 s, ou menos no fim do lote da rota (que tem 300 s para tudo).
     const prazo = Math.min(Date.now() + LIMITES.prazoMs, (opcoes.prazoDoLote ?? Number.POSITIVE_INFINITY) - 20_000)
+    // Quem falou por áudio recebe a resposta também falada, se a voz da instituição estiver ligada para o WhatsApp.
+    const emAudio = doAudio ? (texto: string) => responderEmAudio({ admin, workspaceId, config, numero, userId: pessoa.id, texto, prazo }) : null
     const assistente = (extra: { escolha?: string } = {}) => responderComAssistente({
-      admin, workspaceId, pessoa, m, base, prazo, ia, aberto, responder: (texto, x) => responder(texto, x), eco: ecoDoAudio, ...extra,
+      admin, workspaceId, pessoa, m, base, prazo, ia, aberto, responder: (texto, x) => responder(texto, x), eco: ecoDoAudio, emAudio, ...extra,
     })
 
     // A resposta ao plano ou à pergunta do assistente (o código lê; o modelo nunca).
@@ -591,6 +653,11 @@ export async function atenderMensagem(admin: Admin, workspaceId: string, config:
       return
     }
 
+    if (comando === 'funcoes') {
+      await responder(textoDasFuncoes({ assistente: ia.disponivel, ...await quemNoMenu(admin, workspaceId, pessoa) }), { comando: 'funcoes' })
+      return
+    }
+
     if (comando === 'agenda') {
       await responder(await respostaDaAgenda(admin, workspaceId, pessoa, base))
       return
@@ -643,6 +710,13 @@ export async function atenderMensagem(admin: Admin, workspaceId: string, config:
       return
     }
 
+    // Agradecimento, "ok", emoji solto: não é pergunta. O bot fica quieto (responder com o menu só confunde).
+    if (comando === 'desconhecido' && !decisaoSemLista && !m.midia && !m.toque && ehCortesia(m.texto)) return
+    // Mensagem que o bot não entendeu: uma linha direta, sem despejar o menu. O menu sai só quando a pessoa pede ("menu", "oi").
+    if (comando === 'desconhecido' && !decisaoSemLista) {
+      await responder(TEXTO_NAO_ENTENDI_CURTO, { comando: 'menu' })
+      return
+    }
     // O menu sai também como lista, marcado no registro: é por essa marca que o toque nele vale como comando (citouOMenu).
     const quem = await quemNoMenu(admin, workspaceId, pessoa)
     const menu = textoDoMenu({ nome: pessoa.nome, pausado, urlBase: base, naoEntendi: comando === 'desconhecido' || decisaoSemLista, assistente: ia.disponivel, ...quem })

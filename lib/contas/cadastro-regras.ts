@@ -134,7 +134,7 @@ export function papelSugerido(setor: string | null | undefined, opcoes: { semAdm
 // ------------------------------------------------------------------ a ficha do RH
 
 /** Endereço da instituição vai para o e-mail de trabalho da ficha; o resto, para o pessoal. */
-export const DOMINIO_DA_INSTITUICAO = '@cruzvermelhariodejaneiro.org'
+export const DOMINIO_DA_INSTITUICAO = '@cruzvermelhapetropolis.org'
 
 export const campoDoEmailNaFicha = (email: string): 'email_trabalho' | 'email_pessoal' =>
   email.endsWith(DOMINIO_DA_INSTITUICAO) ? 'email_trabalho' : 'email_pessoal'

@@ -57,7 +57,7 @@ export function lerCanonico(canonico: string | null): Documento | null {
 
 const MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
-/** "Rio de Janeiro, 24 de setembro de 2026." */
+/** "Petrópolis, 24 de setembro de 2026." */
 export function localEData(local: string, data: string | null): string {
   if (!data || !/^\d{4}-\d{2}-\d{2}$/.test(data)) return local ? `${local}, (data da emissão).` : ''
   const [a, m, d] = data.split('-').map(Number)

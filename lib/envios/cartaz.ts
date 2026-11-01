@@ -11,7 +11,7 @@
 
 export const NOME_COMPLETO = 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis'
 export const DECRETO = 'Reconhecida como Utilidade Pública Internacional – Decreto nº 9.620, de 13/06/1912'
-export const SITE = 'cruzvermelhariodejaneiro.org'
+export const SITE = 'cruzvermelhapetropolis.org'
 export const VERMELHO = 'rgb(227, 34, 25)'
 
 /** Tamanhos em px. O A4 tem 794 × 1123 px a 96 dpi, exatamente 210 × 297 mm na impressão. */
@@ -103,4 +103,4 @@ export function paraAUrl(o: OpcoesDoCartaz): string {
 }
 
 /** "cartaz-story-destaque.png" — o nome do arquivo baixado. */
-export const nomeDoArquivo = (o: OpcoesDoCartaz) => `cartaz-cvb-rj-${o.formato}-${o.modelo}.png`
+export const nomeDoArquivo = (o: OpcoesDoCartaz) => `cartaz-cvb-petropolis-${o.formato}-${o.modelo}.png`

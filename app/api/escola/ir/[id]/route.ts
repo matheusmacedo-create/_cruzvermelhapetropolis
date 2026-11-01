@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 /** Sem destino (peça apagada, banco fora do ar): a home do site, nunca uma página de erro. */
 const reserva = () => {
-  try { return new URL(process.env.SITE_PUBLIC_BASE_URL ?? '').origin + '/' } catch { return 'https://cruzvermelhariodejaneiro.org/' }
+  try { return new URL(process.env.SITE_PUBLIC_BASE_URL ?? '').origin + '/' } catch { return 'https://cruzvermelhapetropolis.org/' }
 }
 
 /**

@@ -18,7 +18,7 @@ export type PropsDoCartaz = OpcoesDoCartaz & {
   qr: string
   /** A logo oficial: o caminho público na tela, data URL no PNG. */
   logo: string
-  /** "palacio.cruzvermelhariodejaneiro.org/enviar" */
+  /** "palacio.cruzvermelhapetropolis.org/enviar" */
   endereco: string
   /** As famílias de fonte: as do next/font na tela, os nomes registrados no PNG. */
   fontes: { texto: string; titulo: string }

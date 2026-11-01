@@ -50,7 +50,7 @@ export default async function CartazDaPortaria() {
         </div>
         <div className="flex h-[12mm] items-center justify-between border-t border-neutral-200 px-[16mm] text-[9.5pt] text-neutral-500">
           <span>{DADOS_DA_FILIAL.nome}</span>
-          <span>cruzvermelhariodejaneiro.org</span>
+          <span>cruzvermelhapetropolis.org</span>
         </div>
       </article>
     </div>

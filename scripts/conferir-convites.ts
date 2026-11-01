@@ -80,9 +80,9 @@ igual(totalParaOFornecedor([{ id: 'i1', quantidade: 10 }, { id: 'i2', quantidade
 
 // E-mails.
 const convite = textoDoConvite({
-  comprador: 'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro', fornecedor: 'Papelaria Centro', codigo: 'PC-2026-0001', titulo: 'Papel A4',
+  comprador: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis', fornecedor: 'Papelaria Centro', codigo: 'PC-2026-0001', titulo: 'Papel A4',
   prazo: '2026-10-01', link: 'https://palacio.exemplo/cotacao/abc', itens: [{ descricao: 'Papel A4', especificacao: '75 g/m²\nbranco', quantidade: 10, unidade: 'resma' }],
-  localEntrega: 'Praça da Cruz Vermelha, 10', necessarioAte: '2026-10-10', recado: 'Entrega em horário comercial.',
+  localEntrega: 'Rua Carlos Gomes, 6', necessarioAte: '2026-10-10', recado: 'Entrega em horário comercial.',
 })
 igual(convite.assunto, 'Pedido de proposta PC-2026-0001 — Papel A4', 'assunto do convite')
 igual(convite.corpo.includes('1. Papel A4 — 10 resma\n   75 g/m² branco'), true, 'itens com a especificação em uma linha')
@@ -94,19 +94,19 @@ igual(/estimad|valor de refer/i.test(convite.html), false, 'nenhum valor estimad
 igual(convite.html.includes('href="https://palacio.exemplo/cotacao/abc"'), true, 'botão com o link')
 igual(convite.html.includes('75 g/m²<br>branco'), true, 'especificação com quebra de linha no HTML')
 const comCnpj = textoDoConvite({
-  comprador: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '12345678000190', fornecedor: 'Loja <b>&</b> Cia', codigo: 'PC-2026-0002', titulo: 'Cadeiras <script>',
+  comprador: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis - EPP', cnpj: '12345678000190', fornecedor: 'Loja <b>&</b> Cia', codigo: 'PC-2026-0002', titulo: 'Cadeiras <script>',
   prazo: '2026-10-02', link: 'https://palacio.exemplo/cotacao/x"y', itens: [{ descricao: 'Cadeira & mesa', especificacao: null, quantidade: 2.5, unidade: 'un' }],
   localEntrega: null, necessarioAte: null,
 })
-igual(comCnpj.corpo.includes('Nota fiscal em nome de: O-CVB Filial Rio de Janeiro Ensino Ltda - EPP — CNPJ 12.345.678/0001-90'), true, 'nota fiscal com o CNPJ de quem compra')
+igual(comCnpj.corpo.includes('Nota fiscal em nome de: Cruz Vermelha Brasileira — Filial do Município de Petrópolis - EPP — CNPJ 12.345.678/0001-90'), true, 'nota fiscal com o CNPJ de quem compra')
 igual(/<script>|<b>|x"y/.test(comCnpj.html), false, 'HTML escapa nome, título e link')
 igual(comCnpj.html.includes('Cadeira &amp; mesa') && comCnpj.html.includes('>2,5<'), true, 'item escapado e quantidade com vírgula')
 igual(/A O-CVB/.test(comCnpj.corpo + comCnpj.html), false, 'sem "A O-CVB…"')
 igual(textoDoLembrete({ comprador: 'X', fornecedor: 'Y', codigo: 'PC-2026-0001', titulo: 'Papel', prazo: '2026-10-01', link: 'L' }).html.includes('amanhã, 01/10/2026 (quinta-feira)'), true, 'lembrete em HTML')
 // A assinatura das caixas é da Filial: num pedido da Escola, a linha legal sai com a razão social e o CNPJ dela.
-const assinaturaDaCaixa = '<p><font size="1">Esta mensagem é confidencial.</font></p><p><font size="1">Cruz Vermelha Brasileira do Rio de Janeiro — CNPJ: 08.560.973/0001-97<br></font></p>'
-const daEscola = assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '67.733.551/0001-35' })
-igual(daEscola.includes('O-CVB Filial Rio de Janeiro Ensino Ltda - EPP — CNPJ: 67.733.551/0001-35'), true, 'assinatura em nome da Escola')
+const assinaturaDaCaixa = '<p><font size="1">Esta mensagem é confidencial.</font></p><p><font size="1">Cruz Vermelha Brasileira de Petrópolis — CNPJ: 09.198.238/0001-48<br></font></p>'
+const daEscola = assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis - EPP', cnpj: '09.198.238/0001-48' })
+igual(daEscola.includes('Cruz Vermelha Brasileira — Filial do Município de Petrópolis - EPP — CNPJ: 09.198.238/0001-48'), true, 'assinatura em nome da Escola')
 igual(daEscola.includes('08.560.973'), false, 'nenhum CNPJ da Filial sobra na assinatura da Escola')
 igual(daEscola.includes('Esta mensagem é confidencial.'), true, 'o resto da assinatura fica igual')
 igual(assinaturaEmNomeDe(assinaturaDaCaixa, null), assinaturaDaCaixa, 'pedido da Filial: assinatura intacta')
@@ -114,12 +114,12 @@ igual(assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'A <b>', cnpj: '1' }).includ
 
 if (process.argv[2]) {
   const exemplo = textoDoConvite({
-    comprador: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '67733551000135', fornecedor: 'Matheus Macedo', codigo: 'PC-2026-0001', titulo: 'Material para o curso de Primeiros Socorros',
-    prazo: '2026-10-02', link: 'https://palacio.cruzvermelhariodejaneiro.org/cotacao/C0_exemplo', recado: 'Por favor, informe se há pronta entrega.',
+    comprador: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis - EPP', cnpj: '67733551000135', fornecedor: 'Matheus Macedo', codigo: 'PC-2026-0001', titulo: 'Material para o curso de Primeiros Socorros',
+    prazo: '2026-10-02', link: 'https://palacio.cruzvermelhapetropolis.org/cotacao/C0_exemplo', recado: 'Por favor, informe se há pronta entrega.',
     itens: [{ descricao: 'Manequim de RCP adulto', especificacao: 'Com indicador de compressão', quantidade: 2, unidade: 'un' }, { descricao: 'Luva de procedimento M', especificacao: 'Caixa com 100', quantidade: 10, unidade: 'cx' }],
-    localEntrega: 'Praça da Cruz Vermelha, 10 — Centro, Rio de Janeiro/RJ', necessarioAte: '2026-10-15',
+    localEntrega: 'Rua Carlos Gomes, 6 — Centro, Petrópolis/RJ', necessarioAte: '2026-10-15',
   })
-  writeFileSync(process.argv[2], `<!doctype html><meta charset="utf-8"><body style="margin:24px;background:#fff">${corpoHtmlComAssinatura(exemplo.html, exemplo.corpo, assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'O-CVB Filial Rio de Janeiro Ensino Ltda - EPP', cnpj: '67.733.551/0001-35' })).html}</body>`)
+  writeFileSync(process.argv[2], `<!doctype html><meta charset="utf-8"><body style="margin:24px;background:#fff">${corpoHtmlComAssinatura(exemplo.html, exemplo.corpo, assinaturaEmNomeDe(assinaturaDaCaixa, { nome: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis - EPP', cnpj: '09.198.238/0001-48' })).html}</body>`)
 }
 igual(textoDoLembrete({ comprador: 'X', fornecedor: 'Y', codigo: 'PC-2026-0001', titulo: 'Papel', prazo: '2026-10-01', link: 'L' }).assunto, 'Lembrete: proposta PC-2026-0001 até 01/10/2026', 'assunto do lembrete')
 

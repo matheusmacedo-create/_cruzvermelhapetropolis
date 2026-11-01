@@ -21,7 +21,7 @@ conferir('nome da ação cortado em 60', lerOpcoes({ acao: 'x'.repeat(80) }).aca
 conferir('URL sem o que é padrão', paraAUrl(padrao) === '' && paraAUrl({ ...padrao, formato: 'story', acao: 'Maré & Cia' }) === '?formato=story&acao=Mar%C3%A9+%26+Cia')
 const ida = { formato: 'quadrado', modelo: 'faixa', chamada: 'voluntario', acao: 'Campanha do Agasalho' } as const
 conferir('ida e volta pela URL', JSON.stringify(lerOpcoes(new URLSearchParams(paraAUrl(ida).slice(1)))) === JSON.stringify(ida))
-conferir('nome do arquivo', nomeDoArquivo(ida) === 'cartaz-cvb-rj-quadrado-faixa.png')
+conferir('nome do arquivo', nomeDoArquivo(ida) === 'cartaz-cvb-petropolis-quadrado-faixa.png')
 conferir('A4 em 210 × 297 mm a 96 dpi', Math.round(FORMATOS.a4.largura / 96 * 25.4) === 210 && Math.round(FORMATOS.a4.altura / 96 * 25.4) === 297)
 conferir('toda chamada cita a Cruz Vermelha Brasileira ou a Comunicação', Object.values(CHAMADAS).every((c) => /Cruz Vermelha Brasileira|Comunicação/.test(c.titulo.join(' ') + c.texto)))
 

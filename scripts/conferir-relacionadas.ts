@@ -12,7 +12,7 @@ import { radicais, relacionadasPorTema, type CandidataARelacionada } from '../li
 let falhas = 0
 const ok = (cond: boolean, msg: string) => { if (!cond) { falhas++; console.error('✗', msg) } else console.log('✓', msg) }
 
-const B = 'https://cruzvermelhariodejaneiro.org/noticias'
+const B = 'https://cruzvermelhapetropolis.org/noticias'
 let dia = 0
 const m = (slug: string, titulo: string, descricao = ''): CandidataARelacionada =>
   ({ titulo, descricao, url: `${B}/${slug}/`, publicadaEm: new Date(Date.UTC(2026, 8, 24 + dia++)) })
@@ -23,11 +23,11 @@ const noAr = [
   m('curso-de-primeiros-socorros-basico', 'Curso de Primeiros Socorros Básico: os primeiros minutos'),
   m('curso-lei-lucas', 'Lei Lucas: o que exige das escolas e como capacitar a equipe'),
   m('sinais-de-avc', 'Sinais de AVC: como reconhecer e quando ligar para o 192'),
-  m('alerta-defesa-civil', 'Alerta da Defesa Civil no celular: como funciona no Rio'),
+  m('alerta-defesa-civil', 'Alerta da Defesa Civil no celular: como funciona em Petrópolis'),
   m('cicv', 'CICV: o que é o Comitê Internacional da Cruz Vermelha'),
   m('lei-do-voluntariado', 'Lei do voluntariado: o que diz a Lei 9.608/1998'),
   m('sinais-de-infarto', 'Sinais de infarto: o que não ignorar e quando ligar 192'),
-  m('sms-40199', 'SMS 40199: como receber alertas da Defesa Civil no Rio'),
+  m('sms-40199', 'SMS 40199: como receber alertas da Defesa Civil em Petrópolis'),
   m('henry-dunant', 'Henry Dunant: quem foi o fundador da Cruz Vermelha'),
   m('termo-de-adesao', 'Termo de adesão voluntário: o que é e o que deve ter'),
   m('homologacao-bombeiro-civil', 'Homologação de bombeiro civil no CBMERJ: como funciona'),

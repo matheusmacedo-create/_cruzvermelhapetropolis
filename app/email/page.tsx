@@ -12,7 +12,7 @@ export const metadata = { title: 'E-mail dos setores' }
 export const dynamic = 'force-dynamic'
 
 /**
- * O app de e-mail (/email; email.cruzvermelhariodejaneiro.org abre aqui): a
+ * O app de e-mail (/email; email.cruzvermelhapetropolis.org abre aqui): a
  * mesma caixa do Palácio (/correio), para quem ainda não usa o Palácio. As
  * caixas vêm de lib/email-provisorio/sessao.ts; a leitura, o envio e as
  * conferências de cada conversa são as mesmas do Palácio.

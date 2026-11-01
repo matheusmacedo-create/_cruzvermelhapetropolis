@@ -1,7 +1,7 @@
 import {
   Archive, AtSign, BadgeCheck, Bell, CircleHelp, Fingerprint, GraduationCap, Landmark, Megaphone, ShieldCheck, Wallet, Package, CalendarDays, ChartColumn, FileSignature, FolderKanban, HeartHandshake, History, House, IdCard, Images, Inbox,
   KeyRound, LifeBuoy, ListChecks, Mail, MessageCircleHeart, MessagesSquare, Newspaper, PiggyBank, PlugZap, Radar, ScrollText, Send, Settings, SquareCheckBig, Upload, UserRound, Contact,
-  ReceiptText, ShoppingCart, DoorOpen, BookOpen, Smartphone, ClockCheck, Waypoints, type LucideIcon,
+  ReceiptText, ShoppingCart, DoorOpen, BookOpen, Smartphone, AudioLines, ClockCheck, Waypoints, type LucideIcon,
 } from 'lucide-react'
 import type { Permissao } from './permissoes'
 
@@ -91,7 +91,7 @@ export const GRUPOS: Grupo[] = [
     rotulo: 'Redação',
     areas: [
       // Antes de Pautas porque é de onde elas podem nascer. O Cérebro recomenda; não publica.
-      { href: '/cerebro', rotulo: 'Radar de pautas', resumo: 'Sugestões do Cérebro a partir das contas oficiais do Rio', icone: Radar, termos: ['cérebro', 'cerebro', 'sugestões', 'ia'] },
+      { href: '/cerebro', rotulo: 'Radar de pautas', resumo: 'Sugestões do Cérebro a partir das contas oficiais de Petrópolis', icone: Radar, termos: ['cérebro', 'cerebro', 'sugestões', 'ia'] },
       { href: '/pautas', rotulo: 'Pautas', resumo: 'O quadro editorial, da entrada ao pronto', icone: ListChecks, termos: ['quadro', 'kanban', 'matérias'] },
       { href: '/projetos', rotulo: 'Projetos', resumo: 'Campanhas, eventos e iniciativas com começo, meio e fim', icone: FolderKanban, termos: ['campanhas', 'eventos', 'iniciativas'] },
       { href: '/redes', rotulo: 'Publicações', resumo: 'Monte o pacote e publique nas redes, no site e na newsletter', icone: Send, termos: ['redes sociais', 'instagram', 'facebook', 'post', 'pacote'] },
@@ -109,7 +109,7 @@ export const GRUPOS: Grupo[] = [
       { href: '/biblioteca', rotulo: 'Biblioteca de mídia', resumo: 'Fotos, vídeos e documentos, com direito de uso', icone: Images, termos: ['biblioteca', 'arquivos', 'fotos', 'vídeos', 'imagens'] },
       // O que a equipe manda pelo link vira material: mora ao lado da Biblioteca (antes ficava entre as conversas).
       { href: '/envios', rotulo: 'Envios da equipe', resumo: 'Ações que a equipe mandou pelo link: fotos, vídeos, áudios e relatos', icone: Upload, termos: ['envios', 'mandar ação', 'fotos da equipe', 'relatos', 'link de envio', 'álbum'], soPara: 'avaliadorDeEnvios' },
-      { href: '/acervo', rotulo: 'Acervo', resumo: 'A memória da filial no R2, e o que vai para cruzvermelhariodejaneiro.org/acervo', icone: Archive, termos: ['acervo', 'memória', 'história', 'documentos', 'fotos antigas', 'arquivo', 'r2'], permissao: 'acervo.ver' },
+      { href: '/acervo', rotulo: 'Acervo', resumo: 'A memória da filial no R2, e o que vai para cruzvermelhapetropolis.org/acervo', icone: Archive, termos: ['acervo', 'memória', 'história', 'documentos', 'fotos antigas', 'arquivo', 'r2'], permissao: 'acervo.ver' },
     ],
   },
   {
@@ -184,6 +184,7 @@ export const ADMINISTRACAO: Grupo = {
     { href: '/configuracoes', rotulo: 'Configurações', resumo: 'Sua conta, os ajustes de cada área, e-mail dos setores, integrações e site', icone: Settings, termos: ['integrações', 'preferências', 'e-mail dos setores', 'chaves', 'site', 'redes sociais'] },
     // Uma seção das Configurações (o submenu delas mostra); a linha existe para a busca e a ajuda acharem.
     { href: '/configuracoes/whatsapp', rotulo: 'WhatsApp', resumo: 'O número do Palácio no WhatsApp (Kapso): conexão, avisos e bot', icone: Smartphone, termos: ['whatsapp', 'zap', 'kapso', 'bot', 'celular'], permissao: 'integracoes.configurar', dentroDe: '/configuracoes' },
+    { href: '/configuracoes/voz', rotulo: 'Voz da instituição', resumo: 'A voz da ElevenLabs que narra as matérias do site e responde em áudio no WhatsApp', icone: AudioLines, termos: ['voz', 'áudio', 'audio', 'elevenlabs', 'narração', 'ouvir matéria', 'locução', 'podcast'], permissao: 'integracoes.configurar', dentroDe: '/configuracoes' },
     { href: '/perfil', rotulo: 'Meu perfil', resumo: 'Foto, dados, senha e segurança da sua conta', icone: UserRound, termos: ['perfil', 'conta', 'senha', 'foto'] },
     // A Central de ajuda (lib/ajuda). O botão "?" do topo abre a ajuda da tela; aqui fica tudo junto.
     { href: '/ajuda', rotulo: 'Ajuda', resumo: 'Tutoriais, passo a passo e perguntas frequentes de cada área', icone: CircleHelp, termos: ['faq', 'tutorial', 'como usar', 'dúvidas', 'manual', 'onboarding', 'suporte'] },

@@ -15,8 +15,8 @@ type Linha = { chave: string; tipo: TipoDeCanal; rotulo: string; valor: string; 
 
 /** O que a pessoa costuma digitar em cada tipo — só de exemplo, no placeholder. */
 const EXEMPLO: Record<TipoDeCanal, { valor: string; url: string }> = {
-  site: { valor: 'cruzvermelhariodejaneiro.org', url: 'https://cruzvermelhariodejaneiro.org/' },
-  email: { valor: 'nome@cruzvermelhariodejaneiro.org', url: 'sem link' },
+  site: { valor: 'cruzvermelhapetropolis.org', url: 'https://cruzvermelhapetropolis.org/' },
+  email: { valor: 'nome@cruzvermelhapetropolis.org', url: 'sem link' },
   telefone: { valor: '(21) 0000-0000', url: 'sem link' },
   whatsapp: { valor: '(21) 90000-0000', url: 'https://wa.me/5521900000000' },
   instagram: { valor: '@perfil', url: 'https://www.instagram.com/perfil' },

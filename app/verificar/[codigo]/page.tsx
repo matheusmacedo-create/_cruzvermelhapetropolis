@@ -128,7 +128,7 @@ export default async function VerificarOficio({ params }: { params: Promise<{ co
               <p className="flex items-start gap-2 text-red-800"><AlertTriangle className="mt-0.5 size-4 shrink-0" />O selo não confere com este ofício. Não confie neste documento e fale com a filial.</p>
             )}
             {conferenciaDoSelo.chaveAtual === false && <p className="text-neutral-700">A chave deste selo não é mais a atual da filial (houve troca de chave depois). O selo continua valendo para a data em que foi feito.</p>}
-            <p className="text-neutral-700">O registro no Bitcoin, abaixo, prova <em>quando</em> estas assinaturas existiam; o selo prova <em>quem</em> emitiu: só a filial tem a chave que o assina. A impressão digital da chave é a mesma publicada em <span className="font-mono">cruzvermelhariodejaneiro.org/verificar/chave-publica.pem</span>.</p>
+            <p className="text-neutral-700">O registro no Bitcoin, abaixo, prova <em>quando</em> estas assinaturas existiam; o selo prova <em>quem</em> emitiu: só a filial tem a chave que o assina. A impressão digital da chave é a mesma publicada em <span className="font-mono">cruzvermelhapetropolis.org/verificar/chave-publica.pem</span>.</p>
             <div className="flex flex-wrap gap-2">
               <a href={`/api/verificar/${codigo}/selo?arquivo=txt`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Texto selado (.txt)</a>
               <a href={`/api/verificar/${codigo}/selo?arquivo=sig`} className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 px-3 py-1.5 font-medium hover:bg-neutral-50"><Download className="size-4" />Assinatura (.sig)</a>

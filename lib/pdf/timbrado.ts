@@ -32,7 +32,7 @@ export const TIMBRADO = {
 // Onde a cruz está dentro de public/images/logo-cvb-petropolis.png (1844 × 752 px): começa a 83 px da esquerda,
 // vai de 102 a 573 px na altura. A logo embutida do ofício (922 × 376) é a mesma imagem, reduzida.
 const CRUZ = { x: 83 / 1844, topo: 102 / 752, altura: 471 / 752 }
-/** Onde acaba o desenho da logo (o pé de "RIO DE JANEIRO"). */
+/** Onde acaba o desenho da logo (o pé de "PETRÓPOLIS"). */
 const FIM_DO_DESENHO = 645 / 752
 const PROPORCAO = 1844 / 752
 

@@ -25,7 +25,7 @@ export const TIPOS_DE_CONTATO = {
 export type TipoDeContato = keyof typeof TIPOS_DE_CONTATO
 
 export const CANAIS = {
-  email: { rotulo: 'E-mail', exemplo: 'nome@cruzvermelhariodejaneiro.org' },
+  email: { rotulo: 'E-mail', exemplo: 'nome@cruzvermelhapetropolis.org' },
   telefone: { rotulo: 'Telefone', exemplo: '(21) 2222-3333' },
   whatsapp: { rotulo: 'WhatsApp', exemplo: '(21) 99999-8888' },
   ramal: { rotulo: 'Ramal', exemplo: '215' },

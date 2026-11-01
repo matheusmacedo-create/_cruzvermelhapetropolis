@@ -33,7 +33,7 @@ export default async function Comprovante({ params, searchParams }: { params: Pr
     return (
       <Moldura>
         <CabecalhoDaPagina titulo="Comprovante não encontrado" />
-        <Recado tipo="aviso">Confira o link completo do comprovante. Se o perdeu, fale com a filial pelo e-mail contato@cruzvermelhariodejaneiro.org e informe o código.</Recado>
+        <Recado tipo="aviso">Confira o link completo do comprovante. Se o perdeu, fale com a filial pelo e-mail contato@cruzvermelhapetropolis.org e informe o código.</Recado>
       </Moldura>
     )
   }

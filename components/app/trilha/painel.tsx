@@ -57,7 +57,7 @@ function Avisos({ chave, aberta }: { chave: SituacaoDaChave; aberta: boolean }) 
           <p className="mt-0.5 text-muted-foreground">
             {aberta
               ? 'AUDITORIA_ABERTA está ligada: as páginas de transparência e de canais oficiais já saem sem noindex. Os outros passos da abertura (a página /verificar/ do site, o menu, o selo nas matérias) estão no checklist de docs/auditoria-publica.md §9.'
-              : 'A página pública de conferência (cruzvermelhariodejaneiro.org/verificar/) fica sem link no site, fora dos buscadores e fora do mapa do site até a abertura. Os links “Conferir” desta tela servem para testar; não divulgue antes da abertura (docs/auditoria-publica.md §9).'}
+              : 'A página pública de conferência (cruzvermelhapetropolis.org/verificar/) fica sem link no site, fora dos buscadores e fora do mapa do site até a abertura. Os links “Conferir” desta tela servem para testar; não divulgue antes da abertura (docs/auditoria-publica.md §9).'}
           </p>
         </div>
       </Card>

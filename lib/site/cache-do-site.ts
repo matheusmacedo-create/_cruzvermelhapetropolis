@@ -73,15 +73,15 @@ export function htaccessDasNoticias(lista: { de: string; para: string }[] = REDI
 # Matérias aposentadas: 301 para a página que ficou (REDIRECIONAMENTOS_DAS_NOTICIAS).
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteCond %{HTTP_HOST} ^www\\.cruzvermelhariodejaneiro\\.org$ [NC]
-  RewriteRule ^(.*)$ https://cruzvermelhariodejaneiro.org/noticias/$1 [R=301,L]
+  RewriteCond %{HTTP_HOST} ^www\\.cruzvermelhapetropolis\\.org$ [NC]
+  RewriteRule ^(.*)$ https://cruzvermelhapetropolis.org/noticias/$1 [R=301,L]
   RewriteCond %{THE_REQUEST} \\s/+noticias/(.*/)?index\\.html[\\s?] [NC]
   RewriteRule ^(.*/)?index\\.html$ /noticias/$1 [R=301,L]
 ${regras.map((r) => `  ${r}`).join('\n')}
 </IfModule>
 `
     : ''
-  return `# Gerado pelo Palácio Virtual — cruzvermelhariodejaneiro.org
+  return `# Gerado pelo Palácio Virtual — cruzvermelhapetropolis.org
 # HTML sempre revalidado (o navegador confere o ETag antes de usar);
 # mídia com cache de uma semana.
 <IfModule mod_headers.c>

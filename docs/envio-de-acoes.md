@@ -33,7 +33,7 @@ para "novo" e avisa quem avalia.
 
 **"Criar matéria e posts"** cria a pauta (tipo Ação), a peça "Matéria editorial" ligada a ela e o
 pacote multicanal com o relato e a transcrição como rascunho. Também copia **para a Biblioteca só
-os arquivos marcados**, em fluxo, até 300 MB cada e dentro da cota de 1 GB, com o crédito "Nome/CVB-RJ".
+os arquivos marcados**, em fluxo, até 300 MB cada e dentro da cota de 1 GB, com o crédito "Nome/CVB Petrópolis".
 A autorização vai para a Biblioteca como `authorized` se a pessoa declarou "todos autorizaram" ou
 "não aparece ninguém de frente"; caso contrário, fica `pending`. "Só criar a pauta" não copia nada.
 
@@ -118,7 +118,7 @@ precisa copiar à mão, que é justamente o trabalho que a Redação existe para
 
 ## 3. Recomendação: "Mandar uma ação", dentro da Redação
 
-Um link público próprio, **`palacio.cruzvermelhariodejaneiro.org/enviar`** (antes `redacao.`, que redireciona), com QR code para
+Um link público próprio, **`palacio.cruzvermelhapetropolis.org/enviar`** (antes `redacao.`, que redireciona), com QR code para
 imprimir, que junta o melhor do benchmark e aproveita o que a Redação já tem:
 
 | Peça que já existe | Como entra aqui |

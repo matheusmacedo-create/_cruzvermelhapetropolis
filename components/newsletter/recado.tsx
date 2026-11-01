@@ -11,7 +11,7 @@ import { BrandMark } from '@/components/app/brand-mark'
  * é dizer a ele que se perdeu.
  */
 
-const SITE = 'https://cruzvermelhariodejaneiro.org'
+const SITE = 'https://cruzvermelhapetropolis.org'
 
 const ICONES = {
   confirmado: CheckCircle2,
@@ -56,7 +56,7 @@ export function Recado({
 
         <p className="mt-10 border-t border-border pt-6 text-sm text-muted-foreground">
           <Link href={SITE} className="font-semibold text-primary hover:underline">
-            Voltar para cruzvermelhariodejaneiro.org
+            Voltar para cruzvermelhapetropolis.org
           </Link>
         </p>
       </div>

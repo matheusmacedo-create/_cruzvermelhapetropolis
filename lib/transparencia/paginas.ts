@@ -371,7 +371,7 @@ export function paginaDaTransparencia(p: { documentos: DocumentoNoPortal[]; parc
         <section class="pt-grupo" id="financiamento" aria-labelledby="pt-financiamento">
           <h2 id="pt-financiamento">Como a filial se financia</h2>
           <p>A Filial é uma associação sem fins lucrativos.</p>
-          <p><a href="/quem-somos/#como-nos-financiamos">Conheça as fontes de financiamento e a relação com a escola</a>.
+          <p><a href="/quem-somos/#como-nos-financiamos">Conheça as fontes de financiamento</a>.
           Para solicitar demonstrações contábeis ou outros documentos que não estejam publicados aqui, faça um
           <a href="/pedido-de-documentos/">pedido de documentos</a>.</p>
           <a class="pt-botao" href="/doe/">Doe para a Filial</a>
@@ -392,7 +392,7 @@ export function paginaDaTransparencia(p: { documentos: DocumentoNoPortal[]; parc
           <section class="pt-cartao" aria-labelledby="pt-filial">
             <h2 id="pt-filial">Quem publica</h2>
             <p><strong>${escapar(f.nome)}</strong></p>
-            <p>Filial estadual da Cruz Vermelha Brasileira, cujo estatuto foi aprovado pelo Decreto nº 8.885/2016.</p>
+            <p>Filial municipal da Cruz Vermelha Brasileira, cujo estatuto foi aprovado pelo Decreto nº 8.885/2016.</p>
             <p>CNPJ ${escapar(f.cnpj)} · ${escapar(f.endereco)}</p>
             <p>E-mail: <a href="mailto:${escapar(f.email)}">${escapar(f.email)}</a></p>
           </section>
@@ -459,7 +459,7 @@ export function paginaDosCanais(p: {
 
 /** .htaccess das pastas do portal: HTML sempre revalidado e, até a abertura, fora dos buscadores (inclusive os PDFs). */
 export function htaccessDoPortal(indexar: boolean = portalAberto()): string {
-  return `# Gerado pelo Palácio Virtual — cruzvermelhariodejaneiro.org
+  return `# Gerado pelo Palácio Virtual — cruzvermelhapetropolis.org
 # HTML sempre revalidado.${indexar ? '' : '\n# Lançamento oculto: fora dos buscadores até a abertura (docs/auditoria-publica.md, §9).'}
 <IfModule mod_headers.c>
   <FilesMatch "\\.html$">

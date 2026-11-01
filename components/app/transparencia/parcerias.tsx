@@ -389,7 +389,7 @@ function FichaDaParceria({ parceria, onFechar, onSalvo }: {
         <fieldset className={`${grupo} sm:grid-cols-[minmax(0,1fr)_13rem]`}>
           <legend className={legenda}>Órgão e objeto</legend>
           <Campo rotulo="Órgão ou entidade da administração pública">
-            {(p) => <input {...p} name="orgao" required minLength={3} maxLength={200} defaultValue={parceria?.orgao ?? ''} placeholder="Ex.: Secretaria Municipal de Saúde do Rio de Janeiro" className={inputClass} />}
+            {(p) => <input {...p} name="orgao" required minLength={3} maxLength={200} defaultValue={parceria?.orgao ?? ''} placeholder="Ex.: Secretaria Municipal de Saúde de Petrópolis" className={inputClass} />}
           </Campo>
           <Campo rotulo="CNPJ do órgão" opcional>
             {(p) => <input {...p} name="orgao_cnpj" inputMode="numeric" maxLength={18} defaultValue={parceria?.orgaoCnpj ? formatarCnpj(parceria.orgaoCnpj) : ''} placeholder="00.000.000/0000-00" className={inputClass} />}

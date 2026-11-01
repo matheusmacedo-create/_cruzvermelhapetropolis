@@ -19,7 +19,7 @@ export const reddit: Adapter = {
   ],
   camposExtras: [
     { chave: 'subreddit', rotulo: 'Subreddit', tipo: 'texto', max: 50,
-      dica: 'Sem o "r/". Ex.: riodejaneiro. Obrigatório — é para onde o post vai.' },
+      dica: 'Sem o "r/". Ex.: petropolis. Obrigatório — é para onde o post vai.' },
     { chave: 'redditTitulo', rotulo: 'Título do post', tipo: 'texto', max: 300,
       dica: 'Obrigatório. No Reddit o título é o que aparece na lista; o texto acima é o corpo.' },
     { chave: 'redditFlairId', rotulo: 'Flair (ID)', tipo: 'texto',

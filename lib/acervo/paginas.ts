@@ -4,7 +4,7 @@ import { COLECAO, COLECOES, DIREITO, dataIso, dataLegivel, tipoDoArquivo, type C
 import { ENDERECO_DO_PALACIO } from '../dominio'
 
 /**
- * As páginas públicas do acervo em cruzvermelhariodejaneiro.org/acervo/ (docs/acervo.md):
+ * As páginas públicas do acervo em cruzvermelhapetropolis.org/acervo/ (docs/acervo.md):
  *
  *   /acervo/                         início: o que é, as coleções, o que chegou, como contribuir
  *   /acervo/<coleção>/               a coleção, 24 itens por página (/pagina/2/, /pagina/3/…)
@@ -19,12 +19,12 @@ import { ENDERECO_DO_PALACIO } from '../dominio'
  * liga: existe só para quem tiver o endereço.
  */
 
-export const ORIGEM_DO_ACERVO = 'https://cruzvermelhariodejaneiro.org'
+export const ORIGEM_DO_ACERVO = 'https://cruzvermelhapetropolis.org'
 export const POR_PAGINA = 24
 export const IMAGEM_PADRAO = { url: `${ORIGEM_DO_ACERVO}/assets/otim/og-acervo.jpg`, largura: 1200, altura: 630, alt: 'Acervo da Cruz Vermelha Brasileira Petrópolis' }
 export const ENDERECO_DA_EQUIPE = `${ENDERECO_DO_PALACIO}/acervo`
 const NOME_DA_FILIAL = 'Cruz Vermelha Brasileira Petrópolis'
-const EMAIL = 'contato@cruzvermelhariodejaneiro.org'
+const EMAIL = 'contato@cruzvermelhapetropolis.org'
 
 export type ArquivosNoSite = {
   /** Versões WebP da imagem, da menor para a maior. */

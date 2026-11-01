@@ -280,7 +280,7 @@ function FormularioDaHome({ podeLigar, executar, processando }: {
             {estado === null
               ? 'Conferindo se o formulário da home aponta para cá…'
               : ligado
-                ? 'A home de cruzvermelhariodejaneiro.org envia as inscrições para cá.'
+                ? 'A home de cruzvermelhapetropolis.org envia as inscrições para cá.'
                 : estado === 'restrito'
                   ? 'A situação do formulário é visível para administradores.'
                   : estado === 'sem-resposta'

@@ -17,7 +17,7 @@ const VERMELHO = '#cc0000'
 const TINTA = '#1a202c'
 const SUAVE = '#718096'
 const LINHA = '#e2e8f0'
-const LOGO = 'https://cruzvermelhariodejaneiro.org/assets/logo-cvb-rj.png'
+const LOGO = 'https://cruzvermelhapetropolis.org/assets/logo-cvb-petropolis.png'
 
 export type EmailPronto = { assunto: string; html: string; texto: string }
 

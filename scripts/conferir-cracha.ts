@@ -56,16 +56,16 @@ async function exemplos(pasta: string) {
   if (!logo) { falhas++; console.log('FALHOU: logo oficial não foi lida do disco') }
   writeFileSync(join(pasta, 'cracha-exemplo.pdf'), await gerarPdfDoCracha({
     origem: 'voluntario', nomeDeDestaque: 'Maria Neves', nomeCompleto: 'Maria Eduarda da Silva Neves', funcao: 'Socorrista', setor: 'Gestão de Riscos e Desastres',
-    faixa: faixaDoVinculo('voluntario'), cpf: '***.456.789-**', desde: '03/2024', fatorRh: 'O POSITIVO', urlDeVerificacao: `https://palacio.cruzvermelhariodejaneiro.org/cracha/${codigo}`,
+    faixa: faixaDoVinculo('voluntario'), cpf: '***.456.789-**', desde: '03/2024', fatorRh: 'O POSITIVO', urlDeVerificacao: `https://palacio.cruzvermelhapetropolis.org/cracha/${codigo}`,
     foto: null, logo,
   }))
   writeFileSync(join(pasta, 'certificado-exemplo.pdf'), await gerarPdfDoCertificado({
     nome: 'Maria Eduarda da Silva Neves', curso: 'Primeiros Socorros para Voluntários', cargaHoraria: 20, nota: 92, emitidoEm: '2026-09-27T15:00:00Z',
-    validoAte: '2028-09-27', codigo: 'ABCD-2345', urlDeVerificacao: 'https://palacio.cruzvermelhariodejaneiro.org/certificado/ABCD-2345', logo,
+    validoAte: '2028-09-27', codigo: 'ABCD-2345', urlDeVerificacao: 'https://palacio.cruzvermelhapetropolis.org/certificado/ABCD-2345', logo,
   }))
   writeFileSync(join(pasta, 'diploma-exemplo.pdf'), await gerarPdfDoDiploma({
     nome: 'Maria Eduarda da Silva Neves', motivo: 'horas', marcoHoras: 500, texto: null, emitidoEm: '2026-09-27T15:00:00Z',
-    codigo: 'WXYZ-6789', urlDeVerificacao: 'https://palacio.cruzvermelhariodejaneiro.org/diploma/WXYZ-6789', logo,
+    codigo: 'WXYZ-6789', urlDeVerificacao: 'https://palacio.cruzvermelhapetropolis.org/diploma/WXYZ-6789', logo,
   }))
   console.log(`Exemplos gravados em ${pasta}`)
 }

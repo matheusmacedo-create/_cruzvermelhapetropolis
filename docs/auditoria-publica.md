@@ -12,7 +12,7 @@ e testado. Mudança de contrato muda este arquivo no mesmo commit.
    backup da §8 e o `seq` fora do hash existem para isso).
 2. **Escopo da v1:** comunicados e matérias; ofícios e certificados; página de canais oficiais;
    portal de transparência.
-3. **Endereço público:** `https://cruzvermelhariodejaneiro.org/verificar/` (página no site principal,
+3. **Endereço público:** `https://cruzvermelhapetropolis.org/verificar/` (página no site principal,
    que consulta a Redação por trás).
 4. **Lançamento oculto:** fazer tudo, mas **nada visível para o público ainda**: nenhum link na home,
    no menu, no rodapé ou em matéria; páginas com `noindex`; nada no sitemap. A abertura é uma
@@ -141,7 +141,7 @@ fora da trilha) e **`auditoria.falhas`** (o que um gancho não conseguiu registr
   fluxo, separadas por `\n`.
 - **Compromisso:** `sha256(raiz || cabecas || anterior)` (bytes; o primeiro lote usa 32 bytes zero).
 - **Manifesto** (texto exato, é o que se assina e se carimba):
-  `{"anterior":"…","cabecas":"…","compromisso":"…","dia":"AAAA-MM-DD","origem":"cruzvermelhariodejaneiro.org","raiz":"…","versao":1}`
+  `{"anterior":"…","cabecas":"…","compromisso":"…","dia":"AAAA-MM-DD","origem":"cruzvermelhapetropolis.org","raiz":"…","versao":1}`
 - **Assinatura:** Ed25519 sobre os bytes do manifesto; `chave_id` = 16 primeiros hex do SHA-256 da
   chave pública bruta.
 - **RFC 3161:** `messageImprint` = SHA-256 do manifesto (confere com `openssl ts -verify -data
@@ -296,7 +296,7 @@ Migração `20260925203100_cvrj_transparencia.sql`:
   SHA-256 e código de verificação. Enquanto `AUDITORIA_ABERTA` não for `1`: `noindex` na página e
   `X-Robots-Tag` no `.htaccess` da pasta (vale também para os PDFs), fora do sitemap e sem link.
 
-## 6. Site principal (repositório `cruzvermelhariodejaneiro`)
+## 6. Site principal (pasta `pagina/`)
 
 `site/verificar/index.html` (gerado por `scripts/gerar_verificar.py`), com `noindex` na meta e em
 `site/verificar/.htaccess` (`X-Robots-Tag` na pasta inteira, lotes incluídos), fora do sitemap, sem

@@ -73,19 +73,19 @@ const lote = {
     ]),
     rel(['date'], ['activeUsers', 'screenPageViews'], [['20260301', 20, 50], ['20260227', 10, 20]]),
     rel(['sessionDefaultChannelGroup'], ['sessions'], [['Organic Social', 90], ['Direct', 30], ['Canal Novo', 10]]),
-    rel(['pagePath', 'pageTitle'], ['screenPageViews', 'activeUsers'], [['/', 'Cruz Vermelha Brasileira – RJ', 120, 70], ['/noticias/campanha-do-agasalho/', 'Campanha do agasalho | Cruz Vermelha Brasileira – RJ', 60, 40]]),
+    rel(['pagePath', 'pageTitle'], ['screenPageViews', 'activeUsers'], [['/', 'Cruz Vermelha Brasileira – Petrópolis', 120, 70], ['/noticias/campanha-do-agasalho/', 'Campanha do agasalho | Cruz Vermelha Brasileira – Petrópolis', 60, 40]]),
     rel(['deviceCategory'], ['activeUsers'], [['mobile', 75], ['desktop', 25]]),
   ],
 }
-const cidades = rel(['city'], ['activeUsers'], [['Rio de Janeiro', 60], ['(not set)', 9], ['Niterói', 12]])
+const cidades = rel(['city'], ['activeUsers'], [['Petrópolis', 60], ['(not set)', 9], ['Niterói', 12]])
 const dados = lerDadosDoSite(7, lote, cidades, '2026-03-02')
 confere('totais do período atual (pela dimensão dateRange)', dados.atual, { pessoas: 100, visitas: 130, paginas: 300, engajamentoPorPessoa: 83, visitasEngajadas: 78 })
 confere('totais do período anterior', dados.anterior.pessoas, 80)
 confere('série com um ponto por dia, zero nos dias sem visita', dados.serie.map((p) => p.pessoas), [0, 0, 0, 0, 10, 0, 20])
 confere('canais em português, com fatia', dados.canais.map((c) => [c.nome, Math.round(c.fatia * 100)]), [['Redes sociais', 69], ['Direto (digitou ou favorito)', 23], ['Canal Novo', 8]])
-confere('títulos sem o nome do site', dados.paginas.map((p) => p.titulo), ['Cruz Vermelha Brasileira – RJ', 'Campanha do agasalho'])
+confere('títulos sem o nome do site', dados.paginas.map((p) => p.titulo), ['Cruz Vermelha Brasileira – Petrópolis', 'Campanha do agasalho'])
 confere('aparelhos em português', dados.dispositivos.map((d) => d.nome), ['Celular', 'Computador'])
-confere('cidades sem "(not set)"', dados.cidades.map((c) => c.nome), ['Rio de Janeiro', 'Niterói'])
+confere('cidades sem "(not set)"', dados.cidades.map((c) => c.nome), ['Petrópolis', 'Niterói'])
 confere('relatório vazio não quebra', lerDadosDoSite(28, {}, undefined, '2026-03-02').serie.length, 28)
 
 // Formatação
@@ -94,13 +94,13 @@ confere('variação sem base', variacao(10, 0), null)
 confere('duração 83 s', duracaoLegivel(83), '1 min 23 s')
 confere('duração 45 s', duracaoLegivel(45), '45 s')
 confere('duração 2 min', duracaoLegivel(120), '2 min')
-confere('limpa título com hífen', limparTitulo('Doe sangue - Cruz Vermelha RJ'), 'Doe sangue')
+confere('limpa título com hífen', limparTitulo('Doe sangue - Cruz Vermelha Petrópolis'), 'Doe sangue')
 confere('título "(not set)" vira vazio', limparTitulo('(not set)'), '')
 
 // Casar o caminho do GA com o site_url das matérias
-confere('site_url completo', caminhoDaPagina('https://cruzvermelhariodejaneiro.org/noticias/campanha-do-agasalho/'), '/noticias/campanha-do-agasalho/')
+confere('site_url completo', caminhoDaPagina('https://cruzvermelhapetropolis.org/noticias/campanha-do-agasalho/'), '/noticias/campanha-do-agasalho/')
 confere('sem barra no fim', caminhoDaPagina('/noticias/campanha-do-agasalho'), '/noticias/campanha-do-agasalho/')
-confere('index.html', caminhoDaPagina('https://cruzvermelhariodejaneiro.org/noticias/x/index.html'), '/noticias/x/')
+confere('index.html', caminhoDaPagina('https://cruzvermelhapetropolis.org/noticias/x/index.html'), '/noticias/x/')
 confere('ignora a consulta', caminhoDaPagina('/noticias/x/?utm_source=instagram'), '/noticias/x/')
 
 console.log(falhas ? `\n${falhas} falha(s)` : '\nTudo certo.')
