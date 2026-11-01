@@ -95,9 +95,9 @@ export function corpoComAssinatura(texto: string, assinaturaHtml: string): { htm
   return { html, texto: [paragrafos.join('\n\n'), textoAssinatura ? `-- \n${textoAssinatura}` : ''].filter(Boolean).join('\n\n') }
 }
 
-/** A linha legal das assinaturas das caixas (todas da Filial): "Cruz Vermelha Brasileira do Rio de Janeiro — CNPJ: 08.560.973/0001-97". */
-const LINHA_LEGAL_DA_FILIAL = /Cruz Vermelha Brasileira do Rio de Janeiro\s*[—–-]\s*CNPJ:?\s*08\.560\.973\/0001-97/g
-const CNPJ_DA_FILIAL = /08\.560\.973\/0001-97/g
+/** A linha legal das assinaturas das caixas (todas da Filial): "Cruz Vermelha Brasileira de Petrópolis — CNPJ: 09.198.238/0001-48". */
+const LINHA_LEGAL_DA_FILIAL = /Cruz Vermelha Brasileira de Petrópolis\s*[—–-]\s*CNPJ:?\s*09\.198\.238\/0001-48/g
+const CNPJ_DA_FILIAL = /09\.198\.238\/0001-48/g
 
 /**
  * A assinatura em nome de outra empresa do grupo. As caixas de setor são da

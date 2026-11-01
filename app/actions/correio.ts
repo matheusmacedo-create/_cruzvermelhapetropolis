@@ -191,7 +191,7 @@ export async function configurarCaixa(formData: FormData): Promise<Resultado> {
 }
 
 /**
- * O nome que o destinatário vê como remetente (ex.: "CVB-RJ · Comunicação
+ * O nome que o destinatário vê como remetente (ex.: "CVB Petrópolis · Comunicação
  * Social"). Com a lista toda: grava vários de uma vez ("usar as sugestões").
  */
 export async function nomearCaixas(nomes: { id: string; nome: string }[]): Promise<Resultado> {

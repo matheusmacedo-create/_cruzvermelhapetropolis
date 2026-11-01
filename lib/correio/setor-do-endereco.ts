@@ -48,8 +48,8 @@ export function setorDoEndereco(email: string, setores: SetorParaSugerir[]): str
 const CARGOS: Record<string, string> = { presidente: 'Presidência', presidencia: 'Presidência', vicepresidente: 'Vice-Presidência', vicepresidencia: 'Vice-Presidência', contato: 'Contato' }
 
 /**
- * O nome de remetente sugerido: "CVB-RJ · <setor>". Endereço de pessoa
- * (nome.sobrenome) vira "Nome Sobrenome · CVB-RJ"; de cargo, o cargo.
+ * O nome de remetente sugerido: "CVB Petrópolis · <setor>". Endereço de pessoa
+ * (nome.sobrenome) vira "Nome Sobrenome · CVB Petrópolis"; de cargo, o cargo.
  */
 export function nomeSugerido(email: string, setor: string | null | undefined): string {
   const local = (email.split('@')[0] ?? '').toLowerCase()

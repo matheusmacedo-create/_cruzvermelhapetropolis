@@ -224,8 +224,8 @@ export type DiaDoTempo = {
 export type Alerta = { nivel: 'atencao' | 'alerta'; motivo: string }
 
 /**
- * Limiares de atenção para o Rio, na linha dos estágios do Centro de
- * Operações Rio (chuva de 24 h): acima de 25 mm pede atenção; acima de 50 mm
+ * Limiares de atenção para Petrópolis, na linha dos estágios usados pelas
+ * defesas civis (chuva de 24 h): acima de 25 mm pede atenção; acima de 50 mm
  * é chuva forte com risco de alagamento e deslizamento. Rajada de 60 km/h e
  * máxima de 38 °C também entram.
  */

@@ -76,7 +76,7 @@ export const PERMISSOES = {
   'newsletter.exportar': { grupo: 'Site e publicação', rotulo: 'Baixar a lista de inscritos da newsletter (CSV com o consentimento)', papeis: ['admin', 'editor'] },
   'biblioteca.liberar_terceiros': { grupo: 'Site e publicação', rotulo: 'Liberar mídia de terceiros para publicação', papeis: ['admin'] },
   'acervo.ver': { grupo: 'Site e publicação', rotulo: 'Ver o acervo da filial, inclusive o material de uso interno, e baixar os arquivos', papeis: ['admin', 'editor', 'colaborador'] },
-  'acervo.gerenciar': { grupo: 'Site e publicação', rotulo: 'Enviar arquivos ao acervo, catalogar e publicar em cruzvermelhariodejaneiro.org/acervo', papeis: ['admin', 'editor'] },
+  'acervo.gerenciar': { grupo: 'Site e publicação', rotulo: 'Enviar arquivos ao acervo, catalogar e publicar em cruzvermelhapetropolis.org/acervo', papeis: ['admin', 'editor'] },
   'agenda.datas': { grupo: 'Site e publicação', rotulo: 'Cadastrar e editar as datas comemorativas da Agenda', papeis: ['admin', 'editor'] },
 
   // Conteúdo de outras pessoas

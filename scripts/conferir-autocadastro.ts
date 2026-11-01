@@ -41,7 +41,7 @@ igual(lerNascimento('25/03/2020', new Date('2026-10-23T12:00:00Z')), null, 'nasc
 igual(lerNascimento('25031990', new Date('2026-10-23T12:00:00Z')), '1990-03-25', 'nascimento sem barras')
 igual(lerCep('20230024'), '20230-024', 'cep sem hífen')
 igual(lerCep('2023'), null, 'cep curto')
-igual(lerEndereco('Rua das Flores, Centro, Rio de Janeiro/RJ'), { logradouro: 'Rua das Flores', bairro: 'Centro', cidade: 'Rio de Janeiro', uf: 'RJ' }, 'endereço escrito')
+igual(lerEndereco('Rua das Flores, Centro, Petrópolis/RJ'), { logradouro: 'Rua das Flores', bairro: 'Centro', cidade: 'Petrópolis', uf: 'RJ' }, 'endereço escrito')
 igual(lerEndereco('Rua das Flores'), null, 'endereço incompleto')
 
 // a conversa inteira
@@ -64,11 +64,11 @@ igual(dizer('2'), 'avancou', 'coordenação pelo número')
 igual(d.coordenacao, 'Redação', 'coordenação escolhida')
 igual(dizer('pular'), 'avancou', 'cargo pulado')
 igual(d.cargo, '', 'cargo vazio mas respondido')
-igual(dizer('ana@cruzvermelhariodejaneiro.org'), 'repetir', 'e-mail institucional recusado como pessoal')
+igual(dizer('ana@cruzvermelhapetropolis.org'), 'repetir', 'e-mail institucional recusado como pessoal')
 igual(dizer('ana.lima@gmail.com'), 'avancou', 'e-mail pessoal')
 igual(dizer('25/03/1990'), 'avancou', 'nascimento')
 igual(dizer('20230024'), 'cep', 'cep pede consulta')
-d = comEnderecoDoCep(d, { logradouro: 'Rua Salvador de Sá', bairro: 'Centro', cidade: 'Rio de Janeiro', uf: 'rj' })
+d = comEnderecoDoCep(d, { logradouro: 'Rua Salvador de Sá', bairro: 'Centro', cidade: 'Petrópolis', uf: 'rj' })
 igual(proximaEtapa(d), 'numero', 'CEP achado pula o endereço')
 contem(perguntaDoAutocadastro(d)!.texto, 'Rua Salvador de Sá', 'mostra o endereço achado')
 igual(dizer('120'), 'avancou', 'número')
@@ -131,8 +131,8 @@ igual(JSON.stringify(red).includes('Ana') || JSON.stringify(red).includes('gmail
 }
 
 // a mensagem com a senha provisória e o passo a passo (pelo WhatsApp)
-const conta = textoDaContaCriada({ nome: 'Ana Lima', email: 'ana.lima@cruzvermelhariodejaneiro.org', senha: 'Tmp#Senha-9xQ' })
-contem(conta, 'ana.lima@cruzvermelhariodejaneiro.org', 'conta: e-mail')
+const conta = textoDaContaCriada({ nome: 'Ana Lima', email: 'ana.lima@cruzvermelhapetropolis.org', senha: 'Tmp#Senha-9xQ' })
+contem(conta, 'ana.lima@cruzvermelhapetropolis.org', 'conta: e-mail')
 contem(conta, 'Tmp#Senha-9xQ', 'conta: senha')
 contem(conta, 'Adicionar outra conta', 'conta: passo a passo no celular')
 contem(conta, 'senha nova', 'conta: manda trocar a senha')
@@ -222,13 +222,13 @@ sem(textoDaSegundaConfirmacao({ nome: 'Ana Lima' }), 'e-mail pessoal', 'segunda 
   sem(previa, 'Confirma?', 'caixas: a pergunta não fica na prévia (sem botão, não haveria como responder)')
   contem(textoDaPreviaDasCaixas([{ nome: 'A', endereco: 'a@x.org', estado: 'caixa_real' }]), 'Nenhum setor precisa de caixa nova', 'caixas: nada a criar')
   // com os 15 setores de verdade e nomes longos a prévia passa de 1024 caracteres: a pergunta tem de ir em mensagem própria, com os botões
-  const quinze = Array.from({ length: 15 }, (_, i) => ({ nome: `Setor número ${i + 1} de teste longo`, endereco: `setor${i + 1}.cruzvermelha@cruzvermelhariodejaneiro.org`, estado: 'apelido' as const, dono: 'contato@cruzvermelhariodejaneiro.org' }))
+  const quinze = Array.from({ length: 15 }, (_, i) => ({ nome: `Setor número ${i + 1} de teste longo`, endereco: `setor${i + 1}.cruzvermelha@cruzvermelhapetropolis.org`, estado: 'apelido' as const, dono: 'contato@cruzvermelhapetropolis.org' }))
   const previaQuinze = textoDaPreviaDasCaixas(quinze)
   igual(previaQuinze.length > 1024, true, 'caixas: (premissa) a prévia de 15 setores passa do limite de 1024 dos botões')
   igual(previaQuinze.length < 4000, true, 'caixas: a prévia de 15 setores cabe numa mensagem de texto')
   igual(objetoInterativo(PERGUNTA_DAS_CAIXAS, BOTOES_DE_CAIXAS('a1b2c3d4e5f6')) !== null, true, 'caixas: a pergunta curta mantém os botões')
   // nomes bem mais longos que os reais: a prévia e o resultado nunca passam de uma mensagem do WhatsApp (4096) e o alerta não é cortado
-  const longos = Array.from({ length: 15 }, (_, i) => ({ nome: `Coordenação de Atendimento Humanitário e Apoio Psicossocial ${i + 1}`, endereco: `atendimento.humanitario.psicossocial${i + 1}@cruzvermelhariodejaneiro.org`, estado: 'apelido' as const, dono: 'contato@cruzvermelhariodejaneiro.org' }))
+  const longos = Array.from({ length: 15 }, (_, i) => ({ nome: `Coordenação de Atendimento Humanitário e Apoio Psicossocial ${i + 1}`, endereco: `atendimento.humanitario.psicossocial${i + 1}@cruzvermelhapetropolis.org`, estado: 'apelido' as const, dono: 'contato@cruzvermelhapetropolis.org' }))
   const msgsPrevia = mensagensDaPreviaDasCaixas(longos)
   igual(msgsPrevia.every((m) => m.length <= 3500), true, 'caixas: cada mensagem da prévia cabe (até 3500) mesmo com nomes enormes')
   contem(msgsPrevia[msgsPrevia.length - 1], 'O que muda', 'caixas: o "O que muda" fica na última mensagem, junto da pergunta')
@@ -293,8 +293,8 @@ sem(textoDaSegundaConfirmacao({ nome: 'Ana Lima' }), 'e-mail pessoal', 'segunda 
   // fora da janela de 24 h o texto vai por modelo da Meta, que corta em 1000: perde-se o fim do passo a passo, nunca o aviso nem as senhas
   // com nomes e endereços do tamanho dos reais (o setor de nome mais longo, uma pessoa de nome composto), para o corte acontecer de verdade
   const longa = textoDaContaCriada({
-    nome: 'Maria Fernanda Albuquerque de Souza', email: 'maria.albuquerque@cruzvermelhariodejaneiro.org', senha: 'Tmp#Senha-9xQkLm2',
-    caixaDoSetor: { nome: 'Psicologia / Serviço Social', email: 'psicologia@cruzvermelhariodejaneiro.org', senha: 'Tmp#Senha-7abCdEf1' },
+    nome: 'Maria Fernanda Albuquerque de Souza', email: 'maria.albuquerque@cruzvermelhapetropolis.org', senha: 'Tmp#Senha-9xQkLm2',
+    caixaDoSetor: { nome: 'Psicologia / Serviço Social', email: 'psicologia@cruzvermelhapetropolis.org', senha: 'Tmp#Senha-7abCdEf1' },
   })
   igual(textoParaModelo(longa).length, 1000, 'boas-vindas: (premissa) o texto com duas caixas passa do corte de 1000 do modelo')
   const pelaModelo = textoParaModelo(longa)
@@ -324,9 +324,9 @@ sem(textoDaSegundaConfirmacao({ nome: 'Ana Lima' }), 'e-mail pessoal', 'segunda 
   contem(semEmail, 'e-mail institucional', 'já tem conta: diz o que falta (e-mail institucional)')
   contem(semEmail, 'coordenação', 'já tem conta: diz a quem pedir')
   sem(semEmail, 'Não entendi', 'já tem conta: nunca "Não entendi"')
-  const com = textoDeQuemJaTemConta('Elisabete Souza', 'elisabete.souza@cruzvermelhariodejaneiro.org')
+  const com = textoDeQuemJaTemConta('Elisabete Souza', 'elisabete.souza@cruzvermelhapetropolis.org')
   contem(com, 'já está cadastrado(a)', 'já tem e-mail: diz que já está cadastrado(a)')
-  contem(com, '*elisabete.souza@cruzvermelhariodejaneiro.org*', 'já tem e-mail: mostra o e-mail institucional')
+  contem(com, '*elisabete.souza@cruzvermelhapetropolis.org*', 'já tem e-mail: mostra o e-mail institucional')
   contem(textoDeQuemJaTemConta(null, null), 'Você já tem conta', 'já tem conta: sem nome também funciona')
 }
 
@@ -346,8 +346,8 @@ sem(textoDaSegundaConfirmacao({ nome: 'Ana Lima' }), 'e-mail pessoal', 'segunda 
   igual(lerBotaoDeEmail('em:s:abcd'), null, 'email: id sem a pessoa não é botão')
   igual(lerBotaoDeEmail('cx:s:abcd:a1b2c3d4e5f6'), null, 'email: o botão das caixas não é o do e-mail')
   igual((BOTOES_DE_EMAIL(membro, agora) as { botoes: { titulo: string }[] }).botoes.every((b) => b.titulo.length <= 20), true, 'email: títulos cabem na Meta')
-  const previa = textoDaPreviaDoEmail({ nome: 'Elisabete Souza', setor: 'Voluntariado', email: 'elisabete.souza@cruzvermelhariodejaneiro.org', finalDoNumero: '0264' })
-  contem(previa, '*elisabete.souza@cruzvermelhariodejaneiro.org*', 'email: a prévia mostra o endereço')
+  const previa = textoDaPreviaDoEmail({ nome: 'Elisabete Souza', setor: 'Voluntariado', email: 'elisabete.souza@cruzvermelhapetropolis.org', finalDoNumero: '0264' })
+  contem(previa, '*elisabete.souza@cruzvermelhapetropolis.org*', 'email: a prévia mostra o endereço')
   contem(previa, 'final 0264', 'email: a prévia mostra para qual WhatsApp vai a senha')
   sem(previa, 'senha provisória:', 'email: a prévia não leva senha')
 }

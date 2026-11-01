@@ -10,7 +10,7 @@ const igual = (obtido: unknown, esperado: unknown, nome: string) => {
 const WS = '7cbe994e-60db-42fa-b2da-db2429af4c45'
 const completo = {
   profile: { id: 'u1', full_name: 'Ana', active: true, trocar_senha: false },
-  memberships: [{ role: 'editor', coordination: 'Presidência', workspaces: { id: WS, name: 'CVB-RJ', slug: 'cvrj', kind: 'production', mfa_obrigatorio_para: ['admin'] } }],
+  memberships: [{ role: 'editor', coordination: 'Presidência', workspaces: { id: WS, name: 'CVB Petrópolis', slug: 'cvrj', kind: 'production', mfa_obrigatorio_para: ['admin'] } }],
   workspace_id: WS,
   acessos: { financeiro: { nivel: 'lancar', entidade_id: null }, patrimonio: null, participantes: 'gerenciar', equipe: null },
   leitor_de_acessos: false, avaliador_de_envios: true, escola_tem_entidade: true,

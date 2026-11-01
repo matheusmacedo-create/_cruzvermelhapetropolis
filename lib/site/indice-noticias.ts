@@ -249,10 +249,10 @@ export function paginaDeNoticias(
       ${tempo}
     </main>`
 
-  const origem = 'https://cruzvermelhariodejaneiro.org'
+  const origem = 'https://cruzvermelhapetropolis.org'
   const url = `${origem}/noticias/`
   const alternativasDoIndice = alternativasDaPagina('/noticias/', origem)
-  const descricao = `Notícias da ${NOME_DO_SITE}: voluntariado, cursos de primeiros socorros, campanhas humanitárias e ações da filial no estado do Rio.`
+  const descricao = `Notícias da ${NOME_DO_SITE}: voluntariado, cursos de primeiros socorros, campanhas humanitárias e ações da filial em Petrópolis e na região serrana.`
   // O cartão de compartilhamento do índice é a capa da matéria mais nova;
   // sem capa, a imagem da home.
   const capaDaManchete = manchete?.capa?.trim()

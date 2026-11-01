@@ -34,8 +34,8 @@ const MCP_COMPROVANTE_LOGO = __DIR__ . '/comprovante-logo.png';
  * da página, do checkout, de /reembolso/ e dos e-mails: vem de mcp_recebedor() (config.php); estas constantes só
  * valem se ele não existir. RECEBEDOR_NOME e RECEBEDOR_CNPJ no config.php sobrepõem.
  */
-const MCP_COMPROVANTE_RECEBEDOR = 'O-CVB Filial Rio de Janeiro Ensino Ltda';
-const MCP_COMPROVANTE_RECEBEDOR_CNPJ = '67.733.551/0001-35';
+const MCP_COMPROVANTE_RECEBEDOR = 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis';
+const MCP_COMPROVANTE_RECEBEDOR_CNPJ = '09.198.238/0001-48';
 
 const MCP_CP_VERMELHO = '#e1262f';
 const MCP_CP_TEXTO = '#24272b';

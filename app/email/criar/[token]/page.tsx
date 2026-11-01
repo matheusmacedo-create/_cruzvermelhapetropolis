@@ -9,7 +9,7 @@ export const metadata = { title: 'Criar meu e-mail — Cruz Vermelha Petrópolis
 export const dynamic = 'force-dynamic'
 
 /**
- * A página do link de criação de e-mail (email.cruzvermelhariodejaneiro.org
+ * A página do link de criação de e-mail (email.cruzvermelhapetropolis.org
  * /email/criar/<código>). Pública: quem abre ainda não tem conta nenhuma.
  * Lê o convite pelo hash do código; a validade é conferida de novo na
  * action, na hora de criar. Nada do convite além do setor vai para a tela.
@@ -47,7 +47,7 @@ export default async function CriarContaPage({ params }: { params: Promise<{ tok
           <p className="mt-6 flex items-start gap-2 rounded-lg bg-destructive/10 px-3 py-3 text-sm text-destructive"><AlertTriangle className="mt-0.5 size-4 shrink-0" />{problema}</p>
         ) : (
           <>
-            <p className="mt-3 leading-relaxed text-muted-foreground">Preencha e o seu e-mail @cruzvermelhariodejaneiro.org é criado na hora, no Google. Você entra pelo Gmail, no computador ou no celular.</p>
+            <p className="mt-3 leading-relaxed text-muted-foreground">Preencha e o seu e-mail @cruzvermelhapetropolis.org é criado na hora, no Google. Você entra pelo Gmail, no computador ou no celular.</p>
             <ol className="mt-5 flex flex-col gap-2 text-sm text-muted-foreground" aria-label="Como funciona">
               <li className="flex gap-3"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">1</span><span>Preencha seu nome, escolha o e-mail e diga o seu setor.</span></li>
               <li className="flex gap-3"><span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">2</span><span>A conta é criada no Google e você recebe no seu e-mail pessoal o endereço, a senha provisória e o passo a passo.</span></li>

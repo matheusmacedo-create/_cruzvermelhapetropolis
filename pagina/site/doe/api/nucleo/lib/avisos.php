@@ -98,7 +98,7 @@ const MCP_AVISOS_STATUS = [
 ];
 /** Destinos dos links de clique: o código curto vai na URL (api/avisos.php?r=id.código.assinatura). */
 const MCP_AVISOS_DESTINOS = ['p' => 'ponto', 'l' => 'lembretes', 's' => 'saida', 'o' => 'opiniao', 'x' => 'sair', 'm' => 'mapa'];
-const MCP_AVISOS_MAPA = 'https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+da+Cruz+Vermelha%2C+10+-+Centro%2C+Rio+de+Janeiro+-+RJ';
+const MCP_AVISOS_MAPA = 'https://www.google.com/maps/search/?api=1&query=Rua+Carlos+Gomes%2C+6+-+Centro%2C+Petr%C3%B3polis+-+RJ';
 /** Palavras que, respondidas no WhatsApp (modo cloud), desligam os avisos daquele número. */
 const MCP_AVISOS_PALAVRAS_PARAR = ['parar', 'pare', 'sair', 'stop', 'cancelar', 'descadastrar', 'nao quero', 'não quero', 'parar lembretes'];
 
@@ -226,8 +226,8 @@ function mcp_avisos_pascoa(int $ano): string
 }
 
 /**
- * Feriado ou dia sem expediente na sede (nome do dia), ou null. Nacionais, do estado do Rio (São Jorge,
- * Carnaval) e da cidade (São Sebastião), mais os dias que a secretaria marcar no portal (recessos).
+ * Feriado ou dia sem expediente na sede (nome do dia), ou null. Nacionais, do estado do Rio de Janeiro (São Jorge,
+ * Carnaval) e da cidade (aniversário de Petrópolis e São Pedro de Alcântara), mais os dias que a secretaria marcar no portal (recessos).
  * AVISOS_FERIADOS = '0' (a sede abre nos feriados): valem só os dias marcados no portal.
  */
 function mcp_avisos_dia_fechado(string $iso): ?string
@@ -239,14 +239,14 @@ function mcp_avisos_dia_fechado(string $iso): ?string
     return $feriado ?? (in_array($iso, mcp_avisos_dias_fechados(), true) ? 'dia sem expediente na sede' : null);
 }
 
-/** Nome do feriado (nacional, do estado do Rio ou da cidade) numa data AAAA-MM-DD, ou null. */
+/** Nome do feriado (nacional, do estado do Rio de Janeiro ou de Petrópolis) numa data AAAA-MM-DD, ou null. */
 function mcp_avisos_feriado(string $iso): ?string
 {
     if (!preg_match('/^(\d{4})-(\d{2}-\d{2})$/', $iso, $m)) {
         return null;
     }
     $fixos = [
-        '01-01' => 'Confraternização Universal', '01-20' => 'Dia de São Sebastião', '04-21' => 'Tiradentes', '04-23' => 'Dia de São Jorge',
+        '01-01' => 'Confraternização Universal', '04-21' => 'Tiradentes', '03-16' => 'Aniversário de Petrópolis', '04-23' => 'Dia de São Jorge', '06-29' => 'São Pedro de Alcântara',
         '05-01' => 'Dia do Trabalho', '09-07' => 'Independência do Brasil', '10-12' => 'Nossa Senhora Aparecida', '11-02' => 'Finados',
         '11-15' => 'Proclamação da República', '11-20' => 'Dia Nacional de Zumbi e da Consciência Negra', '12-25' => 'Natal',
     ];

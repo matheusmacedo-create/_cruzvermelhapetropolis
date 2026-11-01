@@ -114,7 +114,7 @@ export async function ligarAnalyticsDoSite(): Promise<ResultadoDoAnalytics> {
     if (resultado.ligadas.length) {
       try {
         const caminho = resultado.ligadas[0].replace(/index\.html$/, '')
-        const res = await fetch(`https://cruzvermelhariodejaneiro.org${caminho}`, { cache: 'no-store' })
+        const res = await fetch(`https://cruzvermelhapetropolis.org${caminho}`, { cache: 'no-store' })
         confirmado = temAnalytics(await res.text())
       } catch { /* rede: a conferência falha, a gravação não se desfaz */ }
     }
@@ -231,7 +231,7 @@ export async function publicarPaginasDoSite(): Promise<ResultadoDasPaginas> {
     // A prova pública: a central de notícias tem de responder 200.
     let confirmado = false
     try {
-      const res = await fetch('https://cruzvermelhariodejaneiro.org/noticias/', { cache: 'no-store' })
+      const res = await fetch('https://cruzvermelhapetropolis.org/noticias/', { cache: 'no-store' })
       confirmado = res.ok && (await res.text()).includes('<h1>Notícias</h1>')
     } catch { /* rede daqui; a gravação não se desfaz */ }
 

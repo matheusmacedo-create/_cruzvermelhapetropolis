@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 /**
- * As peças do Início que dizem "isto é o Palácio Virtual da Cruz Vermelha RJ":
+ * As peças do Início que dizem "isto é o Palácio Virtual da Cruz Vermelha Petrópolis":
  * a abertura com a marca e o mapa das áreas. O resto do Início (meu dia, a
  * semana da comunicação, os indicadores) continua em ./camadas.tsx.
  *

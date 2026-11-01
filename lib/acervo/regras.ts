@@ -6,7 +6,7 @@ import { gerarSlug } from '@/lib/site/slug'
  * CHECK (supabase/migrations/20260926003000_cvrj_acervo.sql).
  *
  * Os arquivos moram no bucket do acervo no Cloudflare R2 (privado). O que é
- * marcado como público vira página em cruzvermelhariodejaneiro.org/acervo/,
+ * marcado como público vira página em cruzvermelhapetropolis.org/acervo/,
  * com as imagens em versões para a web.
  */
 

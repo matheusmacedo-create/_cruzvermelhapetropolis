@@ -98,7 +98,7 @@ select is(auditoria.sha256_hex('abc'), 'ba7816bf8f01cfea414140de5dae2223b00361a3
 -- ================================================================ registro, versões e estados
 
 select * from auditoria.registrar_item(:'ws', 'materia', '11111111-1111-4111-8111-111111111111', null,
-          p_titulo => 'Primeira versão', p_url => 'https://cruzvermelhariodejaneiro.org/noticias/teste/',
+          p_titulo => 'Primeira versão', p_url => 'https://cruzvermelhapetropolis.org/noticias/teste/',
           p_conteudo => '{"corpo":"um","titulo":"Primeira versão"}') \gset v1_
 select is(:'v1_hash_conteudo', auditoria.sha256_hex('{"corpo":"um","titulo":"Primeira versão"}'), 'hash do item público = SHA-256 do conteúdo canônico');
 select is(:'v1_classe'::text, 'P', 'matéria é classe P');
@@ -113,7 +113,7 @@ select is((auditoria.registrar_item(:'ws', 'materia', '11111111-1111-4111-8111-1
 select is((select count(*)::integer from auditoria.eventos where item_id = :'v1_id'), 1, 'e não grava evento novo');
 
 select * from auditoria.registrar_item(:'ws', 'materia', '11111111-1111-4111-8111-111111111111', null,
-          p_titulo => 'Segunda versão', p_url => 'https://cruzvermelhariodejaneiro.org/noticias/teste/',
+          p_titulo => 'Segunda versão', p_url => 'https://cruzvermelhapetropolis.org/noticias/teste/',
           p_conteudo => '{"corpo":"dois","titulo":"Segunda versão"}') \gset v2_
 select is(:v2_versao, 2, 'conteúdo novo: versão 2');
 select is(:'v2_substitui_item_id'::text, :'v1_id', 'a versão 2 aponta a que substituiu');
@@ -126,7 +126,7 @@ select is(pg_temp.estado(:'v2_id'), 'retirado', 'versão 2 retirada');
 select throws_ok(format('select auditoria.registrar_evento_item(%L, ''item.retirado'', ''porque sim'')', :'v2_id'), 'P0001', null, 'motivo fora da lista é recusado');
 
 select * from auditoria.registrar_item(:'ws', 'materia', '11111111-1111-4111-8111-111111111111', null,
-          p_titulo => 'Segunda versão', p_url => 'https://cruzvermelhariodejaneiro.org/noticias/teste/',
+          p_titulo => 'Segunda versão', p_url => 'https://cruzvermelhapetropolis.org/noticias/teste/',
           p_conteudo => '{"corpo":"dois","titulo":"Segunda versão"}') \gset v3_
 select is(:v3_versao, 3, 'republicar depois de retirar abre a versão 3, mesmo com o mesmo texto');
 select is(pg_temp.estado(:'v2_id'), 'substituido', 'a retirada passa a substituída pela volta');
@@ -231,7 +231,7 @@ select ok((select array_agg(i.registrado_em order by li.posicao) = array_agg(i.r
           'as folhas seguem a ordem de registro');
 select is(:'l2_compromisso', encode(sha256(decode(:'l2_raiz', 'hex') || decode(:'l2_cabecas', 'hex') || decode(:'l2_compromisso_anterior', 'hex')), 'hex'),
           'compromisso = SHA-256(raiz || cabeças || anterior)');
-select is(:'l2_manifesto', format('{"anterior":"%s","cabecas":"%s","compromisso":"%s","dia":"%s","origem":"cruzvermelhariodejaneiro.org","raiz":"%s","versao":1}',
+select is(:'l2_manifesto', format('{"anterior":"%s","cabecas":"%s","compromisso":"%s","dia":"%s","origem":"cruzvermelhapetropolis.org","raiz":"%s","versao":1}',
                                   :'l2_compromisso_anterior', :'l2_cabecas', :'l2_compromisso', to_char(:'hoje'::date - 1, 'YYYY-MM-DD'), :'l2_raiz'),
           'manifesto no formato publicado');
 select is(:'l2_hash_manifesto', auditoria.sha256_hex(:'l2_manifesto'), 'hash do manifesto');
@@ -421,13 +421,13 @@ insert into public.content_pieces (workspace_id, title, subtitle, body, created_
 returning id as mat \gset
 select pg_temp.como(:'editor');
 set local role authenticated;
-update public.content_pieces set site_url = 'https://cruzvermelhariodejaneiro.org/noticias/campanha-de-inverno/', slug = 'campanha-de-inverno',
+update public.content_pieces set site_url = 'https://cruzvermelhapetropolis.org/noticias/campanha-de-inverno/', slug = 'campanha-de-inverno',
        site_published_at = '2026-09-24 10:00:00+00', updated_at = '2026-09-24 10:00:00+00' where id = :'mat';
 reset role;
 select i.* from auditoria.itens i where i.tipo = 'materia' and i.referencia_id = :'mat' \gset mat1_
-select is(:'mat1_conteudo_canonico'::text, '{"corpo":"Corpo da matéria","subtitulo":null,"titulo":"Campanha de inverno","url":"https://cruzvermelhariodejaneiro.org/noticias/campanha-de-inverno/"}',
+select is(:'mat1_conteudo_canonico'::text, '{"corpo":"Corpo da matéria","subtitulo":null,"titulo":"Campanha de inverno","url":"https://cruzvermelhapetropolis.org/noticias/campanha-de-inverno/"}',
           'matéria publicada: conteúdo canônico');
-select is(:'mat1_url_publica'::text, 'https://cruzvermelhariodejaneiro.org/noticias/campanha-de-inverno/', 'com o endereço público');
+select is(:'mat1_url_publica'::text, 'https://cruzvermelhapetropolis.org/noticias/campanha-de-inverno/', 'com o endereço público');
 select is((select papel from auditoria.eventos where item_id = :'mat1_id'), 'editor', 'publicada por quem tem papel de editor, pela RLS normal');
 update public.content_pieces set site_published_at = '2026-09-24 11:00:00+00', updated_at = '2026-09-24 11:00:00+00' where id = :'mat';
 select is((select count(*)::integer from auditoria.itens where referencia_id = :'mat'), 1, 'republicar o mesmo texto não abre versão');
@@ -456,8 +456,8 @@ insert into public.certificados (workspace_id, participante_id, codigo, nome, cu
 alter table public.certificados enable trigger certificados_trilha_emissao;
 alter table public.content_pieces disable trigger content_pieces_trilha;
 insert into public.content_pieces (workspace_id, title, body, site_url, site_published_at, updated_at)
-values (:'ws', 'Antiga no ar', 'Texto', 'https://cruzvermelhariodejaneiro.org/noticias/antiga/', '2026-09-01 10:00:00+00', '2026-09-01 10:00:00+00'),
-       (:'ws', 'Editada depois', 'Texto novo', 'https://cruzvermelhariodejaneiro.org/noticias/editada/', '2026-09-01 10:00:00+00', '2026-09-05 10:00:00+00');
+values (:'ws', 'Antiga no ar', 'Texto', 'https://cruzvermelhapetropolis.org/noticias/antiga/', '2026-09-01 10:00:00+00', '2026-09-01 10:00:00+00'),
+       (:'ws', 'Editada depois', 'Texto novo', 'https://cruzvermelhapetropolis.org/noticias/editada/', '2026-09-01 10:00:00+00', '2026-09-05 10:00:00+00');
 alter table public.content_pieces enable trigger content_pieces_trilha;
 select public.auditoria_sincronizar() as sinc \gset
 select is((:'sinc'::jsonb ->> 'certificados')::integer, 1, 'sincronizar registra o certificado que o gancho não viu');

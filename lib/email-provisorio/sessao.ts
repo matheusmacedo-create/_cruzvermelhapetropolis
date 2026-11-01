@@ -8,7 +8,7 @@ import { caixasPorId, type CaixaVisivel } from '@/lib/correio/caixa-de-entrada'
 
 /**
  * Quem está no app de e-mail provisório (/email, aberto em
- * email.cruzvermelhariodejaneiro.org) e o que pode ali.
+ * email.cruzvermelhapetropolis.org) e o que pode ali.
  *
  * O app existe para a equipe usar o e-mail do setor antes de o Palácio abrir
  * para todos. Há dois tipos de conta:

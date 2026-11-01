@@ -168,7 +168,7 @@ export function ics(o: { id: string; titulo: string; descricao: string | null; l
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Cruz Vermelha Petrópolis//Area do Voluntario//PT', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
     // O UID fica com o domínio antigo de propósito: é a identidade do evento na agenda de quem
     // já baixou; mudar faria o calendário duplicar a atividade (lib/dominio.ts).
-    'BEGIN:VEVENT', `UID:${o.id}@redacao.cruzvermelhariodejaneiro.org`, `DTSTAMP:${d(new Date().toISOString())}`,
+    'BEGIN:VEVENT', `UID:${o.id}@redacao.cruzvermelhapetropolis.org`, `DTSTAMP:${d(new Date().toISOString())}`,
     `DTSTART:${d(o.inicio)}`, `DTEND:${d(o.fim)}`, `SUMMARY:${esc(o.titulo)}`,
     ...(o.local ? [`LOCATION:${esc(o.local)}`] : []),
     `DESCRIPTION:${esc([o.descricao ?? '', url].filter(Boolean).join('\n\n'))}`, `URL:${url}`,

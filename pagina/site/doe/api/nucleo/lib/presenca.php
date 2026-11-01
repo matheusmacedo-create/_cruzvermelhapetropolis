@@ -244,7 +244,7 @@ function mcp_presenca_conteudo(array $p, ?string $agoraUtc = null): array
             ['Chegada registrada', $registro],
             ['Local', MCP_PRESENCA_LOCAL],
         ],
-        'local_data' => 'Rio de Janeiro, ' . mcp_data_extenso($dataIso) . '.',
+        'local_data' => 'Petrópolis, ' . mcp_data_extenso($dataIso) . '.',
         'assinatura' => ['Secretaria da Escola de Educação e Saúde', MCP_NOME_FILIAL],
         'codigo' => $codigo,
         'conferir' => mcp_conferir_url((string) $p['codigo']),

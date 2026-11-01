@@ -968,7 +968,7 @@ function mcp_ponto_declaracao_conteudo(array $d, ?string $agoraUtc = null): arra
             $termo !== null ? ['Termo de adesão', "assinado em $termo"] : null,
             ['Local', 'Rua Carlos Gomes, 6, Centro, Petrópolis/RJ'],
         ])),
-        'local_data' => 'Rio de Janeiro, ' . mcp_data_extenso(mcp_data_brt((string) $d['emitida_em'], 'Y-m-d')) . '.',
+        'local_data' => 'Petrópolis, ' . mcp_data_extenso(mcp_data_brt((string) $d['emitida_em'], 'Y-m-d')) . '.',
         'assinatura' => ['Secretaria', MCP_NOME_FILIAL],
         'codigo' => $codigo,
         'conferir' => mcp_conferir_url((string) $d['codigo']),
@@ -1040,10 +1040,10 @@ function mcp_ponto_termo_conteudo(array $colaborador, ?string $agoraUtc = null):
             ['9. Vigência e desligamento', 'Este Termo vale por prazo indeterminado, a partir da assinatura, e pode ser encerrado por qualquer das partes a '
                 . 'qualquer tempo, por simples comunicação, sem ônus para nenhuma delas.'],
             ['10. Voluntário(a) com menos de 18 anos', 'Neste caso, este Termo é assinado também pelo responsável legal, que autoriza a participação nas atividades.'],
-            ['11. Foro', 'Fica eleito o foro da Comarca da Capital do Estado do Rio de Janeiro para resolver qualquer questão sobre este Termo.'],
+            ['11. Foro', 'Fica eleito o foro da Comarca de Petrópolis, Estado do Rio de Janeiro para resolver qualquer questão sobre este Termo.'],
         ],
         'fecho' => 'E, por estarem de acordo, as partes assinam este Termo em duas vias de igual teor.',
-        'local_data' => 'Rio de Janeiro, ______ de ________________________ de ________.',
+        'local_data' => 'Petrópolis, ______ de ________________________ de ________.',
         'assinaturas' => [
             ['VOLUNTÁRIO(A)', "$nome · CPF $cpf"],
             ['PELA ENTIDADE', 'Nome e cargo:'],

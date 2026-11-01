@@ -43,7 +43,7 @@ ok(porId.get('palacio')!.pendencias.some((p) => p.id === 'R-03'), 'a pendência 
 ok(raiz.updatedAt === '2026-10-01', 'a última entrega sobe até a raiz')
 ok(caminho(porId.get('palacio.pessoas.b')!, porId).map((n) => n.id).join('>') === 'inicio>palacio>palacio.pessoas>palacio.pessoas.b', 'caminho da raiz ao item')
 ok(filaDeProximos(pendencias).map((p) => p.id).join(',') === 'R-01,R-03', 'a fila ignora feitas e sem posição, em ordem')
-ok(slugDoMapa('Núcleo de Voluntários — RJ') === 'nucleo-de-voluntarios-rj', 'slug sem acento nem símbolo')
+ok(slugDoMapa('Núcleo de Voluntários — Petrópolis') === 'nucleo-de-voluntarios-petropolis', 'slug sem acento nem símbolo')
 ok(ESTADOS.every((e) => SITUACAO_DO_ESTADO[e]), 'todo estado tem situação técnica')
 
 // A semente: ids únicos, pais e itens referenciados existem.

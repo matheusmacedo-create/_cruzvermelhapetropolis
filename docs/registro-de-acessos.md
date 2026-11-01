@@ -83,7 +83,7 @@ Redação não vê a tentativa, nem certa nem errada, e por isso não tem como r
 | Idiomas | `accept-language` |
 
 Limite honesto: localização por IP é aproximada. Em rede móvel (4G/5G, CGNAT) a cidade costuma
-sair errada, às vezes a capital do estado. Serve para "Rio de Janeiro × outro país", não para
+sair errada, às vezes a capital do estado. Serve para "Petrópolis × outro país", não para
 endereço.
 
 ### Nível 2 — aparelho reconhecível (um script pequeno na tela de login)
@@ -91,7 +91,7 @@ endereço.
 | Dado | Para quê |
 | --- | --- |
 | **Cookie de aparelho** `cvrj_aparelho`: id aleatório de 128 bits, `httpOnly`, `secure`, 400 dias; no banco só o hash | é o que de fato responde "este aparelho já entrou antes?" |
-| Fuso do navegador, idiomas, tamanho e densidade da tela, toque, núcleos (`hardwareConcurrency`), memória (`deviceMemory`) | compõem uma **assinatura** do aparelho (hash) que reconhece o mesmo computador quando o cookie foi apagado, e que junta o que diz o servidor ao que diz o aparelho (ex.: IP no Rio com fuso de outro país) |
+| Fuso do navegador, idiomas, tamanho e densidade da tela, toque, núcleos (`hardwareConcurrency`), memória (`deviceMemory`) | compõem uma **assinatura** do aparelho (hash) que reconhece o mesmo computador quando o cookie foi apagado, e que junta o que diz o servidor ao que diz o aparelho (ex.: IP em Petrópolis com fuso de outro país) |
 
 ### Nível 3 — fingerprint invasivo (não recomendado agora)
 

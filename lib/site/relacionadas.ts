@@ -4,7 +4,7 @@
  * Pela ordem cronológica, com 5 matérias por dia, um pilar saía desses blocos
  * em dois dias e nunca mais recebia link interno. Aqui as irmãs são as que
  * falam do mesmo assunto: as palavras do título e da linha fina, pesadas pela
- * raridade (Cruz Vermelha, Rio e curso aparecem em quase todas e quase não
+ * raridade (Cruz Vermelha, Petrópolis e curso aparecem em quase todas e quase não
  * contam), mais um bônus para a matéria que o próprio texto já cita. Sem tema
  * em comum, completa com as mais recentes, como antes.
  *

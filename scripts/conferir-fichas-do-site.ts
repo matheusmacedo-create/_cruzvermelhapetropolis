@@ -20,7 +20,7 @@ function confere(nome: string, obtido: unknown, esperado: unknown) {
 
 const base: FichaDoSite = {
   id: 7, protocolo: 'VOL-261027-0007', situacao: 'nova', criado_em: '2026-10-27T15:00:00Z', nome: '  Maria da Silva ', data_nascimento: '1990-05-20',
-  email: ' Maria@Exemplo.org ', telefone: '21998765432', cpf: '529.982.247-25', cidade: 'Rio de Janeiro', bairro: 'Tijuca', estado: 'RJ',
+  email: ' Maria@Exemplo.org ', telefone: '21998765432', cpf: '529.982.247-25', cidade: 'Petrópolis', bairro: 'Quitandinha', estado: 'RJ',
   escolaridade: 'Superior completo', profissao: 'Professora', formacao_saude: 'Técnica de enfermagem', experiencia: 'Escola do bairro.', habilidades: 'Inglês',
   frentes: ['Juventude', 'Comunicação'], dias: ['Segunda', 'Sábado'], periodos: ['Manhã', 'Noite'], motivacao: 'Quero ajudar.', como_conheceu: 'Instagram',
   aceita_contato: true, consentimento_em: '2026-10-27T15:00:00Z', politica_versao: '2026-10-27', selfie: null, codigo_aprovacao: null,

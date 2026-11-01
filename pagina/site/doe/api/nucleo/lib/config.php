@@ -196,8 +196,8 @@ function mcp_espera_prazo_dias(): int
  * Quem vende e recebe (decisão 6 do dono, 08/10/2026): a empresa de ensino, com um nome só em página, checkout,
  * /reembolso/, e-mails e comprovante. RECEBEDOR_NOME e RECEBEDOR_CNPJ no config.php sobrepõem.
  */
-const MCP_RECEBEDOR_NOME_PADRAO = 'O-CVB Filial Rio de Janeiro Ensino Ltda';
-const MCP_RECEBEDOR_CNPJ_PADRAO = '67.733.551/0001-35';
+const MCP_RECEBEDOR_NOME_PADRAO = 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis';
+const MCP_RECEBEDOR_CNPJ_PADRAO = '09.198.238/0001-48';
 
 function mcp_recebedor(): array
 {

@@ -21,7 +21,7 @@ export type EntradaDoMapa = {
   imagens?: string[]
 }
 
-export const ORIGEM_DO_SITE = 'https://cruzvermelhariodejaneiro.org'
+export const ORIGEM_DO_SITE = 'https://cruzvermelhapetropolis.org'
 
 /** As páginas fixas do site, além das notícias. */
 export function paginasFixas(origem: string = ORIGEM_DO_SITE): EntradaDoMapa[] {

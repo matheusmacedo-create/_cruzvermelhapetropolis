@@ -57,7 +57,7 @@ export function usarAvisoDeCookies(tag: string): void {
  * id (eventID) e o mesmo id é repassado ao servidor do site
  * (/matricula-cursos-presenciais/api/medicao.php), que o manda à Meta pela
  * API de Conversões; a Meta junta os dois. O repasse só sai nos endereços de
- * cruzvermelhariodejaneiro.org (as notícias são publicadas lá). Quem tem um "sim" de um texto anterior do
+ * cruzvermelhapetropolis.org (as notícias são publicadas lá). Quem tem um "sim" de um texto anterior do
  * aviso (sem r=2 no cookie) é perguntado de novo, e o repasse espera a resposta.
  *
  * Mudou o bloco na home, muda aqui — e a conferência byte a byte da §7.6.
@@ -92,7 +92,7 @@ export function blocoDoAnalytics(avisoDeCookies: string = tagDoAvisoDeCookies): 
   </script>
   <script>
     // Medição só com consentimento. A escolha fica no cookie cvrj_consentimento (todo
-    // *.cruzvermelhariodejaneiro.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
+    // *.cruzvermelhapetropolis.org, 12 meses), gravado pelo aviso de cookies (/consentimento/).
     // Sem escolha, ou com "não", nem o gtag.js nem o fbevents.js são baixados. Com "sim", eles entram
     // depois de a página carregar (load + ocioso), e as chamadas da fila saem nessa hora.
     (function () {
@@ -113,7 +113,7 @@ export function blocoDoAnalytics(avisoDeCookies: string = tagDoAvisoDeCookies): 
       }
       // API de Conversões: com "sim" para marketing, o evento vai também ao servidor do site, com o mesmo
       // eventID do Pixel, e de lá à Meta. Só no site principal (o endereço é relativo a ele).
-      var SERVIDOR = /^(www\\.)?cruzvermelhariodejaneiro\\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
+      var SERVIDOR = /^(www\\.)?cruzvermelhapetropolis\\.org$/i.test(location.hostname) ? '/matricula-cursos-presenciais/api/medicao.php' : '';
       // Revisão do texto do aviso que vale para o servidor (r no cookie; MCP_META_REVISAO em api/lib/meta.php e
       // REVISAO em consentimento.js são o mesmo número). O Pixel não depende dela.
       var REVISAO = 2;

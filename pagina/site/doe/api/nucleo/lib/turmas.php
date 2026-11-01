@@ -532,7 +532,7 @@ function mcp_montar_email_turma_confirmacao(array $p): array
     } elseif ($fechada) {
         $passos = [
             ['A secretaria responde em até ' . MCP_EMAIL_PRAZO, 'Por e-mail, com as datas possíveis para a turma. Grupo fechado tem prioridade.'],
-            ['Vocês combinam a data', 'Turmas de ' . MCP_TURMA_MINIMO . ' a ' . MCP_TURMA_MAXIMO . ' alunos, na sede da Praça da Cruz Vermelha'
+            ['Vocês combinam a data', 'Turmas de ' . MCP_TURMA_MINIMO . ' a ' . MCP_TURMA_MAXIMO . ' alunos, na sede da Rua Carlos Gomes'
                 . ($p['local'] === 'outro' ? '. Aulas em outro local dependem de aprovação, e a secretaria confirma se dá' : '') . '.'],
             ['Cada aluno reserva a vaga ao pagar a taxa de inscrição', mcp_escapar($valor) . (str_contains($valor, 'Nada é cobrado') ? '' : ' Nada é cobrado agora.')],
         ];

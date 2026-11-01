@@ -18,7 +18,7 @@ import { normalizar } from '@/lib/chamados/setores'
  */
 
 /** A página de matrícula dos cursos presenciais, no site da filial. */
-export const MATRICULA_NO_SITE = 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/'
+export const MATRICULA_NO_SITE = 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/'
 export const PARAMETRO_DO_CURSO = 'curso'
 export const CHAVE_PADRAO = 'inscricoes'
 export const TEXTO_PADRAO = 'Curso presencial na Cruz Vermelha Petrópolis, com certificado. Aponte a câmera e faça a matrícula pelo celular.'

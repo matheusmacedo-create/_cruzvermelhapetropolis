@@ -4,7 +4,7 @@ import { RedirecionarParaNoticias } from '@/components/newsletter/redirecionar'
 export const metadata = { title: 'Inscrição confirmada — Cruz Vermelha Petrópolis' }
 
 /** Quem acabou de pedir notícias vai para as notícias. */
-const CENTRAL_DE_NOTICIAS = 'https://cruzvermelhariodejaneiro.org/noticias/'
+const CENTRAL_DE_NOTICIAS = 'https://cruzvermelhapetropolis.org/noticias/'
 
 export default async function Confirmado({
   searchParams,

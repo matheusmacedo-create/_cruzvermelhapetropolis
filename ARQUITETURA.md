@@ -8,9 +8,9 @@ foram pagos caro. Leia inteiro antes da primeira alteração.
 
 ## 1. O que é
 
-**Palácio Virtual** é o sistema interno da **Cruz Vermelha Brasileira — Rio de
-Janeiro**, no ar em `palacio.cruzvermelhariodejaneiro.org` (o endereço antigo,
-`redacao.cruzvermelhariodejaneiro.org`, manda as páginas para ele pelo `proxy.ts`; `/api` segue
+**Palácio Virtual** é o sistema interno da **Cruz Vermelha Brasileira — Filial
+de Petrópolis**, no ar em `palacio.cruzvermelhapetropolis.org` (o endereço antigo,
+`redacao.cruzvermelhapetropolis.org`, manda as páginas para ele pelo `proxy.ts`; `/api` segue
 respondendo nos dois, por causa de webhooks e do formulário do site; o domínio mora em `lib/dominio.ts`).
 
 > **Nome.** Até 26/09/2026 o produto se chamava **Redação**. Nas telas, e-mails e PDFs o nome
@@ -641,7 +641,7 @@ confira em `/api/admin/ftp-check`.
 2. **Página** (`artigo-html.ts` sobre `esqueleto.ts`): o cabeçalho, o rodapé (com as
    políticas e “Preferências de cookies”), o bloco de medição e o chat da home; JSON-LD
    `NewsArticle` + `BreadcrumbList`; `<title>` no padrão
-   "Assunto | Cruz Vermelha Brasileira Rio de Janeiro" (até 60 caracteres). Link para
+   "Assunto | Cruz Vermelha Brasileira Petrópolis" (até 60 caracteres). Link para
    arquivo interno vira texto; links antigos do site (`/cursos.html`, `/doacao.html`…)
    viram os endereços atuais (`LINKS_ANTIGOS_DO_SITE`).
 3. **Guardas** (`guarda-da-pagina.ts`): a página é recusada, com mensagem, se levaria
@@ -675,11 +675,11 @@ Google negado por padrão, sem o `<noscript>` do Pixel e **sem `fbq('consent', '
 antes do `init`** (de 27/09 a 02/10 essa linha travou o Pixel: com o fbevents.js baixado
 só depois do “Aceitar todos”, o `grant` ficava atrás na fila e nada saía), e o gtag.js e
 o fbevents.js só são baixados quando o cookie
-`cvrj_consentimento` (`v=1&e=0|1&m=0|1&t=…`, em `.cruzvermelhariodejaneiro.org`)
+`cvrj_consentimento` (`v=1&e=0|1&m=0|1&t=…`, em `.cruzvermelhapetropolis.org`)
 permite; o aviso liga a medição na hora da escolha por `window.cvrjMedicao`. Com
 marketing, o PageView leva um `eventID` e o mesmo id vai ao servidor do site
 (`/matricula-cursos-presenciais/api/medicao.php`), que o repassa à Meta pela API de
-Conversões; a Meta junta os dois (só nos endereços de cruzvermelhariodejaneiro.org). A última
+Conversões; a Meta junta os dois (só nos endereços de cruzvermelhapetropolis.org). A última
 linha do bloco é a tag do aviso de cookies (`/consentimento/consentimento.js?v=HASH`,
 cache de um ano): a versão é lida da home na mesma leitura do chat
 (`prepararChatDoSite`, regex estrita) e, sem ela, o bloco sai sem o aviso — ninguém é
@@ -871,7 +871,7 @@ onde ele veio). **Ativo em produção desde 25/09/2026, em lançamento oculto**:
   (confirmação no Bitcoin). Lógica em `lib/auditoria/rotina.ts`.
 - **Consulta pública**: `/api/publico/verificar` (+ `/prova`, `/conteudo`), com CORS só para o
   site, limite por hora com HMAC do IP e fora do `proxy`. Consumida pela página
-  `cruzvermelhariodejaneiro.org/verificar/`, que é do repositório do site.
+  `cruzvermelhapetropolis.org/verificar/`, que é do repositório do site.
 - **Telas** (só admin): `/trilha-publica` (conferência, lotes, falhas, busca por código),
   `/transparencia` (documentos com versões imutáveis e parcerias da Lei 13.019/2014) e
   `/canais-oficiais` (versões da lista). O portal e os canais geram as páginas públicas com o
@@ -888,7 +888,7 @@ onde ele veio). **Ativo em produção desde 25/09/2026, em lançamento oculto**:
 ### 7.10 Acervo
 
 Especificação: `docs/acervo.md`. Os arquivos ficam no bucket `cvrj-acervo` do R2; a ficha fica em
-`acervo_itens`; o público fica em `cruzvermelhariodejaneiro.org/acervo/`.
+`acervo_itens`; o público fica em `cruzvermelhapetropolis.org/acervo/`.
 
 - **Envio**: o navegador manda o arquivo direto ao R2 por link assinado de uso único
   (`prepararEnvioAoAcervo`), sem passar pela Vercel; o bucket tem CORS só para a origem da Redação.
@@ -1265,7 +1265,7 @@ sociais: e-mail fica em "E-mail do setor" (`/correio`), o que a equipe manda em 
 ### 7.21 Início modular (`/dashboard`)
 
 - O Início é uma lista de blocos (`lib/inicio/blocos.ts`): abertura, esperando você, minhas pautas,
-  projetos, hoje na comunicação, tempo no Rio, a equipe agora, a semana, os indicadores e todas as
+  projetos, hoje na comunicação, tempo em Petrópolis, a equipe agora, a semana, os indicadores e todas as
   áreas. Cada bloco tem uma largura natural: toda a largura, coluna larga ou coluna estreita. Largos
   e estreitos em sequência formam as duas colunas do "Meu dia" (`faixas()`).
 - Cada pessoa escolhe o que aparece e em que ordem ("Personalizar o Início"), guardado em
@@ -1700,7 +1700,7 @@ caixa de um setor é uma etiqueta do Gmail:
   `gmail.modify` para criar etiqueta e etiquetar o que já existe (até 500).
   A tela só apaga filtro que põe a etiqueta daquela caixa.
 
-### 7.29a E-mail provisório (`/email`, email.cruzvermelhariodejaneiro.org, 12/10/2026)
+### 7.29a E-mail provisório (`/email`, email.cruzvermelhapetropolis.org, 12/10/2026)
 
 A mesma caixa de `/correio` para a equipe usar o e-mail do setor antes de o
 Palácio abrir para todos, sem passar cada acesso por um administrador.
@@ -1769,7 +1769,7 @@ Admin do Google, um administrador gera um link e a pessoa cria a própria.
   revogado. Gerar e cancelar exigem `correio.configurar`.
 - **A página do link** é pública (quem abre ainda não tem conta nenhuma) e
   mora no app de e-mail (`app/email/criar/[token]`), aberta em
-  email.cruzvermelhariodejaneiro.org. Pede nome e sobrenome (o Google exige
+  email.cruzvermelhapetropolis.org. Pede nome e sobrenome (o Google exige
   os dois), e-mail desejado (sugerido do nome: `usuarioSugeridoDoGoogle`),
   setor, celular (E.164) e e-mail pessoal de fora do domínio, os dois para a
   recuperação de senha do próprio Google. `criarContaPeloConvite`
@@ -1915,8 +1915,8 @@ revisar. Sem o Ads conectado (ou sem a migração), nada muda.
   escolas e creches; palavras de dúvida em correspondência de frase, dois anúncios
   por grupo com até 10 títulos e 4 descrições, seis sitelinks (outros guias, voluntariado
   e /doe/, só "por PIX": o cartão está desligado na /doe/); negativas de animais,
-  material de estudo, sangramento que não é ferimento e queimadura de sol; cidade do
-  Rio de Janeiro, "Maximizar cliques" com teto de US$ 2 só para começar — a política
+  material de estudo, sangramento que não é ferimento e queimadura de sol; cidade de
+  Petrópolis, "Maximizar cliques" com teto de US$ 2 só para começar — a política
   pede lance por conversão quando a conta tiver conversões; UTMs `grants-guia-…` no
   `finalUrlSuffix`). Os textos só prometem o que a página entrega: os guias ajudam a
   reconhecer e a pedir ajuda, as manobras se aprendem com prática.
@@ -1935,9 +1935,9 @@ revisar. Sem o Ads conectado (ou sem a migração), nada muda.
   - **Sem critério de idioma.** Desde set/2026 a API recusa `LanguageInfo` em campanha
     de pesquisa (`ContextError.OPERATION_NOT_PERMITTED_FOR_CONTEXT`), e com
     `partialFailure: false` uma recusa derruba o pedido inteiro.
-  - **A cidade é constante fixa**, `geoTargetConstants/1001655`, conferida pelo nome
-    canônico: "Rio de Janeiro" como City no Brasil são duas constantes (1001655 e
-    9198038), e a consulta por nome não diz qual vem primeiro.
+  - **A cidade é constante fixa**, `geoTargetConstants/1001653`, conferida pelo nome
+    canônico: "Petropolis" no Brasil são duas constantes (1001653, a cidade, e
+    9197108, o distrito), e a consulta por nome não diz qual vem primeiro.
   - **Telefone não vai no texto do anúncio** (política editorial); vai em extensão de
     chamada. Sitelink não repete título de anúncio (política de Repetição).
   - **Negativa não casa variante**: com e sem acento são duas, plural também. "vaga"
@@ -2186,7 +2186,7 @@ cada parte. Guia completo em `docs/mapa-do-ecossistema.md`.
 
 ### 7.38 Fichas de voluntariado do site (`/voluntariado?aba=inscricoes`, 27/10/2026)
 
-O cadastro de voluntários do site (`cruzvermelhariodejaneiro.org/voluntariado/cadastro/`,
+O cadastro de voluntários do site (`cruzvermelhapetropolis.org/voluntariado/cadastro/`,
 repositório do site) grava no MySQL da Hostinger. As fichas em aberto lá (`nova`,
 `em_analise`, `entrevista`) entram aqui como inscrições pendentes, `origem = 'importacao'`,
 com a selfie como foto (`lib/voluntariado/fichas-do-site.ts`; regras puras em
@@ -2237,7 +2237,7 @@ Três coisas para saber antes de mexer:
 
 O Cérebro ([cerebrocruzvermelha](https://github.com/matheusmacedo-create/cerebrocruzvermelha),
 `https://cerebrocruzvermelha.vercel.app`) observa uma lista fechada de contas
-oficiais do Rio, entende cada sinal por seis perguntas e decide o que merece
+oficiais de Petrópolis, entende cada sinal por seis perguntas e decide o que merece
 virar pauta. **Ele não publica** — essa separação é o projeto inteiro dele, e a
 Redação é o lado humano dela.
 
@@ -2762,7 +2762,7 @@ recebimento e teste em `/configuracoes/whatsapp` (só admin). A Evolution API, u
     dele nenhum setor novo começa. **`aoCriar`** roda logo depois de cada conta, antes do setor seguinte: é onde o
     Palácio registra a conta em `google_contas`, alinha `caixas_de_email.no_gmail` e entrega a senha — se o processo for
     cortado depois, o que já nasceu não fica sem registro. Cada conta nasce com senha aleatória, troca no primeiro acesso,
-    nome = o setor, sobrenome "Cruz Vermelha RJ".
+    nome = o setor, sobrenome "Cruz Vermelha Petrópolis".
     **Segunda rodada de revisão (24/10/2026)** fechou mais: a palavra final sobre "o DELETE foi aplicado?" é a **lista de
     apelidos do dono** (`apelidoEstaNoDono`), não `GET /users/{endereço}` (leitura atrasada: o DELETE aplicado com a resposta
     perdida aparecia como "continua como estava" e o lote seguia apagando os outros); o apelido é devolvido ao dono da

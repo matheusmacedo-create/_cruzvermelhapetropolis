@@ -42,9 +42,9 @@ preciso para bucket com jurisdição (UE).
 ## O acervo
 
 A tela **Acervo** da Redação é o caminho normal: envia do navegador direto para o bucket, cataloga
-e publica em `cruzvermelhariodejaneiro.org/acervo/` o que for público (docs/acervo.md). Para o
+e publica em `cruzvermelhapetropolis.org/acervo/` o que for público (docs/acervo.md). Para o
 navegador enviar direto, o bucket tem uma regra de CORS (Settings → CORS policy) que libera `PUT`,
-`GET` e `HEAD` só para `https://palacio.cruzvermelhariodejaneiro.org`, `https://redacao.cruzvermelhariodejaneiro.org` (o antigo, enquanto redirecionar) e `http://localhost:3000`;
+`GET` e `HEAD` só para `https://palacio.cruzvermelhapetropolis.org`, `https://redacao.cruzvermelhapetropolis.org` (o antigo, enquanto redirecionar) e `http://localhost:3000`;
 sem ela o envio pela tela falha.
 
 O `LEIA-ME.txt` na raiz do bucket e um `_sobre-esta-pasta.txt` em cada pasta explicam o que vai

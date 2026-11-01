@@ -15,11 +15,11 @@ const semEspaco = (t: string) => t.replace(/\s+/g, '')
 // ---------------------------------------------------------------- o texto da matéria
 const corpo = [
   '![Voluntários na sede](https://exemplo.invalido/foto.jpg)',
-  'A filial abriu as inscrições para o curso de [primeiros socorros](https://cruzvermelhariodejaneiro.org/cursos/) neste sábado',
+  'A filial abriu as inscrições para o curso de [primeiros socorros](https://cruzvermelhapetropolis.org/cursos/) neste sábado',
   '## Como participar',
   '- Leve um documento com foto\n- Chegue 15 minutos antes',
   '> A formação salva vidas, disse a coordenadora.',
-  'Mais em https://cruzvermelhariodejaneiro.org/noticias/ e no site.',
+  'Mais em https://cruzvermelhapetropolis.org/noticias/ e no site.',
 ].join('\n\n')
 const narrado = textoParaNarrar({ titulo: 'Curso de primeiros socorros', subtitulo: 'Inscrições abertas', corpo })
 conferir(narrado.startsWith('Curso de primeiros socorros.\n\nInscrições abertas.'), `título e linha fina primeiro, com ponto: ${JSON.stringify(narrado.slice(0, 60))}`)
@@ -31,7 +31,7 @@ conferir(!narrado.includes('Voluntários na sede'), 'a legenda da foto não é l
 conferir(textoParaNarrar({ titulo: '  ', corpo: '' }) === '', 'matéria vazia: nada a narrar')
 
 // ---------------------------------------------------------------- os trechos
-const paragrafo = (n: number) => `Parágrafo ${n}. ` + 'A Cruz Vermelha atua no Rio de Janeiro com voluntários formados na sede. '.repeat(20)
+const paragrafo = (n: number) => `Parágrafo ${n}. ` + 'A Cruz Vermelha atua em Petrópolis com voluntários formados na sede. '.repeat(20)
 const longo = Array.from({ length: 30 }, (_, i) => paragrafo(i + 1)).join('\n\n')
 const trechos = dividirEmTrechos(longo)
 conferir(trechos.length > 1, 'texto longo vira vários trechos')
@@ -57,7 +57,7 @@ conferir(nomeDoAudio('texto', 'voz12345', 'eleven_flash_v2_5') !== n1, 'modelo m
 conferir(!ehAudioDeNarracao('index.html') && !ehAudioDeNarracao('../ouvir-aaaaaaaaaaaa.mp3') && !ehAudioDeNarracao('ouvir-AAAAAAAAAAAA.mp3'), 'só o padrão exato é narração')
 
 // ---------------------------------------------------------------- o que se fala no WhatsApp
-const resposta = 'Você tem *2 aprovações* pendentes:\n1. Matéria da campanha de inverno\n2. Post do Dia do Voluntário\nAbra em https://palacio.cruzvermelhariodejaneiro.org/aprovacoes 👍'
+const resposta = 'Você tem *2 aprovações* pendentes:\n1. Matéria da campanha de inverno\n2. Post do Dia do Voluntário\nAbra em https://palacio.cruzvermelhapetropolis.org/aprovacoes 👍'
 const falada = textoParaFalarNoWhatsapp(resposta)
 conferir(falada !== null && !/https?:|\*|👍/.test(falada), `sem link, marcação nem emoji: ${falada}`)
 conferir(Boolean(falada?.includes('Matéria da campanha de inverno. Post do Dia do Voluntário.')), `itens viram frases: ${falada}`)
@@ -73,7 +73,7 @@ conferir(!audioNoTeto({ pessoa: 0, espaco: 0 }) && audioNoTeto({ pessoa: TETOS_D
 conferir(audioNoTeto({ pessoa: null, espaco: 0 }) && audioNoTeto({ pessoa: 0, espaco: null }), 'sem conseguir contar, não manda (sem conta, sem gasto)')
 conferir(MODELO_DO_WHATSAPP === 'eleven_flash_v2_5', 'WhatsApp no modelo mais barato')
 conferir(textoParaFalarNoWhatsapp('Seu código é 482 913 e o protocolo 2026-10-23-0042-7781.') === null, 'quase só número não vira áudio')
-conferir(textoParaFalarNoWhatsapp('https://palacio.cruzvermelhariodejaneiro.org/chamados/123') === null, 'só um link não vira áudio')
+conferir(textoParaFalarNoWhatsapp('https://palacio.cruzvermelhapetropolis.org/chamados/123') === null, 'só um link não vira áudio')
 
 // ---------------------------------------------------------------- formatos
 conferir(ehOgg(Uint8Array.from([0x4f, 0x67, 0x67, 0x53, 0x00])), 'OggS é Ogg')
@@ -90,11 +90,11 @@ conferir(lida.ok && lida.valor.materias && !lida.valor.whatsapp && lida.valor.mo
 conferir(lerConfigDaVoz({}).ok, 'tudo desligado e sem voz vale')
 
 // ---------------------------------------------------------------- a página
-const base = { titulo: 'Curso de primeiros socorros', subtitulo: 'Inscrições abertas', corpo: 'A filial abriu as inscrições.', slug: 'curso', baseUrl: 'https://cruzvermelhariodejaneiro.org/noticias', publicadoEm: new Date('2026-10-23T12:00:00Z') }
+const base = { titulo: 'Curso de primeiros socorros', subtitulo: 'Inscrições abertas', corpo: 'A filial abriu as inscrições.', slug: 'curso', baseUrl: 'https://cruzvermelhapetropolis.org/noticias', publicadoEm: new Date('2026-10-23T12:00:00Z') }
 const comAudio = montarPaginaDoArtigo({ ...base, audio: { nome: n1 } })
 conferir(comAudio.includes(`<audio controls preload="none" src="${n1}">`), 'a página toca o MP3 da própria pasta')
 conferir(comAudio.includes('Ouça esta matéria') && comAudio.includes('voz gerada por inteligência artificial'), 'título e aviso de IA')
-conferir(comAudio.includes('"AudioObject"') && comAudio.includes(`https://cruzvermelhariodejaneiro.org/noticias/curso/${n1}`), 'JSON-LD com o áudio no endereço público')
+conferir(comAudio.includes('"AudioObject"') && comAudio.includes(`https://cruzvermelhapetropolis.org/noticias/curso/${n1}`), 'JSON-LD com o áudio no endereço público')
 conferir(['1', '1.25', '1.5', '2'].every((v) => comAudio.includes(`data-velocidade="${v}"`)) && comAudio.includes('1,25×') && comAudio.includes('playbackRate'), 'botões de velocidade e o script deles')
 conferir(comAudio.includes('data-velocidade="1" aria-pressed="true"'), 'começa em 1×, marcado')
 conferir(problemasDaPagina(comAudio).length === 0, `a guarda da página aceita: ${problemasDaPagina(comAudio).join('; ')}`)

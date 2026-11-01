@@ -12,12 +12,12 @@ const igual = (obtido: unknown, esperado: unknown, nome: string) => {
 const verdade = (ok: boolean, nome: string) => { if (!ok) { falhas++; console.error(`FALHOU: ${nome}`) } }
 
 // ---------------------------------------------------------------- para onde o QR leva
-igual(linkDeMatricula({ paginaUrl: 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/?curso=puncao-venosa' }), { url: 'https://cruzvermelhariodejaneiro.org/matricula-cursos-presenciais/?curso=puncao-venosa', daPagina: true }, 'página cadastrada (https)')
+igual(linkDeMatricula({ paginaUrl: 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/?curso=puncao-venosa' }), { url: 'https://cruzvermelhapetropolis.org/matricula-cursos-presenciais/?curso=puncao-venosa', daPagina: true }, 'página cadastrada (https)')
 igual(linkDeMatricula({ paginaUrl: null }), { url: MATRICULA_NO_SITE, daPagina: false }, 'sem página: a matrícula do site')
 igual(linkDeMatricula({ paginaUrl: '  ' }), { url: MATRICULA_NO_SITE, daPagina: false }, 'página em branco: a matrícula do site')
 igual(linkDeMatricula({ paginaUrl: 'http://exemplo.org/curso' }), { url: MATRICULA_NO_SITE, daPagina: false }, 'http (sem s) não vai para o QR')
 igual(linkDeMatricula({ paginaUrl: 'javascript:alert(1)' }), { url: MATRICULA_NO_SITE, daPagina: false }, 'javascript: não vai para o QR')
-verdade(MATRICULA_NO_SITE.startsWith('https://cruzvermelhariodejaneiro.org/'), 'a matrícula do site é no site da filial')
+verdade(MATRICULA_NO_SITE.startsWith('https://cruzvermelhapetropolis.org/'), 'a matrícula do site é no site da filial')
 
 // ---------------------------------------------------------------- os modelos, pelo nome
 const DO_SITE: [string, string | null][] = [

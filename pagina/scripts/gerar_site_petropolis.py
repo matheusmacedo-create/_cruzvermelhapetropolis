@@ -1,7 +1,7 @@
 """Gera o site da Cruz Vermelha Brasileira – Filial de Petrópolis em pagina/site/.
 
 Site enxuto e só de Petrópolis (27/10/2026): nenhuma foto, pessoa, história ou dado
-da filial do Rio de Janeiro. As fotos são turísticas da cidade, de licença livre, com o
+da filial de Petrópolis. As fotos são turísticas da cidade, de licença livre, com o
 crédito em /creditos/ (lista em pagina/site/assets/fotos/creditos.json).
 
 Uso: python3 pagina/scripts/gerar_site_petropolis.py
@@ -163,6 +163,9 @@ ORGANIZACAO = {
 
 # Google Analytics 4 da filial (o identificador sai impresso em toda página; não é segredo).
 ID_DO_ANALYTICS = "G-MJ0DGJHLVW"
+# Google Tag Manager da filial (também público). O trecho é o oficial do GTM: o
+# evento gtm.start é o que dispara os gatilhos de "visualização de página".
+ID_DO_GTM = "GTM-PDLBB439"
 
 
 def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: str = "hero", extra_head: str = "", extra_fim: str = "") -> None:
@@ -181,6 +184,13 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
 
     gtag('config', '{ID_DO_ANALYTICS}');
   </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
+  new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  }})(window,document,'script','dataLayer','{ID_DO_GTM}');</script>
+  <!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(titulo)}</title>
@@ -203,6 +213,9 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
   <script type="application/ld+json">{ld}</script>
 </head>
 <body{' class="pagina-doe"' if '/doe/' in caminho else ''}>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={ID_DO_GTM}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 {cabecalho(caminho)}
 <main id="conteudo">
 {corpo}
@@ -599,7 +612,7 @@ def privacidade() -> str:
 <h1>Política de privacidade</h1>
 <p>Este site é mantido pela {esc(FILIAL['nome'])}, CNPJ {FILIAL['cnpj']}, {esc(ENDERECO)}.</p>
 <h2>O que coletamos</h2>
-<p>Usamos o Google Analytics para saber quantas pessoas visitam o site e quais páginas leem. Ele grava cookies no seu navegador e recebe dados do acesso (páginas vistas, aparelho, navegador e região aproximada), sem nome nem contato; os números servem só para melhorar o site. Você pode bloquear esses cookies nas configurações do navegador. O site não usa cookies de publicidade. Os contatos são feitos por e-mail ou telefone, por iniciativa de quem nos procura. As fontes de texto vêm do Google Fonts, que recebe o endereço IP do seu acesso para entregar os arquivos.</p>
+<p>Usamos o Google Analytics, pelo Google Tag Manager, para saber quantas pessoas visitam o site e quais páginas leem. Ele grava cookies no seu navegador e recebe dados do acesso (páginas vistas, aparelho, navegador e região aproximada), sem nome nem contato; os números servem só para melhorar o site. Você pode bloquear esses cookies nas configurações do navegador. O site não usa cookies de publicidade. Os contatos são feitos por e-mail ou telefone, por iniciativa de quem nos procura. As fontes de texto vêm do Google Fonts, que recebe o endereço IP do seu acesso para entregar os arquivos.</p>
 <h2>Doações</h2>
 <p>Para doar em <a href="/doe/">/doe/</a>, pedimos nome, e-mail, CPF e telefone, que o meio de pagamento exige, e guardamos o registro da doação (valor, forma de pagamento, situação e o endereço IP de onde ela foi feita) para emitir o comprovante, prestar contas e evitar fraudes. O pagamento é processado pela Unicopag: os dados do cartão vão direto para ela e não ficam guardados no site, que só recebe a bandeira e os quatro últimos dígitos. A base legal é a execução da doação e o cumprimento de obrigações legais (LGPD, art. 7º, II e V).</p>
 <h2>Quando você nos escreve</h2>

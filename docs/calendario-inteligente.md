@@ -23,8 +23,8 @@ Fases 1 a 3, sem a IA (decisão 4). Onde a construção se afastou da proposta, 
 - **Datas comemorativas**: tabela `datas_comemorativas` com a lista geral (15 datas) e "Criar
   pauta", que grava `details.data_comemorativa` e `details.ano` na pauta. Editar a lista exige a
   permissão `agenda.datas` (admin e editor). As datas próprias da filial entram depois (decisão 6).
-- **Feriados** (`lib/agenda/datas.ts`): calculados — nacionais, Sexta-feira Santa, São Jorge (RJ),
-  São Sebastião (Rio), e Carnaval e Corpus Christi como ponto facultativo —, somados ao que a
+- **Feriados** (`lib/agenda/datas.ts`): calculados — nacionais, Sexta-feira Santa, São Jorge (estado do RJ),
+  aniversário de Petrópolis (16/3), São Pedro de Alcântara (29/6), e Carnaval e Corpus Christi como ponto facultativo —, somados ao que a
   BrasilAPI trouxer a mais (`feriadosDoAno`, a mesma fonte dos prazos dos chamados). A tabela
   `feriados` da §4 não foi criada.
 - **Link de assinatura (ICS)**: `/api/agenda/ics/[token]`, gerado em "Configurar". O banco guarda
@@ -193,7 +193,7 @@ financeiro, e assim por diante).
 - **"Adicionar à minha agenda"** nas oportunidades da Área do Voluntário: o voluntário que se
   inscreve baixa o evento (.ics) ou abre direto no Google Agenda.
 - **Feriados:** BrasilAPI para os nacionais (calcula Carnaval e Páscoa) [13], guardados no banco
-  para não depender dela na hora de abrir a tela. Os feriados do estado e da cidade do Rio (como
+  para não depender dela na hora de abrir a tela. Os feriados do estado e da cidade de Petrópolis (como
   São Jorge, 23/abr, e São Sebastião, 20/jan) ficam cadastrados à mão.
 
 ### 3.5 Componente de tela

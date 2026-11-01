@@ -135,7 +135,7 @@ export function TirarDoSite({ item, onFechar, onFeito }: { item: ItemNaTela; onF
       onFechar={onFechar}
     >
       <ul className="list-disc space-y-1.5 pl-5 text-muted-foreground">
-        <li>A página do item e os arquivos dele saem de cruzvermelhariodejaneiro.org/acervo/, e as páginas da coleção e do início do acervo são refeitas.</li>
+        <li>A página do item e os arquivos dele saem de cruzvermelhapetropolis.org/acervo/, e as páginas da coleção e do início do acervo são refeitas.</li>
         <li>A ficha e o arquivo original <strong className="text-foreground">continuam aqui</strong>, como privados.</li>
         <li>O endereço fica guardado: se o item voltar ao site, volta{item.endereco ? <> em <span className="break-all">{semProtocolo(item.endereco)}</span></> : ' no mesmo endereço'}.</li>
         <li>O Google pode levar alguns dias para tirar o item da busca.</li>

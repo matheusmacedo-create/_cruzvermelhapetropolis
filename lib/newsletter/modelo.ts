@@ -20,8 +20,8 @@ import { escapar } from '@/lib/site/artigo-html'
  *    some.
  */
 
-const SITE = 'https://cruzvermelhariodejaneiro.org'
-const LOGO = `${SITE}/assets/logo-cvb-rj.png`
+const SITE = 'https://cruzvermelhapetropolis.org'
+const LOGO = `${SITE}/assets/logo-cvb-petropolis.png`
 
 /** A paleta do site institucional, para o e-mail não parecer de outro lugar. */
 const VERMELHO = '#cc0000'
@@ -59,7 +59,7 @@ ${opcoes.miolo}
 
     <tr><td style="padding:24px 32px 28px;border-top:1px solid ${LINHA};font-family:Arial,Helvetica,sans-serif;color:${SUAVE};font-size:12px;line-height:1.6;">
       <p style="margin:0 0 8px;">Cruz Vermelha Brasileira — Filial do Município de Petrópolis</p>
-      <p style="margin:0 0 12px;"><a href="${SITE}" style="color:${SUAVE};">cruzvermelhariodejaneiro.org</a></p>
+      <p style="margin:0 0 12px;"><a href="${SITE}" style="color:${SUAVE};">cruzvermelhapetropolis.org</a></p>
       <p style="margin:0;">Você recebe esta mensagem porque confirmou a inscrição na nossa lista.
         <a href="${escapar(opcoes.urlDeSaida)}" style="color:${VERMELHO};font-weight:bold;">Sair da lista</a>.</p>
     </td></tr>

@@ -133,7 +133,7 @@ export function lerDadosDoSite(dias: Periodo, lote: { reports?: RelatorioDoGA[] 
   }
 }
 
-/** "Título da matéria | Cruz Vermelha Brasileira – RJ" → "Título da matéria". */
+/** "Título da matéria | Cruz Vermelha Brasileira – Petrópolis" → "Título da matéria". */
 export function limparTitulo(t: string): string {
   const limpo = t.replace(/\s*[|–—-]\s*Cruz Vermelha[^|]*$/i, '').trim()
   return limpo && limpo !== '(not set)' ? limpo : ''
@@ -157,7 +157,7 @@ export function duracaoLegivel(segundos: number): string {
 /** O caminho de uma página do site, sem domínio e sem consulta: casa o pagePath do GA com o site_url das matérias. */
 export function caminhoDaPagina(url: string): string {
   try {
-    const u = new URL(url, 'https://cruzvermelhariodejaneiro.org')
+    const u = new URL(url, 'https://cruzvermelhapetropolis.org')
     const p = u.pathname.replace(/\/index\.html?$/i, '/')
     return p.endsWith('/') ? p : `${p}/`
   } catch {

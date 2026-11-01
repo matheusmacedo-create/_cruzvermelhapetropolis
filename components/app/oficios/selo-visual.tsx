@@ -1,5 +1,5 @@
 /**
- * O selo digital da filial, desenhado: o carimbo redondo da Cruz Vermelha RJ
+ * O selo digital da filial, desenhado: o carimbo redondo da Cruz Vermelha Petrópolis
  * com o número do ofício, a data em que as assinaturas se completaram e a
  * impressão digital da chave que selou. É a face visível de lib/oficios/selo.ts
  * — quem confere de verdade é a assinatura Ed25519 (e o QR code leva à

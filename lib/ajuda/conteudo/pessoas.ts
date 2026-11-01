@@ -31,7 +31,7 @@ import type { GuiaDaArea } from '../tipos'
  *   migrações *_cvrj_participantes.sql, *_cvrj_oportunidades.sql e
  *   *_cvrj_cursos.sql;
  * - Livro de ponto: app/(app)/livro-de-ponto/page.tsx; o ponto e o portal da
- *   secretaria estão no repositório do site (cruzvermelhariodejaneiro):
+ *   secretaria estão no site (pasta pagina/ deste repositório):
  *   site/matricula-cursos-presenciais/api/painel.php (entrada por link de 20
  *   minutos, sessão de 12 horas, abas do ponto), ponto/ e static/ponto.js
  *   (“Continuar”, “Registrar entrada”, “Estou saindo agora”, “Lembrar de mim

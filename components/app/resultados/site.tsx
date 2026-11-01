@@ -40,7 +40,7 @@ export function SiteNoResultados({ situacao, dias, materias, ehAdmin, propriedad
       <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">O site</h2>
-          <p className="text-xs text-muted-foreground">Google Analytics · cruzvermelhariodejaneiro.org{situacao.estado === 'ok' ? ` · atualizado ${quandoLeu(situacao.lidoEm)}` : ''}</p>
+          <p className="text-xs text-muted-foreground">Google Analytics · cruzvermelhapetropolis.org{situacao.estado === 'ok' ? ` · atualizado ${quandoLeu(situacao.lidoEm)}` : ''}</p>
         </div>
         <nav aria-label="Período do site" className="flex rounded-lg border border-border bg-card p-0.5" data-ajuda="resultados.periodo">
           {(Object.keys(PERIODOS) as unknown as Periodo[]).map((p) => {
@@ -148,7 +148,7 @@ function Painel({ dados, materias }: { dados: DadosDoSite; materias: Record<stri
                 <span className="w-5 shrink-0 text-right text-xs tabular-nums text-muted-foreground">{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-3">
-                    <a href={`https://cruzvermelhariodejaneiro.org${p.caminho}`} target="_blank" rel="noopener noreferrer" className="min-w-0 truncate text-sm font-medium hover:text-primary hover:underline" title={p.caminho}>
+                    <a href={`https://cruzvermelhapetropolis.org${p.caminho}`} target="_blank" rel="noopener noreferrer" className="min-w-0 truncate text-sm font-medium hover:text-primary hover:underline" title={p.caminho}>
                       {p.caminho === '/' ? 'Página inicial' : p.titulo || p.caminho}<ExternalLink className="ml-1 inline size-3 text-muted-foreground" aria-hidden="true" />
                     </a>
                     <span className="shrink-0 text-sm font-semibold tabular-nums">{numero.format(p.vistas)}</span>

@@ -36,7 +36,7 @@ export const LANCE_MAXIMO_MICROS = 2_000_000
 /** Começo de cada campanha: US$ 5 por dia por página (o programa libera até US$ 329 por dia na conta toda). */
 export const ORCAMENTO_DIARIO_MICROS = 5_000_000
 
-export const SITE = 'https://cruzvermelhariodejaneiro.org'
+export const SITE = 'https://cruzvermelhapetropolis.org'
 
 export type Anuncio = { titulos: string[]; descricoes: string[]; url: string; caminho1?: string; caminho2?: string }
 export type Grupo = { nome: string; palavras: string[]; anuncios: Anuncio[] }
@@ -54,8 +54,8 @@ export type Plano = {
   lanceMaximoMicros: number
   /**
    * Onde o anúncio aparece: a constante do Google e o nome canônico que ela precisa ter. Fixa, não buscada por nome:
-   * "Rio de Janeiro" como City no Brasil são DUAS constantes (1001655, a cidade, e 9198038, uma localidade dentro dela),
-   * e a consulta por nome não diz qual vem primeiro. Antes de criar, a constante é conferida (existe, ativa, com este
+   * "Petropolis" no Brasil são DUAS constantes (1001653, a cidade, e 9197108, o distrito dentro dela), e a consulta
+   * por nome não diz qual vem primeiro. Antes de criar, a constante é conferida (existe, ativa, com este
    * nome canônico). Sem idioma: desde set/2026 a API recusa critério de idioma em campanha de pesquisa
    * (ContextError.OPERATION_NOT_PERMITTED_FOR_CONTEXT); o Google casa pela língua da busca e do anúncio.
    */
@@ -67,7 +67,7 @@ export type Plano = {
 
 const url = (caminho: string) => `${SITE}${caminho}`
 
-const RIO: Plano['local'] = { constante: 'geoTargetConstants/1001655', canonico: 'Rio de Janeiro,State of Rio de Janeiro,Brazil', rotulo: 'cidade do Rio de Janeiro' }
+const PETROPOLIS: Plano['local'] = { constante: 'geoTargetConstants/1001653', canonico: 'Petropolis,State of Rio de Janeiro,Brazil', rotulo: 'cidade de Petrópolis' }
 const utms = (campanha: string) => `utm_source=google&utm_medium=cpc&utm_campaign=${campanha}&utm_term={keyword}&utm_content={adgroupid}`
 
 const GUIA_PRIMEIROS_SOCORROS = url('/noticias/primeiros-socorros-o-que-fazer-nas-emergencias-mais-comuns/')
@@ -76,7 +76,7 @@ const GUIA_LEI_LUCAS = url('/noticias/lei-lucas-na-pratica-checklist-para-escola
 // Os textos dos anúncios só dizem o que a página entrega: os guias ajudam a reconhecer a emergência e a pedir ajuda, e
 // as manobras se aprendem com prática (é o que a página e a política editorial do site dizem). A doação hoje é só
 // por PIX (a /doe/ desligou o cartão): o sitelink não promete cartão.
-const SITELINK_DOACAO: Sitelink = { texto: 'Apoie a Cruz Vermelha', descricao1: 'Doe por PIX em 1 minuto', descricao2: 'Ajude a filial do Rio', url: url('/doe/') }
+const SITELINK_DOACAO: Sitelink = { texto: 'Apoie a Cruz Vermelha', descricao1: 'Doe por PIX em 1 minuto', descricao2: 'Ajude a filial de Petrópolis', url: url('/doe/') }
 const SITELINK_BEBE: Sitelink = { texto: 'Bebê engasgou?', descricao1: 'Sinais e quando chamar ajuda', descricao2: 'Engasgo leve ou grave', url: url('/noticias/o-que-fazer-quando-o-bebe-engasga/') }
 // Material de estudo e emprego: quem busca isso não quer o guia.
 const NEGATIVAS_DE_ESTUDO = ['pdf', 'apostila', 'apostilas', 'slide', 'slides', 'concurso', 'concursos', 'emprego', 'empregos', 'questões', 'questoes']
@@ -84,12 +84,12 @@ const NEGATIVAS_DE_ESTUDO = ['pdf', 'apostila', 'apostilas', 'slide', 'slides', 
 export const PLANOS_DO_GRANTS: Plano[] = [
   {
     id: 'guia-primeiros-socorros',
-    nome: 'Grants — Guia de primeiros socorros (RJ)',
+    nome: 'Grants — Guia de primeiros socorros (Petrópolis)',
     destino: GUIA_PRIMEIROS_SOCORROS,
     sufixoDaUrl: utms('grants-guia-primeiros-socorros'),
     orcamentoDiarioMicros: ORCAMENTO_DIARIO_MICROS,
     lanceMaximoMicros: LANCE_MAXIMO_MICROS,
-    local: RIO,
+    local: PETROPOLIS,
     grupos: [
       {
         nome: 'Convulsão',
@@ -97,17 +97,17 @@ export const PLANOS_DO_GRANTS: Plano[] = [
         anuncios: [
           {
             url: GUIA_PRIMEIROS_SOCORROS, caminho1: 'socorros', caminho2: 'convulsao',
-            titulos: ['Convulsão: o que fazer', 'O que fazer numa convulsão', 'Primeiros socorros convulsão', 'Como ajudar numa convulsão', 'Não coloque nada na boca', 'Não segure a pessoa', 'Quando ligar para o 192', 'Proteja a cabeça da pessoa', 'Orientações oficiais', 'Guia da Cruz Vermelha RJ'],
+            titulos: ['Convulsão: o que fazer', 'O que fazer numa convulsão', 'Primeiros socorros convulsão', 'Como ajudar numa convulsão', 'Não coloque nada na boca', 'Não segure a pessoa', 'Quando ligar para o 192', 'Proteja a cabeça da pessoa', 'Orientações oficiais', 'Guia Cruz Vermelha Petrópolis'],
             descricoes: [
               'O que as orientações oficiais dizem sobre a convulsão e quando chamar o SAMU (192).',
               'Afaste objetos, proteja a cabeça e não segure a pessoa. Saiba quando ligar para o 192.',
-              'Guia de primeiros socorros da Cruz Vermelha Brasileira Rio de Janeiro, sem custo.',
+              'Guia de primeiros socorros da Cruz Vermelha Brasileira Petrópolis, sem custo.',
               'Primeira crise, crise longa ou pessoa machucada: ligue 192. Veja os outros casos.',
             ],
           },
           {
             url: GUIA_PRIMEIROS_SOCORROS, caminho1: 'socorros', caminho2: 'convulsao',
-            titulos: ['Alguém teve uma convulsão?', 'O que fazer e o que evitar', 'Crise convulsiva: o que fazer', 'Anote a hora da crise', 'Febre pode causar convulsão', 'Quando chamar o SAMU 192', 'Primeiros socorros no RJ', 'Cruz Vermelha Brasileira RJ'],
+            titulos: ['Alguém teve uma convulsão?', 'O que fazer e o que evitar', 'Crise convulsiva: o que fazer', 'Anote a hora da crise', 'Febre pode causar convulsão', 'Quando chamar o SAMU 192', 'Primeiros socorros Petrópolis', 'Cruz Vermelha Petrópolis'],
             descricoes: [
               'Leia o guia completo com as emergências mais comuns em casa, na escola e na rua.',
               'Saiba reconhecer a crise e pedir ajuda. As manobras se aprendem com prática.',
@@ -122,16 +122,16 @@ export const PLANOS_DO_GRANTS: Plano[] = [
         anuncios: [
           {
             url: GUIA_PRIMEIROS_SOCORROS, caminho1: 'socorros', caminho2: 'queimadura',
-            titulos: ['Queimadura: o que fazer', 'Primeiros socorros queimadura', 'Água corrente, não manteiga', 'Não estoure as bolhas', 'Queimadura com bolha', 'Quando ligar para o 192', 'Orientações oficiais', 'Guia da Cruz Vermelha RJ'],
+            titulos: ['Queimadura: o que fazer', 'Primeiros socorros queimadura', 'Água corrente, não manteiga', 'Não estoure as bolhas', 'Queimadura com bolha', 'Quando ligar para o 192', 'Orientações oficiais', 'Guia Cruz Vermelha Petrópolis'],
             descricoes: [
               'Resfrie com água corrente e não use receitas caseiras. Veja quando chamar o SAMU (192).',
-              'Guia de primeiros socorros da Cruz Vermelha Brasileira RJ com orientações oficiais.',
+              'Guia de primeiros socorros da Cruz Vermelha Petrópolis com orientações oficiais.',
               'Bolhas não devem ser estouradas. Saiba como proteger a queimadura até o atendimento.',
             ],
           },
           {
             url: GUIA_PRIMEIROS_SOCORROS, caminho1: 'socorros', caminho2: 'queimadura',
-            titulos: ['Se queimou? Veja o que fazer', 'O que não passar na pele', 'Nada de receita caseira', 'Queimadura no rosto é grave', 'Primeiros socorros em casa', 'Cruz Vermelha Brasileira RJ'],
+            titulos: ['Se queimou? Veja o que fazer', 'O que não passar na pele', 'Nada de receita caseira', 'Queimadura no rosto é grave', 'Primeiros socorros em casa', 'Cruz Vermelha Petrópolis'],
             descricoes: [
               'Manteiga, pasta de dente e pó de café não devem ir na pele queimada. Leia o guia.',
               'Queimadura grande, no rosto ou por choque é emergência: ligue 192. Leia o guia completo.',
@@ -145,7 +145,7 @@ export const PLANOS_DO_GRANTS: Plano[] = [
         anuncios: [
           {
             url: GUIA_PRIMEIROS_SOCORROS, caminho1: 'socorros',
-            titulos: ['Primeiros socorros: o guia', 'Engasgo e sangramento forte', 'Sangramento forte: o que fazer', 'Engasgo grave é emergência', 'Quando ligar para o 192', 'SAMU 192 e Bombeiros 193', 'Guia da Cruz Vermelha RJ'],
+            titulos: ['Primeiros socorros: o guia', 'Engasgo e sangramento forte', 'Sangramento forte: o que fazer', 'Engasgo grave é emergência', 'Quando ligar para o 192', 'SAMU 192 e Bombeiros 193', 'Guia Cruz Vermelha Petrópolis'],
             descricoes: [
               'As emergências mais comuns e o que as orientações oficiais dizem para cada uma.',
               'Saiba reconhecer a emergência e pedir ajuda. As manobras se aprendem com prática.',
@@ -154,10 +154,10 @@ export const PLANOS_DO_GRANTS: Plano[] = [
           },
           {
             url: GUIA_PRIMEIROS_SOCORROS, caminho1: 'socorros', caminho2: 'guia',
-            titulos: ['O que fazer numa emergência', 'Segurança e pedido de ajuda', 'Para quem ligar: 192 ou 193', 'Orientações oficiais', 'Cruz Vermelha Brasileira RJ'],
+            titulos: ['O que fazer numa emergência', 'Segurança e pedido de ajuda', 'Para quem ligar: 192 ou 193', 'Orientações oficiais', 'Cruz Vermelha Petrópolis'],
             descricoes: [
               'Segurança, 192, parada cardíaca, engasgo, sangramento, queimadura e convulsão num guia.',
-              'Leia o guia e veja onde aprender primeiros socorros com prática no Centro do Rio.',
+              'Leia o guia e veja onde aprender primeiros socorros com prática no Centro de Petrópolis.',
             ],
           },
         ],
@@ -185,12 +185,12 @@ export const PLANOS_DO_GRANTS: Plano[] = [
   },
   {
     id: 'guia-lei-lucas',
-    nome: 'Grants — Guia Lei Lucas na prática (RJ)',
+    nome: 'Grants — Guia Lei Lucas na prática (Petrópolis)',
     destino: GUIA_LEI_LUCAS,
     sufixoDaUrl: utms('grants-guia-lei-lucas'),
     orcamentoDiarioMicros: ORCAMENTO_DIARIO_MICROS,
     lanceMaximoMicros: LANCE_MAXIMO_MICROS,
-    local: RIO,
+    local: PETROPOLIS,
     grupos: [
       {
         nome: 'Lei Lucas: o que é',
@@ -198,16 +198,16 @@ export const PLANOS_DO_GRANTS: Plano[] = [
         anuncios: [
           {
             url: GUIA_LEI_LUCAS, caminho1: 'lei-lucas',
-            titulos: ['Lei Lucas: o que é', 'O que diz a Lei Lucas', 'O que a Lei Lucas exige', 'Lei 13.722/2018 explicada', 'Lei Lucas primeiros socorros', 'O que a lei pede, item a item', 'Checklist para escolas', 'Guia da Cruz Vermelha RJ'],
+            titulos: ['Lei Lucas: o que é', 'O que diz a Lei Lucas', 'O que a Lei Lucas exige', 'Lei 13.722/2018 explicada', 'Lei Lucas primeiros socorros', 'O que a lei pede, item a item', 'Checklist para escolas', 'Guia Cruz Vermelha Petrópolis'],
             descricoes: [
               'O que a Lei Lucas exige de escolas e creches, artigo por artigo, e as penalidades.',
-              'Guia prático da Cruz Vermelha Brasileira Rio de Janeiro para diretores e equipes.',
+              'Guia prático da Cruz Vermelha Brasileira Petrópolis para diretores e equipes.',
               'Curso anual, kit, certificado à vista e rede de urgência, com o artigo de cada item.',
             ],
           },
           {
             url: GUIA_LEI_LUCAS, caminho1: 'lei-lucas', caminho2: 'na-pratica',
-            titulos: ['Lei Lucas na prática', 'Primeiros socorros na escola', 'Curso anual e certificado', 'Plano de emergência', 'A história por trás da lei', 'Cruz Vermelha Brasileira RJ'],
+            titulos: ['Lei Lucas na prática', 'Primeiros socorros na escola', 'Curso anual e certificado', 'Plano de emergência', 'A história por trás da lei', 'Cruz Vermelha Petrópolis'],
             descricoes: [
               'Curso todo ano, kit, certificado à vista e rede de urgência: veja o que a lei pede.',
               'Leia o checklist e organize quem faz o quê numa emergência com crianças na escola.',
@@ -221,7 +221,7 @@ export const PLANOS_DO_GRANTS: Plano[] = [
         anuncios: [
           {
             url: GUIA_LEI_LUCAS, caminho1: 'lei-lucas', caminho2: 'escolas',
-            titulos: ['Sua escola cumpre a Lei Lucas?', 'Como cumprir a Lei Lucas', 'Lei Lucas: creche e escola', 'Lei Lucas: obrigatoriedade', 'Lei Lucas: multa e penalidades', 'Checklist da Lei 13.722', 'Escolas e creches no RJ', 'Guia da Cruz Vermelha RJ'],
+            titulos: ['Sua escola cumpre a Lei Lucas?', 'Como cumprir a Lei Lucas', 'Lei Lucas: creche e escola', 'Lei Lucas: obrigatoriedade', 'Lei Lucas: multa e penalidades', 'Checklist da Lei 13.722', 'Escolas e creches Petrópolis', 'Guia Cruz Vermelha Petrópolis'],
             descricoes: [
               'Confira item por item o que a Lei Lucas pede e o que acontece se a escola não cumprir.',
               'Guia gratuito para diretores, coordenadores e mantenedores de escolas e creches.',
@@ -230,10 +230,10 @@ export const PLANOS_DO_GRANTS: Plano[] = [
           },
           {
             url: GUIA_LEI_LUCAS, caminho1: 'lei-lucas', caminho2: 'checklist',
-            titulos: ['Lei Lucas para creches', 'Lei Lucas: certificado', 'O que a lei exige da escola', 'Certificado em local visível', 'Parte da equipe, todo ano', 'Cruz Vermelha Brasileira RJ'],
+            titulos: ['Lei Lucas para creches', 'Lei Lucas: certificado', 'O que a lei exige da escola', 'Certificado em local visível', 'Parte da equipe, todo ano', 'Cruz Vermelha Petrópolis'],
             descricoes: [
               'Quem treinar, quem ministra, kit e certificado: o checklist completo da Lei Lucas.',
-              'Veja também como capacitar professores e funcionários no Centro do Rio de Janeiro.',
+              'Veja também como capacitar professores e funcionários no Centro de Petrópolis.',
             ],
           },
         ],
@@ -245,7 +245,7 @@ export const PLANOS_DO_GRANTS: Plano[] = [
       SITELINK_BEBE,
       { texto: 'A origem da Lei Lucas', descricao1: 'Quem foi Lucas e por que a lei', descricao2: 'O que muda para as escolas', url: url('/noticias/curso-de-primeiros-socorros-lei-lucas-o-que-a-lei-exige-das-escolas/') },
       { texto: 'Quem pode dar o curso', descricao1: 'Rede pública e rede particular', descricao2: 'O que diz o art. 2º', url: url('/noticias/quem-pode-ministrar-o-curso-de-primeiros-socorros-da-lei-lucas/') },
-      { texto: 'Seja voluntário no Rio', descricao1: 'Cadastro, entrevista e formação', descricao2: 'Faça parte da filial', url: url('/voluntariado/') },
+      { texto: 'Seja voluntário', descricao1: 'Cadastro, entrevista e formação', descricao2: 'Faça parte da filial', url: url('/voluntariado/') },
       SITELINK_DOACAO,
     ],
   },

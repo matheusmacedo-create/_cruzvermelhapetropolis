@@ -40,7 +40,7 @@ export function escapar(texto: string): string {
   return texto.replace(/[&<>"']/g, (c) => ESCAPES[c])
 }
 
-const ORIGEM_PADRAO = 'https://cruzvermelhariodejaneiro.org'
+const ORIGEM_PADRAO = 'https://cruzvermelhapetropolis.org'
 
 export function origemDoSite(baseUrl: string): string {
   try {
@@ -74,7 +74,7 @@ export function noDaOrganizacao(): Record<string, unknown> {
     '@id': `${ORIGEM_PADRAO}/#organizacao`,
     name: NOME_FORMAL_DA_FILIAL,
     url: `${ORIGEM_PADRAO}/`,
-    logo: { '@type': 'ImageObject', url: `${ORIGEM_PADRAO}/assets/logo-cvb-rj.png` },
+    logo: { '@type': 'ImageObject', url: `${ORIGEM_PADRAO}/assets/logo-cvb-petropolis.png` },
   }
 }
 
@@ -480,7 +480,7 @@ footer{background:var(--stone);border-top:3px solid var(--red);color:var(--muted
 
 // ---------------------------------------------------------------- cabeçalho e rodapé
 
-const LOGO = (o: string) => `${o}/assets/otim/logo-cvb-rj-520.webp`
+const LOGO = (o: string) => `${o}/assets/otim/logo-cvb-petropolis-520.webp`
 
 /** As páginas que o menu marca como a atual (aria-current + filete). */
 export type ItemDoMenu = 'noticias' | 'acervo' | 'transparencia'

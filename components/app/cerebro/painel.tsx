@@ -38,7 +38,7 @@ export async function PainelDoCerebro() {
         <div>
           <h2 className="text-base font-semibold">Sugerido pelo Cérebro</h2>
           <p className="text-sm text-muted-foreground">
-            Leitura das contas oficiais do Rio. Importar cria um pacote em rascunho — nada é enviado.
+            Leitura das contas oficiais de Petrópolis. Importar cria um pacote em rascunho — nada é enviado.
             {origem === 'seed' && ' Atenção: o Cérebro está servindo o acervo semente, não dado vivo.'}
           </p>
         </div>

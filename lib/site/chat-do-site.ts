@@ -15,7 +15,7 @@ import { usarAvisoDeCookies } from '@/lib/site/analytics'
  * nunca com um endereço adivinhado.
  */
 
-const HOME = 'https://cruzvermelhariodejaneiro.org/'
+const HOME = 'https://cruzvermelhapetropolis.org/'
 const TEMPO_LIMITE_MS = 4000
 const VALIDADE_MS = 10 * 60_000
 const VALIDADE_DA_FALHA_MS = 60_000

@@ -691,7 +691,7 @@ const BIBLIOTECA: GuiaDaArea = {
     {
       id: 'biblioteca-ou-acervo',
       pergunta: 'Qual a diferença entre a Biblioteca e o Acervo?',
-      resposta: 'A Biblioteca é o material de trabalho da equipe, de onde saem as mídias das publicações. O Acervo é a memória da filial: cada item ganha ficha, e o que for publicado vai para cruzvermelhariodejaneiro.org/acervo.',
+      resposta: 'A Biblioteca é o material de trabalho da equipe, de onde saem as mídias das publicações. O Acervo é a memória da filial: cada item ganha ficha, e o que for publicado vai para cruzvermelhapetropolis.org/acervo.',
       termos: ['acervo', 'memória', 'onde guardar'],
     },
   ],
@@ -702,7 +702,7 @@ const BIBLIOTECA: GuiaDaArea = {
 
 const ACERVO: GuiaDaArea = {
   href: '/acervo',
-  paraQueServe: 'O Acervo guarda a memória da filial: documentos, fotos, vídeos, recortes de imprensa e registros da história. Cada arquivo ganha uma ficha (o que é, de quando, de quem). Tudo entra privado; só vai para cruzvermelhariodejaneiro.org/acervo o que alguém publica, com a ficha completa.',
+  paraQueServe: 'O Acervo guarda a memória da filial: documentos, fotos, vídeos, recortes de imprensa e registros da história. Cada arquivo ganha uma ficha (o que é, de quando, de quem). Tudo entra privado; só vai para cruzvermelhapetropolis.org/acervo o que alguém publica, com a ficha completa.',
   quemUsa: 'Administradores, editores e colaboradores veem e baixam tudo. Enviar, catalogar, publicar, tirar do site e excluir é de editores e administradores.',
   naPratica: {
     titulo: 'Uma foto de 1950 volta a contar a história da filial',
@@ -710,7 +710,7 @@ const ACERVO: GuiaDaArea = {
       'A equipe digitaliza fotos antigas da sede e envia ao Acervo; tudo entra privado.',
       'Cada foto ganha uma ficha: o que é, de quando, quem aparece, de onde veio.',
       'Com a ficha completa e a autorização conferida, a Carla toca em “Publicar no site”.',
-      'A foto aparece em cruzvermelhariodejaneiro.org/acervo e pode ser usada em matérias de aniversário da filial.',
+      'A foto aparece em cruzvermelhapetropolis.org/acervo e pode ser usada em matérias de aniversário da filial.',
     ],
     resultado: 'A memória da filial fica organizada, protegida e, quando dá, aberta ao público.',
   },
@@ -860,13 +860,13 @@ const ACERVO: GuiaDaArea = {
     {
       id: 'quem-ve-acervo',
       pergunta: 'Quem vê o que está no acervo?',
-      resposta: 'Item com o selo “Privado”: só a equipe do Palácio Virtual (administradores, editores e colaboradores). Item com o selo “No site”: qualquer pessoa, em cruzvermelhariodejaneiro.org/acervo, e o Google também encontra.',
+      resposta: 'Item com o selo “Privado”: só a equipe do Palácio Virtual (administradores, editores e colaboradores). Item com o selo “No site”: qualquer pessoa, em cruzvermelhapetropolis.org/acervo, e o Google também encontra.',
       termos: ['privado', 'público', 'site', 'quem acessa'],
     },
     {
       id: 'acervo-fora-do-google',
       pergunta: 'Por que o acervo não aparece no Google nem no rodapé do site?',
-      resposta: 'Enquanto nenhum item estiver “No site”, a página cruzvermelhariodejaneiro.org/acervo fica fora do Google e do mapa do site, e o rodapé não tem link para ela: página vazia conta contra o site. Coleção sem item também não aparece na página. Com o primeiro item publicado, a página e a coleção dele entram no Google e no mapa sozinhas; o link no rodapé volta só quando alguém o puser de novo no site.',
+      resposta: 'Enquanto nenhum item estiver “No site”, a página cruzvermelhapetropolis.org/acervo fica fora do Google e do mapa do site, e o rodapé não tem link para ela: página vazia conta contra o site. Coleção sem item também não aparece na página. Com o primeiro item publicado, a página e a coleção dele entram no Google e no mapa sozinhas; o link no rodapé volta só quando alguém o puser de novo no site.',
       termos: ['acervo vazio', 'Google', 'rodapé', 'em breve', 'coleção não aparece'],
     },
     {

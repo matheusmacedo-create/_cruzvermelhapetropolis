@@ -78,8 +78,8 @@ export async function espacoDaNewsletter(): Promise<{ id: string } | { erro: str
  * qualquer página da internet postar na lista da Cruz Vermelha.
  */
 const ORIGENS = [
-  'https://cruzvermelhariodejaneiro.org',
-  'https://www.cruzvermelhariodejaneiro.org',
+  'https://cruzvermelhapetropolis.org',
+  'https://www.cruzvermelhapetropolis.org',
 ]
 
 export function origensPermitidas(): string[] {

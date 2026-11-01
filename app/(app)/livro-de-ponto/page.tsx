@@ -8,13 +8,13 @@ import { tituloDaArea } from '@/lib/navegacao'
 export const metadata = { title: tituloDaArea('/livro-de-ponto') }
 
 /**
- * Livro de ponto — o caminho até o ponto da sede, que mora no site da filial (repositório
- * cruzvermelhariodejaneiro): o tablet da recepção e o celular, pelo QR code do cartaz, registram a
+ * Livro de ponto — o caminho até o ponto da sede, que mora no site da filial (pasta
+ * pagina/ deste repositório): o tablet da recepção e o celular, pelo QR code do cartaz, registram a
  * entrada e a saída, e o portal da secretaria guarda as horas dos voluntários, a presença dos outros
  * vínculos e dos alunos e a lista de emergência. O portal tem login próprio (link de acesso enviado ao
  * e-mail da equipe); aqui não há dado nenhum, só os endereços.
  */
-const SITE = 'https://cruzvermelhariodejaneiro.org'
+const SITE = 'https://cruzvermelhapetropolis.org'
 const PORTAL = `${SITE}/matricula-cursos-presenciais/api/painel.php`
 
 const SECOES = [

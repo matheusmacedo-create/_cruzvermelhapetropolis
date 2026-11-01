@@ -91,7 +91,7 @@ export const GRUPOS: Grupo[] = [
     rotulo: 'Redação',
     areas: [
       // Antes de Pautas porque é de onde elas podem nascer. O Cérebro recomenda; não publica.
-      { href: '/cerebro', rotulo: 'Radar de pautas', resumo: 'Sugestões do Cérebro a partir das contas oficiais do Rio', icone: Radar, termos: ['cérebro', 'cerebro', 'sugestões', 'ia'] },
+      { href: '/cerebro', rotulo: 'Radar de pautas', resumo: 'Sugestões do Cérebro a partir das contas oficiais de Petrópolis', icone: Radar, termos: ['cérebro', 'cerebro', 'sugestões', 'ia'] },
       { href: '/pautas', rotulo: 'Pautas', resumo: 'O quadro editorial, da entrada ao pronto', icone: ListChecks, termos: ['quadro', 'kanban', 'matérias'] },
       { href: '/projetos', rotulo: 'Projetos', resumo: 'Campanhas, eventos e iniciativas com começo, meio e fim', icone: FolderKanban, termos: ['campanhas', 'eventos', 'iniciativas'] },
       { href: '/redes', rotulo: 'Publicações', resumo: 'Monte o pacote e publique nas redes, no site e na newsletter', icone: Send, termos: ['redes sociais', 'instagram', 'facebook', 'post', 'pacote'] },
@@ -109,7 +109,7 @@ export const GRUPOS: Grupo[] = [
       { href: '/biblioteca', rotulo: 'Biblioteca de mídia', resumo: 'Fotos, vídeos e documentos, com direito de uso', icone: Images, termos: ['biblioteca', 'arquivos', 'fotos', 'vídeos', 'imagens'] },
       // O que a equipe manda pelo link vira material: mora ao lado da Biblioteca (antes ficava entre as conversas).
       { href: '/envios', rotulo: 'Envios da equipe', resumo: 'Ações que a equipe mandou pelo link: fotos, vídeos, áudios e relatos', icone: Upload, termos: ['envios', 'mandar ação', 'fotos da equipe', 'relatos', 'link de envio', 'álbum'], soPara: 'avaliadorDeEnvios' },
-      { href: '/acervo', rotulo: 'Acervo', resumo: 'A memória da filial no R2, e o que vai para cruzvermelhariodejaneiro.org/acervo', icone: Archive, termos: ['acervo', 'memória', 'história', 'documentos', 'fotos antigas', 'arquivo', 'r2'], permissao: 'acervo.ver' },
+      { href: '/acervo', rotulo: 'Acervo', resumo: 'A memória da filial no R2, e o que vai para cruzvermelhapetropolis.org/acervo', icone: Archive, termos: ['acervo', 'memória', 'história', 'documentos', 'fotos antigas', 'arquivo', 'r2'], permissao: 'acervo.ver' },
     ],
   },
   {

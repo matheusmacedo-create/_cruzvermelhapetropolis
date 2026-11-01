@@ -14,7 +14,7 @@ import { caracteres, cortar, ehColecao, lerItem, nomeSeguro, TAMANHO_MAXIMO, TAM
  * O acervo da filial (docs/acervo.md). Os arquivos vão do navegador direto ao bucket do acervo no
  * Cloudflare R2, por link de uso único, e caem na caixa de entrada (entrada/redacao/…); a ficha fica
  * no banco (acervo_itens). Publicar leva o arquivo para a pasta da coleção (com trava) e põe o item
- * em cruzvermelhariodejaneiro.org/acervo/.
+ * em cruzvermelhapetropolis.org/acervo/.
  *
  * Ver e baixar: acervo.ver (toda a equipe). Enviar, catalogar, publicar e excluir: acervo.gerenciar.
  */
@@ -157,7 +157,7 @@ export async function guardarNaColecaoDoAcervo(id: string): Promise<Resultado> {
 
 // ---------------------------------------------------------------- site
 
-/** Põe o item em cruzvermelhariodejaneiro.org/acervo/ (ou atualiza o arquivo e a página). */
+/** Põe o item em cruzvermelhapetropolis.org/acervo/ (ou atualiza o arquivo e a página). */
 export async function publicarItemDoAcervo(id: string): Promise<Resultado & { url?: string }> {
   try {
     const { workspaceId, ator } = await contexto('acervo.gerenciar')

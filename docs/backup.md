@@ -97,7 +97,7 @@ psql -d redacao_restaurado -c "set search_path = public, extensions; select publ
 ```
 
 A conferência precisa dar `"ok": true` e `"lotes_ok": true`, e os compromissos dos lotes precisam
-bater com os publicados em `https://cruzvermelhariodejaneiro.org/verificar/lotes/indice.json` (ou no
+bater com os publicados em `https://cruzvermelhapetropolis.org/verificar/lotes/indice.json` (ou no
 espelho `verificar/lotes/indice.json` do bucket `cvrj-trilha`): é isso que prova que a cópia é a
 mesma trilha que foi ancorada, e não uma reescrita.
 

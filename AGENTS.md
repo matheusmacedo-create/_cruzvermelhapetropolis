@@ -8,7 +8,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Redação CVB-RJ — regras para qualquer agente (Claude Code, Cursor, Copilot…)
+# Redação CVB Petrópolis — regras para qualquer agente (Claude Code, Cursor, Copilot…)
 
 Este arquivo é lido automaticamente pelo Claude Code de cada colaborador
 (`CLAUDE.md` importa este arquivo) e por outros agentes que seguem o padrão

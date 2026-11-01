@@ -30,7 +30,7 @@ confere('ordem', ordenarBanners([
 confere('link vazio', lerLink('  '), { url: null })
 confere('link interno', lerLink('/membro/oportunidades'), { url: '/membro/oportunidades' })
 confere('link raiz membro', lerLink('/membro'), { url: '/membro' })
-confere('link https', lerLink('https://cruzvermelhariodejaneiro.org/doe'), { url: 'https://cruzvermelhariodejaneiro.org/doe' })
+confere('link https', lerLink('https://cruzvermelhapetropolis.org/doe'), { url: 'https://cruzvermelhapetropolis.org/doe' })
 confere('recusa http', lerLink('http://exemplo.org').erro !== undefined, true)
 confere('recusa javascript', lerLink('javascript:alert(1)').erro !== undefined, true)
 confere('recusa //', lerLink('//exemplo.org').erro !== undefined, true)

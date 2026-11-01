@@ -16,7 +16,7 @@ import {
  * Isso também respeita os limites de uso das APIs gratuitas.
  */
 
-const AGENTE = 'PalacioVirtual/1.0 (+https://redacao.cruzvermelhariodejaneiro.org; comunicacao@cruzvermelhariodejaneiro.org)'
+const AGENTE = 'PalacioVirtual/1.0 (+https://redacao.cruzvermelhapetropolis.org; comunicacao@cruzvermelhapetropolis.org)'
 const DIA = 86_400
 
 async function json(url: string, opcoes: { revalidar?: number; prazoMs?: number; init?: RequestInit } = {}): Promise<unknown | null> {
@@ -55,7 +55,7 @@ export async function buscarCnpj(entrada: string): Promise<Empresa | null> {
 
 // ---------------------------------------------------------------- feriados
 
-/** Feriados nacionais (BrasilAPI) + os do Rio. Sem a API, só os do Rio. */
+/** Feriados nacionais (BrasilAPI) + os do estado e de Petrópolis. Sem a API, só esses. */
 export async function feriadosDoAno(ano: number): Promise<Feriado[]> {
   if (!Number.isInteger(ano) || ano < 1900 || ano > 2199) return []
   return lerFeriados(await json(`https://brasilapi.com.br/api/feriados/v1/${ano}`, { revalidar: 30 * DIA }), ano)
@@ -151,7 +151,7 @@ export async function conferirLinks(workspaceId: string, textoOuLinks: string | 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        client: { clientId: 'palacio-virtual-cvb-rj', clientVersion: '1.0' },
+        client: { clientId: 'palacio-virtual-cvb-petropolis', clientVersion: '1.0' },
         threatInfo: {
           threatTypes: ['MALWARE', 'SOCIAL_ENGINEERING', 'UNWANTED_SOFTWARE', 'POTENTIALLY_HARMFUL_APPLICATION'],
           platformTypes: ['ANY_PLATFORM'],

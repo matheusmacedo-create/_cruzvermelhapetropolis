@@ -6,7 +6,7 @@
 
 export const USOS = {
   redes_sociais: { rotulo: 'Redes sociais da Cruz Vermelha', detalhe: 'Instagram, Facebook, LinkedIn, YouTube, TikTok e outras.' },
-  site: { rotulo: 'Site e newsletter', detalhe: 'cruzvermelhariodejaneiro.org e os e-mails da filial.' },
+  site: { rotulo: 'Site e newsletter', detalhe: 'cruzvermelhapetropolis.org e os e-mails da filial.' },
   impressos: { rotulo: 'Materiais impressos', detalhe: 'Folhetos, cartazes, banners e publicações.' },
   imprensa: { rotulo: 'Imprensa', detalhe: 'Envio a jornais, TVs, rádios e sites de notícia.' },
   campanhas: { rotulo: 'Campanhas institucionais e de doação', detalhe: 'Peças para arrecadar doações e divulgar a instituição.' },

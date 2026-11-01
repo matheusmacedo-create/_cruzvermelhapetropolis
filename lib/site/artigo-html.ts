@@ -50,7 +50,7 @@ export const LINKS_ANTIGOS_DO_SITE: Readonly<Record<string, string>> = {
   '/index.html': '/',
 }
 
-const HOSTS_DO_SITE = new Set(['cruzvermelhariodejaneiro.org', 'www.cruzvermelhariodejaneiro.org'])
+const HOSTS_DO_SITE = new Set(['cruzvermelhapetropolis.org', 'www.cruzvermelhapetropolis.org'])
 /** Domínio antigo da filial, em disputa judicial: não se cita nem se linka. */
 const DOMINIO_EM_DISPUTA = /(^|[./@])cruzvermelharj\.org\.br/i
 
@@ -501,7 +501,7 @@ export function montarPaginaDoArtigo(dados: DadosDoArtigo): string {
             <li>A filial forma os próprios voluntários, na sede, no Centro de Petrópolis.</li>
           </ul>
         </section>
-        <p class="rail-cta"><a href="/voluntariado/">Seja voluntário no Rio →</a><br><a href="/doe/">Doe para a filial →</a></p>
+        <p class="rail-cta"><a href="/voluntariado/">Seja voluntário em Petrópolis →</a><br><a href="/doe/">Doe para a filial →</a></p>
       </aside>`
 
   const maisNoticias = daFaixa.length

@@ -69,6 +69,32 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
 > (`lib/site/juridico.ts`) e na configuração da doação. O cartão CNPJ ainda traz
 > o Gmail e os fixos (24); atualizar lá também, se for o caso.
 
+> **01/11/2026 — revisão do nome em todo o repositório.** Nenhum texto, endereço,
+> CNPJ ou nome da filial do RJ ficou no código, nos textos, nos testes e na
+> documentação: domínio e e-mails passaram para `cruzvermelhapetropolis.org` (a
+> Redação vai morar em `palacio.cruzvermelhapetropolis.org`, `lib/dominio.ts`),
+> razão social e CNPJ para os de Petrópolis, a sede para a Rua Carlos Gomes, 6, os
+> ofícios e termos para "Petrópolis, <data>" (foro da Comarca de Petrópolis), os
+> feriados da biblioteca PHP para os de Petrópolis, e os anúncios do Ad Grants para
+> a cidade de Petrópolis (`geoTargetConstants/1001653`). O que fica com "RJ" é o
+> estado (Petrópolis/RJ, Polícia Civil do RJ, São Jorge). Saíram da `pagina/` os
+> geradores, a documentação e as traduções do site do RJ (só fica
+> `scripts/gerar_site_petropolis.py`) e `docs/relatorios/` (relatórios do RJ).
+> As migrações antigas não podem mudar: a nova
+> `20261101120000_cvrj_nomes_de_petropolis.sql`, a última da fila, troca os nomes
+> do RJ que elas gravam no banco (funções, padrões de coluna, empresa principal do
+> financeiro, setores e mapa do ecossistema). Os identificadores internos `cvrj_*`
+> (tabelas, migrações, cookies) e `selo-cvbrj/1` ficam: não aparecem para ninguém.
+> Ainda falta, quando a conta existir: verificar `noticias.`, `info.` e
+> `parceria.cruzvermelhapetropolis.org` no Resend, e o Instagram e o Facebook da
+> filial (`cruzvermelhabrasileirarj` ainda aparece na prévia do Instagram e no
+> rodapé das páginas que a Redação gera).
+
+> **01/11/2026 — Google Tag Manager `GTM-PDLBB439`** em todas as páginas do site,
+> com o trecho oficial (o do `<head>` e o `<noscript>` logo após o `<body>`), ao
+> lado do gtag do GA4. Se o contêiner também tiver uma tag do GA4 com o mesmo
+> `G-MJ0DGJHLVW`, as visitas contam em dobro: deixe a medição só num dos dois.
+
 > **01/11/2026 — Redação atualizada com o RJ** até `5c87d90` (30/10/2026):
 > 47 commits, 76 arquivos — Google Ads (Ad Grants), voz (ElevenLabs),
 > autocadastro de colaborador pelo WhatsApp, coordenadores de setor, fichas do

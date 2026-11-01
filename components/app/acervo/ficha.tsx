@@ -298,7 +298,7 @@ export function FichaDoItem({ item, onFechar, onSalvo }: { item: ItemNaTela; onF
               <section aria-labelledby={`${id}-busca`} className="rounded-lg border border-border p-3">
                 <h3 id={`${id}-busca`} className="text-sm font-semibold">Como aparece no Google</h3>
                 <div className="mt-2 flex flex-col gap-0.5">
-                  <p className="truncate text-[11px] text-muted-foreground">cruzvermelhariodejaneiro.org › acervo › {colecao} › {slug}</p>
+                  <p className="truncate text-[11px] text-muted-foreground">cruzvermelhapetropolis.org › acervo › {colecao} › {slug}</p>
                   <p className="text-sm leading-snug text-[#1a0dab] dark:text-[#8ab4f8]">{tituloDoItemNaBusca(valores.titulo || item.titulo)}</p>
                   <p className="text-xs leading-relaxed text-pretty text-muted-foreground">{descricaoDoItem(comoNoSite)}</p>
                 </div>

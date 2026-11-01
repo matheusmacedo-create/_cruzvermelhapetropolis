@@ -251,7 +251,7 @@ function mcp_doc_montar_email_equipe(array $c, array $d, array $arquivos): array
         . mcp_nota('Precisa comprovar: ' . mcp_escapar($perfil['comprovar']) . '. Se faltar algo ou estiver ilegível, peça por e-mail antes de enviar qualquer documento.')
         . mcp_subtitulo('O que pode ser enviado')
         . mcp_p(mcp_escapar(mcp_doc_orientacao($d['perfil'])))
-        . mcp_nota('Ninguém precisa de documento da filial para tirar certidão: a ata notarial pode ser pedida ao 12º Serviço Notarial do Rio, e o estatuto registrado, ao cartório de registro de pessoas jurídicas. Quando a resposta for a versão pública, indique esse caminho.')
+        . mcp_nota('Ninguém precisa de documento da filial para tirar certidão: a ata notarial pode ser pedida a um cartório de notas de Petrópolis, e o estatuto registrado, ao cartório de registro de pessoas jurídicas. Quando a resposta for a versão pública, indique esse caminho.')
         . ($linkPainel !== '' ? mcp_botao($linkPainel, 'Registrar a resposta no painel') : '')
         . mcp_botao($mailto, 'Responder por e-mail', true)
         . mcp_nota('Responder este e-mail vai direto para quem pediu. O documento, quando for o caso, segue como anexo da resposta. Depois de concluir, apague os comprovantes da caixa de e-mail que não precisar guardar.')

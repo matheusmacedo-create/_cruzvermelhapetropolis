@@ -740,7 +740,7 @@ const CONFIGURACOES: GuiaDaArea = {
     {
       id: 'ativar-endereco',
       titulo: 'Ligar um endereço a um setor e ativar',
-      exemplo: 'O endereço compras@cruzvermelhariodejaneiro.org é ativado para o setor Compras; quem é do setor já vê a caixa em “E-mail do setor”.',
+      exemplo: 'O endereço compras@cruzvermelhapetropolis.org é ativado para o setor Compras; quem é do setor já vê a caixa em “E-mail do setor”.',
       quem: 'Só administradores',
       passos: [
         'Endereço criado (e confirmado) no Gmail depois da conexão só aparece depois de “Sincronizar endereços”. Ele chega inativo.',
@@ -880,7 +880,7 @@ const CONFIGURACOES: GuiaDaArea = {
     {
       id: 'campanha-do-google-ads',
       pergunta: 'O Palácio liga anúncios no Google sozinho?',
-      resposta: 'Não. Ele só confere e cria as campanhas do Ad Grants, e elas nascem pausadas: nada é veiculado até alguém revisar e ativar no painel do Google Ads. É uma campanha por página, cada uma com o seu orçamento diário: hoje, o guia de primeiros socorros e o guia da Lei Lucas na prática, com anúncios de pesquisa para a cidade do Rio de Janeiro que respondem a dúvidas como “o que fazer em caso de convulsão” ou “lei lucas escolas”. Nenhuma leva à página de matrícula: os guias apresentam o curso e a doação no fim do texto.\n\nSe a autorização expirar, os administradores recebem um alerta e o cartão pede “Reconectar”; as campanhas continuam no Google como estão.',
+      resposta: 'Não. Ele só confere e cria as campanhas do Ad Grants, e elas nascem pausadas: nada é veiculado até alguém revisar e ativar no painel do Google Ads. É uma campanha por página, cada uma com o seu orçamento diário: hoje, o guia de primeiros socorros e o guia da Lei Lucas na prática, com anúncios de pesquisa para a cidade de Petrópolis que respondem a dúvidas como “o que fazer em caso de convulsão” ou “lei lucas escolas”. Nenhuma leva à página de matrícula: os guias apresentam o curso e a doação no fim do texto.\n\nSe a autorização expirar, os administradores recebem um alerta e o cartão pede “Reconectar”; as campanhas continuam no Google como estão.',
       termos: ['google ads', 'ad grants', 'campanha', 'anúncio', 'palavras-chave', 'conferir no google', 'criar campanha', 'pausada', 'orçamento'],
     },
     {

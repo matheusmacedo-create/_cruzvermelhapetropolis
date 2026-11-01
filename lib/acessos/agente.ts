@@ -139,7 +139,7 @@ export function rotuloDoAparelho(a: Agente): string {
   return [a.navegador ?? 'Navegador desconhecido', a.sistema, a.dispositivo].filter(Boolean).join(' · ').slice(0, 200)
 }
 
-/** "Rio de Janeiro/RJ, BR" — o que a lista mostra. */
+/** "Petrópolis/RJ, BR" — o que a lista mostra. */
 export function lugar(d: { cidade: string | null; estado: string | null; pais: string | null }): string {
   const cidade = [d.cidade, d.estado].filter(Boolean).join('/')
   return [cidade, d.pais].filter(Boolean).join(', ') || 'Local desconhecido'

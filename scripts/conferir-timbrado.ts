@@ -25,7 +25,7 @@ const fontes = async (b: Uint8Array) => {
   return [...new Set(d.context.enumerateIndirectObjects().map(([, o]) => String((o as { get?: (k: unknown) => unknown }).get?.(d.context.obj('BaseFont')) ?? '')).filter(Boolean))].sort()
 }
 
-const corpo = Array.from({ length: 14 }, (_v, i) => `Parágrafo ${i + 1}: a Cruz Vermelha Brasileira – Filial do Estado do Rio de Janeiro solicita a cessão do espaço para a campanha de vacinação, com atendimento gratuito à população, respeitando os Princípios Fundamentais de Humanidade, Imparcialidade e Neutralidade.`).join('\n\n')
+const corpo = Array.from({ length: 14 }, (_v, i) => `Parágrafo ${i + 1}: a Cruz Vermelha Brasileira – Filial do Município de Petrópolis solicita a cessão do espaço para a campanha de vacinação, com atendimento gratuito à população, respeitando os Princípios Fundamentais de Humanidade, Imparcialidade e Neutralidade.`).join('\n\n')
 
 async function main() {
   conferir('filial tirada do nome completo', NOME_DA_FILIAL === 'Filial do Município de Petrópolis', NOME_DA_FILIAL)
@@ -35,15 +35,15 @@ async function main() {
 
   const dados = {
     doc: {
-      emitente: 'CVB-RJ', numero: '12/2026', data: '2026-09-27', local: 'Rio de Janeiro', setor: 'Presidência',
-      destinatario: { nome: 'Ilma. Sra. Maria da Silva', cargo: 'Diretora', orgao: 'Secretaria Municipal de Saúde', endereco: 'Rua Afonso Cavalcanti, 455\nCidade Nova, Rio de Janeiro/RJ' },
+      emitente: 'CVB Petrópolis', numero: '12/2026', data: '2026-09-27', local: 'Petrópolis', setor: 'Presidência',
+      destinatario: { nome: 'Ilma. Sra. Maria da Silva', cargo: 'Diretora', orgao: 'Secretaria Municipal de Saúde', endereco: 'Av. Koeler, 260\nCentro, Petrópolis/RJ' },
       vocativo: 'Senhora Diretora,', assunto: 'Cessão de espaço para campanha de vacinação', corpo, fecho: 'Atenciosamente,',
       assinantes: [
         { ordem: 1, nome: 'Luiz Carlos dos Santos', cpf: '***.456.789-**', cargo: 'Presidente', setor: 'Diretoria' },
         { ordem: 2, nome: 'Antonio Pedregal', cpf: null, cargo: 'Vice-Presidente', setor: 'Diretoria' },
       ],
     },
-    hashDocumento: 'a'.repeat(64), codigoVerificacao: 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', urlBase: 'https://palacio.cruzvermelhariodejaneiro.org',
+    hashDocumento: 'a'.repeat(64), codigoVerificacao: 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', urlBase: 'https://palacio.cruzvermelhapetropolis.org',
     emitidoEm: '2026-09-27T15:00:00Z', modo: 'govbr' as const,
   }
   const um = await gerarPdfDoOficio(dados)
@@ -62,12 +62,12 @@ async function main() {
   conferir('recibo de 40 itens em mais de uma página', (await PDFDocument.load(recibo)).getPageCount() >= 2)
   const termo = await termoDeEntrega({
     codigo: 'ENT-2026-0007', data: '2026-09-21', beneficiario: 'Associação de Moradores do Morro da Providência', tipo: 'instituição', documento: null, responsavel: 'José Pereira', pessoas: 120,
-    municipio: 'Rio de Janeiro', bairro: 'Gamboa', campanha: 'Campanha do agasalho', observacao: null, entreguePor: 'Elisabete Souza', geradoEm: '27/09/2026 15:00',
+    municipio: 'Petrópolis', bairro: 'Valparaíso', campanha: 'Campanha do agasalho', observacao: null, entreguePor: 'Elisabete Souza', geradoEm: '27/09/2026 15:00',
     itens: [{ descricao: 'Cobertor casal', quantidade: 60, unidade: 'un' }, { descricao: 'Cesta básica', quantidade: 30, unidade: 'un' }],
   })
   const ordem = await ordemDeCompra({
     codigo: 'OC-2026-0003', pedido: 'PC-2026-0011', emitidaEm: '2026-09-22', geradoEm: '27/09/2026 15:00',
-    comprador: { nome: 'Cruz Vermelha Brasileira — Filial do Estado do Rio de Janeiro', cnpj: '08560973000197', endereco: 'Praça da Cruz Vermelha, 10 — Centro' },
+    comprador: { nome: 'Cruz Vermelha Brasileira — Filial do Município de Petrópolis', cnpj: '09198238000148', endereco: 'Rua Carlos Gomes, 6 — Centro' },
     fornecedor: { nome: 'Papelaria Centro Ltda.', documento: '11222333000144', email: 'vendas@papelaria.com', telefone: '(21) 3333-4444' },
     itens: [{ descricao: 'Papel A4', especificacao: '75 g/m², 500 folhas', quantidade: 10, unidade: 'resma', valor_unitario: 28.9 }],
     frete: 15, total: 304, prazoEntrega: '5 dias úteis', condicaoPagamento: 'Boleto 28 dias', localEntrega: 'Sede', necessarioAte: '2026-10-05',

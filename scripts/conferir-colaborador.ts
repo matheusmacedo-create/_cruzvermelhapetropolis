@@ -436,11 +436,11 @@ async function servidor() {
 
   // 5) A ficha do RH reaproveitada: o "é esta pessoa?", o e-mail lido da ficha, e o link com a ficha como alvo.
   {
-    const e = espaco({ fichas: [{ id: '00000000-0000-4000-8000-0000000000f1', nome: 'Ana Paula Lima', setor: 'Voluntariado', cargo: 'Assistente', email_trabalho: 'ana.lima@cruzvermelhariodejaneiro.org' }] })
+    const e = espaco({ fichas: [{ id: '00000000-0000-4000-8000-0000000000f1', nome: 'Ana Paula Lima', setor: 'Voluntariado', cargo: 'Assistente', email_trabalho: 'ana.lima@cruzvermelhapetropolis.org' }] })
     const s = await conversa(e, 'Ana Lima', ['sim', 'usar o da ficha', 'pular', 'usar o da ficha', 'usar o da ficha', 'manter'])
     igual((s[0]?.pergunta?.dados as DadosDoCadastro | undefined)?.etapa, 'quem_e', 'servidor: homônimo sem acesso, o "é esta pessoa?"')
     naoContem(JSON.stringify(s[0]?.pergunta?.dados), 'ana.lima@', 'servidor: o e-mail da ficha não fica na pendência antes da escolha')
-    contem(s[2]?.texto ?? '', 'a•••a@cruzvermelhariodejaneiro.org', 'servidor: "Usar o da ficha" lê o e-mail da ficha')
+    contem(s[2]?.texto ?? '', 'a•••a@cruzvermelhapetropolis.org', 'servidor: "Usar o da ficha" lê o e-mail da ficha')
     const link = e.links[0] ?? {}
     igual([link.alvo_id, (link.dados as Record<string, unknown>)?.fichaId, (link.dados as Record<string, unknown>)?.coordenacao, (link.dados as Record<string, unknown>)?.cargo, (link.dados as Record<string, unknown>)?.papel],
       ['00000000-0000-4000-8000-0000000000f1', '00000000-0000-4000-8000-0000000000f1', 'Voluntariado', 'Assistente', 'colaborador'], 'servidor: a ficha é o alvo e vai no pedido')

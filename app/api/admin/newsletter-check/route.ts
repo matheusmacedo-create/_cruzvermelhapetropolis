@@ -66,7 +66,7 @@ export async function GET() {
   // republicou o site por cima e levou o formulário junto.
   let formularioDaHome: string | undefined
   try {
-    const res = await fetch('https://cruzvermelhariodejaneiro.org/', { cache: 'no-store' })
+    const res = await fetch('https://cruzvermelhapetropolis.org/', { cache: 'no-store' })
     const html = await res.text()
     formularioDaHome = html.includes('/api/newsletter/inscrever')
       ? 'ligado'

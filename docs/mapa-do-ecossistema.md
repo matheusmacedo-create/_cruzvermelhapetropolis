@@ -2,7 +2,7 @@
 
 A tela `/mapa` (menu Gestão → Mapa do ecossistema) desenha, numa só árvore, o
 que a filial tem no digital: o **Palácio Virtual**, o **site institucional**
-(cruzvermelhariodejaneiro.org) e a **plataforma da Escola** (secretaria,
+(cruzvermelhapetropolis.org) e a **plataforma da Escola** (secretaria,
 matrículas e certificados). Cada parte tem um estado, uma lista de entregas e
 as pendências que faltam para ela funcionar de ponta a ponta. Quem tem a
 permissão `mapa.editar` marca pendências como resolvidas e muda estados; o mapa

@@ -7,7 +7,7 @@ import type { CodigoLido } from './catalogo'
 /**
  * O que as rotas públicas de verificação têm em comum: CORS só para o site,
  * limite por hora sem guardar IP e os endereços de prova de cada resposta.
- * A página que consome isto é https://cruzvermelhariodejaneiro.org/verificar/
+ * A página que consome isto é https://cruzvermelhapetropolis.org/verificar/
  * (repositório do site); o contrato está em docs/auditoria-publica.md §4.
  */
 

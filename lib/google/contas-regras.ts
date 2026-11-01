@@ -5,7 +5,7 @@
  * banco ou rede, e o navegador usa a sugestão enquanto a pessoa digita.
  */
 
-export const DOMINIO_DAS_CONTAS = 'cruzvermelhariodejaneiro.org'
+export const DOMINIO_DAS_CONTAS = 'cruzvermelhapetropolis.org'
 
 /** O que o Google aceita na parte local, e o que a filial usa: letras, números e ponto. */
 export const USUARIO_GOOGLE_VALIDO = /^[a-z0-9]+(?:\.[a-z0-9]+)*$/

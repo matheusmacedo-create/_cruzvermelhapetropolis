@@ -151,8 +151,8 @@ const semEspera = async () => undefined
 const tenta = async <T>(f: () => Promise<T>): Promise<T | ErroDeGrupo> => { try { return await f() } catch (e) { return e as ErroDeGrupo } }
 
 async function main() {
-  const TI = 'ti@cruzvermelhariodejaneiro.org'
-  const CONTATO = 'contato@cruzvermelhariodejaneiro.org'
+  const TI = 'ti@cruzvermelhapetropolis.org'
+  const CONTATO = 'contato@cruzvermelhapetropolis.org'
 
   // o que é o endereço
   {
@@ -417,17 +417,17 @@ async function main() {
   // apagar os apelidos dos setores: só apelido, e só o apelido
   {
     const g = novoGoogle()
-    g.comApelido(CONTATO, 'comunicacao@cruzvermelhariodejaneiro.org')
-    g.comApelido(CONTATO, 'ti@cruzvermelhariodejaneiro.org')
-    g.comApelido(CONTATO, 'juridico@cruzvermelhariodejaneiro.org')
-    g.grupos.set('ouvidoria@cruzvermelhariodejaneiro.org', { membros: new Map(), config: null })
+    g.comApelido(CONTATO, 'comunicacao@cruzvermelhapetropolis.org')
+    g.comApelido(CONTATO, 'ti@cruzvermelhapetropolis.org')
+    g.comApelido(CONTATO, 'juridico@cruzvermelhapetropolis.org')
+    g.grupos.set('ouvidoria@cruzvermelhapetropolis.org', { membros: new Map(), config: null })
     const itens = [
       { nome: 'Atendimento', endereco: CONTATO },
-      { nome: 'Comunicação', endereco: 'comunicacao@cruzvermelhariodejaneiro.org' },
-      { nome: 'TI', endereco: 'ti@cruzvermelhariodejaneiro.org' },
-      { nome: 'Jurídico', endereco: 'juridico@cruzvermelhariodejaneiro.org' },
-      { nome: 'Ouvidoria', endereco: 'ouvidoria@cruzvermelhariodejaneiro.org' },
-      { nome: 'Esportes', endereco: 'esportes@cruzvermelhariodejaneiro.org' },
+      { nome: 'Comunicação', endereco: 'comunicacao@cruzvermelhapetropolis.org' },
+      { nome: 'TI', endereco: 'ti@cruzvermelhapetropolis.org' },
+      { nome: 'Jurídico', endereco: 'juridico@cruzvermelhapetropolis.org' },
+      { nome: 'Ouvidoria', endereco: 'ouvidoria@cruzvermelhapetropolis.org' },
+      { nome: 'Esportes', endereco: 'esportes@cruzvermelhapetropolis.org' },
     ]
     const plano = await planoDasCaixas(g.chamar, itens)
     igual(plano.map((p) => `${p.nome}:${p.estado}`), ['Atendimento:caixa_real', 'Comunicação:apelido', 'TI:apelido', 'Jurídico:apelido', 'Ouvidoria:grupo', 'Esportes:livre'], 'plano: o estado de cada setor')
@@ -441,9 +441,9 @@ async function main() {
     igual(assinaturaDoPlano(plano.map((p) => (p.nome === 'TI' ? { ...p, estado: 'livre' as const } : p))) === a1, false, 'assinatura: muda se o estado de um setor mudou')
     igual(assinaturaDoPlano(plano.filter((p) => p.nome !== 'Esportes')) === a1, false, 'assinatura: muda se um setor a criar saiu do plano')
     igual(assinaturaDoPlano(plano.map((p) => (p.nome === 'TI' ? { ...p, dono: 'outro@x.org' } : p))) === a1, false, 'assinatura: muda se o dono do apelido mudou')
-    igual(assinaturaDoPlano(plano, { 'ti@cruzvermelhariodejaneiro.org': ['5548999990000'] }) === a1, false, 'assinatura: muda se entrou um coordenador (quem recebe a senha)')
-    igual(assinaturaDoPlano(plano, { 'ti@cruzvermelhariodejaneiro.org': ['5548999990000', '5521988887777'] }), assinaturaDoPlano(plano, { 'ti@cruzvermelhariodejaneiro.org': ['5521988887777', '5548999990000'] }), 'assinatura: a ordem dos coordenadores não importa')
-    igual(assinaturaDoPlano(plano, { 'contato@cruzvermelhariodejaneiro.org': ['5548999990000'] }), a1, 'assinatura: coordenador de setor que não precisa de caixa não entra')
+    igual(assinaturaDoPlano(plano, { 'ti@cruzvermelhapetropolis.org': ['5548999990000'] }) === a1, false, 'assinatura: muda se entrou um coordenador (quem recebe a senha)')
+    igual(assinaturaDoPlano(plano, { 'ti@cruzvermelhapetropolis.org': ['5548999990000', '5521988887777'] }), assinaturaDoPlano(plano, { 'ti@cruzvermelhapetropolis.org': ['5521988887777', '5548999990000'] }), 'assinatura: a ordem dos coordenadores não importa')
+    igual(assinaturaDoPlano(plano, { 'contato@cruzvermelhapetropolis.org': ['5548999990000'] }), a1, 'assinatura: coordenador de setor que não precisa de caixa não entra')
     igual(assinaturaDoPlano(plano.map((p) => (p.nome === 'Atendimento' ? { ...p, nome: 'Outro' } : p))), a1, 'assinatura: caixa real e grupo não entram')
     igual(assinaturaDoPlano([]), assinaturaDoPlano([{ nome: 'A', endereco: 'a@x.org', estado: 'caixa_real' }]), 'assinatura: sem nada a criar é sempre a mesma (depois de feito, o botão velho não bate)')
 
@@ -451,10 +451,10 @@ async function main() {
     igual(r.map((x) => `${x.nome}:${x.resultado}`), ['Atendimento:nao_era_apelido', 'Comunicação:removido', 'TI:removido', 'Jurídico:removido', 'Ouvidoria:nao_era_apelido', 'Esportes:nao_era_apelido'], 'apelidos: remove só os apelidos')
     igual([...(g.usuarios.get(CONTATO)?.apelidos ?? [])], [], 'apelidos: nenhum apelido sobra no contato@')
     igual(g.usuarios.has(CONTATO), true, 'apelidos: contato@ (a caixa real) continua existindo')
-    igual(g.grupos.has('ouvidoria@cruzvermelhariodejaneiro.org'), true, 'apelidos: o grupo existente não foi tocado')
+    igual(g.grupos.has('ouvidoria@cruzvermelhapetropolis.org'), true, 'apelidos: o grupo existente não foi tocado')
     igual(g.chamadas.filter((c) => c.startsWith('DELETE')).length, 3, 'apelidos: exatamente 3 DELETEs, um por apelido')
     igual(g.chamadas.some((c) => c.startsWith('DELETE') && c.includes(encodeURIComponent(CONTATO) + '/aliases/' + encodeURIComponent(CONTATO))), false, 'apelidos: nunca tenta apagar o contato@ como apelido')
-    igual((await consultarEndereco(g.chamar, 'comunicacao@cruzvermelhariodejaneiro.org')).tipo, 'livre', 'apelidos: depois de apagado o endereço fica livre')
+    igual((await consultarEndereco(g.chamar, 'comunicacao@cruzvermelhapetropolis.org')).tipo, 'livre', 'apelidos: depois de apagado o endereço fica livre')
 
     const de_novo = await removerApelidos(g.chamar, itens)
     igual(de_novo.every((x) => x.resultado === 'nao_era_apelido'), true, 'apelidos: rodar de novo não faz nada (idempotente)')
@@ -475,10 +475,10 @@ async function main() {
   // a caixa própria do setor: conta real, só se o endereço está livre
   {
     const g = novoGoogle()
-    const r = await criarCaixaDoSetor(g.chamar, { endereco: 'comunicacao@cruzvermelhariodejaneiro.org', nome: 'Comunicação Social', senha: 'Tmp#Senha-1', recuperacaoEmail: 'ana@gmail.com', recuperacaoCelular: '+5521988887777' })
+    const r = await criarCaixaDoSetor(g.chamar, { endereco: 'comunicacao@cruzvermelhapetropolis.org', nome: 'Comunicação Social', senha: 'Tmp#Senha-1', recuperacaoEmail: 'ana@gmail.com', recuperacaoCelular: '+5521988887777' })
     igual(r, { feito: 'criada' }, 'caixa do setor: endereço livre vira conta')
-    igual(g.usuarios.get('comunicacao@cruzvermelhariodejaneiro.org')?.principal, 'comunicacao@cruzvermelhariodejaneiro.org', 'caixa do setor: é um usuário de verdade (não apelido)')
-    igual((await consultarEndereco(g.chamar, 'comunicacao@cruzvermelhariodejaneiro.org')).tipo, 'caixa_real', 'caixa do setor: depois de criada é caixa real')
+    igual(g.usuarios.get('comunicacao@cruzvermelhapetropolis.org')?.principal, 'comunicacao@cruzvermelhapetropolis.org', 'caixa do setor: é um usuário de verdade (não apelido)')
+    igual((await consultarEndereco(g.chamar, 'comunicacao@cruzvermelhapetropolis.org')).tipo, 'caixa_real', 'caixa do setor: depois de criada é caixa real')
     const corpo = g.corposEnviados.find((c) => c.rota === 'POST /users')?.corpo as { changePasswordAtNextLogin?: boolean; recoveryEmail?: string; recoveryPhone?: string; name?: { givenName?: string; familyName?: string } }
     igual(corpo?.changePasswordAtNextLogin, true, 'caixa do setor: obriga a trocar a senha no primeiro acesso')
     igual(corpo?.recoveryEmail, 'ana@gmail.com', 'caixa do setor: recuperação pelo e-mail de quem cuida')
@@ -526,22 +526,22 @@ async function main() {
   {
     const mundo = () => {
       const g = novoGoogle()
-      g.comApelido(CONTATO, 'comunicacao@cruzvermelhariodejaneiro.org')
-      g.comApelido(CONTATO, 'ti@cruzvermelhariodejaneiro.org')
-      g.grupos.set('ouvidoria@cruzvermelhariodejaneiro.org', { membros: new Map(), config: null })
+      g.comApelido(CONTATO, 'comunicacao@cruzvermelhapetropolis.org')
+      g.comApelido(CONTATO, 'ti@cruzvermelhapetropolis.org')
+      g.grupos.set('ouvidoria@cruzvermelhapetropolis.org', { membros: new Map(), config: null })
       return g
     }
     const itens = [
       { nome: 'Atendimento', endereco: CONTATO },
-      { nome: 'Comunicação', endereco: 'comunicacao@cruzvermelhariodejaneiro.org' },
-      { nome: 'TI', endereco: 'ti@cruzvermelhariodejaneiro.org' },
-      { nome: 'Ouvidoria', endereco: 'ouvidoria@cruzvermelhariodejaneiro.org' },
-      { nome: 'Esportes', endereco: 'esportes@cruzvermelhariodejaneiro.org' },
+      { nome: 'Comunicação', endereco: 'comunicacao@cruzvermelhapetropolis.org' },
+      { nome: 'TI', endereco: 'ti@cruzvermelhapetropolis.org' },
+      { nome: 'Ouvidoria', endereco: 'ouvidoria@cruzvermelhapetropolis.org' },
+      { nome: 'Esportes', endereco: 'esportes@cruzvermelhapetropolis.org' },
     ]
     const comSenha = itens.map((i) => ({ ...i, senha: `Senha#${i.nome}-1` }))
     const so = (...nomes: string[]) => comSenha.filter((i) => nomes.includes(i.nome))
-    const APELIDO_TI = 'ti@cruzvermelhariodejaneiro.org'
-    const APELIDO_COM = 'comunicacao@cruzvermelhariodejaneiro.org'
+    const APELIDO_TI = 'ti@cruzvermelhapetropolis.org'
+    const APELIDO_COM = 'comunicacao@cruzvermelhapetropolis.org'
 
     const g = mundo()
     const r = await criarCaixasDosSetores(g.chamar, comSenha, { espera: semEspera })
@@ -550,7 +550,7 @@ async function main() {
     igual((await planoDasCaixas(g.chamar, itens)).map((p) => p.estado), ['caixa_real', 'caixa_real', 'caixa_real', 'grupo', 'caixa_real'], 'caixas: depois de feito, cada setor tem caixa própria (e o grupo ficou grupo)')
     igual([...(g.usuarios.get(CONTATO)?.apelidos ?? [])], [], 'caixas: nenhum apelido sobra no contato@')
     igual(g.usuarios.has(CONTATO), true, 'caixas: o contato@ continua existindo')
-    igual(g.grupos.has('ouvidoria@cruzvermelhariodejaneiro.org'), true, 'caixas: o grupo não foi tocado')
+    igual(g.grupos.has('ouvidoria@cruzvermelhapetropolis.org'), true, 'caixas: o grupo não foi tocado')
     igual(g.chamadas.filter((c) => c === 'POST diretorio:/users').length, 3, 'caixas: exatamente 3 contas criadas')
     igual(g.chamadas.filter((c) => c.startsWith('DELETE')).length, 2, 'caixas: exatamente 2 apelidos apagados')
     igual(g.chamadas.some((c) => c.startsWith('DELETE') && c.includes(encodeURIComponent(CONTATO) + '/aliases/' + encodeURIComponent(CONTATO))), false, 'caixas: nunca apaga o contato@ como apelido')
@@ -654,9 +654,9 @@ async function main() {
     igual(re1[0].resultado === 'criada' && re1[0].apelidoApagado === true, true, 'caixas: DELETE aplicado + leitura atrasada → pela lista do dono vê que saiu e cria a caixa')
     // o mesmo em quatro setores: nenhum "continua como estava" falso, nenhum apelido perdido sem caixa
     const e3 = mundo()
-    for (const nome of ['juridico', 'esportes2', 'gestao']) e3.comApelido(CONTATO, `${nome}@cruzvermelhariodejaneiro.org`)
-    e3.falhasPlanejadas.push({ quando: (a, m) => m === 'DELETE', status: 0, lancar: true, aplicar: true, vezes: 99, aposAplicar: () => { for (const t of ['ti', 'comunicacao', 'juridico', 'esportes2', 'gestao']) e3.leituraVelha(`${t}@cruzvermelhariodejaneiro.org`, 1, () => e3.respostas.ok({ primaryEmail: CONTATO, lastLoginTime: '1970-01-01T00:00:00.000Z' })) } })
-    const re3 = await criarCaixasDosSetores(e3.chamar, ['ti', 'comunicacao', 'juridico', 'esportes2', 'gestao'].map((t) => ({ nome: t, endereco: `${t}@cruzvermelhariodejaneiro.org`, senha: 'x' })), { espera: semEspera })
+    for (const nome of ['juridico', 'esportes2', 'gestao']) e3.comApelido(CONTATO, `${nome}@cruzvermelhapetropolis.org`)
+    e3.falhasPlanejadas.push({ quando: (a, m) => m === 'DELETE', status: 0, lancar: true, aplicar: true, vezes: 99, aposAplicar: () => { for (const t of ['ti', 'comunicacao', 'juridico', 'esportes2', 'gestao']) e3.leituraVelha(`${t}@cruzvermelhapetropolis.org`, 1, () => e3.respostas.ok({ primaryEmail: CONTATO, lastLoginTime: '1970-01-01T00:00:00.000Z' })) } })
+    const re3 = await criarCaixasDosSetores(e3.chamar, ['ti', 'comunicacao', 'juridico', 'esportes2', 'gestao'].map((t) => ({ nome: t, endereco: `${t}@cruzvermelhapetropolis.org`, senha: 'x' })), { espera: semEspera })
     igual(re3.map((x) => x.resultado), ['criada', 'criada', 'criada', 'criada', 'criada'], 'caixas: DELETE perdido + leitura atrasada em vários setores → todas as caixas nascem')
     igual(re3.some((x) => /continua como estava/.test(x.motivo ?? '')), false, 'caixas: nenhum "continua como estava" falso')
     // POST aplicado + resposta perdida + leitura atrasada: a conta existe — não é "apelido NÃO voltou"
@@ -677,18 +677,18 @@ async function main() {
     igual(re4xxa[0].resultado, 'falhou', 'caixas: 403 definitivo + conta que apareceu por outro caminho → NÃO conta como criada por nós')
     // a restauração que falha PARA o lote: só o primeiro setor serve de canário destrutivo
     const e5 = mundo()
-    e5.comApelido(CONTATO, 'juridico@cruzvermelhariodejaneiro.org')
+    e5.comApelido(CONTATO, 'juridico@cruzvermelhapetropolis.org')
     e5.falhasPlanejadas.push({ quando: (a, m, c) => m === 'POST' && c === '/users', status: 500, mensagem: 'Internal error', vezes: 99 })
     e5.falhasPlanejadas.push({ quando: (a, m, c) => m === 'POST' && c.endsWith('/aliases'), status: 500, mensagem: 'Backend error', vezes: 99 })
-    const re5 = await criarCaixasDosSetores(e5.chamar, [...so('TI', 'Comunicação'), { nome: 'Jurídico', endereco: 'juridico@cruzvermelhariodejaneiro.org', senha: 'x' }], { espera: semEspera })
+    const re5 = await criarCaixasDosSetores(e5.chamar, [...so('TI', 'Comunicação'), { nome: 'Jurídico', endereco: 'juridico@cruzvermelhapetropolis.org', senha: 'x' }], { espera: semEspera })
     igual(re5.map((x) => x.resultado), ['falhou', 'adiada', 'adiada'], 'caixas: apelido que não voltou → o lote para (só um endereço fica sem destino)')
     contem(re5[1].motivo ?? '', 'não voltou', 'caixas: o adiado diz que parou porque um apelido não voltou')
     igual(e5.chamadas.filter((c) => c.startsWith('DELETE')).length, 1, 'caixas: apelido que não voltou → só um DELETE saiu')
     // dois setores livres com dado inválido (400) não travam os apelidos saudáveis
     const e4 = mundo()
-    e4.recusaCriar.add('l1@cruzvermelhariodejaneiro.org')
-    e4.recusaCriar.add('l2@cruzvermelhariodejaneiro.org')
-    const re4 = await criarCaixasDosSetores(e4.chamar, [{ nome: 'L1', endereco: 'l1@cruzvermelhariodejaneiro.org', senha: 'x' }, { nome: 'L2', endereco: 'l2@cruzvermelhariodejaneiro.org', senha: 'x' }, ...so('TI', 'Comunicação')], { espera: semEspera })
+    e4.recusaCriar.add('l1@cruzvermelhapetropolis.org')
+    e4.recusaCriar.add('l2@cruzvermelhapetropolis.org')
+    const re4 = await criarCaixasDosSetores(e4.chamar, [{ nome: 'L1', endereco: 'l1@cruzvermelhapetropolis.org', senha: 'x' }, { nome: 'L2', endereco: 'l2@cruzvermelhapetropolis.org', senha: 'x' }, ...so('TI', 'Comunicação')], { espera: semEspera })
     igual(re4.map((x) => x.resultado), ['falhou', 'falhou', 'criada', 'criada'], 'caixas: dois setores com dado inválido (400) não impedem os apelidos saudáveis')
     // "Rate Limit Exceeded" (403) não é "limite de usuários"
     const rl = novoGoogle()
@@ -717,13 +717,13 @@ async function main() {
 
     // erro que vale para todos (permissão/limite): para no primeiro e não repete o estrago nos outros
     const sis = mundo()
-    sis.comApelido(CONTATO, 'juridico@cruzvermelhariodejaneiro.org')
+    sis.comApelido(CONTATO, 'juridico@cruzvermelhapetropolis.org')
     sis.falhasPlanejadas.push({ quando: (a, m, c) => m === 'POST' && c === '/users', status: 403, mensagem: 'Not Authorized', vezes: 99 })
-    const rs = await criarCaixasDosSetores(sis.chamar, [...so('TI', 'Comunicação'), { nome: 'Jurídico', endereco: 'juridico@cruzvermelhariodejaneiro.org', senha: 'x' }], { espera: semEspera })
+    const rs = await criarCaixasDosSetores(sis.chamar, [...so('TI', 'Comunicação'), { nome: 'Jurídico', endereco: 'juridico@cruzvermelhapetropolis.org', senha: 'x' }], { espera: semEspera })
     igual(rs.map((x) => x.resultado), ['falhou', 'adiada', 'adiada'], 'caixas: erro de permissão → o primeiro falha e o resto fica adiado')
     contem(rs[1].motivo ?? '', 'parei', 'caixas: o adiado diz por que parou')
     igual(sis.chamadas.filter((c) => c.startsWith('DELETE')).length, 1, 'caixas: erro que vale para todos → só UM apelido foi apagado (e devolvido)')
-    igual([...(sis.usuarios.get(CONTATO)?.apelidos ?? [])].sort(), ['comunicacao@cruzvermelhariodejaneiro.org', 'juridico@cruzvermelhariodejaneiro.org', 'ti@cruzvermelhariodejaneiro.org'], 'caixas: erro que vale para todos → nenhum apelido se perdeu')
+    igual([...(sis.usuarios.get(CONTATO)?.apelidos ?? [])].sort(), ['comunicacao@cruzvermelhapetropolis.org', 'juridico@cruzvermelhapetropolis.org', 'ti@cruzvermelhapetropolis.org'], 'caixas: erro que vale para todos → nenhum apelido se perdeu')
     // criar não funciona nem para um setor LIVRE: nenhum apelido chega a ser apagado
     const sl = mundo()
     sl.falhasPlanejadas.push({ quando: (a, m, c) => m === 'POST' && c === '/users', status: 412, mensagem: 'Domain user limit reached', vezes: 99 })
@@ -732,9 +732,9 @@ async function main() {
     igual(rsl.map((x) => x.resultado), ['adiada', 'adiada', 'falhou'], 'caixas: limite de contas → o livre falha e os apelidos ficam adiados')
     // dois setores seguidos falham (sem ser um erro sistêmico): para
     const dois = mundo()
-    dois.comApelido(CONTATO, 'juridico@cruzvermelhariodejaneiro.org')
+    dois.comApelido(CONTATO, 'juridico@cruzvermelhapetropolis.org')
     dois.falhasPlanejadas.push({ quando: (a, m, c) => m === 'POST' && c === '/users', status: 500, mensagem: 'Internal error', vezes: 99 })
-    const rdois = await criarCaixasDosSetores(dois.chamar, [...so('TI', 'Comunicação'), { nome: 'Jurídico', endereco: 'juridico@cruzvermelhariodejaneiro.org', senha: 'x' }], { espera: semEspera })
+    const rdois = await criarCaixasDosSetores(dois.chamar, [...so('TI', 'Comunicação'), { nome: 'Jurídico', endereco: 'juridico@cruzvermelhapetropolis.org', senha: 'x' }], { espera: semEspera })
     igual(rdois.map((x) => x.resultado), ['falhou', 'falhou', 'adiada'], 'caixas: dois seguidos falham → o terceiro não é nem tentado')
 
     // aoCriar: roda logo depois de cada conta, antes do setor seguinte; o que ele devolve entra no resultado; se estoura, o registro falhou

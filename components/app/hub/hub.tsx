@@ -3862,7 +3862,7 @@ function PreviaSite({ destino, mestre, arquivoPorId }: {
       subtitulo: destino.extras.subtitulo || mestre.subtitulo,
       corpo,
       slug: destino.extras.slug || 'previa',
-      baseUrl: 'https://cruzvermelhariodejaneiro.org/noticias',
+      baseUrl: 'https://cruzvermelhapetropolis.org/noticias',
       publicadoEm: new Date(),
       arquivos,
     })
@@ -3903,7 +3903,7 @@ function PreviaNewsletter({ destino, mestre, arquivoPorId }: {
     titulo: destino.extras.assunto || mestre.titulo || 'Sem assunto',
     chamada: destino.extras.chamada,
     paragrafos: (destino.corpo || '').split(/\n{2,}/).map((p) => p.replace(/\n/g, ' ').trim()).filter(Boolean),
-    urlDaMateria: 'https://cruzvermelhariodejaneiro.org/noticias/exemplo/',
+    urlDaMateria: 'https://cruzvermelhapetropolis.org/noticias/exemplo/',
     rotuloDoBotao: destino.extras.rotuloDoBotao,
     imagemUrl: capa?.previa,
     urlDeSaida: `${ENDERECO_DO_PALACIO}/newsletter/sair?t=previa`,
