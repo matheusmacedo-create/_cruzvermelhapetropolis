@@ -19,9 +19,20 @@ criado. Marque o item quando o canal novo estiver no ar e o código apontar para
       de Petrópolis) e roda `scripts/aplicar-migracoes.sh`. Já está em `.mcp.json`. Para abrir vaga no plano
       gratuito, o projeto `puncaovenosa-fullautomatic` foi **pausado** (dá para
       reativar no painel do Supabase quando precisar).
-      As sementes das migrações vieram iguais às do RJ e precisam de ajuste
-      pela própria Redação: entidade financeira "Filial Rio de Janeiro" (CNPJ
-      do RJ), cursos da escola e o mapa do ecossistema.
+      **02/11/2026: banco completo, as 134 migrações aplicadas** (206 tabelas,
+      todas com RLS; o verificador de segurança do Supabase não acusa erro, só
+      os mesmos avisos do RJ). Como o Secret `SUPABASE_DB_URL` ainda não existia,
+      elas foram aplicadas, com autorização do responsável, por uma Edge Function
+      temporária (`aplicar-migracoes-temporario`) que usava a conexão do próprio
+      Supabase e só aceitava os arquivos de `supabase/migrations/` com a mesma
+      impressão digital, com token de uso único; ela foi desligada logo depois
+      (responde 410/401). Cada migração rodou numa transação, com o registro em
+      `supabase_migrations.schema_migrations`, como no `scripts/aplicar-migracoes.sh`.
+      A última, `cvrj_nomes_de_petropolis`, trocou os nomes do RJ semeados: a
+      empresa principal do financeiro é a "Filial Petrópolis" (CNPJ
+      09.198.238/0001-48) e o local padrão dos ofícios é "Petrópolis". As próximas
+      migrações voltam a entrar pelo workflow **Aplicar migrações**, que continua
+      precisando do Secret.
 - [ ] **Vercel**: projeto novo ligado a este repositório (raiz = Redação; a
       `pagina/` já fica fora pelo `.vercelignore`). Variáveis — só os nomes, valores
       novos: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`,
