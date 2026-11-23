@@ -138,11 +138,13 @@ de serviço significa mexer nos dados reais da Cruz Vermelha. Por isso:
 
 O `.mcp.json` compartilhado é somente leitura. Quem administra o banco e
 precisa aplicar migrações pelo Claude cria uma conexão **local** com o mesmo
-nome, que tem prioridade sobre a do projeto e só vale na sua máquina:
+nome, que tem prioridade sobre a do projeto e só vale na sua máquina. A ref é
+a do banco de Petrópolis (`RedacaoCruzVermelha-Petropolis`, `sa-east-1`), a
+mesma do `.mcp.json`; nunca use a de outra filial:
 
 ```bash
 claude mcp add --scope local --transport http supabase \
-  "https://mcp.supabase.com/mcp?project_ref=wlbbfkudeibalkaqphpo&features=docs%2Cdatabase%2Cdebugging%2Cdevelopment"
+  "https://mcp.supabase.com/mcp?project_ref=eukirzqargewyarrbxht&features=docs%2Cdatabase%2Cdebugging%2Cdevelopment"
 ```
 
 ---

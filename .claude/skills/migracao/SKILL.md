@@ -5,8 +5,9 @@ description: Como criar uma migração do Supabase na Redação sem quebrar prod
 
 # Migração do banco (Supabase)
 
-Existe **um único banco, e ele é o de produção** (projeto `wlbbfkudeibalkaqphpo`).
-Não há ambiente de desenvolvimento separado. Por isso:
+Existe **um único banco, e ele é o de produção**: o projeto
+`RedacaoCruzVermelha-Petropolis` (ref `eukirzqargewyarrbxht`, região São Paulo
+`sa-east-1`). Não há ambiente de desenvolvimento separado. Por isso:
 
 ## Regras
 
