@@ -49,10 +49,16 @@ MAPA = "https://www.google.com/maps/search/?api=1&query=" + "Rua+Carlos+Gomes%2C
 
 FOTOS = json.loads((SITE / "assets" / "fotos" / "creditos.json").read_text(encoding="utf-8"))
 
+# Guia das chuvas (/guia-das-chuvas/): a página é gerada sempre, mas fica fora do menu e
+# dos buscadores (noindex) até sair a versão final do Plano de Contingência 2026/2027 da
+# Prefeitura. Antes de virar para True, reconferir o texto na versão final do plano.
+GUIA_CHUVAS_NO_AR = False
+
 MENU = [
     ("/quem-somos/", "Quem somos"),
     ("/voluntariado/", "Voluntariado"),
     ("/prevencao/", "Prevenção"),
+    *([("/guia-das-chuvas/", "Chuvas")] if GUIA_CHUVAS_NO_AR else []),
     ("/principios-fundamentais/", "Princípios"),
     ("/transparencia/", "Transparência"),
     ("/contato/", "Contato"),
@@ -174,8 +180,18 @@ ID_DO_ANALYTICS = "G-MJ0DGJHLVW"
 ID_DO_GTM = "GTM-PDLBB439"
 
 
-def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: str = "hero", extra_head: str = "", extra_fim: str = "") -> None:
+def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: str = "hero", extra_head: str = "", extra_fim: str = "", contato_flutuante: bool = True, classe_body: str = "") -> None:
+    """contato_flutuante=False tira o botão do WhatsApp e o balão do chat (páginas de emergência:
+    quem precisa de socorro liga 199/193, não escreve para a filial)."""
     url = ORIGEM + caminho
+    if '/doe/' in caminho:
+        classe_body = (classe_body + " pagina-doe").strip()
+    chat_css = f'\n  <link rel="stylesheet" href="/chat/chat.css?v={VERSAO_CHAT_CSS}">' if contato_flutuante else ""
+    chat_js = f'\n<script src="/chat/chat.js?v={VERSAO_CHAT_JS}" defer></script>' if contato_flutuante else ""
+    zap_flutuante = (
+        f'\n<a class="zap-flutuante" href="{esc(zap(FILIAL["telefones"][0]))}" rel="noopener" target="_blank" aria-label="Falar com a filial pelo WhatsApp">{icone("whatsapp")}<span>WhatsApp</span></a>'
+        if contato_flutuante else ""
+    )
     og = ORIGEM + "/assets/fotos/" + FOTOS[foto_social]["arquivo"]
     ld = json.dumps(ORGANIZACAO, ensure_ascii=False, separators=(",", ":"))
     doc = f"""<!doctype html>
@@ -214,11 +230,10 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">
-  <link rel="stylesheet" href="/chat/chat.css?v={VERSAO_CHAT_CSS}">{extra_head}
+  <link rel="stylesheet" href="/assets/site.css?v={VERSAO_CSS}">{chat_css}{extra_head}
   <script type="application/ld+json">{ld}</script>
 </head>
-<body{' class="pagina-doe"' if '/doe/' in caminho else ''}>
+<body{f' class="{classe_body}"' if classe_body else ''}>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={ID_DO_GTM}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
@@ -226,10 +241,8 @@ def pagina(caminho: str, titulo: str, descricao: str, corpo: str, foto_social: s
 <main id="conteudo">
 {corpo}
 </main>
-{rodape()}
-<a class="zap-flutuante" href="{esc(zap(FILIAL['telefones'][0]))}" rel="noopener" target="_blank" aria-label="Falar com a filial pelo WhatsApp">{icone('whatsapp')}<span>WhatsApp</span></a>
-<script src="/assets/site.js?v={VERSAO_JS}" defer></script>
-<script src="/chat/chat.js?v={VERSAO_CHAT_JS}" defer></script>{extra_fim}
+{rodape()}{zap_flutuante}
+<script src="/assets/site.js?v={VERSAO_JS}" defer></script>{chat_js}{extra_fim}
 </body>
 </html>
 """
@@ -588,6 +601,248 @@ def prevencao() -> str:
 </section>"""
 
 
+# Guia das chuvas: texto fiel ao "Guia de orientação para as chuvas de verão em Petrópolis"
+# (pacote "Chuvas de verão" da Comunicação Social, 06/11/2026, ajustes de 24/11/2026). As
+# fontes de cada trecho ficam no original; aqui só sai o texto público. Nenhum número além
+# de 199, 193, 192, 190 e do SMS 40199.
+def tel(numero: str) -> str:
+    return f'<a class="guia-tel" href="tel:{numero}">{numero}</a>'
+
+
+GUIA_SECOES = [
+    ("por-que", "1. Por que se preparar"),
+    ("alertas", "2. Como receber os alertas"),
+    ("risco", "3. O que muda quando o risco aumenta"),
+    ("sirenes", "4. As sirenes"),
+    ("nao-esperar", "5. Quando não esperar a sirene"),
+    ("deslizamento", "6. Deslizamento: sinais e o que fazer"),
+    ("rios", "7. Rios e ruas alagadas"),
+    ("ponto-de-apoio", "8. Ponto de apoio e abrigo"),
+    ("plano-da-familia", "9. O plano da família"),
+    ("em-casa", "10. Em casa durante a chuva"),
+    ("depois", "11. Depois da chuva"),
+    ("golpes", "12. Golpes e informação falsa"),
+    ("telefones", "13. Telefones e onde se informar"),
+    ("cruz-vermelha", "A Cruz Vermelha e as chuvas"),
+    ("fontes", "14. Fontes"),
+]
+
+
+def guia_chuvas() -> str:
+    t199, t193, t192, t190 = tel("199"), tel("193"), tel("192"), tel("190")
+    indice = "".join(f'<li><a href="#{a}">{esc(r)}</a></li>' for a, r in GUIA_SECOES)
+    voltar = '<p class="guia-voltar"><a href="#indice">Voltar ao índice</a></p>'
+
+    def secao(ancora: str, conteudo: str) -> str:
+        rotulo = dict(GUIA_SECOES)[ancora]
+        return f'<section class="guia-secao" id="{ancora}" aria-labelledby="{ancora}-t">\n<h2 id="{ancora}-t">{esc(rotulo)}</h2>\n{conteudo}\n{voltar}\n</section>'
+
+    def fonte(texto: str, url: str) -> str:
+        return f'<a href="{esc(url)}" rel="noopener" target="_blank">{texto}</a>'
+
+    secoes = [
+        secao("por-que", """<p>Petrópolis fica na serra, com encostas íngremes e vales estreitos. Muitas casas foram construídas nas encostas ao longo das últimas décadas. Quando chove muito, a água desce rápido, e o solo pode ceder.</p>
+<p>Dezembro e janeiro costumam trazer chuva forte em toda a cidade.</p>
+<p>Para este verão, o Instituto Nacional de Meteorologia (INMET) indica maior chance de chuva acima da normal em partes do Sudeste, por causa do El Niño. Isso é um motivo para se preparar, não para ter pânico.</p>
+<p><b>Preparar-se é simples e funciona.</b> Este guia reúne o que a Defesa Civil e o governo federal orientam. Leia agora, com calma, e compartilhe com sua família e seus vizinhos.</p>"""),
+        secao("alertas", f"""<p>Use mais de um canal. Nenhum deles substitui o olhar para o que acontece ao seu redor.</p>
+<ul>
+  <li><b>SMS 40199.</b> Envie o seu CEP e passe a receber os avisos da Defesa Civil de Petrópolis.</li>
+  <li><b>Alerta no celular (Defesa Civil Alerta).</b> Aparece como uma janela na tela e só fecha quando você a fecha. <b>Não precisa de cadastro.</b> Funciona em celulares 4G e 5G da área do risco. Não há cobrança para receber o alerta.</li>
+  <li><b>Alerta "extremo":</b> toca alto, mesmo com o celular no silencioso, e pede <b>ação imediata</b>. <b>Leia o texto do alerta e siga o que ele manda.</b></li>
+  <li><b>Canais oficiais:</b> perfis da Prefeitura e da Defesa Civil, canal de WhatsApp da Defesa Civil, carros de som, rádio e apitos comunitários.</li>
+  <li><b>{t199}.</b> Telefone da Defesa Civil.</li>
+</ul>
+<p class="guia-destaque"><b>Se o alerta manda sair, ou se você vê sinais no terreno ou o rio subindo, saia primeiro.</b> Conferir nos canais oficiais fica para depois.</p>"""),
+        secao("risco", f"""<p>A Defesa Civil trabalha com avisos que ficam mais fortes conforme a chuva e o risco aumentam. Para você, isso significa:</p>
+<ul>
+  <li><b>Chuva forte prevista:</b> fique atento aos canais oficiais. Sirenes podem tocar o aviso de chuva forte.</li>
+  <li><b>Risco de deslizamento:</b> as sirenes tocam o aviso de mobilização e a mensagem manda ir para local seguro ou ponto de apoio.</li>
+  <li><b>Risco alto de alagamento ou de cheia dos rios:</b> em casa, faça o seguinte:
+    <ul>
+      <li><b>se a sua casa está em área de risco, saia antes de a rua alagar</b>: vá para a casa de um parente, um local seguro ou o ponto de apoio, e siga as orientações da Defesa Civil;</li>
+      <li>se a Defesa Civil mandar sair, vá ao ponto de apoio, associação, igreja ou escola indicada, levando documentos, remédios e roupas;</li>
+      <li>se a rua já está alagada, <b>não entre na água</b>: espere escoar ou procure outro caminho;</li>
+      <li>em casa, mantenha <b>alguém da família acordado e atento</b> ao nível da água, <b>inclusive à noite</b>;</li>
+      <li><b>tire os aparelhos elétricos das tomadas</b>, <b>feche os registros de gás e de água</b> e <b>recolha os animais</b>.</li>
+    </ul>
+  </li>
+  <li><b>Emergência:</b> o atendimento é feito pelo <b>{t199}</b>.</li>
+</ul>
+<p>Em qualquer situação: <b>siga as orientações da Defesa Civil e mantenha a calma.</b></p>"""),
+        secao("sirenes", """<p>Petrópolis tem <b>22 sirenes</b>, instaladas em áreas de risco. As sirenes são um <b>reforço</b>, e não o único aviso.</p>
+<h3>Os dois toques</h3>
+<ul>
+  <li><b>1º toque:</b> <i>"Atenção! A Defesa Civil informa a probabilidade de chuvas moderadas a fortes nas próximas horas."</i></li>
+  <li><b>2º toque:</b> <i>"A Defesa Civil de Petrópolis informa: há risco de deslizamentos nesta área. Atenção, moradores! Dirijam-se para locais seguros e pontos de apoio."</i></li>
+</ul>
+<p class="guia-destaque"><b>Ouviu o 2º toque? Saia agora</b> para o local seguro ou o ponto de apoio combinado, ajude quem precisa e só volte quando a Defesa Civil liberar.</p>
+<p><b>A sirene pode tocar mesmo com chuva fraca ou sem chuva na sua rua.</b> Ela leva em conta a chuva dos últimos dias, que deixa o solo encharcado. <b>Vá assim mesmo.</b></p>
+<p><b>Teste mensal.</b> Todo dia <b>10, às 10h</b>, as sirenes são testadas. Se estiver chovendo, o teste não é feito. <b>Se a sirene tocar no dia 10 às 10h com chuva ou com alerta, não é teste: aja como se fosse de verdade.</b></p>
+<p><b>Sirene e rio.</b> No Centro, a sirene também toca quando o rio pode transbordar. <b>Se você está na rua ou num ônibus perto do rio</b>, não atravesse a água: vá para a ilha de segurança mais próxima ou para um lugar alto (<a href="#rios">seção 7</a>). <b>Se você está em casa em área de risco</b>, siga para o local seguro ou o ponto de apoio pela rota combinada, sem passar por rua alagada.</p>
+<p><b>Onde não há sirene.</b> Em algumas comunidades o aviso é feito por apitos, tocados por voluntários dos Núcleos Comunitários de Defesa Civil: um sinal para sair (mobilização) e outro quando o risco passa (desmobilização). Onde não há sirene nem apito, o aviso vem pelo celular, pelo SMS 40199, por carros de som e pelos canais oficiais. A localização das sirenes está no Anexo 1 do plano de contingência.</p>"""),
+        secao("nao-esperar", """<p class="guia-destaque guia-destaque-forte"><b>Os sinais no terreno e o alerta no celular podem chegar antes da sirene. Não espere por ela.</b></p>
+<p><b>Saia mesmo sem sirene, sem alerta e sem ordem de ninguém se:</b></p>
+<ul>
+  <li>você vê <b>sinais de deslizamento</b> (<a href="#deslizamento">seção 6</a>);</li>
+  <li>o <b>rio sobe depressa</b> ou a rua começa a alagar (<a href="#rios">seção 7</a>);</li>
+  <li>um <b>alerta no celular manda sair</b>;</li>
+  <li>a Defesa Civil, os Bombeiros ou os vizinhos mandam sair.</li>
+</ul>
+<p><b>Saia primeiro. Avise depois.</b></p>"""),
+        secao("deslizamento", f"""<h3>Sinais de que o terreno está se movendo:</h3>
+<ul>
+  <li>rachaduras no chão, no piso ou nas paredes;</li>
+  <li>árvores, postes ou cercas inclinados;</li>
+  <li>degraus, desníveis ou fendas no terreno;</li>
+  <li>o piso da casa levantando;</li>
+  <li>barulhos vindos do chão, como pequenos tremores.</li>
+</ul>
+<h3>Se perceber qualquer um deles:</h3>
+<ol>
+  <li><b>Saia imediatamente de casa.</b></li>
+  <li><b>Depois,</b> avise a Defesa Civil ({t199}), os Bombeiros ({t193}) e os moradores da região.</li>
+  <li><b>Ajude</b> crianças, idosos e quem tem dificuldade de locomoção que estiverem perto de você.</li>
+  <li>Siga as orientações da Defesa Civil.</li>
+</ol>
+<h3>Antes da época de chuva, na sua casa e no seu terreno:</h3>
+<ul>
+  <li>não jogue lixo ou entulho na encosta, nem em bueiros e córregos;</li>
+  <li>não plante bananeiras na encosta, não desmate e não construa em área de risco ou sem acompanhamento técnico;</li>
+  <li>evite jogar água ou esgoto no terreno;</li>
+  <li>limpe as calhas e revise o telhado.</li>
+</ul>
+<p><b>Depois de um deslizamento:</b> não entre no local sem autorização e não volte para casa até a Defesa Civil liberar.</p>"""),
+        secao("rios", """<p>Em Petrópolis, os rios podem subir <b>muito rápido</b>. No Centro, o Rio Quitandinha pode transbordar em poucos minutos depois de uma chuva forte.</p>
+<h3>Quando o rio sobe ou a rua alaga:</h3>
+<ul>
+  <li><b>Afaste-se do rio.</b></li>
+  <li><b>Nunca atravesse rua, ponte ou avenida alagada</b>, nem de carro, moto ou bicicleta. A força da água arrasta.</li>
+  <li><b>Vá para um lugar alto</b> e espere a água baixar. Não pare perto de árvores e postes.</li>
+  <li><b>Evite o contato com a água do alagamento.</b> Ela pode estar contaminada.</li>
+  <li><b>Ajude</b> crianças, idosos e quem tem dificuldade de locomoção. <b>Garanta a segurança dos animais.</b></li>
+</ul>
+<p><b>Ilhas de segurança (no Centro).</b> São faixas demarcadas em ruas que cortam as vias interditadas pela cheia do Rio Quitandinha, como a Rua Dr. Nelson de Sá Earp. Ali quem está na rua pode desviar e esperar, em segurança, até o rio voltar ao leito. O mapa está no plano de contingência. Fora do Centro, procure um lugar alto.</p>
+<p><b>O que você pode ver no Centro quando o rio sobe:</b> sinalizadores luminosos e cancelas que fecham as vias. Respeite. Os avisos também chegam por SMS, sirenes e pelo aplicativo Waze.</p>
+<p><b>Dentro de um ônibus, se a água entrar:</b> o motorista desliga o veículo e abre as portas. Todos seguem <b>a pé para a ilha de segurança mais próxima</b>, <b>pela calçada oposta ao rio</b>, levando só o essencial (documentos e celular).</p>"""),
+        secao("ponto-de-apoio", """<p>São coisas diferentes.</p>
+<ul>
+  <li><b>Ponto de apoio:</b> local mapeado pela Defesa Civil (escolas, creches, salões e quadras) onde a comunidade é <b>acolhida temporariamente enquanto durar o risco</b>. Quando a Defesa Civil encerra o ponto, as pessoas voltam para casa.</li>
+  <li><b>Abrigo temporário:</b> espaço para quem <b>ficou desabrigado</b>, definido pela Secretaria de Assistência Social.</li>
+</ul>
+<p><b>Como saber qual está aberto.</b> Nem todos os pontos abrem a cada chuva. <b>Confirme pelos canais oficiais</b> da Defesa Civil. A relação dos pontos está no plano de contingência, no site da Prefeitura (Defesa Civil, Planos de Contingência). <b>Descubra o ponto mais próximo de você antes da chuva, e combine com a família o caminho e o ponto de encontro.</b></p>
+<h3>O que levar (e o que fazer ao sair):</h3>
+<ul>
+  <li><b>documentos e objetos de valor, em saco plástico bem fechado</b>;</li>
+  <li><b>remédios</b>;</li>
+  <li><b>água potável</b> e <b>roupas</b>;</li>
+  <li><b>lanterna e pilhas</b>. Não use vela nem lamparina: há risco de incêndio;</li>
+  <li><b>animais de estimação</b>.</li>
+</ul>
+<p><b>Antes de sair de casa, se houver tempo</b> (no deslizamento, saia sem pegar nada): desligue os aparelhos elétricos e o quadro geral de energia, e feche os registros de água e de gás.</p>"""),
+        secao("plano-da-familia", f"""<p>Monte o plano <b>hoje</b>, com todos da casa:</p>
+<ul>
+  <li><b>Onde vamos?</b> Casa de parentes ou amigos em lugar seguro, ou o ponto de apoio mais próximo.</li>
+  <li><b>Por onde vamos?</b> Combine o caminho e um ponto de encontro.</li>
+  <li><b>Quem leva o quê?</b> Deixe os documentos e os remédios juntos, em saco plástico, num lugar de fácil acesso.</li>
+  <li><b>Quem ajuda quem?</b> Combine com vizinhos e familiares quem ajuda cada pessoa que precisa de apoio.</li>
+</ul>
+<p><b>Crianças e escola.</b> Acompanhe os canais oficiais da Prefeitura para saber se há aula. Combine com a família <b>quem busca a criança</b>, sempre sem atravessar rua alagada nem passar por encosta em risco.</p>
+<p><b>Idosos e pessoas com dificuldade de locomoção.</b> Combine antes quem ajuda cada pessoa a sair e <b>saia ao primeiro aviso</b>, sem esperar o último momento. Deixe os remédios de uso contínuo separados com os documentos.</p>
+<p><b>Pessoas acamadas, gestantes e pessoas com deficiência.</b> Em caso de dúvida sobre como sair ou como pedir ajuda, <b>ligue {t199} (Defesa Civil)</b>.</p>
+<p><b>Animais.</b> Recolha-os e leve-os com você. Garanta a segurança deles.</p>"""),
+        secao("em-casa", f"""<ul>
+  <li><b>Energia.</b> Em risco de alagamento, desligue os aparelhos e o <b>quadro geral</b> (a chave geral da luz), <b>antes de a água entrar</b>. Se a água já chegou ao quadro, não toque nele. Não use equipamento elétrico que tenha molhado.</li>
+  <li><b>Gás e água.</b> Feche os registros de gás e de água quando precisar sair ou quando o risco estiver alto.</li>
+  <li><b>Luz.</b> Tenha lanterna e pilhas. <b>Não use vela nem lamparina.</b></li>
+  <li><b>Fio caído na rua. Não se aproxime e não toque.</b> Mantenha pessoas e animais longe. Não jogue água sobre o fio e não tente movê-lo. Avise a concessionária de energia (Enel). Se alguém se machucar, ligue <b>{t193}</b> ou <b>{t192}</b>.</li>
+  <li><b>Atenção ao nível da água, mesmo à noite.</b> Fique de olho em quanto a água sobe.</li>
+  <li><b>Mantenha calhas e ralos limpos</b> antes da época de chuva, e avise a Prefeitura se houver bueiro entupido ou destampado.</li>
+</ul>"""),
+        secao("depois", f"""<h3>Voltar para casa</h3>
+<ul>
+  <li><b>Só volte com a liberação da Defesa Civil.</b></li>
+  <li><b>Volte de dia.</b></li>
+  <li>Não entre em área de deslizamento sem autorização.</li>
+  <li>Procure trincas e estufamentos nas paredes. Em dúvida, ligue {t199}.</li>
+</ul>
+<h3>Limpeza e saúde</h3>
+<ul>
+  <li><b>Evite o contato com água e lama.</b> Use luvas e botas de borracha. Sem elas, use sacos plásticos duplos amarrados nas mãos e nos pés.</li>
+  <li><b>Lama e lixo:</b> raspe a lama e retire o lixo.</li>
+  <li><b>Alimentos:</b> jogue fora <b>todo alimento que teve contato com a água ou a lama</b>, e também os de embalagem que não é à prova d'água ou lacrada (potes, garrafas, vidros, caixas), <b>mesmo que pareçam secos</b>. Em dúvida, jogue fora. Nunca prove para testar.</li>
+  <li><b>Água para beber:</b> não use água de poços ou fontes naturais depois da enchente. Se a água da torneira estiver em dúvida, <b>filtre ou coe</b> e <b>ferva por 5 minutos</b>, contados a partir do início da fervura. Deixe esfriar e guarde em recipiente limpo e tampado.</li>
+  <li><b>Cuidado com entulhos:</b> podem esconder animais peçonhentos.</li>
+</ul>
+<p><b>Leptospirose.</b> É uma doença causada por contato com água ou lama contaminada pela urina de ratos. Procure um serviço de saúde se, nos dias seguintes ao contato com a água ou a lama da enchente, aparecerem <b>febre, dor de cabeça, dor muscular (principalmente na panturrilha), falta de apetite, náuseas ou vômitos</b>. <b>Conte ao médico que você teve contato com a água ou a lama.</b> <b>Não tome remédio por conta própria.</b></p>
+<p><b>Diarreia.</b> Se tiver <b>três ou mais episódios em 24 horas</b>, procure atendimento médico.</p>
+<p><b>Cuidado emocional.</b> Depois de uma enchente é comum sentir medo, tristeza e cansaço. Fale com família e amigos. Se os sinais persistirem, procure ajuda profissional.</p>"""),
+        secao("golpes", f"""<ul>
+  <li><b>Desconfie de mensagens não oficiais</b> nas redes sociais. Elas podem ser falsas e causar pânico, com risco de ferimentos e de morte. <b>Não repasse.</b></li>
+  <li><b>Confira nos canais oficiais</b> da Defesa Civil e da Prefeitura: perfis oficiais, site, carros de som, rádio, SMS.</li>
+  <li><b>O alerta oficial no celular não exige cadastro nem cobrança.</b> Cobrança em nome de operadora ou de instituição pode ser golpe.</li>
+  <li><b>Doações e cadastro de atendimento:</b> o cadastro oficial de quem foi atingido é feito pela Secretaria de Assistência Social da Prefeitura. Para doar, prefira instituições conhecidas e desconfie de pedidos que chegam por mensagem. Em dúvida, ligue {t199}.</li>
+</ul>"""),
+        secao("telefones", """<ul class="guia-telefones">
+  <li><a href="tel:199"><b>199</b><span>Defesa Civil: risco na casa, na encosta ou no rio</span></a></li>
+  <li><a href="tel:193"><b>193</b><span>Corpo de Bombeiros: pessoa presa, soterrada ou ilhada</span></a></li>
+  <li><a href="tel:192"><b>192</b><span>SAMU: pessoa ferida ou passando mal</span></a></li>
+  <li><a href="tel:190"><b>190</b><span>Polícia Militar</span></a></li>
+</ul>
+<p><b>Onde se informar:</b> perfis oficiais da Prefeitura de Petrópolis e da Defesa Civil, SMS 40199 (com o seu CEP), alerta no celular (Defesa Civil Alerta), carros de som e rádio.<br>
+<b>O plano de contingência</b> está no site da Prefeitura (Defesa Civil, Planos de Contingência).</p>"""),
+        secao("cruz-vermelha", f"""<p>Humanidade é o primeiro princípio do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho: proteger a vida e a saúde, com atenção a quem está mais perto do perigo. Este guia existe para ajudar você, sua família e seus vizinhos a se prepararem. Em emergência, <b>o aviso e a orientação vêm da Defesa Civil: ligue {t199}.</b></p>"""),
+        secao("fontes", f"""<ul class="guia-fontes">
+  <li>Prefeitura de Petrópolis. <b>Plano de Contingência para Chuvas Intensas, Verão 2026/2027, versão 1</b> (aberta a contribuições). {fonte("PDF", "https://www.petropolis.rj.gov.br/pmp/index.php/downloads/105-downloads/67-defesa-civil/102-planos-de-contingencia/218-2026?download=971:plano-de-contingencia-para-chuvas-intensas-verao-2026-2027")} · {fonte("Página de planos da Defesa Civil", "https://www.petropolis.rj.gov.br/pmp/index.php/defesa-civil/planos-de-contingencia")}</li>
+  <li>Ministério da Integração e do Desenvolvimento Regional (MDR). {fonte("Como agir? Deslizamento", "https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil/deslizamento.pdf")}</li>
+  <li>MDR. {fonte("Como agir? Alagamentos", "https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil/copy2_of_ComoagirAlagamentosMDR.pdf")}</li>
+  <li>MDR. {fonte("Chuvas intensas", "https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil/chuvas_intensas.pdf")}</li>
+  <li>MDR. {fonte("Defesa Civil Alerta", "https://www.gov.br/mdr/pt-br/assuntos/protecao-e-defesa-civil/defesa-civil-alerta")}</li>
+  <li>Ministério da Saúde. {fonte("Leptospirose", "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/l/leptospirose")} · {fonte("Enchentes", "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/e/enchentes")} · {fonte("Cuidados com a água", "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/e/enchentes/cuidados-com-a-agua")} · {fonte("Cuidados com os alimentos", "https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/e/enchentes/cuidados-com-os-alimentos")}</li>
+  <li>Enel (orientação geral da empresa). {fonte("Fios caídos após tempestades: como agir com segurança", "https://www.enel.com.br/pt-saopaulo/midia/news/d2026-2/fios-caidos-apos-tempestades-como-agir-com-seguranca.html")}</li>
+  <li>INMET. {fonte("Painel El Niño, boletim de outubro", "https://portal.inmet.gov.br/noticias/painel-el-nino-boletim-de-outubro-e-divulgado")}</li>
+  <li>Ministério dos Direitos Humanos e da Cidadania. {fonte("Orientação para a Pessoa Idosa em situação de riscos e desastres", "https://www.gov.br/mdh/pt-br/navegue-por-temas/pessoa-idosa/publicacoes/guia-de-orientacao-para-pessoa-idosa-em-situacao-de-riscos-e-desastres-1/GUIA.pdf")} (2024)</li>
+</ul>
+<p class="pequeno"><i>Este guia reúne orientações de órgãos oficiais e não substitui as instruções da Defesa Civil em uma emergência. Confira sempre os canais oficiais.</i></p>"""),
+    ]
+
+    return f"""<div class="guia">
+<section class="guia-topo">
+  <div class="wrap guia-largura">
+    <h1>Guia de orientação para as chuvas de verão em Petrópolis</h1>
+    <p class="guia-subtitulo"><b>Como se preparar, como receber os alertas e o que fazer quando a chuva é forte. Verão 2026/2027.</b></p>
+    <p class="pequeno"><i>Atualizado em 06/11/2026 · base: Plano de Contingência para Chuvas Intensas 2026/2027 da Prefeitura de Petrópolis (versão 1)</i></p>
+  </div>
+</section>
+<div class="wrap guia-largura">
+<section class="guia-perigo" id="em-perigo" aria-labelledby="em-perigo-t">
+  <h2 id="em-perigo-t">Em perigo, faça isto</h2>
+  <ol>
+    <li><b>Viu sinal de deslizamento? Saia de casa na hora. Avise depois.</b> Chame a Defesa Civil ({t199}) e os Bombeiros ({t193}) já a salvo, e avise os vizinhos.</li>
+    <li><b>Não espere a sirene.</b> Os sinais no terreno e o alerta no celular podem chegar antes dela, e valem tanto quanto ela.</li>
+    <li><b>Rio subindo ou rua alagada? Afaste-se do rio. Não atravesse a água.</b> Vá para um lugar alto (no Centro, para uma ilha de segurança; veja a <a href="#rios">seção 7</a>).</li>
+    <li><b>Sinal de deslizamento: saia sem pegar nada.</b> Se o perigo é alagamento e ainda há tempo, leve documentos, remédios e água, desligue a chave geral da luz e feche gás e água.</li>
+    <li><b>Pessoa presa, ferida ou ilhada: {t193} (Bombeiros) ou {t192} (SAMU). Risco na casa ou na encosta: {t199} (Defesa Civil).</b> Polícia: {t190}.</li>
+  </ol>
+</section>
+<details class="guia-indice" id="indice" open>
+  <summary>Índice</summary>
+  <ul>{indice}</ul>
+</details>
+{chr(10).join(secoes)}
+</div>
+</div>
+<aside class="guia-emergencia" aria-label="Telefones de emergência">
+  <span>Emergência:</span>
+  <a href="tel:199"><b>199</b> Defesa Civil</a>
+  <a href="tel:193"><b>193</b> Bombeiros</a>
+</aside>
+<script>
+  // No celular o índice começa fechado (no computador, aberto). Sem JS, fica aberto.
+  if (window.matchMedia('(max-width: 760px)').matches) document.getElementById('indice').removeAttribute('open');
+</script>"""
+
+
 def principios() -> str:
     itens = "".join(
         f'<article class="principio" id="{n.lower()}"><span class="numero">{i}</span><div><h2>{n}</h2><p>{t}</p></div></article>'
@@ -728,17 +983,23 @@ def nao_encontrada() -> str:
 </div></section>"""
 
 
+def hash_curto(caminho: Path) -> str:
+    """Versão do arquivo para o ?v= (cache). Ignora CRLF: no Windows o git entrega os arquivos
+    com CRLF e o hash mudaria sem o arquivo ter mudado (o servidor recebe LF)."""
+    return hashlib.sha256(caminho.read_bytes().replace(b"\r\n", b"\n")).hexdigest()[:10]
+
+
 def versao(arquivo: str) -> str:
-    return hashlib.sha256((SITE / "assets" / arquivo).read_bytes()).hexdigest()[:10]
+    return hash_curto(SITE / "assets" / arquivo)
 
 
 VERSAO_CSS = versao("site.css")
 VERSAO_JS = versao("site.js")
 # Chat "Fale com a gente" (o mesmo do RJ): manda a mensagem por e-mail pela API em chat/api/contato.php.
-VERSAO_CHAT_CSS = hashlib.sha256((SITE / "chat/chat.css").read_bytes()).hexdigest()[:10]
-VERSAO_CHAT_JS = hashlib.sha256((SITE / "chat/chat.js").read_bytes()).hexdigest()[:10]
-DOE_HEAD = f'\n  <link rel="stylesheet" href="/doe/static/doe.css?v={hashlib.sha256((SITE / "doe/static/doe.css").read_bytes()).hexdigest()[:10]}">'
-DOE_FIM = f'\n<script src="/doe/static/doe.js?v={hashlib.sha256((SITE / "doe/static/doe.js").read_bytes()).hexdigest()[:10]}" defer></script>'
+VERSAO_CHAT_CSS = hash_curto(SITE / "chat/chat.css")
+VERSAO_CHAT_JS = hash_curto(SITE / "chat/chat.js")
+DOE_HEAD = f'\n  <link rel="stylesheet" href="/doe/static/doe.css?v={hash_curto(SITE / "doe/static/doe.css")}">'
+DOE_FIM = f'\n<script src="/doe/static/doe.js?v={hash_curto(SITE / "doe/static/doe.js")}" defer></script>'
 
 if __name__ == "__main__":
     pagina("/", "Cruz Vermelha Brasileira – Petrópolis", "Filial do Município de Petrópolis da Cruz Vermelha Brasileira: voluntariado, doações, prevenção e contato.", home())
@@ -747,6 +1008,11 @@ if __name__ == "__main__":
     pagina("/doe/", "Doe agora – Cruz Vermelha Petrópolis", "Quando a emergência chega, a ajuda precisa já estar pronta. Doe por PIX ou cartão para as ações humanitárias, a prevenção, o socorro em desastres e o voluntariado da Cruz Vermelha em Petrópolis.", doe(), "cristal", DOE_HEAD, DOE_FIM)
     pagina("/doe/obrigado/", "Sua doação – Cruz Vermelha Petrópolis", "Acompanhe a sua doação para a Cruz Vermelha Petrópolis.", doe_obrigado(), "cristal", DOE_HEAD + '\n  <meta name="robots" content="noindex">', DOE_FIM)
     pagina("/prevencao/", "Prevenção – Cruz Vermelha Petrópolis", "Orientações para antes, durante e depois de chuvas fortes e emergências em Petrópolis.", prevencao(), "serra")
+    pagina("/guia-das-chuvas/", "Guia das chuvas de verão – Cruz Vermelha Petrópolis",
+           "Como se preparar, como receber os alertas e o que fazer quando a chuva é forte em Petrópolis. Verão 2026/2027.",
+           guia_chuvas(), "serra",
+           "" if GUIA_CHUVAS_NO_AR else '\n  <meta name="robots" content="noindex, nofollow">',
+           contato_flutuante=False, classe_body="pagina-guia")
     pagina("/principios-fundamentais/", "Princípios Fundamentais – Cruz Vermelha Petrópolis", "Os sete Princípios Fundamentais do Movimento Internacional da Cruz Vermelha e do Crescente Vermelho.", principios(), "rionegro")
     pagina("/contato/", "Contato – Cruz Vermelha Petrópolis", "Endereço, telefones e e-mail da Cruz Vermelha Brasileira em Petrópolis.", contato(), "imperial")
     pagina("/pedido-de-documentos/", "Pedido de documentos – Cruz Vermelha Petrópolis", "Peça um documento da Cruz Vermelha Petrópolis que não está no portal da transparência.", pedido_de_documentos())
